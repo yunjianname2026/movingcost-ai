@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,188 +7,323 @@
 <title>MovingCOST.ai — AI Mobility Planner</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
-  --text:#0F172A;--text-mid:#475569;--text-muted:#94A3B8;
-  --bg:#F0F6FF;--card-bg:#FFFFFF;--border:#E2E8F0;
-  --success:#10B981;--success-l:#ECFDF5;
-  --warn:#F59E0B;--warn-l:#FFFBEB;
-  --danger:#EF4444;--danger-l:#FEF2F2;
-  --r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:28px;
-  --shadow:0 4px 24px rgba(14,165,233,0.10),0 1px 4px rgba(0,0,0,0.04);
-  --shadow-h:0 8px 32px rgba(14,165,233,0.18);
-  --tr:0.22s cubic-bezier(0.4,0,0.2,1);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue: #0EA5E9; --blue-dark: #0284C7; --blue-light: #E0F2FE; --blue-mid: #BAE6FD;
+  --text: #0F172A; --text-mid: #475569; --text-muted: #94A3B8;
+  --bg: #F0F6FF; --card-bg: #FFFFFF; --border: #E2E8F0;
+  --success: #10B981; --success-light: #ECFDF5; --warn: #F59E0B; --warn-light: #FFFBEB;
+  --danger: #EF4444; --danger-light: #FEF2F2;
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
+  --shadow: 0 4px 24px rgba(14,165,233,0.10), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 32px rgba(14,165,233,0.18);
+  --tr: 0.22s cubic-bezier(0.4,0,0.2,1);
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 16px 60px;color:var(--text)}
 
-nav{width:100%;max-width:1100px;display:flex;align-items:center;justify-content:space-between;padding:20px 0 12px}
-.logo{font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;color:var(--text);letter-spacing:-0.5px}
-.logo span{color:var(--blue)}
-.nav-links{display:flex;gap:28px}
-.nav-links a{font-size:14px;color:var(--text-mid);text-decoration:none;font-weight:500;transition:color var(--tr)}
-.nav-links a:hover{color:var(--blue)}
+body { font-family:'DM Sans',sans-serif; background:var(--bg); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:0 16px 60px; color:var(--text); }
 
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%;max-width:1100px;padding:28px 0 0}
-.hero-left{padding-right:20px}
-.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--blue-l);color:var(--blue-d);font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:18px}
-.eyebrow::before{content:'';width:6px;height:6px;background:var(--blue);border-radius:50%}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(34px,4vw,50px);font-weight:700;line-height:1.12;letter-spacing:-1.5px;margin-bottom:18px}
-.hero-title .accent{color:var(--blue)}
-.hero-desc{font-size:15px;line-height:1.7;color:var(--text-mid);margin-bottom:28px;max-width:400px}
-.hero-stats{display:flex;gap:24px}
-.stat-num{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px}
-.stat-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+/* ── API KEY BANNER ── */
+#api-banner {
+  width:100%; max-width:1100px; background:#FFF7ED; border:1px solid #FCD34D;
+  border-radius:var(--r-md); padding:12px 18px; display:flex; align-items:center;
+  justify-content:space-between; gap:12px; margin:16px 0 0; flex-wrap:wrap;
+}
+#api-banner.hidden { display:none; }
+.banner-left { display:flex; align-items:center; gap:10px; font-size:13px; color:#92400E; font-weight:500; }
+.banner-input {
+  flex:1; min-width:240px; height:36px; border:1.5px solid #FCD34D; border-radius:var(--r-sm);
+  padding:0 12px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none;
+  background:#fff; color:var(--text);
+}
+.banner-input:focus { border-color:var(--blue); }
+.banner-btn {
+  height:36px; padding:0 16px; background:var(--blue); color:#fff; border:none;
+  border-radius:99px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
+  font-family:'Outfit',sans-serif; transition:background var(--tr);
+}
+.banner-btn:hover { background:var(--blue-dark); }
+.banner-note { font-size:11px; color:#B45309; width:100%; }
 
-.form-card{background:var(--card-bg);border-radius:var(--r-xl);box-shadow:var(--shadow);padding:32px 28px 24px;border:1px solid rgba(14,165,233,0.10);width:100%;position:relative;overflow:hidden}
-.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#38BDF8,var(--blue-d));border-radius:var(--r-xl) var(--r-xl) 0 0}
+/* ── NAV ── */
+nav {
+  width:100%; max-width:1100px; display:flex; align-items:center;
+  justify-content:space-between; padding:20px 0 12px;
+}
+.logo { font-family:'Outfit',sans-serif; font-weight:700; font-size:22px; color:var(--text); letter-spacing:-0.5px; }
+.logo:hover { color:var(--text); }
+.logo span { color:var(--blue); }
+.nav-links { display:flex; gap:28px; }
+.nav-links a { font-size:14px; color:var(--text-mid); text-decoration:none; font-weight:500; transition:color var(--tr); }
+.nav-links a:hover { color:var(--blue); }
+.nav-api-btn {
+  font-size:12px; padding:6px 14px; border:1.5px solid var(--border); border-radius:99px;
+  background:none; cursor:pointer; color:var(--text-mid); font-family:'DM Sans',sans-serif;
+  font-weight:600; transition:all var(--tr); display:flex; align-items:center; gap:5px;
+}
+.nav-api-btn:hover { border-color:var(--blue); color:var(--blue); }
+.api-dot { width:7px; height:7px; border-radius:50%; background:#D1D5DB; display:inline-block; }
+.api-dot.connected { background:var(--success); }
 
-.prog-wrap{display:flex;align-items:center;gap:6px;margin-bottom:24px}
-.prog-step{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--text-muted);transition:color var(--tr);white-space:nowrap}
-.prog-step.active{color:var(--blue)}.prog-step.done{color:var(--success)}
-.sdot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;transition:all var(--tr);color:var(--text-muted)}
-.prog-step.active .sdot{background:var(--blue);border-color:var(--blue);color:#fff}
-.prog-step.done .sdot{background:var(--success);border-color:var(--success);color:#fff}
-.pline{flex:1;height:1.5px;background:var(--border);border-radius:99px;position:relative;overflow:hidden;min-width:12px}
-.pline-fill{position:absolute;left:0;top:0;bottom:0;background:var(--blue);border-radius:99px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
+/* ── HERO ── */
+.hero { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; width:100%; max-width:1100px; padding:28px 0 0; }
+.hero-left { padding-right:20px; }
+.eyebrow {
+  display:inline-flex; align-items:center; gap:6px; background:var(--blue-light);
+  color:var(--blue-dark); font-size:12px; font-weight:600; letter-spacing:0.06em;
+  text-transform:uppercase; padding:5px 12px; border-radius:99px; margin-bottom:18px;
+}
+.eyebrow::before { content:''; width:6px; height:6px; background:var(--blue); border-radius:50%; }
+.hero-title { font-family:'Outfit',sans-serif; font-size:clamp(34px,4vw,50px); font-weight:500; line-height:1.15; letter-spacing:-0.8px; margin-bottom:18px; }
+.hero-title .accent { color:var(--blue); }
+.hero-desc { font-size:15px; line-height:1.7; color:var(--text-mid); margin-bottom:28px; max-width:400px; }
+.hero-stats { display:flex; gap:24px; }
+.stat-num { font-family:'Outfit',sans-serif; font-size:22px; font-weight:600; letter-spacing:-0.5px; }
+.stat-label { font-size:11px; color:var(--text-muted); margin-top:2px; }
 
-.card-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.3px;margin-bottom:3px}
-.card-sub{font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.5}
+/* ── FORM CARD ── */
+.form-card {
+  background:var(--card-bg); border-radius:var(--r-xl); box-shadow:var(--shadow);
+  padding:32px 28px 24px; border:1px solid rgba(14,165,233,0.10); width:100%; position:relative; overflow:hidden;
+}
+.form-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--blue),#38BDF8,var(--blue-dark)); border-radius:var(--r-xl) var(--r-xl) 0 0;
+}
 
-.field{margin-bottom:16px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.flabel{font-size:11px;font-weight:700;color:var(--text-mid);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;display:block}
-.finput{width:100%;height:42px;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:0 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:#FAFCFF;outline:none;transition:border-color var(--tr),box-shadow var(--tr);appearance:none}
-.finput:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.10);background:#fff}
-select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px}
-textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
+/* ── PROGRESS ── */
+.prog-wrap { display:flex; align-items:center; gap:6px; margin-bottom:24px; }
+.prog-step { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--text-muted); transition:color var(--tr); white-space:nowrap; }
+.prog-step.active { color:var(--blue); }
+.prog-step.done { color:var(--success); }
+.sdot { width:20px; height:20px; border-radius:50%; border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; transition:all var(--tr); color:var(--text-muted); }
+.prog-step.active .sdot { background:var(--blue); border-color:var(--blue); color:#fff; }
+.prog-step.done .sdot { background:var(--success); border-color:var(--success); color:#fff; }
+.pline { flex:1; height:1.5px; background:var(--border); border-radius:99px; position:relative; overflow:hidden; min-width:12px; }
+.pline-fill { position:absolute; left:0; top:0; bottom:0; background:var(--blue); border-radius:99px; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
-.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
-.type-card{border:1.5px solid var(--border);border-radius:var(--r-md);padding:16px 12px;cursor:pointer;transition:all var(--tr);background:#FAFCFF;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px}
-.type-card:hover{border-color:var(--blue);background:var(--blue-l);transform:translateY(-2px);box-shadow:var(--shadow-h)}
-.type-card.selected{border-color:var(--blue);background:var(--blue-l);box-shadow:0 4px 16px rgba(14,165,233,0.18)}
-.type-icon{font-size:26px}.type-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--text)}
-.type-desc{font-size:10px;color:var(--text-muted);line-height:1.4}
+/* ── HEADINGS ── */
+.card-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:500; letter-spacing:-0.1px; margin-bottom:3px; }
+.card-sub { font-size:12px; color:var(--text-muted); margin-bottom:20px; line-height:1.5; }
 
-.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.ci{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all var(--tr);background:#FAFCFF;font-size:12px;color:var(--text-mid);font-weight:500;user-select:none}
-.ci:hover{border-color:var(--blue);background:var(--blue-l);color:var(--text)}
-.ci.checked{border-color:var(--blue);background:var(--blue-l);color:var(--blue-d)}
-.cbox{width:15px;height:15px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;background:#fff;transition:all var(--tr);font-weight:700}
-.ci.checked .cbox{background:var(--blue);border-color:var(--blue);color:#fff}
-.cemoji{font-size:13px}
+/* ── FIELDS ── */
+.field { margin-bottom:16px; }
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+.flabel { font-size:11px; font-weight:500; color:var(--text-mid); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:6px; display:block; }
+.finput {
+  width:100%; height:42px; border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0 12px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text);
+  background:#FAFCFF; outline:none; transition:border-color var(--tr), box-shadow var(--tr); appearance:none;
+}
+.finput:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(14,165,233,0.10); background:#fff; }
+select.finput {
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2394A3B8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center; padding-right:32px;
+}
+textarea.finput { height:72px; padding:10px 12px; resize:none; line-height:1.5; }
 
-.btn-row{display:flex;align-items:center;justify-content:space-between;margin-top:22px;gap:10px}
-.btn-back{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:8px 0;transition:color var(--tr)}
-.btn-back:hover{color:var(--text)}
-.btn-next{flex:1;max-width:260px;height:46px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 14px rgba(14,165,233,0.35)}
-.btn-next:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 6px 22px rgba(14,165,233,0.45)}
-.btn-next:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-.btn-gen{max-width:100%!important;background:linear-gradient(135deg,#0EA5E9 0%,#0284C7 100%)}
+/* ── OPTION CARDS ── */
+.type-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:4px; }
+.type-card {
+  border:1.5px solid var(--border); border-radius:var(--r-md); padding:16px 12px;
+  cursor:pointer; transition:all var(--tr); background:#FAFCFF;
+  text-align:center; display:flex; flex-direction:column; align-items:center; gap:7px;
+}
+.type-card:hover { border-color:var(--blue); background:var(--blue-light); transform:translateY(-2px); box-shadow:var(--shadow-hover); }
+.type-card.selected { border-color:var(--blue); background:var(--blue-light); box-shadow:0 4px 16px rgba(14,165,233,0.18); }
+.type-icon { font-size:26px; }
+.type-title { font-family:'Outfit',sans-serif; font-size:13px; font-weight:500; color:var(--text); }
+.type-desc { font-size:10px; color:var(--text-muted); line-height:1.4; }
 
-.screen{display:none;animation:sIn 0.32s cubic-bezier(0.4,0,0.2,1)}
-.screen.active{display:block}
-.screen.back{animation:sBack 0.32s cubic-bezier(0.4,0,0.2,1)}
-@keyframes sIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-@keyframes sBack{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+/* ── CHECK GRID ── */
+.check-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.ci {
+  display:flex; align-items:center; gap:8px; padding:9px 11px;
+  border:1.5px solid var(--border); border-radius:var(--r-sm); cursor:pointer;
+  transition:all var(--tr); background:#FAFCFF; font-size:12px; color:var(--text-mid);
+  font-weight:500; user-select:none;
+}
+.ci:hover { border-color:var(--blue); background:var(--blue-light); color:var(--text); }
+.ci.checked { border-color:var(--blue); background:var(--blue-light); color:var(--blue-dark); }
+.cbox {
+  width:15px; height:15px; border:1.5px solid var(--border); border-radius:3px;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-size:9px; background:#fff; transition:all var(--tr); font-weight:700;
+}
+.ci.checked .cbox { background:var(--blue); border-color:var(--blue); color:#fff; }
+.cemoji { font-size:13px; }
 
-.trust-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
-.trust-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted);font-weight:500}
-.tdot{width:6px;height:6px;background:var(--success);border-radius:50%}
+/* ── BUTTONS ── */
+.btn-row { display:flex; align-items:center; justify-content:space-between; margin-top:22px; gap:10px; }
+.btn-back { display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600; color:var(--text-muted); background:none; border:none; cursor:pointer; padding:8px 0; transition:color var(--tr); }
+.btn-back:hover { color:var(--text); }
+.btn-next {
+  flex:1; max-width:260px; height:46px; background:var(--blue); color:#fff; border:none;
+  border-radius:99px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:600;
+  cursor:pointer; transition:all var(--tr); display:flex; align-items:center; justify-content:center;
+  gap:7px; box-shadow:0 4px 14px rgba(14,165,233,0.35);
+}
+.btn-next:hover { background:var(--blue-dark); transform:translateY(-1px); box-shadow:0 6px 22px rgba(14,165,233,0.45); }
+.btn-next:active { transform:translateY(0); }
+.btn-gen { max-width:100% !important; background:linear-gradient(135deg,#0EA5E9 0%,#0284C7 100%); }
 
-.api-error{background:var(--danger-l);border:1px solid #FECACA;border-radius:var(--r-md);padding:12px 14px;margin:8px 0;font-size:13px;color:#991B1B;line-height:1.5;display:none}
-.api-error.show{display:block}
+/* ── SCREENS ── */
+.screen { display:none; animation:sIn 0.32s cubic-bezier(0.4,0,0.2,1); }
+.screen.active { display:block; }
+.screen.back { animation:sBack 0.32s cubic-bezier(0.4,0,0.2,1); }
+@keyframes sIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+@keyframes sBack { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
 
-.load-wrap{text-align:center;padding:16px 0 8px}
-.load-ring{width:56px;height:56px;margin:0 auto 20px;position:relative}
-.load-ring::before,.load-ring::after{content:'';position:absolute;border-radius:50%;border:2.5px solid transparent}
-.load-ring::before{inset:0;border-top-color:var(--blue);animation:spin 0.9s linear infinite}
-.load-ring::after{inset:7px;border-top-color:var(--blue-m);animation:spin 0.6s linear infinite reverse}
-@keyframes spin{to{transform:rotate(360deg)}}
-.load-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px;letter-spacing:-0.3px}
-.load-sub{font-size:12px;color:var(--text-muted);margin-bottom:22px}
-.load-steps{list-style:none;text-align:left;max-width:300px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.lstep{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text-muted);padding:9px 12px;border-radius:var(--r-sm);background:var(--bg);transition:all 0.35s}
-.lstep.active{background:var(--blue-l);color:var(--blue-d);font-weight:600}
-.lstep.done{background:var(--success-l);color:#059669}
-.lind{width:18px;height:18px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all 0.35s}
-.lstep.active .lind{background:var(--blue);color:#fff;animation:pulse 0.9s infinite}
-.lstep.done .lind{background:var(--success);color:#fff}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+/* ── TRUST ROW ── */
+.trust-row { display:flex; align-items:center; justify-content:center; gap:16px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); flex-wrap:wrap; }
+.trust-item { display:flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted); font-weight:500; }
+.tdot { width:6px; height:6px; background:var(--success); border-radius:50%; }
 
-.report-wrap{padding:4px 0}
-.rpt-badge{display:inline-flex;align-items:center;gap:5px;background:var(--blue-l);color:var(--blue-d);font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px}
-.rpt-headline{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.3px;margin-bottom:3px}
-.rpt-summary{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+/* ── LOADING ── */
+.load-wrap { text-align:center; padding:16px 0 8px; }
+.load-ring { width:56px; height:56px; margin:0 auto 20px; position:relative; }
+.load-ring::before, .load-ring::after { content:''; position:absolute; border-radius:50%; border:2.5px solid transparent; }
+.load-ring::before { inset:0; border-top-color:var(--blue); animation:spin 0.9s linear infinite; }
+.load-ring::after { inset:7px; border-top-color:var(--blue-mid); animation:spin 0.6s linear infinite reverse; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.load-title { font-family:'Outfit',sans-serif; font-size:17px; font-weight:500; margin-bottom:6px; letter-spacing:-0.1px; }
+.load-sub { font-size:12px; color:var(--text-muted); margin-bottom:22px; }
+.load-steps { list-style:none; text-align:left; max-width:300px; margin:0 auto; display:flex; flex-direction:column; gap:8px; }
+.lstep { display:flex; align-items:center; gap:9px; font-size:12px; color:var(--text-muted); padding:9px 12px; border-radius:var(--r-sm); background:var(--bg); transition:all 0.35s; }
+.lstep.active { background:var(--blue-light); color:var(--blue-dark); font-weight:600; }
+.lstep.done { background:var(--success-light); color:#059669; }
+.lind { width:18px; height:18px; border-radius:50%; background:var(--border); display:flex; align-items:center; justify-content:center; font-size:9px; flex-shrink:0; transition:all 0.35s; }
+.lstep.active .lind { background:var(--blue); color:#fff; animation:pulse 0.9s infinite; }
+.lstep.done .lind { background:var(--success); color:#fff; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
 
-.snap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.snap-card{background:var(--bg);border-radius:var(--r-md);padding:12px 14px}
-.snap-label{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
-.snap-val{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;color:var(--text)}
-.snap-val.blue{color:var(--blue)}.snap-val.save{color:var(--success)}.snap-val.more{color:var(--danger)}
-.snap-note{font-size:11px;color:var(--text-muted);margin-top:3px}
+/* ── API ERROR ── */
+.api-error { background:var(--danger-light); border:1px solid #FECACA; border-radius:var(--r-md); padding:14px 16px; margin:8px 0; font-size:13px; color:#991B1B; line-height:1.5; display:none; }
+.api-error.show { display:block; }
 
-.save-banner{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:1px solid #6EE7B7;border-radius:var(--r-md);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap}
-.more-banner{background:var(--warn-l);border:1px solid #FCD34D;border-radius:var(--r-md);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap}
-.banner-main{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700}
-.banner-sub{font-size:11px;color:var(--text-mid);margin-top:2px}
-.ann-badge{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:6px 14px;border-radius:99px;white-space:nowrap}
-.ann-badge.save{background:#10B981;color:#fff}.ann-badge.more{background:var(--warn);color:#fff}
+/* ── REPORT ── */
+.report-wrap { padding:4px 0; }
+.rpt-badge { display:inline-flex; align-items:center; gap:5px; background:var(--blue-light); color:var(--blue-dark); font-size:11px; font-weight:700; padding:4px 10px; border-radius:99px; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:8px; }
+.rpt-headline { font-family:'Outfit',sans-serif; font-size:17px; font-weight:500; letter-spacing:-0.1px; margin-bottom:3px; }
+.rpt-summary { font-size:13px; color:var(--text-mid); line-height:1.6; margin-bottom:18px; padding-bottom:16px; border-bottom:1px solid var(--border); }
 
-.insights-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:8px}
-.insight-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.insight-card{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;background:var(--bg);border-radius:var(--r-sm);border-left:3px solid var(--blue-m)}
-.ic-icon{font-size:18px;flex-shrink:0}.ic-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}.ic-text{font-size:12px;color:var(--text-mid);line-height:1.4}
+/* cost snapshot */
+.snap-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.snap-card { background:var(--bg); border-radius:var(--r-md); padding:12px 14px; }
+.snap-label { font-size:10px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+.snap-val { font-family:'Outfit',sans-serif; font-size:22px; font-weight:600; letter-spacing:-0.5px; color:var(--text); }
+.snap-val.save { color:var(--success); }
+.snap-val.more { color:var(--danger); }
+.snap-val.blue { color:var(--blue); }
+.snap-note { font-size:11px; color:var(--text-muted); margin-top:3px; }
+.save-banner { background:linear-gradient(135deg,#ECFDF5,#D1FAE5); border:1px solid #6EE7B7; border-radius:var(--r-md); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-wrap:wrap; }
+.more-banner { background:var(--warn-light); border:1px solid #FCD34D; border-radius:var(--r-md); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-wrap:wrap; }
+.banner-main { font-family:'Outfit',sans-serif; font-size:16px; font-weight:500; }
+.banner-sub { font-size:11px; color:var(--text-mid); margin-top:2px; }
+.ann-badge { font-family:'Outfit',sans-serif; font-size:13px; font-weight:700; padding:6px 14px; border-radius:99px; white-space:nowrap; }
+.ann-badge.save { background:#10B981; color:#fff; }
+.ann-badge.more { background:var(--warn); color:#fff; }
 
-.city-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.city-card{border:1.5px solid var(--border);border-radius:var(--r-md);padding:12px 14px}
-.city-card.best{border-color:var(--blue);background:var(--blue-l)}
-.city-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.city-name{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700}
-.city-cost{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--blue)}
-.city-bar-wrap{height:6px;background:var(--border);border-radius:99px;margin-bottom:8px;overflow:hidden}
-.city-bar{height:100%;background:var(--blue);border-radius:99px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
-.city-pro{color:#059669}.city-con{color:#DC2626}
-.best-badge{font-size:10px;font-weight:700;background:var(--blue);color:#fff;padding:2px 8px;border-radius:99px;text-transform:uppercase}
+/* insights */
+.insights-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:8px; }
+.insight-cards { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.insight-card { display:flex; align-items:flex-start; gap:10px; padding:11px 13px; background:var(--bg); border-radius:var(--r-sm); border-left:3px solid var(--blue-mid); }
+.ic-icon { font-size:18px; flex-shrink:0; }
+.ic-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:2px; }
+.ic-text { font-size:12px; color:var(--text-mid); line-height:1.4; }
 
-.action-box{background:linear-gradient(135deg,#EFF6FF,#E0F2FE);border:1.5px solid var(--blue-m);border-radius:var(--r-md);padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
-.action-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--blue-d);margin-bottom:3px}
-.action-text{font-size:13px;color:var(--text);font-weight:500;line-height:1.4}
+/* city comparison cards */
+.city-cards { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+.city-card { border:1.5px solid var(--border); border-radius:var(--r-md); padding:12px 14px; }
+.city-card.best { border-color:var(--blue); background:var(--blue-light); }
+.city-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.city-name { font-family:'Outfit',sans-serif; font-size:14px; font-weight:500; }
+.city-cost { font-family:'Outfit',sans-serif; font-size:14px; font-weight:700; color:var(--blue); }
+.city-bar-wrap { height:6px; background:var(--border); border-radius:99px; margin-bottom:8px; overflow:hidden; }
+.city-bar { height:100%; background:var(--blue); border-radius:99px; transition:width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.city-proscons { display:flex; gap:8px; font-size:11px; }
+.city-pro { color:#059669; }
+.city-con { color:#DC2626; }
+.best-badge { font-size:10px; font-weight:700; background:var(--blue); color:#fff; padding:2px 8px; border-radius:99px; text-transform:uppercase; }
 
-.lock-section{border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:8px}
-.lock-head{background:#F8FBFF;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.lock-title{font-size:12px;font-weight:700;color:var(--text)}
-.lock-badge-paid{font-size:9px;padding:2px 7px;border-radius:99px;font-weight:700;text-transform:uppercase;background:var(--warn-l);color:#D97706}
-.lock-body{padding:12px 14px}
-.blur-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
-.blur-row:last-child{border:none}
-.blur-pill{height:13px;border-radius:4px;background:var(--border);animation:shim 1.5s infinite}
-@keyframes shim{0%,100%{opacity:0.5}50%{opacity:1}}
+/* first action */
+.action-box { background:linear-gradient(135deg,#EFF6FF,#E0F2FE); border:1.5px solid var(--blue-mid); border-radius:var(--r-md); padding:14px 16px; margin-bottom:14px; display:flex; align-items:flex-start; gap:10px; }
+.action-arrow { font-size:22px; flex-shrink:0; }
+.action-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--blue-dark); margin-bottom:3px; }
+.action-text { font-size:13px; color:var(--text); font-weight:500; line-height:1.4; }
 
-.unlock-box{background:linear-gradient(135deg,#EFF6FF,#E0F2FE);border:1.5px solid var(--blue-m);border-radius:var(--r-xl);padding:22px 20px;text-align:center;margin-top:14px}
-.price-pill{display:inline-block;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;padding:5px 18px;border-radius:99px;margin-bottom:12px}
-.unlock-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:5px}
-.unlock-desc{font-size:12px;color:var(--text-mid);margin-bottom:14px;line-height:1.5}
-.unlock-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
-.chip{background:#fff;border:1px solid var(--blue-m);border-radius:99px;font-size:10px;color:var(--blue-d);font-weight:700;padding:3px 9px}
-.unlock-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;max-width:220px;margin:0 auto;height:44px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(14,165,233,0.35);transition:all var(--tr)}
-.unlock-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
+/* locked sections */
+.lock-section { border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; margin-bottom:8px; }
+.lock-head { background:#F8FBFF; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+.lock-title { font-size:12px; font-weight:500; color:var(--text); }
+.lock-badge-free { font-size:9px; padding:2px 7px; border-radius:99px; font-weight:700; text-transform:uppercase; background:var(--success-light); color:#059669; }
+.lock-badge-paid { font-size:9px; padding:2px 7px; border-radius:99px; font-weight:700; text-transform:uppercase; background:var(--warn-light); color:#D97706; }
+.lock-body { padding:12px 14px; }
+.blur-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border); }
+.blur-row:last-child { border:none; }
+.blur-pill { height:13px; border-radius:4px; background:var(--border); animation:shim 1.5s infinite; }
+@keyframes shim { 0%,100%{opacity:0.5} 50%{opacity:1} }
 
-@media(max-width:860px){.hero{grid-template-columns:1fr;gap:20px}.hero-left{padding-right:0;text-align:center}.hero-desc,.hero-stats{margin-left:auto;margin-right:auto}.hero-stats{justify-content:center}.type-grid{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.snap-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.form-card{padding:22px 16px 18px}.check-grid{grid-template-columns:1fr}.snap-grid{grid-template-columns:1fr}}
+/* unlock */
+.unlock-box { background:linear-gradient(135deg,#EFF6FF,#E0F2FE); border:1.5px solid var(--blue-mid); border-radius:var(--r-xl); padding:22px 20px; text-align:center; margin-top:14px; }
+.price-pill { display:inline-block; background:var(--blue); color:#fff; font-family:'Outfit',sans-serif; font-size:17px; font-weight:700; padding:5px 18px; border-radius:99px; margin-bottom:12px; }
+.unlock-title { font-family:'Outfit',sans-serif; font-size:15px; font-weight:500; margin-bottom:5px; }
+.unlock-desc { font-size:12px; color:var(--text-mid); margin-bottom:14px; line-height:1.5; }
+.unlock-chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px; }
+.chip { background:#fff; border:1px solid var(--blue-mid); border-radius:99px; font-size:10px; color:var(--blue-dark); font-weight:700; padding:3px 9px; }
+.unlock-btn {
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  width:100%; max-width:220px; margin:0 auto; height:44px; background:var(--blue); color:#fff;
+  border:none; border-radius:99px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; box-shadow:0 4px 14px rgba(14,165,233,0.35); transition:all var(--tr);
+}
+.unlock-btn:hover { background:var(--blue-dark); transform:translateY(-1px); }
+
+/* streaming cursor */
+.streaming-cursor { display:inline-block; width:2px; height:14px; background:var(--blue); animation:blink 0.7s infinite; vertical-align:middle; margin-left:2px; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;gap:20px}
+  .hero-left{padding-right:0;text-align:center}
+  .hero-desc,.hero-stats{margin-left:auto;margin-right:auto}
+  .hero-stats{justify-content:center}
+  .type-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .snap-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .form-card{padding:22px 16px 18px}
+  .check-grid{grid-template-columns:1fr}
+  .snap-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
+<!-- ── API KEY BANNER ── -->
+<div id="api-banner">
+  <div class="banner-left">⚠️ <span>API Key required for AI reports:</span></div>
+  <input class="banner-input" type="password" id="apiKeyInput" placeholder="sk-ant-api03-...  (paste your Claude API key)">
+  <button class="banner-btn" onclick="saveApiKey()">Connect →</button>
+  <div class="banner-note">🔒 Stored locally in your browser only. For production, move this to a backend proxy and never expose keys in frontend code.</div>
+</div>
+
+<!-- ── NAV ── -->
 <nav>
-  <div class="logo">Moving<span>COST</span>.ai</div>
+  <a href="/" class="logo" style="text-decoration:none">Moving<span>COST</span>.ai</a>
   <div class="nav-links">
-    <a href="#">AI Tools</a>
-    <a href="#">Services</a>
-    <a href="#">Guides</a>
+    <a href="/">Home</a>
+    <a href="/#tools">AI Tools</a>
+    <a href="/#services">Services</a>
+    <a href="/#guides">Guides</a>
   </div>
+  <a href="/" style="font-size:13px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:8px 16px;border:1.5px solid var(--border);border-radius:99px;transition:all 0.2s">← Back to Home</a>
 </nav>
 
+<!-- ── HERO ── -->
 <div class="hero">
   <div class="hero-left">
     <div class="eyebrow">AI-powered planning</div>
@@ -200,10 +336,11 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
     </div>
   </div>
 
+  <!-- ── CARD ── -->
   <div>
     <div class="form-card">
 
-      <!-- CARD 1 — SHARED -->
+      <!-- ════════════════════════════ CARD 1 — SHARED ════════════════════════════ -->
       <div class="screen active" id="s1">
         <div class="prog-wrap">
           <div class="prog-step active"><div class="sdot">1</div><span>Your Move</span></div>
@@ -214,31 +351,54 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
         </div>
         <div class="card-title">AI Mobility Planner</div>
         <div class="card-sub">Tell us about your move — we'll build a plan tailored to your life.</div>
+
         <div class="frow">
           <div><label class="flabel">📍 Moving From</label><input class="finput" id="fromCity" type="text" placeholder="e.g. New York, NY"></div>
           <div><label class="flabel">📍 Moving To</label><input class="finput" id="toCity" type="text" placeholder="e.g. Lisbon, Portugal"></div>
         </div>
         <div class="frow">
-          <div><label class="flabel">📅 Timeline</label>
+          <div>
+            <label class="flabel">📅 Timeline</label>
             <select class="finput" id="timeline">
-              <option>Within 30 days</option><option>1–3 months</option><option selected>3–6 months</option>
-              <option>6–12 months</option><option>1–2 years out</option><option>Just exploring</option>
-            </select></div>
-          <div><label class="flabel">👥 Who's Moving</label>
+              <option>Within 30 days</option><option>1–3 months</option>
+              <option selected>3–6 months</option><option>6–12 months</option>
+              <option>1–2 years out</option><option>Just exploring</option>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">👥 Who's Moving</label>
             <select class="finput" id="whoMoving">
-              <option>Just me</option><option>Me + partner</option><option>Family with kids</option>
-              <option>Retiree / semi-retired</option><option>Me + pets</option>
-            </select></div>
+              <option>Just me</option><option>Me + partner</option>
+              <option>Family with kids</option><option>Retiree / semi-retired</option><option>Me + pets</option>
+            </select>
+          </div>
         </div>
+
         <div class="field">
           <label class="flabel">🎯 What best describes your move?</label>
           <div class="type-grid">
-            <div class="type-card" onclick="selectType('relocation',this)"><div class="type-icon">🏠</div><div class="type-title">Relocation</div><div class="type-desc">Permanent or long-term move to a new city</div></div>
-            <div class="type-card" onclick="selectType('nomad',this)"><div class="type-icon">🌍</div><div class="type-title">Digital Nomad</div><div class="type-desc">Remote life across multiple locations</div></div>
-            <div class="type-card" onclick="selectType('comparing',this)"><div class="type-icon">🔍</div><div class="type-title">Comparing Cities</div><div class="type-desc">Researching options, not decided yet</div></div>
+            <div class="type-card" onclick="selectType('relocation',this)">
+              <div class="type-icon">🏠</div>
+              <div class="type-title">Relocation</div>
+              <div class="type-desc">Permanent or long-term move to a new city</div>
+            </div>
+            <div class="type-card" onclick="selectType('nomad',this)">
+              <div class="type-icon">🌍</div>
+              <div class="type-title">Digital Nomad</div>
+              <div class="type-desc">Remote life across multiple locations</div>
+            </div>
+            <div class="type-card" onclick="selectType('comparing',this)">
+              <div class="type-icon">🔍</div>
+              <div class="type-title">Comparing Cities</div>
+              <div class="type-desc">Researching options, not decided yet</div>
+            </div>
           </div>
         </div>
-        <div class="btn-row"><div></div><button class="btn-next" onclick="goCard2()">Start My Plan →</button></div>
+
+        <div class="btn-row">
+          <div></div>
+          <button class="btn-next" onclick="goCard2()">Start My Plan →</button>
+        </div>
         <div class="trust-row">
           <div class="trust-item"><div class="tdot"></div>Free to start</div>
           <div class="trust-item"><div class="tdot"></div>No account needed</div>
@@ -246,7 +406,7 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
         </div>
       </div>
 
-      <!-- RELOCATION Card 2 -->
+      <!-- ════════════════════════ RELOCATION Card 2 ════════════════════════ -->
       <div class="screen" id="s2-relocation">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -257,32 +417,43 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
         </div>
         <div class="card-title">🏠 Your Life & Finances</div>
         <div class="card-sub">Shapes your cost comparison, visa options, and tax strategy.</div>
+
         <div class="frow">
-          <div><label class="flabel">💼 Employment</label>
+          <div>
+            <label class="flabel">💼 Employment</label>
             <select class="finput" id="r-employ">
               <option>Relocating for new job</option><option>Remote worker</option>
               <option>Self-employed / freelance</option><option>Business owner</option>
               <option>Retired / semi-retired</option><option>Job-seeking at destination</option>
-            </select></div>
-          <div><label class="flabel">💰 Monthly Income</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">💰 Monthly Income</label>
             <select class="finput" id="r-income">
               <option>Under $3,000</option><option>$3,000–$6,000</option>
               <option selected>$6,000–$10,000</option><option>$10,000–$20,000</option>
               <option>$20,000+</option><option>Prefer not to say</option>
-            </select></div>
+            </select>
+          </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">🏠 Current Monthly Rent</label>
+          <div>
+            <label class="flabel">🏠 Current Monthly Rent</label>
             <select class="finput" id="r-rent">
               <option>Under $1,000</option><option>$1,000–$2,000</option>
               <option selected>$2,000–$3,500</option><option>$3,500–$6,000</option><option>$6,000+</option>
-            </select></div>
-          <div><label class="flabel">🏡 Home Size</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">🏡 Home Size</label>
             <select class="finput" id="r-home">
-              <option>Studio</option><option>1-bedroom</option><option selected>2-bedroom</option>
-              <option>3-bedroom</option><option>4+ bedroom</option><option>Not moving furniture</option>
-            </select></div>
+              <option>Studio</option><option>1-bedroom</option>
+              <option selected>2-bedroom</option><option>3-bedroom</option>
+              <option>4+ bedroom</option><option>Not moving furniture</option>
+            </select>
+          </div>
         </div>
+
         <div class="field">
           <label class="flabel">🧬 Lifestyle (choose all)</label>
           <div class="check-grid">
@@ -296,10 +467,13 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div><span class="cemoji">🌿</span> Minimalist / budget</div>
           </div>
         </div>
-        <div class="btn-row"><button class="btn-back" onclick="goBack('s1')">← Back</button><button class="btn-next" onclick="showS('s3-relocation')">Continue →</button></div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goBack('s1')">← Back</button>
+          <button class="btn-next" onclick="showS('s3-relocation')">Continue →</button>
+        </div>
       </div>
 
-      <!-- RELOCATION Card 3 -->
+      <!-- ════════════════════════ RELOCATION Card 3 ════════════════════════ -->
       <div class="screen" id="s3-relocation">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -309,7 +483,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           <div class="prog-step active"><div class="sdot">3</div><span>Priorities</span></div>
         </div>
         <div class="card-title">📦 Moving Details & Priorities</div>
-        <div class="card-sub">What are you bringing and what matters most?</div>
+        <div class="card-sub">What are you bringing and what matters most for this move?</div>
+
         <div class="field">
           <label class="flabel">📦 What are you moving? (choose all)</label>
           <div class="check-grid">
@@ -322,18 +497,22 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">💵 Move Budget</label>
+          <div>
+            <label class="flabel">💵 Move Budget</label>
             <select class="finput" id="r-budget">
               <option>Under $2,000</option><option>$2,000–$5,000</option>
               <option selected>$5,000–$15,000</option><option>$15,000–$50,000</option>
               <option>$50,000+</option><option>Not sure yet</option>
-            </select></div>
-          <div><label class="flabel">🤝 DIY Level</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">🤝 DIY Level</label>
             <select class="finput" id="r-diy">
               <option>Full DIY — save money</option>
               <option selected>Hybrid — some professional help</option>
               <option>Full-service — all handled</option>
-            </select></div>
+            </select>
+          </div>
         </div>
         <div class="field">
           <label class="flabel">🔥 Biggest concern (choose 1–2)</label>
@@ -348,14 +527,14 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
         </div>
         <div class="field">
           <label class="flabel">✍️ Anything else? (optional)</label>
-          <textarea class="finput" id="r-notes" placeholder="e.g. Selling home first, shipping art collection, two destination options..."></textarea>
+          <textarea class="finput" id="r-notes" placeholder="e.g. Need to sell my home first, shipping art collection, comparing two cities..."></textarea>
         </div>
         <div class="api-error" id="r-error"></div>
-        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('relocation')" id="r-btn">✨ Generate My Relocation Plan</button>
+        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('relocation')">✨ Generate My Relocation Plan</button>
         <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text-muted)">Includes: cost comparison · moving breakdown · visa pathway · savings strategy · 90-day checklist</div>
       </div>
 
-      <!-- NOMAD Card 2 -->
+      <!-- ════════════════════════ NOMAD Card 2 ════════════════════════ -->
       <div class="screen" id="s2-nomad">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -365,7 +544,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           <div class="prog-step"><div class="sdot">3</div><span>Lifestyle</span></div>
         </div>
         <div class="card-title">🌍 Your Work & Income</div>
-        <div class="card-sub">Shapes your visa options, tax strategy, and cost estimates.</div>
+        <div class="card-sub">Shapes your visa options, tax strategy, and monthly cost estimates.</div>
+
         <div class="field">
           <label class="flabel">💼 How do you earn? (choose all)</label>
           <div class="check-grid">
@@ -378,37 +558,48 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">💰 Monthly Income</label>
+          <div>
+            <label class="flabel">💰 Monthly Income</label>
             <select class="finput" id="n-income">
               <option>Under $2,000</option><option>$2,000–$4,000</option>
               <option selected>$4,000–$7,000</option><option>$7,000–$12,000</option>
               <option>$12,000–$20,000</option><option>$20,000+</option>
-            </select></div>
-          <div><label class="flabel">📅 Typical Stay Length</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">📅 Typical Stay Length</label>
             <select class="finput" id="n-stay">
-              <option>1–4 weeks (fast)</option><option>1–3 months (slow)</option>
-              <option selected>3–6 months (seasonal)</option>
-              <option>6–12 months (semi-perm)</option><option>Still figuring out</option>
-            </select></div>
+              <option>1–4 weeks (fast mover)</option><option>1–3 months (slow travel)</option>
+              <option selected>3–6 months (seasonal base)</option>
+              <option>6–12 months (semi-permanent)</option><option>Still figuring out</option>
+            </select>
+          </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">🌍 Destinations / year</label>
+          <div>
+            <label class="flabel">🌍 Destinations / year</label>
             <select class="finput" id="n-dest">
               <option>1 primary base</option><option selected>2–3 rotating cities</option>
-              <option>4–6 locations</option><option>Totally flexible</option>
-            </select></div>
-          <div><label class="flabel">📋 Current Tax / Residency</label>
+              <option>4–6 locations</option><option>Totally flexible / open</option>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">📋 Current Tax / Residency</label>
             <select class="finput" id="n-tax">
               <option>Still tax-resident at home</option><option>Already established offshore</option>
               <option>Planning to cut home ties</option>
-              <option>Using nomad visa program</option>
-              <option selected>Unsure — my key question</option>
-            </select></div>
+              <option>Using a nomad visa program</option>
+              <option selected>Unsure — this is my key question</option>
+            </select>
+          </div>
         </div>
-        <div class="btn-row"><button class="btn-back" onclick="goBack('s1')">← Back</button><button class="btn-next" onclick="showS('s3-nomad')">Continue →</button></div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goBack('s1')">← Back</button>
+          <button class="btn-next" onclick="showS('s3-nomad')">Continue →</button>
+        </div>
       </div>
 
-      <!-- NOMAD Card 3 -->
+      <!-- ════════════════════════ NOMAD Card 3 ════════════════════════ -->
       <div class="screen" id="s3-nomad">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -418,7 +609,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           <div class="prog-step active"><div class="sdot">3</div><span>Lifestyle</span></div>
         </div>
         <div class="card-title">💻 Your Nomad Life Standards</div>
-        <div class="card-sub">Tell us what your daily life needs — so we can match the right cities.</div>
+        <div class="card-sub">Tell us what your daily life needs so we can match the right cities.</div>
+
         <div class="field">
           <label class="flabel">💻 Work requirements (choose all)</label>
           <div class="check-grid">
@@ -442,30 +634,34 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">🏠 Accommodation Preference</label>
+          <div>
+            <label class="flabel">🏠 Preferred Accommodation</label>
             <select class="finput" id="n-accom">
               <option>Furnished monthly apartment</option><option>Coliving / nomad community</option>
               <option>Serviced apartment / hotel</option><option selected>Flexible — depends on city</option>
-            </select></div>
-          <div><label class="flabel">🔥 Biggest challenge now</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">🔥 Biggest challenge now</label>
             <select class="finput" id="n-challenge">
               <option selected>Finding right city for my budget</option>
               <option>Sorting taxes & legal residency</option>
               <option>Making income more stable</option>
               <option>Managing social isolation</option>
               <option>Health insurance across countries</option>
-            </select></div>
+            </select>
+          </div>
         </div>
         <div class="field">
           <label class="flabel">✍️ Specific cities or requests? (optional)</label>
           <textarea class="finput" id="n-notes" placeholder="e.g. Compare Bali vs Chiang Mai, or I need Dubai for tax-free income..."></textarea>
         </div>
         <div class="api-error" id="n-error"></div>
-        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('nomad')" id="n-btn">✨ Generate My Nomad Life Plan</button>
+        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('nomad')">✨ Generate My Nomad Life Plan</button>
         <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text-muted)">Includes: top city matches · monthly cost breakdown · visa pathways · tax strategy · internet ratings</div>
       </div>
 
-      <!-- COMPARING Card 2 -->
+      <!-- ════════════════════════ COMPARING Card 2 ════════════════════════ -->
       <div class="screen" id="s2-comparing">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -476,6 +672,7 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
         </div>
         <div class="card-title">🔍 Cities You're Comparing</div>
         <div class="card-sub">Tell us what's on your shortlist and a bit about your life now.</div>
+
         <div class="field">
           <label class="flabel">🏙️ Cities on your shortlist (up to 3)</label>
           <div style="display:flex;flex-direction:column;gap:7px">
@@ -496,21 +693,28 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">💰 Monthly Household Income</label>
+          <div>
+            <label class="flabel">💰 Monthly Household Income</label>
             <select class="finput" id="c-income">
               <option>Under $3,000</option><option>$3,000–$6,000</option>
               <option selected>$6,000–$10,000</option><option>$10,000–$20,000</option><option>$20,000+</option>
-            </select></div>
-          <div><label class="flabel">🏠 Current Monthly Rent</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">🏠 Current Monthly Rent</label>
             <select class="finput" id="c-rent">
               <option>Under $1,000</option><option>$1,000–$2,000</option>
               <option selected>$2,000–$3,500</option><option>$3,500–$6,000</option><option>$6,000+</option>
-            </select></div>
+            </select>
+          </div>
         </div>
-        <div class="btn-row"><button class="btn-back" onclick="goBack('s1')">← Back</button><button class="btn-next" onclick="showS('s3-comparing')">Continue →</button></div>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goBack('s1')">← Back</button>
+          <button class="btn-next" onclick="showS('s3-comparing')">Continue →</button>
+        </div>
       </div>
 
-      <!-- COMPARING Card 3 -->
+      <!-- ════════════════════════ COMPARING Card 3 ════════════════════════ -->
       <div class="screen" id="s3-comparing">
         <div class="prog-wrap">
           <div class="prog-step done"><div class="sdot">✓</div><span>Your Move</span></div>
@@ -520,7 +724,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           <div class="prog-step active"><div class="sdot">3</div><span>Decide</span></div>
         </div>
         <div class="card-title">⚖️ Help Us Help You Decide</div>
-        <div class="card-sub">What matters most and what's been hardest to figure out?</div>
+        <div class="card-sub">What matters most and what's been hard to figure out on your own?</div>
+
         <div class="field">
           <label class="flabel">🎯 What matters most? (choose top 3)</label>
           <div class="check-grid">
@@ -535,27 +740,32 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           </div>
         </div>
         <div class="frow">
-          <div><label class="flabel">📊 Lifestyle Level</label>
+          <div>
+            <label class="flabel">📊 Lifestyle Level</label>
             <select class="finput" id="c-lifestyle">
-              <option>Modest / budget-conscious</option><option selected>Comfortable middle-class</option>
+              <option>Modest / budget-conscious</option>
+              <option selected>Comfortable middle-class</option>
               <option>Premium with quality services</option><option>Luxury / high-end</option>
-            </select></div>
-          <div><label class="flabel">⏳ Decision Timeline</label>
+            </select>
+          </div>
+          <div>
+            <label class="flabel">⏳ Decision Timeline</label>
             <select class="finput" id="c-timeline">
               <option>Decide within 1–3 months</option>
               <option selected>Visit first (within 6 months)</option>
-              <option>1–2 years away</option><option>Pure research</option>
-            </select></div>
+              <option>1–2 years away</option><option>Pure research — no timeline</option>
+            </select>
+          </div>
         </div>
         <div class="field">
-          <label class="flabel">🧩 Hardest to figure out? (choose 1–2)</label>
+          <label class="flabel">🧩 What's been hardest to figure out? (choose 1–2)</label>
           <div class="check-grid">
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Verifying actual daily costs</div>
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Which city fits my lifestyle</div>
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Visa & immigration confusion</div>
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Tax implications of moving</div>
             <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Schools / healthcare info</div>
-            <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Partner / family alignment</div>
+            <div class="ci" onclick="toggleCI(this)"><div class="cbox"></div> Partner / family not aligned</div>
           </div>
         </div>
         <div class="field">
@@ -563,11 +773,11 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
           <textarea class="finput" id="c-notes" placeholder="e.g. Full cost for family of 4, real estate options, which city suits my industry..."></textarea>
         </div>
         <div class="api-error" id="c-error"></div>
-        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('comparing')" id="c-btn">✨ Generate My City Comparison Report</button>
-        <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text-muted)">Includes: side-by-side cost breakdown · housing snapshot · visa & tax per city · lifestyle fit score</div>
+        <button class="btn-next btn-gen" style="width:100%;margin-top:6px" onclick="generate('comparing')">✨ Generate My City Comparison Report</button>
+        <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text-muted)">Includes: side-by-side cost breakdown · housing snapshot · visa & tax per city · lifestyle fit score · recommendation</div>
       </div>
 
-      <!-- LOADING -->
+      <!-- ════════════════════════ LOADING ════════════════════════ -->
       <div class="screen" id="s-loading">
         <div class="load-wrap">
           <div class="load-ring"></div>
@@ -578,20 +788,28 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
             <li class="lstep" id="ls2"><div class="lind">2</div>Comparing destination costs</li>
             <li class="lstep" id="ls3"><div class="lind">3</div>Calculating visa &amp; tax pathways</li>
             <li class="lstep" id="ls4"><div class="lind">4</div>Generating savings strategies</li>
-            <li class="lstep" id="ls5"><div class="lind">5</div>Compiling your action plan</li>
+            <li class="lstep" id="ls5"><div class="lind">5</div>Compiling your action plan</div></li>
           </ul>
         </div>
       </div>
 
-      <!-- REPORT -->
+      <!-- ════════════════════════ REPORT ════════════════════════ -->
       <div class="screen" id="s-report">
         <div class="report-wrap">
           <div class="rpt-badge">✨ AI Report Ready</div>
           <div class="rpt-headline" id="rpt-headline">Your Personalized Plan</div>
           <div class="rpt-summary" id="rpt-summary"></div>
+
+          <!-- Cost Snapshot (FREE) -->
           <div id="rpt-cost-section"></div>
+
+          <!-- Key Insights (FREE) -->
           <div id="rpt-insights-section"></div>
+
+          <!-- First Action (FREE) -->
           <div id="rpt-action-section"></div>
+
+          <!-- Locked sections -->
           <div style="margin-bottom:8px">
             <div class="lock-section">
               <div class="lock-head"><div class="lock-title">🏠 Full Housing Cost Breakdown</div><span class="lock-badge-paid">Full report</span></div>
@@ -618,10 +836,11 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
               </div>
             </div>
           </div>
+
           <div class="unlock-box">
             <div class="price-pill">$9.90</div>
             <div class="unlock-title">Unlock Your Complete Report</div>
-            <div class="unlock-desc">Full housing breakdown, visa steps, tax strategy, 90-day action checklist, and personalized savings tips.</div>
+            <div class="unlock-desc">Get the full AI-powered breakdown — housing details, visa steps, tax strategy, 90-day action checklist, and personalized savings tips for your exact situation.</div>
             <div class="unlock-chips">
               <div class="chip">✓ Full cost breakdown</div>
               <div class="chip">✓ Visa pathway</div>
@@ -631,126 +850,460 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.5}
             </div>
             <button class="unlock-btn">Unlock Full Report →</button>
           </div>
+
           <div style="text-align:center;margin-top:14px">
             <button class="btn-back" style="margin:0 auto;display:inline-flex" onclick="resetAll()">← Start a new plan</button>
           </div>
         </div>
       </div>
 
-    </div>
+    </div><!-- /.form-card -->
   </div>
-</div>
+</div><!-- /.hero -->
 
 <script>
+// ─────────────────────────────────────────────────────────
+//  CONFIGURATION
+//  Paste your Claude API key below for local testing.
+//  For production: move to a backend proxy. Never expose
+//  API keys in public frontend code.
+// ─────────────────────────────────────────────────────────
+const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
 let userType = '';
+let apiReady = false;
 let reportJSON = null;
-let loadStep = 0;
-let loadResolvers = {};
 
-function showS(id,back=false){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','back'));const t=document.getElementById(id);if(back)t.classList.add('back');t.classList.add('active');document.querySelector('.form-card').scrollIntoView({behavior:'smooth',block:'start'})}
-function selectType(type,el){userType=type;document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected')}
-function toggleCI(el){el.classList.toggle('checked');el.querySelector('.cbox').textContent=el.classList.contains('checked')?'✓':''}
-function goBack(id){showS(id,true)}
-function goCard2(){if(!userType){userType='relocation';document.querySelectorAll('.type-card')[0].classList.add('selected')}showS('s2-'+userType)}
-function v(id){const el=document.getElementById(id);return el?el.value:''}
-function getChecked(screenId){return[...document.querySelectorAll(`#${screenId} .ci.checked`)].map(el=>el.textContent.trim().replace(/^\s*✓\s*/,'').trim()).filter(Boolean)}
-function delay(ms){return new Promise(r=>setTimeout(r,ms))}
-function waitForStep(n){return new Promise(r=>{loadResolvers[n]=r;if(loadStep>=n)r()})}
+// ── API KEY MANAGEMENT ──────────────────────────────────
+function getApiKey() { return localStorage.getItem('mc_api_key') || ''; }
+function saveApiKey() {
+  var input = document.getElementById('apiKeyInput');
+  if (!input) return;
+  var k = input.value.trim();
+  if (!k) return;
+  localStorage.setItem('mc_api_key', k);
+  setApiStatus(true);
+  var banner = document.getElementById('api-banner');
+  if (banner) banner.classList.add('hidden');
+}
+function toggleBanner() {
+  var b = document.getElementById('api-banner');
+  if (!b) return;
+  b.classList.toggle('hidden');
+  if (!b.classList.contains('hidden')) {
+    var input = document.getElementById('apiKeyInput');
+    if (input) { input.value = getApiKey(); input.focus(); }
+  }
+}
+function setApiStatus(ok) {
+  apiReady = ok;
+  var dot = document.getElementById('apiDot');
+  var status = document.getElementById('apiStatus');
+  if (dot) dot.className = 'api-dot' + (ok ? ' connected' : '');
+  if (status) status.textContent = ok ? 'API: Connected' : 'API: Not connected';
+}
+function initApiStatus() {
+  var k = getApiKey();
+  var banner = document.getElementById('api-banner');
+  if (k) {
+    setApiStatus(true);
+    if (banner) banner.classList.add('hidden');
+  } else {
+    setApiStatus(false);
+  }
+}
+var _ki = document.getElementById('apiKeyInput'); if (_ki) _ki.addEventListener('keydown', function(e){ if (e.key === 'Enter') saveApiKey(); });
 
-function collectData(){
-  const base={type:userType,from:document.getElementById('fromCity').value||'current city',to:document.getElementById('toCity').value||'destination',timeline:v('timeline'),who:v('whoMoving')};
-  if(userType==='relocation')return{...base,employment:v('r-employ'),income:v('r-income'),rent:v('r-rent'),homeSize:v('r-home'),lifestyle:getChecked('s2-relocation').join(', ')||'not specified',items:getChecked('s3-relocation').join(', ')||'not specified',budget:v('r-budget'),diy:v('r-diy'),concerns:getChecked('s3-relocation').slice(-6).join(', ')||'not specified',notes:v('r-notes')};
-  if(userType==='nomad')return{...base,income:v('n-income'),stayLength:v('n-stay'),destinations:v('n-dest'),taxStatus:v('n-tax'),incomeTypes:getChecked('s2-nomad').join(', ')||'not specified',workNeeds:getChecked('s3-nomad').slice(0,4).join(', ')||'not specified',lifestyle:getChecked('s3-nomad').slice(4).join(', ')||'not specified',accommodation:v('n-accom'),challenge:v('n-challenge'),notes:v('n-notes')};
-  if(userType==='comparing')return{...base,city1:v('c-city1')||'City A',city2:v('c-city2')||'City B',city3:v('c-city3'),income:v('c-income'),rent:v('c-rent'),draws:getChecked('s2-comparing').join(', ')||'not specified',priorities:getChecked('s3-comparing').slice(0,8).join(', ')||'not specified',blockers:getChecked('s3-comparing').slice(8).join(', ')||'not specified',lifestyle:v('c-lifestyle'),decisionTimeline:v('c-timeline'),notes:v('c-notes')};
+// ── NAVIGATION ───────────────────────────────────────────
+function showS(id, back = false) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','back'));
+  const t = document.getElementById(id);
+  if (back) t.classList.add('back');
+  t.classList.add('active');
+  document.querySelector('.form-card').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function selectType(type, el) {
+  userType = type;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleCI(el) {
+  el.classList.toggle('checked');
+  el.querySelector('.cbox').textContent = el.classList.contains('checked') ? '✓' : '';
+}
+function goBack(id) { showS(id, true); }
+function goCard2() {
+  if (!userType) { userType = 'relocation'; document.querySelectorAll('.type-card')[0].classList.add('selected'); }
+  showS('s2-' + userType);
 }
 
-function buildPrompt(d){
-  const base=`You are MovingCOST.ai's AI analyst. Generate a CONCISE, personalized mobility cost report. Return ONLY valid JSON, zero other text, no markdown fences.`;
-  if(d.type==='relocation')return`${base}\n\nUser profile:\n- Moving from: ${d.from} to: ${d.to}\n- Timeline: ${d.timeline} | Household: ${d.who}\n- Employment: ${d.employment} | Monthly income: ${d.income}\n- Current rent: ${d.rent} | Home size: ${d.homeSize}\n- Lifestyle: ${d.lifestyle}\n- Items to move: ${d.items}\n- Move budget: ${d.budget} | DIY preference: ${d.diy}\n- Biggest concerns: ${d.concerns}\n- Additional notes: ${d.notes||'none'}\n\nReturn this JSON (all values realistic and specific to ${d.from}→${d.to}):\n{"headline":"punchy 8-10 word headline personalised to their move","summary":"2 sentences: key finding about their specific move with real numbers","current_monthly":<realistic USD number for their lifestyle in ${d.from}>,"destination_monthly":<realistic USD number for same lifestyle in ${d.to}>,"direction":"save" or "more_expensive","insights":[{"icon":"🏠","title":"Housing","text":"specific 1-sentence finding about housing cost change"},{"icon":"💡","title":"Biggest win","text":"top money-saving opportunity for their situation"},{"icon":"⚠️","title":"Watch out","text":"main hidden cost or risk they haven't thought of"}],"visa_summary":"best visa option for their situation in ${d.to} in 1-2 sentences","tax_note":"key tax implication of this move in 1 sentence","first_action":"single most important first step they should take this week"}`;
-  if(d.type==='nomad')return`${base}\n\nUser profile:\n- Base: ${d.from} | Considering: ${d.to||'various'}\n- Timeline: ${d.timeline} | Household: ${d.who}\n- Income type: ${d.incomeTypes} | Monthly income: ${d.income}\n- Typical stay: ${d.stayLength} | Destinations/year: ${d.destinations}\n- Tax/residency: ${d.taxStatus}\n- Work needs: ${d.workNeeds}\n- Lifestyle priorities: ${d.lifestyle}\n- Accommodation: ${d.accommodation}\n- Biggest challenge: ${d.challenge}\n- Notes: ${d.notes||'none'}\n\nReturn this JSON:\n{"headline":"punchy 8-10 word headline for their nomad lifestyle","summary":"2 sentences: key insight about their nomad situation and opportunity","top_cities":[{"name":"<city, country>","monthly_cost":<USD>,"fit":"Best Match","reason":"1 sentence why it fits this person"},{"name":"<city, country>","monthly_cost":<USD>,"fit":"Great Option","reason":"1 sentence why"},{"name":"<city, country>","monthly_cost":<USD>,"fit":"Budget Pick","reason":"1 sentence why"}],"insights":[{"icon":"💰","title":"Monthly savings","text":"compared to current situation"},{"icon":"🛂","title":"Best visa strategy","text":"top visa approach for their income type in 1 sentence"},{"icon":"⚠️","title":"Key risk","text":"main thing to sort out before going nomad"}],"first_action":"single most important first step they should take this week"}`;
-  if(d.type==='comparing')return`${base}\n\nUser profile:\n- From: ${d.from} | Comparing: ${d.city1}, ${d.city2}${d.city3?', '+d.city3:''}\n- Timeline: ${d.timeline} | Household: ${d.who}\n- Monthly income: ${d.income} | Current rent: ${d.rent}\n- What's drawing them: ${d.draws}\n- Top priorities: ${d.priorities}\n- Decision blockers: ${d.blockers}\n- Lifestyle level: ${d.lifestyle}\n- Decision timeline: ${d.decisionTimeline}\n- Notes: ${d.notes||'none'}\n\nReturn this JSON:\n{"headline":"punchy comparison headline","summary":"2 sentences: key finding from comparing these cities for this household","cities":[{"name":"${d.city1}","monthly_cost":<realistic USD for their lifestyle>,"fit_score":<0-100>,"best_for":"one thing this city excels at for them","watch_out":"one concern for their specific situation"},{"name":"${d.city2}","monthly_cost":<realistic USD>,"fit_score":<0-100>,"best_for":"one thing","watch_out":"one concern"}${d.city3?`,{"name":"${d.city3}","monthly_cost":<USD>,"fit_score":<0-100>,"best_for":"one thing","watch_out":"one concern"}`:''}],"recommendation":"clear 1-sentence recommendation: which city and why","insights":[{"icon":"💡","title":"Top finding","text":"most important comparison insight"},{"icon":"💰","title":"Cost gap","text":"specific cost difference between their top two options"},{"icon":"⚠️","title":"Don't overlook","text":"hidden factor they should consider"}],"first_action":"single most important first step to move toward a decision"}`;
+// ── DATA COLLECTION ──────────────────────────────────────
+function getChecked(screenId) {
+  return [...document.querySelectorAll(`#${screenId} .ci.checked`)]
+    .map(el => el.textContent.trim().replace(/^\s*✓\s*/, '').trim())
+    .filter(Boolean);
+}
+function v(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function collectData() {
+  const base = {
+    type: userType,
+    from: document.getElementById('fromCity').value || 'current city',
+    to: document.getElementById('toCity').value || 'destination',
+    timeline: v('timeline'),
+    who: v('whoMoving'),
+  };
+  if (userType === 'relocation') return { ...base,
+    employment: v('r-employ'), income: v('r-income'),
+    rent: v('r-rent'), homeSize: v('r-home'),
+    lifestyle: getChecked('s2-relocation').join(', ') || 'not specified',
+    items: getChecked('s3-relocation').join(', ') || 'not specified',
+    budget: v('r-budget'), diy: v('r-diy'),
+    concerns: getChecked('s3-relocation').slice(-6).join(', ') || 'not specified',
+    notes: v('r-notes')
+  };
+  if (userType === 'nomad') return { ...base,
+    income: v('n-income'), stayLength: v('n-stay'),
+    destinations: v('n-dest'), taxStatus: v('n-tax'),
+    incomeTypes: getChecked('s2-nomad').join(', ') || 'not specified',
+    workNeeds: getChecked('s3-nomad').slice(0,4).join(', ') || 'not specified',
+    lifestyle: getChecked('s3-nomad').slice(4).join(', ') || 'not specified',
+    accommodation: v('n-accom'), challenge: v('n-challenge'),
+    notes: v('n-notes')
+  };
+  if (userType === 'comparing') return { ...base,
+    city1: v('c-city1') || 'City A', city2: v('c-city2') || 'City B',
+    city3: v('c-city3'), income: v('c-income'), rent: v('c-rent'),
+    draws: getChecked('s2-comparing').join(', ') || 'not specified',
+    priorities: getChecked('s3-comparing').slice(0,8).join(', ') || 'not specified',
+    blockers: getChecked('s3-comparing').slice(8).join(', ') || 'not specified',
+    lifestyle: v('c-lifestyle'), decisionTimeline: v('c-timeline'),
+    notes: v('c-notes')
+  };
 }
 
-// ── THE KEY CHANGE: calls /api/generate (Vercel backend) instead of Claude directly
-async function callClaude(prompt){
-  const resp=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
-  if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error||`Server error ${resp.status}`)}
-  const data=await resp.json();
-  const text=data.content?.[0]?.text||'';
-  const match=text.match(/\{[\s\S]*\}/);
-  if(!match)throw new Error('Could not parse AI response. Please try again.');
+// ── PROMPT BUILDERS ──────────────────────────────────────
+function buildPrompt(d) {
+  const base = `You are MovingCOST.ai's AI analyst. Generate a CONCISE, personalized mobility cost report. Return ONLY valid JSON, zero other text, no markdown fences.`;
+
+  if (d.type === 'relocation') return `${base}
+
+User profile:
+- Moving from: ${d.from} to: ${d.to}
+- Timeline: ${d.timeline} | Household: ${d.who}
+- Employment: ${d.employment} | Monthly income: ${d.income}
+- Current rent: ${d.rent} | Home size: ${d.homeSize}
+- Lifestyle: ${d.lifestyle}
+- Items to move: ${d.items}
+- Move budget: ${d.budget} | DIY preference: ${d.diy}
+- Biggest concerns: ${d.concerns}
+- Additional notes: ${d.notes || 'none'}
+
+Return this JSON structure (all values must be realistic and specific to ${d.from}→${d.to}):
+{
+  "headline": "punchy 8-10 word headline personalised to their move",
+  "summary": "2 sentences: key finding about their specific move with real numbers",
+  "current_monthly": <realistic USD number for their lifestyle in ${d.from}>,
+  "destination_monthly": <realistic USD number for same lifestyle in ${d.to}>,
+  "direction": "save" or "more_expensive",
+  "insights": [
+    {"icon":"🏠","title":"Housing","text":"specific 1-sentence finding about housing cost change"},
+    {"icon":"💡","title":"Biggest win","text":"top money-saving opportunity for their situation"},
+    {"icon":"⚠️","title":"Watch out","text":"main hidden cost or risk they haven't thought of"}
+  ],
+  "visa_summary": "best visa option for their situation in ${d.to} in 1-2 sentences",
+  "tax_note": "key tax implication of this move in 1 sentence",
+  "first_action": "single most important first step they should take this week"
+}`;
+
+  if (d.type === 'nomad') return `${base}
+
+User profile:
+- Base location: ${d.from} | Considering: ${d.to || 'various locations'}
+- Timeline: ${d.timeline} | Household: ${d.who}
+- Income type: ${d.incomeTypes} | Monthly income: ${d.income}
+- Typical stay: ${d.stayLength} | Destinations per year: ${d.destinations}
+- Current tax/residency: ${d.taxStatus}
+- Work needs: ${d.workNeeds}
+- Lifestyle priorities: ${d.lifestyle}
+- Accommodation: ${d.accommodation}
+- Biggest challenge: ${d.challenge}
+- Notes: ${d.notes || 'none'}
+
+Return this JSON (realistic recommendations for a digital nomad with this profile):
+{
+  "headline": "punchy 8-10 word headline for their nomad lifestyle",
+  "summary": "2 sentences: key insight about their nomad situation and opportunity",
+  "top_cities": [
+    {"name":"<city, country>","monthly_cost":<USD>,"fit":"Best Match","reason":"1 sentence why it fits this person's needs"},
+    {"name":"<city, country>","monthly_cost":<USD>,"fit":"Great Option","reason":"1 sentence why"},
+    {"name":"<city, country>","monthly_cost":<USD>,"fit":"Budget Pick","reason":"1 sentence why"}
+  ],
+  "insights": [
+    {"icon":"💰","title":"Monthly savings","text":"compared to current situation"},
+    {"icon":"🛂","title":"Best visa strategy","text":"top visa approach for their income type in 1 sentence"},
+    {"icon":"⚠️","title":"Key risk","text":"main thing to sort out before going nomad"}
+  ],
+  "first_action": "single most important first step they should take this week"
+}`;
+
+  if (d.type === 'comparing') return `${base}
+
+User profile:
+- From: ${d.from} | Comparing: ${d.city1}, ${d.city2}${d.city3 ? ', '+d.city3 : ''}
+- Timeline: ${d.timeline} | Household: ${d.who}
+- Monthly income: ${d.income} | Current rent: ${d.rent}
+- What's drawing them: ${d.draws}
+- Top priorities: ${d.priorities}
+- Decision blockers: ${d.blockers}
+- Lifestyle level: ${d.lifestyle}
+- Decision timeline: ${d.decisionTimeline}
+- Notes: ${d.notes || 'none'}
+
+Return this JSON (realistic, specific to these exact cities):
+{
+  "headline": "punchy comparison headline for ${d.city1} vs ${d.city2}${d.city3 ? ' vs '+d.city3 : ''}",
+  "summary": "2 sentences: key finding from comparing these cities for this household",
+  "cities": [
+    {
+      "name":"${d.city1}",
+      "monthly_cost":<realistic USD for their lifestyle level>,
+      "fit_score":<0-100>,
+      "best_for":"one thing this city excels at for them",
+      "watch_out":"one concern for their specific situation"
+    },
+    {
+      "name":"${d.city2}",
+      "monthly_cost":<realistic USD>,
+      "fit_score":<0-100>,
+      "best_for":"one thing",
+      "watch_out":"one concern"
+    }${d.city3 ? `,{"name":"${d.city3}","monthly_cost":<USD>,"fit_score":<0-100>,"best_for":"one thing","watch_out":"one concern"}` : ''}
+  ],
+  "recommendation": "clear 1-sentence recommendation: which city and why for this specific person",
+  "insights": [
+    {"icon":"💡","title":"Top finding","text":"most important comparison insight for them"},
+    {"icon":"💰","title":"Cost gap","text":"specific cost difference between their top two options"},
+    {"icon":"⚠️","title":"Don't overlook","text":"hidden factor they should consider for their priorities"}
+  ],
+  "first_action": "single most important first step to move toward a decision"
+}`;
+}
+
+// ── CLAUDE API CALL ──────────────────────────────────────
+async function callClaude(prompt) {
+  const key = getApiKey();
+  if (!key) throw new Error('NO_KEY');
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: CLAUDE_MODEL,
+      max_tokens: 1000,
+      messages: [{ role:'user', content: prompt }]
+    })
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error ${resp.status}`);
+  }
+
+  const data = await resp.json();
+  const text = data.content?.[0]?.text || '';
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Could not parse AI response. Please try again.');
   return JSON.parse(match[0]);
 }
 
-async function generate(type){
-  const errEl=document.getElementById(type[0]+'-error');
-  const btnEl=document.getElementById(type[0]+'-btn');
-  if(errEl)errEl.classList.remove('show');
-  if(btnEl){btnEl.disabled=true;btnEl.textContent='Generating…'}
-  const data=collectData();
-  const prompt=buildPrompt(data);
+// ── GENERATE ─────────────────────────────────────────────
+async function generate(type) {
+  const key = getApiKey();
+  var errEl = document.getElementById(type[0] + '-error') || document.getElementById('r-error');
+
+  if (!key) {
+    document.getElementById('api-banner').classList.remove('hidden');
+    document.getElementById('apiKeyInput').focus();
+    if (errEl) { errEl.textContent = '⚠️ Please connect your Claude API key first (see the banner above).'; errEl.classList.add('show'); }
+    return;
+  }
+  if (errEl) errEl.classList.remove('show');
+
+  const data = collectData();
+  const prompt = buildPrompt(data);
+
+  // Start loading UI + API call in parallel
   showS('s-loading');
   animateLoadSteps();
-  try{
-    reportJSON=await callClaude(prompt);
+
+  try {
+    reportJSON = await callClaude(prompt);
+    // Wait until loading animation reaches ~step 4 before showing
     await waitForStep(4);
     await delay(600);
-    renderReport(reportJSON,data);
+    renderReport(reportJSON, data);
     showS('s-report');
-  }catch(err){
-    showS('s3-'+type);
-    if(errEl){errEl.textContent='❌ '+err.message;errEl.classList.add('show')}
-    if(btnEl){btnEl.disabled=false;btnEl.textContent='✨ Try Again'}
+  } catch (err) {
+    showS('s3-' + type);
+    const msg = err.message === 'NO_KEY'
+      ? '⚠️ API key not set. Please add it using the banner at the top.'
+      : `❌ ${err.message}`;
+    if (errEl) { errEl.textContent = msg; errEl.classList.add('show'); }
     resetLoadSteps();
   }
 }
 
-function resetLoadSteps(){loadStep=0;loadResolvers={};['ls1','ls2','ls3','ls4','ls5'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.remove('active','done');el.querySelector('.lind').textContent=i+1})}
-async function animateLoadSteps(){
+// ── LOADING ANIMATION ────────────────────────────────────
+let loadStep = 0;
+let loadResolvers = {};
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+function waitForStep(n) {
+  return new Promise(r => { loadResolvers[n] = r; if (loadStep >= n) r(); });
+}
+function resetLoadSteps() {
+  loadStep = 0;
+  loadResolvers = {};
+  ['ls1','ls2','ls3','ls4','ls5'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    el.querySelector('.lind').textContent = i + 1;
+  });
+}
+async function animateLoadSteps() {
   resetLoadSteps();
-  const steps=['ls1','ls2','ls3','ls4','ls5'];
-  const delays=[0,800,1600,2400,3200];
-  for(let i=0;i<steps.length;i++){
-    await delay(i===0?100:delays[i]-delays[i-1]);
-    if(i>0){document.getElementById(steps[i-1]).classList.remove('active');document.getElementById(steps[i-1]).classList.add('done');document.getElementById(steps[i-1]).querySelector('.lind').textContent='✓'}
+  const steps = ['ls1','ls2','ls3','ls4','ls5'];
+  const delays = [0, 800, 1600, 2400, 3200];
+  for (let i = 0; i < steps.length; i++) {
+    await delay(i === 0 ? 100 : delays[i] - delays[i-1]);
+    if (i > 0) {
+      document.getElementById(steps[i-1]).classList.remove('active');
+      document.getElementById(steps[i-1]).classList.add('done');
+      document.getElementById(steps[i-1]).querySelector('.lind').textContent = '✓';
+    }
     document.getElementById(steps[i]).classList.add('active');
-    loadStep=i+1;if(loadResolvers[i+1])loadResolvers[i+1]();
+    loadStep = i + 1;
+    if (loadResolvers[i+1]) loadResolvers[i+1]();
   }
 }
 
-function renderReport(r,d){
-  document.getElementById('rpt-headline').textContent=r.headline||'Your Personalized Plan';
-  document.getElementById('rpt-summary').textContent=r.summary||'';
-  let costHTML='';
-  if(d.type==='relocation'&&r.current_monthly){
-    const isSave=r.direction==='save';const diff=Math.abs((r.current_monthly||0)-(r.destination_monthly||0));const annual=diff*12;
-    costHTML=`<div class="snap-grid" style="margin-bottom:12px"><div class="snap-card"><div class="snap-label">Your current est. / mo</div><div class="snap-val">$${(r.current_monthly||0).toLocaleString()}</div><div class="snap-note">in ${d.from}</div></div><div class="snap-card"><div class="snap-label">Estimated / mo in ${d.to}</div><div class="snap-val blue">$${(r.destination_monthly||0).toLocaleString()}</div><div class="snap-note">same lifestyle</div></div></div><div class="${isSave?'save-banner':'more-banner'}"><div><div class="banner-main">${isSave?'↓ Save':'↑ Costs'} $${diff.toLocaleString()} / month</div><div class="banner-sub">Based on your lifestyle profile</div></div><div class="ann-badge ${isSave?'save':'more'}">${isSave?'−':'+'}$${annual.toLocaleString()} / year</div></div>`;
+// ── RENDER REPORT ─────────────────────────────────────────
+function renderReport(r, d) {
+  document.getElementById('rpt-headline').textContent = r.headline || 'Your Personalized Plan';
+  document.getElementById('rpt-summary').textContent = r.summary || '';
+
+  // ── Cost snapshot (Relocation) ──
+  let costHTML = '';
+  if (d.type === 'relocation' && r.current_monthly) {
+    const isSave = r.direction === 'save';
+    const diff = Math.abs((r.current_monthly || 0) - (r.destination_monthly || 0));
+    const annual = diff * 12;
+    costHTML = `
+    <div class="snap-grid" style="margin-bottom:12px">
+      <div class="snap-card">
+        <div class="snap-label">Your current est. / mo</div>
+        <div class="snap-val">$${(r.current_monthly||0).toLocaleString()}</div>
+        <div class="snap-note">in ${d.from}</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-label">Estimated / mo in ${d.to}</div>
+        <div class="snap-val blue">$${(r.destination_monthly||0).toLocaleString()}</div>
+        <div class="snap-note">same lifestyle</div>
+      </div>
+    </div>
+    <div class="${isSave ? 'save-banner' : 'more-banner'}">
+      <div>
+        <div class="banner-main">${isSave ? '↓ Save' : '↑ Costs'} $${diff.toLocaleString()} / month</div>
+        <div class="banner-sub">Based on your lifestyle profile</div>
+      </div>
+      <div class="ann-badge ${isSave ? 'save' : 'more'}">${isSave ? '−' : '+'}$${annual.toLocaleString()} / year</div>
+    </div>`;
   }
-  if(d.type==='nomad'&&r.top_cities?.length){
-    const maxCost=Math.max(...r.top_cities.map(c=>c.monthly_cost));
-    costHTML=`<div class="city-cards">${r.top_cities.map((c,i)=>`<div class="city-card${i===0?' best':''}"><div class="city-header"><div class="city-name">${i===0?'⭐ ':''}${c.name}</div><div class="city-cost">$${(c.monthly_cost||0).toLocaleString()}/mo</div></div><div class="city-bar-wrap"><div class="city-bar" style="width:${Math.round((c.monthly_cost/maxCost)*100)}%"></div></div><div style="font-size:11px;color:var(--text-mid)">${c.fit} — ${c.reason}</div></div>`).join('')}</div>`;
+
+  // ── Top cities (Nomad) ──
+  if (d.type === 'nomad' && r.top_cities?.length) {
+    const maxCost = Math.max(...r.top_cities.map(c => c.monthly_cost));
+    costHTML = `
+    <div class="city-cards">
+      ${r.top_cities.map((c, i) => `
+      <div class="city-card${i===0?' best':''}">
+        <div class="city-header">
+          <div class="city-name">${i===0?'⭐ ':''}${c.name}</div>
+          <div class="city-cost">$${(c.monthly_cost||0).toLocaleString()}/mo</div>
+        </div>
+        <div class="city-bar-wrap"><div class="city-bar" style="width:${Math.round((c.monthly_cost/maxCost)*100)}%"></div></div>
+        <div style="font-size:11px;color:var(--text-mid)">${c.fit} — ${c.reason}</div>
+      </div>`).join('')}
+    </div>`;
   }
-  if(d.type==='comparing'&&r.cities?.length){
-    const best=r.cities.reduce((a,b)=>(b.fit_score||0)>(a.fit_score||0)?b:a,r.cities[0]);const maxCost=Math.max(...r.cities.map(c=>c.monthly_cost));
-    costHTML=`<div class="city-cards">${r.cities.map(c=>`<div class="city-card${c.name===best.name?' best':''}"><div class="city-header"><div class="city-name">${c.name===best.name?'⭐ ':''}${c.name}</div><div style="display:flex;align-items:center;gap:8px">${c.name===best.name?'<span class="best-badge">Best fit</span>':''}<div class="city-cost">$${(c.monthly_cost||0).toLocaleString()}/mo</div></div></div><div class="city-bar-wrap"><div class="city-bar" style="width:${Math.round(c.fit_score||50)}%"></div></div><div style="display:flex;gap:12px;font-size:11px;margin-top:4px"><span class="city-pro">✓ ${c.best_for}</span><span class="city-con">⚠ ${c.watch_out}</span></div></div>`).join('')}</div>${r.recommendation?`<div style="background:#ECFDF5;border:1px solid #6EE7B7;border-radius:var(--r-sm);padding:10px 13px;font-size:12px;color:#065F46;font-weight:600;margin-bottom:12px">💡 ${r.recommendation}</div>`:''}`;
+
+  // ── City comparison ──
+  if (d.type === 'comparing' && r.cities?.length) {
+    const best = r.cities.reduce((a,b) => (b.fit_score||0) > (a.fit_score||0) ? b : a, r.cities[0]);
+    const maxCost = Math.max(...r.cities.map(c => c.monthly_cost));
+    costHTML = `
+    <div class="city-cards">
+      ${r.cities.map(c => `
+      <div class="city-card${c.name===best.name?' best':''}">
+        <div class="city-header">
+          <div class="city-name">${c.name===best.name?'⭐ ':''}${c.name}</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${c.name===best.name?'<span class="best-badge">Best fit</span>':''}
+            <div class="city-cost">$${(c.monthly_cost||0).toLocaleString()}/mo</div>
+          </div>
+        </div>
+        <div class="city-bar-wrap"><div class="city-bar" style="width:${Math.round((c.fit_score||50))}%"></div></div>
+        <div style="display:flex;gap:12px;font-size:11px;margin-top:4px">
+          <span class="city-pro">✓ ${c.best_for}</span>
+          <span class="city-con">⚠ ${c.watch_out}</span>
+        </div>
+      </div>`).join('')}
+    </div>
+    ${r.recommendation ? `<div style="background:#ECFDF5;border:1px solid #6EE7B7;border-radius:var(--r-sm);padding:10px 13px;font-size:12px;color:#065F46;font-weight:600;margin-bottom:12px">💡 ${r.recommendation}</div>` : ''}`;
   }
-  document.getElementById('rpt-cost-section').innerHTML=costHTML;
-  let insightsHTML='';
-  if(r.insights?.length){insightsHTML=`<div class="insights-title">Key Insights for Your Situation</div><div class="insight-cards">${r.insights.map(ins=>`<div class="insight-card"><div class="ic-icon">${ins.icon}</div><div><div class="ic-title">${ins.title}</div><div class="ic-text">${ins.text}</div></div></div>`).join('')}</div>`}
-  document.getElementById('rpt-insights-section').innerHTML=insightsHTML;
-  if(r.first_action){document.getElementById('rpt-action-section').innerHTML=`<div class="action-box"><div style="font-size:22px;flex-shrink:0">🎯</div><div><div class="action-label">Your #1 next step this week</div><div class="action-text">${r.first_action}</div></div></div>`}
+
+  document.getElementById('rpt-cost-section').innerHTML = costHTML;
+
+  // ── Insights ──
+  let insightsHTML = '';
+  if (r.insights?.length) {
+    insightsHTML = `
+    <div class="insights-title">Key Insights for Your Situation</div>
+    <div class="insight-cards">
+      ${r.insights.map(ins => `
+      <div class="insight-card">
+        <div class="ic-icon">${ins.icon}</div>
+        <div><div class="ic-title">${ins.title}</div><div class="ic-text">${ins.text}</div></div>
+      </div>`).join('')}
+    </div>`;
+  }
+  document.getElementById('rpt-insights-section').innerHTML = insightsHTML;
+
+  // ── First action ──
+  if (r.first_action) {
+    document.getElementById('rpt-action-section').innerHTML = `
+    <div class="action-box">
+      <div class="action-arrow">🎯</div>
+      <div><div class="action-label">Your #1 next step this week</div><div class="action-text">${r.first_action}</div></div>
+    </div>`;
+  }
 }
 
-function resetAll(){
-  userType='';
-  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelectorAll('.ci').forEach(c=>{c.classList.remove('checked');c.querySelector('.cbox').textContent=''});
-  document.querySelectorAll('.api-error').forEach(e=>e.classList.remove('show'));
-  document.querySelectorAll('[id$="-btn"]').forEach(b=>{if(b.tagName==='BUTTON'){b.disabled=false;const t=b.id.split('-')[0];if(t==='r')b.textContent='✨ Generate My Relocation Plan';else if(t==='n')b.textContent='✨ Generate My Nomad Life Plan';else b.textContent='✨ Generate My City Comparison Report'}});
+// ── RESET ────────────────────────────────────────────────
+function resetAll() {
+  userType = '';
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.ci').forEach(c => { c.classList.remove('checked'); c.querySelector('.cbox').textContent = ''; });
+  document.querySelectorAll('.api-error').forEach(e => e.classList.remove('show'));
   resetLoadSteps();
-  ['rpt-cost-section','rpt-insights-section','rpt-action-section'].forEach(id=>{document.getElementById(id).innerHTML=''});
-  showS('s1',true);
+  ['rpt-cost-section','rpt-insights-section','rpt-action-section'].forEach(id => { document.getElementById(id).innerHTML = ''; });
+  showS('s1', true);
 }
+
+// ── INIT ─────────────────────────────────────────────────
+initApiStatus();
 </script>
 </body>
 </html>
