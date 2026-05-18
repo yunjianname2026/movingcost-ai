@@ -25,19 +25,17 @@
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);line-height:1.6;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-img{max-width:100%}
 
 /* ── UTILITIES ── */
 .container{max-width:1140px;margin:0 auto;padding:0 24px}
 .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:5px 14px;border-radius:99px}
 .tag-blue{background:var(--blue-l);color:var(--blue-d)}
 .tag-white{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.2)}
-.section-tag{margin-bottom:16px}
 .section-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:12px}
 .section-sub{font-size:16px;color:var(--mid);line-height:1.7;max-width:560px}
-.section-sub.center{margin:0 auto}
 .text-center{text-align:center}
 .accent{color:var(--blue)}
+.mx-auto{margin-left:auto;margin-right:auto}
 
 /* ── NAV ── */
 nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
@@ -48,52 +46,89 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .nav-links{display:flex;align-items:center;gap:32px}
 .nav-links a{font-size:14px;font-weight:500;color:var(--mid);transition:color var(--tr)}
 .nav-links a:hover{color:var(--blue)}
-.nav-cta{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:'Outfit',sans-serif;font-weight:700;border-radius:99px;cursor:pointer;transition:all var(--tr);border:none;font-size:14px;white-space:nowrap}
-.btn-primary{background:var(--blue);color:#fff;padding:10px 22px;box-shadow:0 4px 14px rgba(14,165,233,0.35)}
+.nav-btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:10px 22px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;transition:all var(--tr);box-shadow:0 4px 14px rgba(14,165,233,0.35)}
+.nav-btn:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;padding:14px 32px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;transition:all var(--tr);box-shadow:0 4px 14px rgba(14,165,233,0.35);border:none;cursor:pointer}
 .btn-primary:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 6px 22px rgba(14,165,233,0.45);color:#fff}
-.btn-ghost{background:transparent;color:var(--mid);padding:10px 18px;border:1.5px solid var(--border)}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:transparent;color:var(--mid);padding:14px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;transition:all var(--tr);border:1.5px solid var(--border)}
 .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
-.btn-lg{font-size:16px;padding:14px 32px}
-.btn-white{background:#fff;color:var(--blue);padding:13px 28px;box-shadow:0 4px 20px rgba(0,0,0,0.12)}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.16)}
-.btn-outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.5);padding:13px 24px}
-.btn-outline-white:hover{background:rgba(255,255,255,0.12);border-color:#fff}
+.btn-white{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#fff;color:var(--blue);padding:14px 32px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;transition:all var(--tr);box-shadow:0 4px 20px rgba(0,0,0,0.12);border:none;cursor:pointer}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.16);color:var(--blue)}
+.btn-outline-white{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#fff;padding:14px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;transition:all var(--tr);border:1.5px solid rgba(255,255,255,0.5)}
+.btn-outline-white:hover{background:rgba(255,255,255,0.12);border-color:#fff;color:#fff}
 
 /* ── HERO ── */
 .hero{background:linear-gradient(145deg,#F0F6FF 0%,#E8F4FD 40%,#F5F9FF 100%);padding:72px 0 64px;overflow:hidden;position:relative}
 .hero::before{content:'';position:absolute;top:-120px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 70%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,0.05) 0%,transparent 70%);pointer-events:none}
 .hero-grid{display:grid;grid-template-columns:1fr 480px;gap:56px;align-items:center}
 .hero-eyebrow{margin-bottom:20px}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(40px,5vw,62px);font-weight:900;letter-spacing:-2.5px;line-height:1.06;margin-bottom:20px;color:var(--text)}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(40px,5vw,62px);font-weight:900;letter-spacing:-2.5px;line-height:1.06;margin-bottom:20px}
 .hero-desc{font-size:17px;color:var(--mid);line-height:1.75;margin-bottom:32px;max-width:480px}
 .hero-stats{display:flex;gap:32px;margin-bottom:36px;flex-wrap:wrap}
-.hstat{display:flex;flex-direction:column}
-.hstat-num{font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--text)}
+.hstat-num{font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;letter-spacing:-1px}
 .hstat-label{font-size:12px;color:var(--muted);margin-top:2px}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
 
-/* Hero Card */
-.hero-card{background:var(--white);border-radius:var(--r-xl);box-shadow:var(--shadow-lg);padding:28px 24px 24px;border:1px solid rgba(14,165,233,0.12);position:relative;z-index:1}
+/* ── HERO CARD ── */
+.hero-card{background:var(--white);border-radius:var(--r-xl);box-shadow:var(--shadow-lg);padding:28px 24px 24px;border:1px solid rgba(14,165,233,0.12);position:relative}
 .hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#38BDF8,#7C3AED);border-radius:var(--r-xl) var(--r-xl) 0 0}
 .hcard-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;letter-spacing:-0.3px}
 .hcard-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.hfield{display:flex;flex-direction:column;gap:5px}
-.hfield-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)}
-.hfield-input{height:40px;border:1.5px solid var(--border);border-radius:var(--r);padding:0 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:#FAFCFF;outline:none;transition:border-color var(--tr)}
+.hfield-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:5px;display:block}
+.hfield-input{width:100%;height:40px;border:1.5px solid var(--border);border-radius:var(--r);padding:0 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:#FAFCFF;outline:none;transition:border-color var(--tr)}
 .hfield-input:focus{border-color:var(--blue);background:#fff}
-.hcard-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:8px}
+.hcard-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:8px;display:block}
+
+/* ── PATH SELECTOR — CSS ONLY (radio + label) ── */
+/* Hide the radio inputs completely */
+.path-radio{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+
 .path-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.pm-card{border:1.5px solid var(--border);border-radius:var(--r);padding:11px 8px;text-align:center;cursor:pointer;transition:all var(--tr);background:#FAFCFF}
-.pm-card:hover,.pm-card.active{border-color:var(--blue);background:var(--blue-l)}
-.pm-icon{font-size:20px;margin-bottom:4px}
+
+/* Default card style */
+.path-mini label{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  padding:12px 8px;
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  cursor:pointer;
+  transition:all var(--tr);
+  background:#FAFCFF;
+  text-align:center;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.path-mini label:hover{border-color:var(--blue);background:var(--blue-l)}
+.pm-icon{font-size:20px;line-height:1}
 .pm-label{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
-.hcard-btn{width:100%;height:46px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);box-shadow:0 4px 14px rgba(14,165,233,0.35)}
-.hcard-btn:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 6px 22px rgba(14,165,233,0.45)}
+
+/* Selected state — triggered by radio:checked */
+#path-relocation:checked ~ .path-mini label[for="path-relocation"],
+#path-nomad:checked ~ .path-mini label[for="path-nomad"],
+#path-comparing:checked ~ .path-mini label[for="path-comparing"]{
+  border-color:var(--blue);
+  background:var(--blue-l);
+  box-shadow:0 0 0 3px rgba(14,165,233,0.15);
+}
+
+/* Generate button */
+.hcard-btn{
+  display:block;width:100%;height:46px;background:var(--blue);color:#fff;
+  border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;
+  font-weight:700;cursor:pointer;transition:all var(--tr);
+  box-shadow:0 4px 14px rgba(14,165,233,0.35);text-align:center;
+  line-height:46px;text-decoration:none;
+}
+.hcard-btn:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 6px 22px rgba(14,165,233,0.45);color:#fff}
+
 .hcard-trust{display:flex;justify-content:center;gap:14px;margin-top:12px;flex-wrap:wrap}
 .htrust{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px}
-.htrust::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%}
+.htrust::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%;display:inline-block}
 
 /* ── PATHS SECTION ── */
 .paths{padding:80px 0}
@@ -106,9 +141,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .path-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
 .path-card:hover::before{opacity:1}
 .path-card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:20px}
-.pi-blue{background:var(--blue-l)}
-.pi-green{background:var(--green-l)}
-.pi-purple{background:var(--purple-l,#F5F3FF)}
+.pi-blue{background:var(--blue-l)}.pi-green{background:var(--green-l)}.pi-purple{background:#F5F3FF}
 .path-card-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px}
 .path-card-desc{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:20px}
 .path-features{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px}
@@ -117,7 +150,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .path-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--blue);transition:gap var(--tr)}
 .path-link:hover{gap:10px}
 
-/* ── TOOLS SECTION ── */
+/* ── TOOLS ── */
 .tools{padding:80px 0;background:var(--bg)}
 .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
 .tool-card{background:var(--white);border-radius:var(--r-xl);padding:28px 24px;border:1px solid var(--border);transition:all var(--tr);box-shadow:var(--shadow-sm)}
@@ -129,13 +162,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .tool-icon{font-size:32px;margin-bottom:12px}
 .tool-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.3px;margin-bottom:8px}
 .tool-desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:20px}
-.tool-btn{width:100%;height:42px;border-radius:99px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--tr);border:none}
+.tool-btn{display:block;width:100%;height:42px;border-radius:99px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--tr);border:none;text-align:center;line-height:42px;text-decoration:none}
 .tbtn-blue{background:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(14,165,233,0.3)}
-.tbtn-blue:hover{background:var(--blue-d);transform:translateY(-1px)}
+.tbtn-blue:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
 .tbtn-green{background:var(--green);color:#fff;box-shadow:0 3px 10px rgba(16,185,129,0.3)}
-.tbtn-green:hover{background:#059669;transform:translateY(-1px)}
+.tbtn-green:hover{background:#059669;transform:translateY(-1px);color:#fff}
 .tbtn-purple{background:var(--purple);color:#fff;box-shadow:0 3px 10px rgba(124,58,237,0.3)}
-.tbtn-purple:hover{background:#6D28D9;transform:translateY(-1px)}
+.tbtn-purple:hover{background:#6D28D9;transform:translateY(-1px);color:#fff}
 
 /* ── REPORT SECTION ── */
 .report-section{padding:80px 0}
@@ -146,7 +179,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .rm-badge{background:rgba(16,185,129,0.2);color:#34D399;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:0.06em}
 .rm-body{padding:20px}
 .rm-route{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.rm-city{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--text)}
+.rm-city{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700}
 .rm-arrow{color:var(--muted);font-size:12px}
 .rm-cost-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .rm-cost-card{background:var(--bg);border-radius:var(--r);padding:12px}
@@ -161,7 +194,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .rm-blur{background:var(--border);border-radius:4px;height:11px;animation:shim 1.5s infinite}
 .rm-blur-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
 .rm-blur-row:last-child{border:none}
-.rm-locked{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.rm-locked{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:8px}
 .rm-locked-head{background:#F8FBFF;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);font-size:11px;font-weight:700}
 .rm-locked-badge{font-size:9px;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706}
 .rm-locked-body{padding:10px 12px}
@@ -169,39 +202,36 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .rm-unlock-price{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--blue);margin-bottom:4px}
 .rm-unlock-text{font-size:11px;color:var(--mid);margin-bottom:10px}
 .rm-unlock-btn{width:100%;height:36px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif}
-
 .report-points{display:flex;flex-direction:column;gap:24px}
 .rp-item{display:flex;align-items:flex-start;gap:16px}
 .rp-icon{width:44px;height:44px;border-radius:12px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .rp-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px}
 .rp-desc{font-size:13px;color:var(--mid);line-height:1.6}
 
-/* ── WHY IT MATTERS ── */
+/* ── WHY ── */
 .why{padding:80px 0;background:var(--bg)}
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
 .why-card{background:var(--white);border-radius:var(--r-xl);padding:24px;border:1px solid var(--border);transition:all var(--tr)}
 .why-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--blue-m)}
 .why-icon{font-size:28px;margin-bottom:12px}
-.why-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-0.2px}
+.why-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px}
 .why-desc{font-size:13px;color:var(--mid);line-height:1.65}
 
 /* ── SERVICES ── */
 .services{padding:80px 0}
-.services-intro{max-width:600px}
 .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
 .svc-card{background:var(--bg);border-radius:var(--r-xl);padding:22px 18px;border:1px solid var(--border);transition:all var(--tr);text-align:center;cursor:pointer}
 .svc-card:hover{background:var(--white);transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--blue-m)}
 .svc-icon{font-size:30px;margin-bottom:10px}
-.svc-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.svc-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px}
 .svc-desc{font-size:11px;color:var(--muted);line-height:1.4}
-.services-note{text-align:center;margin-top:24px;font-size:13px;color:var(--muted)}
 
 /* ── GUIDES ── */
 .guides{padding:80px 0;background:var(--bg)}
 .guides-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
 .guide-card{background:var(--white);border-radius:var(--r-xl);padding:28px 24px;border:1px solid var(--border);transition:all var(--tr);display:flex;flex-direction:column}
 .guide-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--blue-m)}
-.guide-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:3px 10px;border-radius:99px;margin-bottom:14px}
+.guide-tag{display:inline-flex;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:3px 10px;border-radius:99px;margin-bottom:14px}
 .gt-blue{background:var(--blue-l);color:var(--blue-d)}
 .gt-green{background:var(--green-l);color:#065F46}
 .gt-purple{background:#F5F3FF;color:var(--purple)}
@@ -212,33 +242,33 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .guide-read{color:var(--blue);font-weight:700;display:flex;align-items:center;gap:4px;transition:gap var(--tr)}
 .guide-read:hover{gap:8px}
 
-/* ── CTA SECTION ── */
+/* ── CTA ── */
 .cta-section{padding:80px 0;background:linear-gradient(135deg,#0F172A 0%,#0C2340 50%,#0E3A5F 100%);position:relative;overflow:hidden}
 .cta-section::before{content:'';position:absolute;top:-100px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,0.15) 0%,transparent 70%);pointer-events:none}
-.cta-section::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,0.08) 0%,transparent 70%);pointer-events:none}
 .cta-inner{position:relative;z-index:1;text-align:center;max-width:600px;margin:0 auto}
 .cta-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-2px;color:#fff;line-height:1.1;margin-bottom:14px}
 .cta-desc{font-size:16px;color:rgba(255,255,255,0.65);margin-bottom:36px;line-height:1.7}
 .cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:36px;flex-wrap:wrap}
 .email-form{display:flex;gap:8px;max-width:420px;margin:0 auto;flex-wrap:wrap}
-.email-input{flex:1;min-width:220px;height:48px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);border-radius:99px;padding:0 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:#fff;outline:none;transition:border-color var(--tr)}
+.email-input{flex:1;min-width:200px;height:48px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);border-radius:99px;padding:0 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:#fff;outline:none;transition:border-color var(--tr)}
 .email-input::placeholder{color:rgba(255,255,255,0.4)}
-.email-input:focus{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.12)}
-.email-btn{height:48px;padding:0 24px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--tr);box-shadow:0 4px 14px rgba(14,165,233,0.4)}
+.email-input:focus{border-color:rgba(255,255,255,0.5)}
+.email-btn{height:48px;padding:0 24px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);box-shadow:0 4px 14px rgba(14,165,233,0.4)}
 .email-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
-.cta-note{font-size:12px;color:rgba(255,255,255,0.4);margin-top:12px}
+.cta-note{font-size:12px;color:rgba(255,255,255,0.35);margin-top:12px}
 
 /* ── FOOTER ── */
 footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-brand .logo{color:#fff;font-size:18px;margin-bottom:12px;display:block}
-.footer-brand p{font-size:13px;line-height:1.7;max-width:280px;margin-bottom:20px;color:rgba(255,255,255,0.5)}
-.footer-social{display:flex;gap:10px}
+.footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.5px;color:#fff;display:block;margin-bottom:12px}
+.footer-logo span{color:var(--blue)}
+.footer-brand p{font-size:13px;line-height:1.7;max-width:280px;margin-bottom:20px;color:rgba(255,255,255,0.45)}
+.social-row{display:flex;gap:10px}
 .social-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background var(--tr)}
 .social-btn:hover{background:rgba(255,255,255,0.15)}
 .footer-col h4{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.9);margin-bottom:14px}
 .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.5);transition:color var(--tr)}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.45);transition:color var(--tr)}
 .footer-col ul li a:hover{color:#fff}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .footer-copy{font-size:12px;color:rgba(255,255,255,0.3)}
@@ -248,15 +278,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
 
 /* ── ANIMATIONS ── */
 @keyframes shim{0%,100%{opacity:0.5}50%{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{opacity:0;animation:fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards}
-.d1{animation-delay:0.1s}.d2{animation-delay:0.2s}.d3{animation-delay:0.3s}
-.d4{animation-delay:0.4s}.d5{animation-delay:0.5s}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .hero-grid{grid-template-columns:1fr;gap:32px}
-  .hero-card{max-width:480px}
+  .hero-card{max-width:500px}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
@@ -267,16 +297,13 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
   .footer-grid{grid-template-columns:1fr}
   .hero-stats{gap:20px}
   .cta-btns{flex-direction:column;align-items:stretch}
-}
-@media(max-width:480px){
-  .container{padding:0 16px}
   .hcard-row{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav>
   <div class="container">
     <div class="nav-inner">
@@ -287,28 +314,22 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
         <a href="#guides">Guides</a>
         <a href="#about">About</a>
       </div>
-      <div class="nav-cta">
-        <a href="/planner" class="btn btn-primary">Start Free Plan →</a>
-      </div>
+      <a href="/planner" class="nav-btn">Start Free Plan →</a>
     </div>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section class="hero">
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-eyebrow fade-up d1">
+        <div class="hero-eyebrow">
           <span class="tag tag-blue">✦ AI-Powered Mobility Planning</span>
         </div>
-        <h1 class="hero-title fade-up d2">
-          Move Smarter.<br><span class="accent">Live Lighter.</span>
-        </h1>
-        <p class="hero-desc fade-up d3">
-          From billionaires to budget travelers — we help anyone moving, roaming, or relocating understand the true cost of their next life chapter, and how to do it better.
-        </p>
-        <div class="hero-stats fade-up d4">
+        <h1 class="hero-title">Move Smarter.<br><span class="accent">Live Lighter.</span></h1>
+        <p class="hero-desc">From billionaires to budget travelers — we help anyone moving, roaming, or relocating understand the true cost of their next life chapter, and how to do it better.</p>
+        <div class="hero-stats">
           <div class="hstat">
             <div class="hstat-num">50K+</div>
             <div class="hstat-label">Plans generated</div>
@@ -322,41 +343,51 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
             <div class="hstat-label">Avg. monthly savings</div>
           </div>
         </div>
-        <div class="hero-btns fade-up d5">
-          <a href="/planner" class="btn btn-primary btn-lg">Start Your AI Plan →</a>
-          <a href="#tools" class="btn btn-ghost btn-lg">Explore Tools</a>
+        <div class="hero-btns">
+          <a href="/planner" class="btn-primary">Start Your AI Plan →</a>
+          <a href="#tools" class="btn-ghost">Explore Tools</a>
         </div>
       </div>
 
-      <!-- Hero Card -->
-      <div class="hero-card fade-up d3">
+      <!-- HERO CARD — CSS-only path selection using radio inputs -->
+      <div class="hero-card">
+        <!-- Hidden radio inputs MUST be siblings of .path-mini for CSS :checked selector to work -->
+        <input type="radio" name="heroPath" id="path-relocation" class="path-radio" checked>
+        <input type="radio" name="heroPath" id="path-nomad" class="path-radio">
+        <input type="radio" name="heroPath" id="path-comparing" class="path-radio">
+
         <div class="hcard-title">✦ Where are you headed?</div>
         <div class="hcard-row">
-          <div class="hfield">
-            <div class="hfield-label">📍 Moving From</div>
-            <input class="hfield-input" type="text" placeholder="e.g. New York, NY" id="heroFrom">
+          <div>
+            <label class="hfield-label" for="heroFrom">📍 Moving From</label>
+            <input class="hfield-input" type="text" id="heroFrom" placeholder="e.g. New York, NY">
           </div>
-          <div class="hfield">
-            <div class="hfield-label">📍 Moving To</div>
-            <input class="hfield-input" type="text" placeholder="e.g. Dubai, UAE" id="heroTo">
+          <div>
+            <label class="hfield-label" for="heroTo">📍 Moving To</label>
+            <input class="hfield-input" type="text" id="heroTo" placeholder="e.g. Dubai, UAE">
           </div>
         </div>
-        <div class="hcard-label">What best describes your move?</div>
+
+        <span class="hcard-label">What best describes your move?</span>
+
+        <!-- Labels act as clickable cards; clicking them checks the corresponding radio input -->
         <div class="path-mini">
-          <div class="pm-card active" onclick="selectHeroPath(this)">
+          <label for="path-relocation">
             <div class="pm-icon">🏠</div>
             <div class="pm-label">Relocation</div>
-          </div>
-          <div class="pm-card" onclick="selectHeroPath(this)">
+          </label>
+          <label for="path-nomad">
             <div class="pm-icon">🌍</div>
             <div class="pm-label">Digital Nomad</div>
-          </div>
-          <div class="pm-card" onclick="selectHeroPath(this)">
+          </label>
+          <label for="path-comparing">
             <div class="pm-icon">🔍</div>
             <div class="pm-label">Comparing Cities</div>
-          </div>
+          </label>
         </div>
-        <a href="/planner" style="display:block;text-decoration:none"><button class="hcard-btn">✨ Generate My AI Plan</button></a>
+
+        <a href="/planner" class="hcard-btn">✨ Generate My AI Plan</a>
+
         <div class="hcard-trust">
           <div class="htrust">Free to start</div>
           <div class="htrust">No signup needed</div>
@@ -367,15 +398,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
   </div>
 </section>
 
-<!-- ── CHOOSE YOUR PATH ── -->
+<!-- CHOOSE YOUR PATH -->
 <section class="paths" id="paths">
   <div class="container">
     <div class="text-center">
-      <div class="section-tag"><span class="tag tag-blue">Choose Your Path</span></div>
-      <h2 class="section-title">Whether you're relocating,<br>on the move, or exploring new cities,<br>we've got you covered.</h2>
+      <div style="margin-bottom:16px"><span class="tag tag-blue">Choose Your Path</span></div>
+      <h2 class="section-title">Whether you're relocating, on the move,<br>or exploring new cities, we've got you covered.</h2>
     </div>
     <div class="paths-grid">
-      <div class="path-card p-relocation">
+      <div class="path-card p-relocation reveal">
         <div class="path-card-icon pi-blue">🏠</div>
         <div class="path-card-title">I'm Moving</div>
         <p class="path-card-desc">For local, interstate, and international relocation. Get accurate cost analysis and a step-by-step moving plan.</p>
@@ -388,7 +419,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
         </ul>
         <a href="/planner" class="path-link">Get Started →</a>
       </div>
-      <div class="path-card p-nomad">
+      <div class="path-card p-nomad reveal">
         <div class="path-card-icon pi-green">🌍</div>
         <div class="path-card-title">I'm Living Nomadically</div>
         <p class="path-card-desc">For digital nomads, remote workers, and long-term travelers. Optimize your lifestyle across borders.</p>
@@ -401,7 +432,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
         </ul>
         <a href="/planner" class="path-link">Get Started →</a>
       </div>
-      <div class="path-card p-compare">
+      <div class="path-card p-compare reveal">
         <div class="path-card-icon pi-purple">🔍</div>
         <div class="path-card-title">I'm Comparing Cities</div>
         <p class="path-card-desc">For people deciding where to live next. Side-by-side city analysis to make your decision with confidence.</p>
@@ -418,51 +449,50 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
   </div>
 </section>
 
-<!-- ── SMART TOOLS ── -->
+<!-- SMART TOOLS -->
 <section class="tools" id="tools">
   <div class="container">
     <div class="text-center">
-      <div class="section-tag"><span class="tag tag-blue">AI-Powered Tools</span></div>
+      <div style="margin-bottom:16px"><span class="tag tag-blue">AI-Powered Tools</span></div>
       <h2 class="section-title">Smart Tools for Every Move</h2>
-      <p class="section-sub center">Our AI analyzes thousands of data points to give you accurate, personalized insights for your mobility decisions.</p>
+      <p class="section-sub mx-auto">Our AI analyzes thousands of data points to give you accurate, personalized insights for your mobility decisions.</p>
     </div>
     <div class="tools-grid">
-      <div class="tool-card">
+      <div class="tool-card reveal">
         <div class="tool-badge tb-blue">Relocation</div>
         <div class="tool-icon">📊</div>
         <div class="tool-title">AI Moving Cost Planner</div>
         <p class="tool-desc">Get accurate cost estimates for your move with a complete analysis of all expenses, from packing to settling in.</p>
-        <button class="tool-btn tbtn-blue" onclick="location.href='/planner'">Try It Free</button>
+        <a href="/planner" class="tool-btn tbtn-blue">Try It Free</a>
       </div>
-      <div class="tool-card">
+      <div class="tool-card reveal">
         <div class="tool-badge tb-green">Digital Nomad</div>
         <div class="tool-icon">🗺️</div>
         <div class="tool-title">AI Nomad Cost Planner</div>
         <p class="tool-desc">Compare monthly living costs across different cities, with real data on accommodation, coworking, and long-term expenses.</p>
-        <button class="tool-btn tbtn-green" onclick="location.href='/planner'">Try It Free</button>
+        <a href="/planner" class="tool-btn tbtn-green">Try It Free</a>
       </div>
-      <div class="tool-card">
+      <div class="tool-card reveal">
         <div class="tool-badge tb-purple">Decision Tool</div>
         <div class="tool-icon">⚖️</div>
         <div class="tool-title">AI Move vs Stay Decision</div>
-        <p class="tool-desc">Compare the financial impact of moving versus staying, factoring in career growth, tax changes, and lifestyle costs side by side.</p>
-        <button class="tool-btn tbtn-purple" onclick="location.href='/planner'">Try It Free</button>
+        <p class="tool-desc">Compare the financial impact of moving versus staying, factoring in career growth, tax changes, and lifestyle costs.</p>
+        <a href="/planner" class="tool-btn tbtn-purple">Try It Free</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── SAMPLE REPORT ── -->
+<!-- SAMPLE REPORT -->
 <section class="report-section" id="report">
   <div class="container">
     <div class="text-center">
-      <div class="section-tag"><span class="tag tag-blue">AI Report Preview</span></div>
+      <div style="margin-bottom:16px"><span class="tag tag-blue">AI Report Preview</span></div>
       <h2 class="section-title">Your AI Mobility Report</h2>
-      <p class="section-sub center">Get a comprehensive analysis with actionable insights, cost breakdowns, and personalized recommendations for your mobility decisions.</p>
+      <p class="section-sub mx-auto">A comprehensive analysis with actionable insights, cost breakdowns, and personalized recommendations.</p>
     </div>
     <div class="report-grid">
-      <!-- Mockup -->
-      <div class="report-mockup">
+      <div class="report-mockup reveal">
         <div class="rm-header">
           <div class="rm-title">Sample Report: NYC → Dubai</div>
           <div class="rm-badge">✨ AI Ready</div>
@@ -488,222 +518,126 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
             <div class="rm-save-badge">−$9,600 / year</div>
           </div>
           <div class="rm-insights">
-            <div class="rm-insight">
-              <div class="rm-insight-icon">🏠</div>
-              <div>Premium 2BR in Dubai Marina costs $2,000–2,800 vs your current $2,500–3,500</div>
-            </div>
-            <div class="rm-insight">
-              <div class="rm-insight-icon">💡</div>
-              <div>Zero income tax in Dubai — keep 100% of your salary vs losing 25–30% in NYC</div>
-            </div>
-            <div class="rm-insight">
-              <div class="rm-insight-icon">⚠️</div>
-              <div>Shipping art internationally costs $8,000–12,000 and takes 4–8 weeks</div>
-            </div>
+            <div class="rm-insight"><div class="rm-insight-icon">🏠</div><div>Premium 2BR in Dubai Marina costs $2,000–2,800 vs your current $2,500–3,500</div></div>
+            <div class="rm-insight"><div class="rm-insight-icon">💡</div><div>Zero income tax in Dubai — keep 100% of your salary vs losing 25–30% in NYC</div></div>
+            <div class="rm-insight"><div class="rm-insight-icon">⚠️</div><div>Shipping art internationally costs $8,000–12,000 and takes 4–8 weeks by sea</div></div>
           </div>
-          <div class="rm-locked" style="margin-bottom:8px">
-            <div class="rm-locked-head">
-              <span>🏠 Full Housing Breakdown</span>
-              <span class="rm-locked-badge">Full Report</span>
-            </div>
+          <div class="rm-locked">
+            <div class="rm-locked-head"><span>🏠 Full Housing Breakdown</span><span class="rm-locked-badge">Full Report</span></div>
             <div class="rm-locked-body">
               <div class="rm-blur-row"><div class="rm-blur" style="width:120px"></div><div class="rm-blur" style="width:50px"></div></div>
               <div class="rm-blur-row"><div class="rm-blur" style="width:150px"></div><div class="rm-blur" style="width:40px"></div></div>
             </div>
           </div>
-          <div class="rm-unlock">
+          <div class="rm-unlock" style="margin-top:8px">
             <div class="rm-unlock-price">$9.90 — Unlock Full Report</div>
             <div class="rm-unlock-text">Visa steps · Tax strategy · 90-day checklist · PDF download</div>
             <button class="rm-unlock-btn">Unlock Full Report →</button>
           </div>
         </div>
       </div>
-
-      <!-- Points -->
       <div class="report-points">
-        <div class="rp-item">
+        <div class="rp-item reveal">
           <div class="rp-icon">📊</div>
-          <div>
-            <div class="rp-title">Personalized Cost Breakdown</div>
-            <p class="rp-desc">Every number is calculated based on YOUR lifestyle, family size, and preferences — not generic city averages.</p>
-          </div>
+          <div><div class="rp-title">Personalized Cost Breakdown</div><p class="rp-desc">Every number is calculated based on YOUR lifestyle, family size, and preferences — not generic city averages.</p></div>
         </div>
-        <div class="rp-item">
+        <div class="rp-item reveal">
           <div class="rp-icon">🛂</div>
-          <div>
-            <div class="rp-title">Visa & Immigration Pathway</div>
-            <p class="rp-desc">Clear guidance on the best visa option for your situation, with realistic timelines and requirements.</p>
-          </div>
+          <div><div class="rp-title">Visa & Immigration Pathway</div><p class="rp-desc">Clear guidance on the best visa option for your situation, with realistic timelines and requirements.</p></div>
         </div>
-        <div class="rp-item">
+        <div class="rp-item reveal">
           <div class="rp-icon">💰</div>
-          <div>
-            <div class="rp-title">Tax & Financial Strategy</div>
-            <p class="rp-desc">Understand the tax implications of your move and how to optimize your financial position legally.</p>
-          </div>
+          <div><div class="rp-title">Tax & Financial Strategy</div><p class="rp-desc">Understand the tax implications of your move and how to optimize your financial position legally.</p></div>
         </div>
-        <div class="rp-item">
+        <div class="rp-item reveal">
           <div class="rp-icon">🎯</div>
-          <div>
-            <div class="rp-title">90-Day Action Checklist</div>
-            <p class="rp-desc">A step-by-step timeline from decision to settling in — so nothing falls through the cracks.</p>
-          </div>
+          <div><div class="rp-title">90-Day Action Checklist</div><p class="rp-desc">A step-by-step timeline from decision to settling in — so nothing falls through the cracks.</p></div>
         </div>
-        <div style="margin-top:8px">
-          <a href="/planner" class="btn btn-primary btn-lg">Generate My Report →</a>
-        </div>
+        <a href="/planner" class="btn-primary" style="margin-top:8px;width:fit-content">Generate My Report →</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── WHY IT MATTERS ── -->
+<!-- WHY IT MATTERS -->
 <section class="why" id="about">
   <div class="container">
     <div class="text-center">
-      <div class="section-tag"><span class="tag tag-blue">Why It Matters</span></div>
-      <h2 class="section-title">Moving and living mobile shouldn't<br>be stressful or expensive.</h2>
-      <p class="section-sub center">We help you make better decisions with confidence.</p>
+      <div style="margin-bottom:16px"><span class="tag tag-blue">Why It Matters</span></div>
+      <h2 class="section-title">Moving shouldn't be stressful or expensive.</h2>
+      <p class="section-sub mx-auto">We help you make better decisions with confidence.</p>
     </div>
     <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon">🚫</div>
-        <div class="why-title">Avoid Costly Mistakes</div>
-        <p class="why-desc">Identify hidden expenses in advance. Precise planning prevents painful surprises that blow your budget.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">💎</div>
-        <div class="why-title">Know the Real Cost</div>
-        <p class="why-desc">Get accurate estimates based on real data, not rough guesses or outdated forum posts.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">🌆</div>
-        <div class="why-title">Compare Cities & Lifestyles</div>
-        <p class="why-desc">Understand the financial impact of choosing different locations and mobility options side by side.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">🤖</div>
-        <div class="why-title">Plan Smarter with AI</div>
-        <p class="why-desc">Leverage AI to build your move strategy, reduce unnecessary expenses, and optimize every decision.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">⏱️</div>
-        <div class="why-title">Save Time & Stress</div>
-        <p class="why-desc">Get comprehensive planning in minutes instead of spending weeks researching everything yourself.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">🌍</div>
-        <div class="why-title">Live Better, Spend Less</div>
-        <p class="why-desc">Our users save an average of $2,400/month by discovering smarter locations and strategies for their lifestyle.</p>
-      </div>
+      <div class="why-card reveal"><div class="why-icon">🚫</div><div class="why-title">Avoid Costly Mistakes</div><p class="why-desc">Identify hidden expenses in advance. Precise planning prevents painful surprises that blow your budget.</p></div>
+      <div class="why-card reveal"><div class="why-icon">💎</div><div class="why-title">Know the Real Cost</div><p class="why-desc">Get accurate estimates based on real data, not rough guesses or outdated forum posts.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🌆</div><div class="why-title">Compare Cities & Lifestyles</div><p class="why-desc">Understand the financial impact of choosing different locations and mobility options side by side.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🤖</div><div class="why-title">Plan Smarter with AI</div><p class="why-desc">Leverage AI to build your move strategy, reduce unnecessary expenses, and optimize every decision.</p></div>
+      <div class="why-card reveal"><div class="why-icon">⏱️</div><div class="why-title">Save Time & Stress</div><p class="why-desc">Get comprehensive planning in minutes instead of spending weeks researching everything yourself.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🌍</div><div class="why-title">Live Better, Spend Less</div><p class="why-desc">Our users save an average of $2,400/month by discovering smarter locations and strategies.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ── RECOMMENDED SERVICES ── -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="container">
-    <div class="services-intro">
-      <div class="section-tag"><span class="tag tag-blue">Mobility Services</span></div>
+    <div style="max-width:600px;margin-bottom:0">
+      <div style="margin-bottom:16px"><span class="tag tag-blue">Mobility Services</span></div>
       <h2 class="section-title">Recommended Mobility Services</h2>
       <p class="section-sub">Curated services to support every aspect of your mobile lifestyle, from moving to settling in.</p>
     </div>
     <div class="services-grid">
-      <div class="svc-card">
-        <div class="svc-icon">🚛</div>
-        <div class="svc-name">Moving & Shipping</div>
-        <div class="svc-desc">International and domestic moving companies</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">📦</div>
-        <div class="svc-name">Storage</div>
-        <div class="svc-desc">Short and long-term storage solutions worldwide</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">📬</div>
-        <div class="svc-name">Virtual Mailbox</div>
-        <div class="svc-desc">US address & mail management services</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">✈️</div>
-        <div class="svc-name">Flights & Hotels</div>
-        <div class="svc-desc">Best rates for your relocation journey</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">🚗</div>
-        <div class="svc-name">Car Rental</div>
-        <div class="svc-desc">Vehicle solutions at your destination</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">📱</div>
-        <div class="svc-name">eSIM & VPN</div>
-        <div class="svc-desc">Stay connected and secure across borders</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">🏦</div>
-        <div class="svc-name">Cross-border Banking</div>
-        <div class="svc-desc">Multi-currency accounts and money transfers</div>
-      </div>
-      <div class="svc-card">
-        <div class="svc-icon">🛡️</div>
-        <div class="svc-name">Insurance</div>
-        <div class="svc-desc">Health, travel, and expat insurance plans</div>
-      </div>
+      <div class="svc-card reveal"><div class="svc-icon">🚛</div><div class="svc-name">Moving & Shipping</div><div class="svc-desc">International and domestic moving companies</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">📦</div><div class="svc-name">Storage</div><div class="svc-desc">Short and long-term storage solutions worldwide</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">📬</div><div class="svc-name">Virtual Mailbox</div><div class="svc-desc">US address & mail management services</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">✈️</div><div class="svc-name">Flights & Hotels</div><div class="svc-desc">Best rates for your relocation journey</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">🚗</div><div class="svc-name">Car Rental</div><div class="svc-desc">Vehicle solutions at your destination</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">📱</div><div class="svc-name">eSIM & VPN</div><div class="svc-desc">Stay connected and secure across borders</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">🏦</div><div class="svc-name">Cross-border Banking</div><div class="svc-desc">Multi-currency accounts and money transfers</div></div>
+      <div class="svc-card reveal"><div class="svc-icon">🛡️</div><div class="svc-name">Insurance</div><div class="svc-desc">Health, travel, and expat insurance plans</div></div>
     </div>
-    <div class="services-note">More services coming soon · <a href="/planner" style="color:var(--blue);font-weight:600">Generate your plan to see personalized recommendations →</a></div>
+    <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--muted)">More services coming soon · <a href="/planner" style="color:var(--blue);font-weight:600">Generate your plan to see personalized recommendations →</a></p>
   </div>
 </section>
 
-<!-- ── GUIDES ── -->
+<!-- GUIDES -->
 <section class="guides" id="guides">
   <div class="container">
     <div class="text-center">
-      <div class="section-tag"><span class="tag tag-blue">Mobility Guides</span></div>
+      <div style="margin-bottom:16px"><span class="tag tag-blue">Mobility Guides</span></div>
       <h2 class="section-title">Popular Mobility Guides</h2>
-      <p class="section-sub center">Expert insights and practical advice to help you plan your move and mobile lifestyle.</p>
+      <p class="section-sub mx-auto">Expert insights and practical advice to help you plan your move and mobile lifestyle.</p>
     </div>
     <div class="guides-grid">
-      <div class="guide-card">
+      <div class="guide-card reveal">
         <div class="guide-tag gt-blue">Relocation</div>
         <div class="guide-title">How much does it cost to move internationally?</div>
         <p class="guide-desc">A comprehensive breakdown of international moving costs — from container shipping and customs fees to temporary housing and settling-in expenses.</p>
-        <div class="guide-meta">
-          <span>8 min read</span>
-          <a href="#" class="guide-read">Read Guide →</a>
-        </div>
+        <div class="guide-meta"><span>8 min read</span><a href="#" class="guide-read">Read Guide →</a></div>
       </div>
-      <div class="guide-card">
+      <div class="guide-card reveal">
         <div class="guide-tag gt-green">Digital Nomad</div>
         <div class="guide-title">Best cities for digital nomads in 2026</div>
         <p class="guide-desc">We analyzed internet speed, cost of living, visa options, coworking availability, and community size across 50+ nomad destinations.</p>
-        <div class="guide-meta">
-          <span>12 min read</span>
-          <a href="#" class="guide-read">Read Guide →</a>
-        </div>
+        <div class="guide-meta"><span>12 min read</span><a href="#" class="guide-read">Read Guide →</a></div>
       </div>
-      <div class="guide-card">
+      <div class="guide-card reveal">
         <div class="guide-tag gt-amber">Finance</div>
         <div class="guide-title">Moving vs selling everything: which saves more?</div>
         <p class="guide-desc">Financial analysis of selling your belongings vs shipping them, factoring in market value, shipping costs, insurance, and replacement costs abroad.</p>
-        <div class="guide-meta">
-          <span>6 min read</span>
-          <a href="#" class="guide-read">Read Guide →</a>
-        </div>
+        <div class="guide-meta"><span>6 min read</span><a href="#" class="guide-read">Read Guide →</a></div>
       </div>
-      <div class="guide-card">
+      <div class="guide-card reveal">
         <div class="guide-tag gt-purple">Lifestyle</div>
         <div class="guide-title">Essential tools for mobile living</div>
-        <p class="guide-desc">The complete tech stack for remote workers: digital nomad apps, financial tools, communication platforms, and time management solutions.</p>
-        <div class="guide-meta">
-          <span>10 min read</span>
-          <a href="#" class="guide-read">Read Guide →</a>
-        </div>
+        <p class="guide-desc">The complete tech stack for remote workers: digital nomad apps, financial tools, communication platforms, and productivity solutions.</p>
+        <div class="guide-meta"><span>10 min read</span><a href="#" class="guide-read">Read Guide →</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CTA SECTION ── -->
+<!-- CTA -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-inner">
@@ -711,8 +645,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
       <h2 class="cta-title">Ready to plan your next move with AI?</h2>
       <p class="cta-desc">Join thousands of people making smarter mobility decisions with AI-powered cost planning. Your personalized report is ready in minutes.</p>
       <div class="cta-btns">
-        <a href="/planner" class="btn btn-white btn-lg">Generate My AI Plan →</a>
-        <a href="#guides" class="btn btn-outline-white btn-lg">Browse Free Guides</a>
+        <a href="/planner" class="btn-white">Generate My AI Plan →</a>
+        <a href="#guides" class="btn-outline-white">Browse Free Guides</a>
       </div>
       <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;margin-top:8px">
         <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:14px">Get mobility tips and city insights delivered to your inbox</p>
@@ -726,14 +660,14 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
   </div>
 </section>
 
-<!-- ── FOOTER ── */
+<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <span class="logo">Moving<span>COST</span><sup>.ai</sup></span>
+        <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:10px;vertical-align:super">.ai</sup></a>
         <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
-        <div class="footer-social">
+        <div class="social-row">
           <div class="social-btn">𝕏</div>
           <div class="social-btn">in</div>
           <div class="social-btn">▶</div>
@@ -779,26 +713,21 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
 </footer>
 
 <script>
-function selectHeroPath(el){
-  document.querySelectorAll('.pm-card').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-}
-// Navigation handled by direct links
+// Email subscribe
 function subscribe(){
-  const email=document.getElementById('emailSub').value;
-  if(!email||!email.includes('@')){alert('Please enter a valid email address.');return;}
+  var email=document.getElementById('emailSub').value;
+  if(!email||email.indexOf('@')<0){alert('Please enter a valid email address.');return;}
   alert('Thank you! You\'re on the list. 🎉');
   document.getElementById('emailSub').value='';
 }
-// Scroll animations
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}});
+
+// Scroll reveal animation
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible')}
+  });
 },{threshold:0.1});
-document.querySelectorAll('.path-card,.tool-card,.why-card,.svc-card,.guide-card,.rp-item').forEach(el=>{
-  el.style.opacity='0';el.style.transform='translateY(20px)';
-  el.style.transition='opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 </script>
 </body>
 </html>
