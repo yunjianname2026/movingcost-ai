@@ -23,57 +23,22 @@
 
 body { font-family:'DM Sans',sans-serif; background:var(--bg); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:0 16px 60px; color:var(--text); }
 
-/* ── API KEY BANNER ── */
-#api-banner {
-  width:100%; max-width:1100px; background:#FFF7ED; border:1px solid #FCD34D;
-  border-radius:var(--r-md); padding:12px 18px; display:flex; align-items:center;
-  justify-content:space-between; gap:12px; margin:16px 0 0; flex-wrap:wrap;
-}
-#api-banner.hidden { display:none; }
-.banner-left { display:flex; align-items:center; gap:10px; font-size:13px; color:#92400E; font-weight:500; }
-.banner-input {
-  flex:1; min-width:240px; height:36px; border:1.5px solid #FCD34D; border-radius:var(--r-sm);
-  padding:0 12px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none;
-  background:#fff; color:var(--text);
-}
-.banner-input:focus { border-color:var(--blue); }
-.banner-btn {
-  height:36px; padding:0 16px; background:var(--blue); color:#fff; border:none;
-  border-radius:99px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
-  font-family:'Outfit',sans-serif; transition:background var(--tr);
-}
-.banner-btn:hover { background:var(--blue-dark); }
-.banner-note { font-size:11px; color:#B45309; width:100%; }
 
-/* ── NAV ── */
-nav {
-  width:100%; max-width:1100px; display:flex; align-items:center;
-  justify-content:space-between; padding:20px 0 12px;
-}
-.logo { font-family:'Outfit',sans-serif; font-weight:700; font-size:22px; color:var(--text); letter-spacing:-0.5px; }
-.logo:hover { color:var(--text); }
-.logo span { color:var(--blue); }
-.nav-links { display:flex; gap:28px; }
-.nav-links a { font-size:14px; color:var(--text-mid); text-decoration:none; font-weight:500; transition:color var(--tr); }
-.nav-links a:hover { color:var(--blue); }
-.nav-api-btn {
-  font-size:12px; padding:6px 14px; border:1.5px solid var(--border); border-radius:99px;
-  background:none; cursor:pointer; color:var(--text-mid); font-family:'DM Sans',sans-serif;
-  font-weight:600; transition:all var(--tr); display:flex; align-items:center; gap:5px;
-}
-.nav-api-btn:hover { border-color:var(--blue); color:var(--blue); }
+
+
+
 .api-dot { width:7px; height:7px; border-radius:50%; background:#D1D5DB; display:inline-block; }
 .api-dot.connected { background:var(--success); }
 
 /* ── HERO ── */
-.hero { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; width:100%; max-width:1100px; padding:28px 0 0; }
-.hero-left { padding-right:20px; }
-.eyebrow {
-  display:inline-flex; align-items:center; gap:6px; background:var(--blue-light);
-  color:var(--blue-dark); font-size:12px; font-weight:600; letter-spacing:0.06em;
-  text-transform:uppercase; padding:5px 12px; border-radius:99px; margin-bottom:18px;
+.hero { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:stretch; width:100%; max-width:1100px; padding:36px 0 0; min-height:680px; }
+.hero-left {
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.eyebrow::before { content:''; width:6px; height:6px; background:var(--blue); border-radius:50%; }
+
 .hero-title { font-family:'Outfit',sans-serif; font-size:clamp(34px,4vw,50px); font-weight:500; line-height:1.15; letter-spacing:-0.8px; margin-bottom:18px; }
 .hero-title .accent { color:var(--blue); }
 .hero-desc { font-size:15px; line-height:1.7; color:var(--text-mid); margin-bottom:28px; max-width:400px; }
@@ -85,6 +50,10 @@ nav {
 .form-card {
   background:var(--card-bg); border-radius:var(--r-xl); box-shadow:var(--shadow);
   padding:32px 28px 24px; border:1px solid rgba(14,165,233,0.10); width:100%; position:relative; overflow:hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .form-card::before {
   content:''; position:absolute; top:0; left:0; right:0; height:3px;
@@ -299,20 +268,55 @@ textarea.finput { height:72px; padding:10px 12px; resize:none; line-height:1.5; 
   .check-grid{grid-template-columns:1fr}
   .snap-grid{grid-template-columns:1fr}
 }
+
+/* ── NAV ── */
+nav {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(240,246,255,0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+.logo span { color: var(--blue); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--blue); }
+
 </style>
 </head>
 <body>
 
-<!-- ── API KEY BANNER ── -->
-<div id="api-banner">
-  <div class="banner-left">⚠️ <span>API Key required for AI reports:</span></div>
-  <input class="banner-input" type="password" id="apiKeyInput" placeholder="sk-ant-api03-...  (paste your Claude API key)">
-  <button class="banner-btn" onclick="saveApiKey()">Connect →</button>
-  <div class="banner-note">🔒 Stored locally in your browser only. For production, move this to a backend proxy and never expose keys in frontend code.</div>
-</div>
+<!-- API handled securely by Vercel backend -->
 
 <!-- ── NAV ── -->
-<nav>
+<div style="position:sticky;top:0;z-index:100;background:rgba(240,246,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #DDE8F5;width:100%;"><nav style="max-width:1100px;margin:0 auto;padding:14px 24px;">
   <a href="/" class="logo" style="text-decoration:none">Moving<span>COST</span>.ai</a>
   <div class="nav-links">
     <a href="/">Home</a>
@@ -321,12 +325,11 @@ textarea.finput { height:72px; padding:10px 12px; resize:none; line-height:1.5; 
     <a href="/#guides">Guides</a>
   </div>
   <a href="/" style="font-size:13px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:8px 16px;border:1.5px solid var(--border);border-radius:99px;transition:all 0.2s">← Back to Home</a>
-</nav>
+</nav></div>
 
 <!-- ── HERO ── -->
 <div class="hero">
   <div class="hero-left">
-    <div class="eyebrow">AI-powered planning</div>
     <h1 class="hero-title">Move Smarter.<br><span class="accent">Live Lighter.</span></h1>
     <p class="hero-desc">AI-powered cost planning for relocation, digital nomad life, and city comparison. Get a personalized plan in minutes — built around your actual life.</p>
     <div class="hero-stats">
@@ -873,45 +876,13 @@ let userType = '';
 let apiReady = false;
 let reportJSON = null;
 
-// ── API KEY MANAGEMENT ──────────────────────────────────
-function getApiKey() { return localStorage.getItem('mc_api_key') || ''; }
-function saveApiKey() {
-  var input = document.getElementById('apiKeyInput');
-  if (!input) return;
-  var k = input.value.trim();
-  if (!k) return;
-  localStorage.setItem('mc_api_key', k);
-  setApiStatus(true);
-  var banner = document.getElementById('api-banner');
-  if (banner) banner.classList.add('hidden');
-}
-function toggleBanner() {
-  var b = document.getElementById('api-banner');
-  if (!b) return;
-  b.classList.toggle('hidden');
-  if (!b.classList.contains('hidden')) {
-    var input = document.getElementById('apiKeyInput');
-    if (input) { input.value = getApiKey(); input.focus(); }
-  }
-}
-function setApiStatus(ok) {
-  apiReady = ok;
-  var dot = document.getElementById('apiDot');
-  var status = document.getElementById('apiStatus');
-  if (dot) dot.className = 'api-dot' + (ok ? ' connected' : '');
-  if (status) status.textContent = ok ? 'API: Connected' : 'API: Not connected';
-}
-function initApiStatus() {
-  var k = getApiKey();
-  var banner = document.getElementById('api-banner');
-  if (k) {
-    setApiStatus(true);
-    if (banner) banner.classList.add('hidden');
-  } else {
-    setApiStatus(false);
-  }
-}
-var _ki = document.getElementById('apiKeyInput'); if (_ki) _ki.addEventListener('keydown', function(e){ if (e.key === 'Enter') saveApiKey(); });
+// ── API: handled by Vercel backend ──────────────────────
+function getApiKey() { return 'vercel-backend'; } // Key stored securely in Vercel env vars
+function saveApiKey() { /* handled by Vercel */ }
+function toggleBanner() { /* handled by Vercel */ }
+function setApiStatus(ok) { /* handled by Vercel */ }
+function initApiStatus() { /* handled by Vercel */ }
+// API key listener removed - handled by Vercel
 
 // ── NAVIGATION ───────────────────────────────────────────
 function showS(id, back = false) {
@@ -1090,26 +1061,17 @@ Return this JSON (realistic, specific to these exact cities):
 
 // ── CLAUDE API CALL ──────────────────────────────────────
 async function callClaude(prompt) {
-  const key = getApiKey();
-  if (!key) throw new Error('NO_KEY');
-
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+  // API key is stored securely in Vercel environment variables
+  // This calls our own backend at /api/generate, never exposing the key
+  const resp = await fetch('/api/generate', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: CLAUDE_MODEL,
-      max_tokens: 1000,
-      messages: [{ role:'user', content: prompt }]
-    })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt })
   });
 
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({}));
-    throw new Error(err.error?.message || `API error ${resp.status}`);
+    throw new Error(err.error || `Server error ${resp.status}`);
   }
 
   const data = await resp.json();
@@ -1125,10 +1087,7 @@ async function generate(type) {
   var errEl = document.getElementById(type[0] + '-error') || document.getElementById('r-error');
 
   if (!key) {
-    document.getElementById('api-banner').classList.remove('hidden');
-    document.getElementById('apiKeyInput').focus();
-    if (errEl) { errEl.textContent = '⚠️ Please connect your Claude API key first (see the banner above).'; errEl.classList.add('show'); }
-    return;
+
   }
   if (errEl) errEl.classList.remove('show');
 
@@ -1148,9 +1107,7 @@ async function generate(type) {
     showS('s-report');
   } catch (err) {
     showS('s3-' + type);
-    const msg = err.message === 'NO_KEY'
-      ? '⚠️ API key not set. Please add it using the banner at the top.'
-      : `❌ ${err.message}`;
+    const msg = `❌ ${err.message}`;
     if (errEl) { errEl.textContent = msg; errEl.classList.add('show'); }
     resetLoadSteps();
   }
@@ -1303,7 +1260,7 @@ function resetAll() {
 }
 
 // ── INIT ─────────────────────────────────────────────────
-initApiStatus();
+// API handled by Vercel backend
 </script>
 </body>
 </html>
