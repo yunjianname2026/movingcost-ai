@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -355,7 +356,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.7);padding:56px 0 32px}
             <div class="pm-label">Comparing Cities</div>
           </div>
         </div>
-        <button class="hcard-btn" onclick="goToPlanner()">✨ Generate My AI Plan</button>
+        <a href="/planner" style="display:block;text-decoration:none"><button class="hcard-btn">✨ Generate My AI Plan</button></a>
         <div class="hcard-trust">
           <div class="htrust">Free to start</div>
           <div class="htrust">No signup needed</div>
@@ -782,18 +783,7 @@ function selectHeroPath(el){
   document.querySelectorAll('.pm-card').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
 }
-function goToPlanner(){
-  const from=document.getElementById('heroFrom').value;
-  const to=document.getElementById('heroTo').value;
-  let url='/planner';
-  if(from||to){
-    const p=new URLSearchParams();
-    if(from)p.set('from',from);
-    if(to)p.set('to',to);
-    url+='?'+p.toString();
-  }
-  location.href=url;
-}
+// Navigation handled by direct links
 function subscribe(){
   const email=document.getElementById('emailSub').value;
   if(!email||!email.includes('@')){alert('Please enter a valid email address.');return;}
