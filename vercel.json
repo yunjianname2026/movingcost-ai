@@ -3,6 +3,7 @@
   "routes": [
     { "src": "/api/generate", "dest": "/api/generate.js" },
     { "src": "/planner", "dest": "/planner.html" },
+    { "src": "/thank-you", "dest": "/thank-you.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
