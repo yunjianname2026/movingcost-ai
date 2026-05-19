@@ -1,18 +1,11 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ],
+  "cleanUrls": true,
   "functions": {
     "api/webhook.js": {
-      "memory": 256,
       "maxDuration": 30
     },
     "api/generate.js": {
-      "memory": 512,
       "maxDuration": 60
     }
   }
