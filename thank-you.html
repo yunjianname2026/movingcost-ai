@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You — MovingCOST.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
+  --bg:#F8FBFF;--white:#FFFFFF;--border:#E8EFF8;
+  --green:#10B981;--green-l:#ECFDF5;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--white);
+  min-height:100vh;display:flex;flex-direction:column;
+  color:var(--text);font-weight:400;
+}
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:60px;
+  border-bottom:1px solid var(--border);background:var(--white);
+}
+.logo{font-family:'Outfit',sans-serif;font-weight:500;font-size:18px;letter-spacing:-0.3px;color:var(--text);text-decoration:none}
+.logo span{color:var(--blue)}
+.logo sup{font-size:9px;color:var(--blue);vertical-align:super;letter-spacing:0}
+.nav-status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+main{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:64px 24px 80px;
+}
+
+.success-mark{
+  width:56px;height:56px;border-radius:50%;background:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 32px;
+  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-mark svg{width:26px;height:26px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+.hero{
+  text-align:center;max-width:500px;
+  margin:0 auto 48px;
+  animation:up 0.5s 0.15s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:500;letter-spacing:-1px;line-height:1.15;margin-bottom:14px}
+.hero-sub{font-size:16px;color:var(--mid);line-height:1.75;font-weight:300}
+
+.order-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--border);border-radius:99px;
+  padding:9px 18px;font-size:13px;color:var(--mid);
+  background:var(--bg);margin-bottom:48px;
+  animation:up 0.5s 0.25s cubic-bezier(0.4,0,0.2,1) both;
+}
+.order-tag strong{color:var(--text);font-weight:500}
+.order-price{font-family:'Outfit',sans-serif;font-weight:600;color:var(--blue);font-size:13px;padding-left:8px;border-left:1px solid var(--border)}
+
+.cards{width:100%;max-width:580px;display:flex;flex-direction:column;gap:10px;animation:up 0.5s 0.35s cubic-bezier(0.4,0,0.2,1) both}
+
+.card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:24px 26px}
+.card-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+
+.steps{display:flex;flex-direction:column;gap:16px}
+.step{display:flex;align-items:flex-start;gap:14px}
+.step-aside{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--white);border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:var(--mid);display:flex;align-items:center;justify-content:center}
+.step-line{width:1px;height:14px;background:var(--border);margin:3px 0}
+.step:last-child .step-line{display:none}
+.step-body{padding-top:4px}
+.step-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.55;font-weight:300}
+
+.includes{background:linear-gradient(135deg,#F0F9FF,#EAF5FE);border:1px solid var(--blue-m);border-radius:18px;padding:24px 26px}
+.inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.inc-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);font-weight:400}
+.inc-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0}
+
+.actions{
+  width:100%;max-width:580px;margin-top:28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  animation:up 0.5s 0.45s cubic-bezier(0.4,0,0.2,1) both;
+}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.back-link:hover{color:var(--blue)}
+.support-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--blue);text-decoration:none;padding:8px 16px;border:1px solid var(--blue-m);border-radius:99px;background:var(--blue-l);transition:opacity 0.2s}
+.support-link:hover{opacity:0.75}
+
+footer{text-align:center;padding:28px 24px;font-size:12px;color:var(--faint);line-height:2;border-top:1px solid var(--border)}
+footer a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+footer a:hover{color:var(--blue)}
+
+.confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden}
+.cdot{position:absolute;border-radius:50%;animation:fall linear forwards;opacity:0}
+@keyframes fall{0%{opacity:0.85;transform:translateY(-10px) rotate(0deg)}100%{opacity:0;transform:translateY(105vh) rotate(480deg)}}
+
+@media(max-width:520px){
+  nav{padding:0 20px}
+  .inc-grid{grid-template-columns:1fr}
+  .actions{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti"></div>
+
+<nav>
+  <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
+  <div class="nav-status"><div class="status-dot"></div>Payment confirmed</div>
+</nav>
+
+<main>
+  <div class="success-mark">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">Payment successful</div>
+    <h1 class="hero-title">Your report is<br>on its way.</h1>
+    <p class="hero-sub">We're preparing your complete AI Mobility Report and will send it to your email shortly. Thank you for choosing MovingCOST.ai.</p>
+  </div>
+
+  <div class="order-tag">
+    <strong>Full Mobility Report</strong>
+    <span class="order-price">$9.90</span>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-label">What happens next</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-aside"><div class="step-num">1</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-title">Check your inbox</div>
+            <div class="step-desc">A payment confirmation from Stripe has been sent. Your full report will follow within a few hours.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-aside"><div class="step-num">2</div><div class="step-line"></div></div>
+          <div class="step-body">
+            <div class="step-title">Receive your PDF report</div>
+            <div class="step-desc">Your complete report arrives as a PDF — ready to read, save, and share. Check spam if you don't see it.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-aside"><div class="step-num">3</div></div>
+          <div class="step-body">
+            <div class="step-title">Move with confidence</div>
+            <div class="step-desc">Use your personalized plan to make smarter decisions and reduce the stress of your move.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="includes">
+      <div class="card-label">Your report includes</div>
+      <div class="inc-grid">
+        <div class="inc-row"><div class="inc-dot"></div>Full cost-of-living breakdown</div>
+        <div class="inc-row"><div class="inc-dot"></div>Housing market analysis</div>
+        <div class="inc-row"><div class="inc-dot"></div>Visa & immigration pathway</div>
+        <div class="inc-row"><div class="inc-dot"></div>Tax strategy & financial tips</div>
+        <div class="inc-row"><div class="inc-dot"></div>Personalized savings strategies</div>
+        <div class="inc-row"><div class="inc-dot"></div>90-day action checklist</div>
+        <div class="inc-row"><div class="inc-dot"></div>Hidden costs & risk alerts</div>
+        <div class="inc-row"><div class="inc-dot"></div>PDF download included</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <a href="/" class="back-link">← Back to MovingCOST.ai</a>
+    <a href="mailto:support@movingcost.ai" class="support-link">✉ Contact support</a>
+  </div>
+
+</main>
+
+<footer>
+  <a href="/">MovingCOST.ai</a> &nbsp;·&nbsp;
+  <a href="/planner">AI Planner</a> &nbsp;·&nbsp;
+  <a href="mailto:support@movingcost.ai">support@movingcost.ai</a>
+  <br>© 2026 MovingCOST.ai · All rights reserved
+</footer>
+
+<script>
+(function(){
+  var c=document.getElementById('confetti');
+  var cols=['#0EA5E9','#BAE6FD','#10B981','#6EE7B7','#FCD34D','#A5B4FC'];
+  for(var i=0;i<28;i++){
+    (function(i){
+      setTimeout(function(){
+        var d=document.createElement('div');
+        d.className='cdot';
+        var s=Math.random()*7+5;
+        d.style.cssText=[
+          'width:'+s+'px','height:'+s+'px',
+          'left:'+(Math.random()*100)+'%',
+          'background:'+cols[Math.floor(Math.random()*cols.length)],
+          'animation-duration:'+(Math.random()*2.5+2)+'s',
+          'border-radius:'+(Math.random()>0.4?'50%':'3px')
+        ].join(';');
+        c.appendChild(d);
+        setTimeout(function(){d.remove();},5500);
+      },i*70);
+    })(i);
+  }
+})();
+</script>
+</body>
+</html>
