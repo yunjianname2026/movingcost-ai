@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thank You — MovingCOST.ai</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,62 +15,69 @@
   --green:#10B981;--green-l:#ECFDF5;
 }
 html{scroll-behavior:smooth}
-body{
-  font-family:'DM Sans',sans-serif;background:var(--white);
-  min-height:100vh;display:flex;flex-direction:column;
-  color:var(--text);font-weight:400;
-}
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 48px;height:60px;
-  border-bottom:1px solid var(--border);background:var(--white);
-}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;color:var(--text)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px;border-bottom:1px solid var(--border);background:var(--white);}
 .logo{font-family:'Outfit',sans-serif;font-weight:500;font-size:18px;letter-spacing:-0.3px;color:var(--text);text-decoration:none}
-.logo span{color:var(--blue)}
-.logo sup{font-size:9px;color:var(--blue);vertical-align:super;letter-spacing:0}
+.logo span{color:var(--blue)}.logo sup{font-size:9px;color:var(--blue);vertical-align:super;letter-spacing:0}
 .nav-status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+main{flex:1;display:flex;flex-direction:column;align-items:center;padding:56px 24px 80px;}
 
-main{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:64px 24px 80px;
-}
-
-.success-mark{
-  width:56px;height:56px;border-radius:50%;background:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 32px;
-  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
+/* ── Success header ── */
+.success-mark{width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards}
 @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .success-mark svg{width:26px;height:26px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
-
-.hero{
-  text-align:center;max-width:500px;
-  margin:0 auto 48px;
-  animation:up 0.5s 0.15s cubic-bezier(0.4,0,0.2,1) both;
-}
+.hero{text-align:center;max-width:520px;margin:0 auto 40px;animation:up 0.5s 0.15s both}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.hero-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:16px}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:500;letter-spacing:-1px;line-height:1.15;margin-bottom:14px}
-.hero-sub{font-size:16px;color:var(--mid);line-height:1.75;font-weight:300}
+.hero-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(26px,4vw,40px);font-weight:500;letter-spacing:-1px;line-height:1.15;margin-bottom:12px}
+.hero-sub{font-size:15px;color:var(--mid);line-height:1.75;font-weight:300}
 
-.order-tag{
-  display:inline-flex;align-items:center;gap:10px;
-  border:1px solid var(--border);border-radius:99px;
-  padding:9px 18px;font-size:13px;color:var(--mid);
-  background:var(--bg);margin-bottom:48px;
-  animation:up 0.5s 0.25s cubic-bezier(0.4,0,0.2,1) both;
-}
-.order-tag strong{color:var(--text);font-weight:500}
-.order-price{font-family:'Outfit',sans-serif;font-weight:600;color:var(--blue);font-size:13px;padding-left:8px;border-left:1px solid var(--border)}
+/* ── Email form ── */
+.email-section{width:100%;max-width:580px;margin-bottom:24px;animation:up 0.5s 0.25s both}
+.email-card{background:linear-gradient(135deg,#F0F9FF,#EAF5FE);border:1.5px solid var(--blue-m);border-radius:18px;padding:28px 32px;}
+.email-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;margin-bottom:6px;color:var(--text)}
+.email-desc{font-size:13px;color:var(--mid);margin-bottom:20px;line-height:1.55}
+.email-row{display:flex;gap:10px;flex-wrap:wrap}
+.email-input{flex:1;min-width:200px;height:46px;border:1.5px solid var(--blue-m);border-radius:10px;padding:0 16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border-color 0.2s}
+.email-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.12)}
+.send-btn{height:46px;padding:0 24px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.send-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
+.send-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.send-status{margin-top:12px;font-size:13px;min-height:20px;transition:all 0.3s}
+.send-status.ok{color:var(--green)}.send-status.err{color:#DC2626}.send-status.loading{color:var(--mid)}
 
-.cards{width:100%;max-width:580px;display:flex;flex-direction:column;gap:10px;animation:up 0.5s 0.35s cubic-bezier(0.4,0,0.2,1) both}
+/* ── Generated report display ── */
+.report-section{width:100%;max-width:580px;margin-bottom:24px;animation:up 0.5s 0.3s both}
+.report-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:32px;line-height:1.8}
+.report-card h2{font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.3px;margin-bottom:6px}
+.report-card h3{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:var(--text);margin:24px 0 8px;padding-top:16px;border-top:1px solid var(--border)}
+.report-card h3:first-of-type{margin-top:0;border-top:none;padding-top:0}
+.report-card p{font-size:14px;color:var(--mid);margin-bottom:10px}
+.report-card ul,.report-card ol{padding-left:20px;margin-bottom:10px}
+.report-card li{font-size:14px;color:var(--mid);margin-bottom:4px}
+.report-card strong{color:var(--text)}
+.report-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-l);color:#059669;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px}
 
+/* ── Generating state ── */
+.gen-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:40px;text-align:center}
+.gen-ring{width:48px;height:48px;margin:0 auto 20px;position:relative}
+.gen-ring::before,.gen-ring::after{content:'';position:absolute;border-radius:50%;border:2.5px solid transparent}
+.gen-ring::before{inset:0;border-top-color:var(--blue);animation:spin 0.9s linear infinite}
+.gen-ring::after{inset:7px;border-top-color:var(--blue-m);animation:spin 0.6s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:500;margin-bottom:6px}
+.gen-sub{font-size:13px;color:var(--muted)}
+
+/* ── No data state ── */
+.nodata-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:40px;text-align:center;max-width:580px;width:100%;margin-bottom:24px}
+.nodata-card p{color:var(--mid);font-size:14px;line-height:1.7;margin-bottom:20px}
+.start-btn{display:inline-block;background:var(--blue);color:#fff;padding:12px 28px;border-radius:99px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600}
+
+/* ── Standard cards ── */
+.cards{width:100%;max-width:580px;display:flex;flex-direction:column;gap:10px;animation:up 0.5s 0.35s both}
 .card{background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:24px 26px}
 .card-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-
 .steps{display:flex;flex-direction:column;gap:16px}
 .step{display:flex;align-items:flex-start;gap:14px}
 .step-aside{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
@@ -79,36 +87,18 @@ main{
 .step-body{padding-top:4px}
 .step-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
 .step-desc{font-size:13px;color:var(--muted);line-height:1.55;font-weight:300}
-
-.includes{background:linear-gradient(135deg,#F0F9FF,#EAF5FE);border:1px solid var(--blue-m);border-radius:18px;padding:24px 26px}
-.inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
-.inc-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);font-weight:400}
-.inc-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0}
-
-.actions{
-  width:100%;max-width:580px;margin-top:28px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;
-  animation:up 0.5s 0.45s cubic-bezier(0.4,0,0.2,1) both;
-}
+.actions{width:100%;max-width:580px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;animation:up 0.5s 0.45s both}
 .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
 .back-link:hover{color:var(--blue)}
 .support-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--blue);text-decoration:none;padding:8px 16px;border:1px solid var(--blue-m);border-radius:99px;background:var(--blue-l);transition:opacity 0.2s}
 .support-link:hover{opacity:0.75}
-
 footer{text-align:center;padding:28px 24px;font-size:12px;color:var(--faint);line-height:2;border-top:1px solid var(--border)}
 footer a{color:var(--muted);text-decoration:none;transition:color 0.2s}
 footer a:hover{color:var(--blue)}
-
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden}
 .cdot{position:absolute;border-radius:50%;animation:fall linear forwards;opacity:0}
 @keyframes fall{0%{opacity:0.85;transform:translateY(-10px) rotate(0deg)}100%{opacity:0;transform:translateY(105vh) rotate(480deg)}}
-
-@media(max-width:520px){
-  nav{padding:0 20px}
-  .inc-grid{grid-template-columns:1fr}
-  .actions{flex-direction:column;align-items:flex-start}
-}
+@media(max-width:520px){nav{padding:0 20px}.actions{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -127,65 +117,77 @@ footer a:hover{color:var(--blue)}
 
   <div class="hero">
     <div class="hero-label">Payment successful</div>
-    <h1 class="hero-title">Your report is<br>on its way.</h1>
-    <p class="hero-sub">We're preparing your complete AI Mobility Report and will send it to your email shortly. Thank you for choosing MovingCOST.ai.</p>
+    <h1 class="hero-title" id="hero-title">Your full report<br>is being prepared.</h1>
+    <p class="hero-sub" id="hero-sub">We're generating your complete AI Mobility Report right now. Enter your email below to receive it — it takes about 30 seconds.</p>
   </div>
 
-  <div class="order-tag">
-    <strong>Full Mobility Report</strong>
-    <span class="order-price">$9.90</span>
+  <!-- ── Email capture ── -->
+  <div class="email-section" id="email-section">
+    <div class="email-card">
+      <div class="email-title">📧 Send my report to email</div>
+      <div class="email-desc">Enter the email address where you'd like to receive your complete report as a formatted document.</div>
+      <div class="email-row">
+        <input class="email-input" type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
+        <button class="send-btn" id="send-btn" onclick="sendReport()">
+          <span id="send-btn-text">Send Report →</span>
+        </button>
+      </div>
+      <div class="send-status" id="send-status"></div>
+    </div>
   </div>
 
-  <div class="cards">
+  <!-- ── Full report display ── -->
+  <div class="report-section" id="report-section" style="display:none">
+    <div class="report-card" id="report-card">
+      <!-- filled by JS -->
+    </div>
+  </div>
 
+  <!-- ── Generating spinner (shown if no cached report) ── -->
+  <div class="report-section" id="gen-section" style="display:none">
+    <div class="gen-card">
+      <div class="gen-ring"></div>
+      <div class="gen-title">Generating your full report…</div>
+      <div class="gen-sub">This takes about 20–30 seconds</div>
+    </div>
+  </div>
+
+  <!-- ── No data fallback ── -->
+  <div class="nodata-card" id="nodata-section" style="display:none">
+    <div style="font-size:40px;margin-bottom:16px">🔍</div>
+    <p>We couldn't find your moving plan data. This can happen if you opened this page on a different device or browser.<br><br>Please start a new plan — your payment is confirmed and your report will be ready instantly after you fill in the details.</p>
+    <a href="/planner" class="start-btn">Start My Plan →</a>
+  </div>
+
+  <!-- ── What's in the report (shown while loading / if no preview report) ── -->
+  <div class="cards" id="static-cards">
     <div class="card">
-      <div class="card-label">What happens next</div>
+      <div class="card-label">Your full report includes</div>
       <div class="steps">
         <div class="step">
-          <div class="step-aside"><div class="step-num">1</div><div class="step-line"></div></div>
-          <div class="step-body">
-            <div class="step-title">Check your inbox</div>
-            <div class="step-desc">A payment confirmation from Stripe has been sent. Your full report will follow within a few hours.</div>
-          </div>
+          <div class="step-aside"><div class="step-num">📊</div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Complete cost-of-living breakdown</div><div class="step-desc">Housing, food, transport, healthcare — with real numbers for your destination</div></div>
         </div>
         <div class="step">
-          <div class="step-aside"><div class="step-num">2</div><div class="step-line"></div></div>
-          <div class="step-body">
-            <div class="step-title">Receive your PDF report</div>
-            <div class="step-desc">Your complete report arrives as a PDF — ready to read, save, and share. Check spam if you don't see it.</div>
-          </div>
+          <div class="step-aside"><div class="step-num">🛂</div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Visa & immigration pathway</div><div class="step-desc">Step-by-step guide to the best visa options for your exact situation</div></div>
         </div>
         <div class="step">
-          <div class="step-aside"><div class="step-num">3</div></div>
-          <div class="step-body">
-            <div class="step-title">Move with confidence</div>
-            <div class="step-desc">Use your personalized plan to make smarter decisions and reduce the stress of your move.</div>
-          </div>
+          <div class="step-aside"><div class="step-num">💰</div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Tax strategy & financial planning</div><div class="step-desc">How to optimize your tax position before and after the move</div></div>
+        </div>
+        <div class="step">
+          <div class="step-aside"><div class="step-num">✅</div></div>
+          <div class="step-body"><div class="step-title">90-day action checklist</div><div class="step-desc">Week-by-week steps for a smooth, stress-free transition</div></div>
         </div>
       </div>
     </div>
-
-    <div class="includes">
-      <div class="card-label">Your report includes</div>
-      <div class="inc-grid">
-        <div class="inc-row"><div class="inc-dot"></div>Full cost-of-living breakdown</div>
-        <div class="inc-row"><div class="inc-dot"></div>Housing market analysis</div>
-        <div class="inc-row"><div class="inc-dot"></div>Visa & immigration pathway</div>
-        <div class="inc-row"><div class="inc-dot"></div>Tax strategy & financial tips</div>
-        <div class="inc-row"><div class="inc-dot"></div>Personalized savings strategies</div>
-        <div class="inc-row"><div class="inc-dot"></div>90-day action checklist</div>
-        <div class="inc-row"><div class="inc-dot"></div>Hidden costs & risk alerts</div>
-        <div class="inc-row"><div class="inc-dot"></div>PDF download included</div>
-      </div>
-    </div>
-
   </div>
 
   <div class="actions">
     <a href="/" class="back-link">← Back to MovingCOST.ai</a>
     <a href="mailto:support@movingcost.ai" class="support-link">✉ Contact support</a>
   </div>
-
 </main>
 
 <footer>
@@ -196,6 +198,170 @@ footer a:hover{color:var(--blue)}
 </footer>
 
 <script>
+// ── Load data from localStorage ─────────────────────────────────────────────
+const userData    = JSON.parse(localStorage.getItem('movingData')    || 'null');
+const previewReport = JSON.parse(localStorage.getItem('movingReport') || 'null');
+
+// ── On page load ─────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  if (!userData) {
+    // No data found — show fallback
+    document.getElementById('nodata-section').style.display = 'block';
+    document.getElementById('email-section').style.display = 'none';
+    document.getElementById('hero-title').textContent = 'Payment received!';
+    document.getElementById('hero-sub').textContent = 'Please start a new plan to generate your report.';
+    return;
+  }
+
+  // If we have a preview report, show it immediately
+  if (previewReport) {
+    renderPreviewReport(previewReport, userData);
+  } else {
+    // Generate the preview report first
+    document.getElementById('gen-section').style.display = 'block';
+  }
+});
+
+// ── Render the preview report on screen ─────────────────────────────────────
+function renderPreviewReport(r, d) {
+  const card = document.getElementById('report-card');
+
+  let html = `
+    <div class="report-badge">✨ Your AI Report</div>
+    <h2>${r.headline || 'Your Personalized Plan'}</h2>
+    <p style="color:#475569;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #E2E8F0">${r.summary || ''}</p>
+  `;
+
+  // Relocation cost snapshot
+  if (d.type === 'relocation' && r.current_monthly) {
+    const isSave = r.direction === 'save';
+    const diff = Math.abs((r.current_monthly || 0) - (r.destination_monthly || 0));
+    html += `
+    <h3>💰 Cost Overview</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="background:#F8FAFC;border-radius:10px;padding:14px 16px">
+        <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:700;margin-bottom:4px">Current (${d.from})</div>
+        <div style="font-size:22px;font-weight:700;color:#0F172A">$${(r.current_monthly||0).toLocaleString()}/mo</div>
+      </div>
+      <div style="background:#F0F9FF;border-radius:10px;padding:14px 16px">
+        <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;font-weight:700;margin-bottom:4px">Destination (${d.to})</div>
+        <div style="font-size:22px;font-weight:700;color:#0EA5E9">$${(r.destination_monthly||0).toLocaleString()}/mo</div>
+      </div>
+    </div>
+    <div style="background:${isSave?'#ECFDF5':'#FFFBEB'};border:1px solid ${isSave?'#6EE7B7':'#FCD34D'};border-radius:10px;padding:14px 16px;margin-bottom:20px;font-weight:600;color:${isSave?'#065F46':'#92400E'}">
+      ${isSave ? '↓ You could save' : '↑ Costs increase by'} $${diff.toLocaleString()}/month · $${(diff*12).toLocaleString()}/year
+    </div>`;
+  }
+
+  // Nomad cities
+  if (d.type === 'nomad' && r.top_cities?.length) {
+    html += `<h3>🌍 Top City Matches</h3>`;
+    r.top_cities.forEach((c, i) => {
+      html += `<div style="border:1.5px solid ${i===0?'#0EA5E9':'#E2E8F0'};background:${i===0?'#F0F9FF':'#fff'};border-radius:10px;padding:12px 16px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <strong>${i===0?'⭐ ':''}${c.name}</strong>
+          <span style="color:#0EA5E9;font-weight:700">$${(c.monthly_cost||0).toLocaleString()}/mo</span>
+        </div>
+        <div style="font-size:12px;color:#64748B">${c.fit} — ${c.reason}</div>
+      </div>`;
+    });
+  }
+
+  // Key insights
+  if (r.insights?.length) {
+    html += `<h3>💡 Key Insights</h3>`;
+    r.insights.forEach(ins => {
+      html += `<div style="display:flex;gap:12px;padding:11px 14px;background:#F8FAFC;border-radius:8px;border-left:3px solid #BAE6FD;margin-bottom:8px">
+        <span style="font-size:18px">${ins.icon}</span>
+        <div><strong style="font-size:13px">${ins.title}</strong><br><span style="font-size:13px;color:#475569">${ins.text}</span></div>
+      </div>`;
+    });
+  }
+
+  // First action
+  if (r.first_action) {
+    html += `
+    <h3>🎯 Your #1 Next Step</h3>
+    <div style="background:#EFF6FF;border:1.5px solid #BAE6FD;border-radius:10px;padding:14px 16px;font-size:14px;color:#0F172A;font-weight:500">
+      ${r.first_action}
+    </div>`;
+  }
+
+  // Locked sections teaser
+  html += `
+  <div style="margin-top:24px;padding-top:20px;border-top:1px solid #E2E8F0;text-align:center;color:#94A3B8;font-size:13px">
+    📧 Enter your email above to receive the <strong style="color:#0F172A">complete detailed report</strong> including housing breakdown, visa steps, tax strategy & 90-day checklist
+  </div>`;
+
+  card.innerHTML = html;
+  document.getElementById('report-section').style.display = 'block';
+}
+
+// ── Send report to email ─────────────────────────────────────────────────────
+async function sendReport() {
+  const email = document.getElementById('email-input').value.trim();
+  const statusEl = document.getElementById('send-status');
+  const btn = document.getElementById('send-btn');
+  const btnText = document.getElementById('send-btn-text');
+
+  if (!email || !email.includes('@')) {
+    statusEl.className = 'send-status err';
+    statusEl.textContent = '⚠️ Please enter a valid email address.';
+    return;
+  }
+  if (!userData) {
+    statusEl.className = 'send-status err';
+    statusEl.textContent = '⚠️ No plan data found. Please start a new plan.';
+    return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = 'Sending…';
+  statusEl.className = 'send-status loading';
+  statusEl.textContent = '⏳ Generating your full report with Claude AI — this takes about 30 seconds…';
+
+  try {
+    const resp = await fetch('/api/send-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        name: '',
+        userData,
+        previewReport
+      })
+    });
+
+    const result = await resp.json();
+
+    if (!resp.ok) throw new Error(result.error || 'Server error');
+
+    statusEl.className = 'send-status ok';
+    statusEl.textContent = `✅ Full report sent to ${email}! Check your inbox (and spam folder).`;
+    btnText.textContent = '✓ Sent!';
+
+    // Clear localStorage now that report is sent
+    localStorage.removeItem('movingData');
+    localStorage.removeItem('movingReport');
+
+    // Update hero
+    document.getElementById('hero-title').textContent = 'Report sent! 🎉';
+    document.getElementById('hero-sub').textContent = `Your complete AI Mobility Report is on its way to ${email}. Check your inbox in a moment.`;
+
+  } catch (err) {
+    statusEl.className = 'send-status err';
+    statusEl.textContent = `❌ ${err.message}. Please try again or contact support@movingcost.ai`;
+    btn.disabled = false;
+    btnText.textContent = 'Send Report →';
+  }
+}
+
+// ── Allow Enter key to submit ────────────────────────────────────────────────
+document.getElementById('email-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendReport();
+});
+
+// ── Confetti ─────────────────────────────────────────────────────────────────
 (function(){
   var c=document.getElementById('confetti');
   var cols=['#0EA5E9','#BAE6FD','#10B981','#6EE7B7','#FCD34D','#A5B4FC'];
