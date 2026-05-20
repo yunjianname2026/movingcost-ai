@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,25 +14,16 @@
   --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
   --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
   --green:#10B981;--green-l:#ECFDF5;
-  --amber:#F59E0B;--amber-l:#FFFBEB;
-  --glass-bg:rgba(255,255,255,0.75);
-  --glass-border:rgba(255,255,255,0.85);
-  --tr:0.22s cubic-bezier(0.4,0,0.2,1);
-  --r:10px;--r-lg:16px;--r-xl:24px;
+  --glass-bg:rgba(255,255,255,0.78);
+  --glass-border:rgba(255,255,255,0.88);
   --shadow-glass:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.05);
+  --r:10px;--r-xl:24px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
 }
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;color:var(--text);-webkit-font-smoothing:antialiased}
 
-/* ── NAV ── */
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 32px;height:62px;
-  background:rgba(255,255,255,0.88);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:100;
-}
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);text-decoration:none}
 .logo span{color:var(--blue)}.logo sup{font-size:9px;color:var(--blue);vertical-align:super;letter-spacing:0;font-weight:700}
 .nav-status{font-size:13px;color:var(--mid);display:flex;align-items:center;gap:6px;font-weight:500}
@@ -41,174 +31,84 @@ nav{
 
 main{flex:1;display:flex;flex-direction:column;align-items:center;padding:52px 24px 80px}
 
-/* ── Success mark ── */
-.success-mark{
-  width:58px;height:58px;border-radius:50%;background:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 26px;
-  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
-  box-shadow:0 8px 24px rgba(16,185,129,0.35);
-}
+/* Success mark */
+.success-mark{width:58px;height:58px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 26px;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;box-shadow:0 8px 24px rgba(16,185,129,0.35)}
 @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .success-mark svg{width:26px;height:26px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
-/* ── Hero ── */
-.hero{text-align:center;max-width:520px;margin:0 auto 36px;animation:up 0.5s 0.15s both}
+/* Hero */
+.hero{text-align:center;max-width:520px;margin:0 auto 32px;animation:up 0.5s 0.15s both}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:12px}
 .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-0.8px;line-height:1.15;margin-bottom:12px}
 .hero-sub{font-size:15px;color:var(--mid);line-height:1.75;font-weight:300}
 
-/* ── Glass card base ── */
-.glass-card{
-  background:var(--glass-bg);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-border);
-  border-radius:var(--r-xl);
-  box-shadow:var(--shadow-glass);
-  position:relative;overflow:hidden;
-}
-.glass-card::after{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 55%);
-  pointer-events:none;
-}
+/* Main card */
+.main-card{width:100%;max-width:580px;margin-bottom:20px;background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:var(--r-xl);box-shadow:var(--shadow-glass);overflow:hidden;animation:up 0.5s 0.25s both;position:relative}
+.main-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
 
-/* ── Email section ── */
-.email-section{width:100%;max-width:580px;margin-bottom:20px;animation:up 0.5s 0.25s both}
-.email-card{
-  background:linear-gradient(135deg,rgba(240,249,255,0.90),rgba(224,242,254,0.85));
-  border:1.5px solid var(--blue-m);
-  border-radius:var(--r-xl);
-  padding:26px 28px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  position:relative;overflow:hidden;
-}
-.email-card::after{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);
-  pointer-events:none;
-}
-.email-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;margin-bottom:5px;color:var(--text);position:relative;z-index:1}
-.email-desc{font-size:13px;color:var(--mid);margin-bottom:18px;line-height:1.55;position:relative;z-index:1}
-.email-row{display:flex;gap:9px;flex-wrap:wrap;position:relative;z-index:1}
-.email-input{
-  flex:1;min-width:200px;height:46px;
-  border:1.5px solid var(--blue-m);border-radius:var(--r);
-  padding:0 16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);
-  background:rgba(255,255,255,0.85);outline:none;transition:all var(--tr);
-}
+/* Preview section */
+.preview-section{padding:22px 26px;border-bottom:1px solid rgba(221,232,245,0.6);position:relative;z-index:1}
+.report-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-l);color:#059669;font-size:10px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:12px}
+
+/* Email + city section — THE ONLY VISIBLE FORM */
+.email-section{padding:26px 26px;border-bottom:1px solid rgba(221,232,245,0.6);position:relative;z-index:1}
+.email-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;color:var(--text)}
+.email-desc{font-size:13px;color:var(--mid);margin-bottom:16px;line-height:1.55}
+
+/* City row — only shown when no data */
+.city-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.city-input{width:100%;height:42px;border:1.5px solid var(--border);border-radius:var(--r);padding:0 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:rgba(255,255,255,0.85);outline:none;transition:all var(--tr)}
+.city-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.10);background:#fff}
+.city-input::placeholder{color:var(--faint)}
+.city-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:5px;display:block}
+
+.email-row{display:flex;gap:9px;flex-wrap:wrap}
+.email-input{flex:1;min-width:200px;height:46px;border:1.5px solid var(--border);border-radius:var(--r);padding:0 16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:rgba(255,255,255,0.85);outline:none;transition:all var(--tr)}
 .email-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.12);background:#fff}
-.send-btn{
-  height:46px;padding:0 22px;background:var(--blue);color:#fff;border:none;
-  border-radius:var(--r);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
-  cursor:pointer;white-space:nowrap;transition:all var(--tr);
-  display:flex;align-items:center;gap:6px;
-  box-shadow:0 4px 14px rgba(14,165,233,0.35);
-}
+.send-btn{height:46px;padding:0 22px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--tr);display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(14,165,233,0.35)}
 .send-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
 .send-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-.send-status{margin-top:12px;font-size:13px;min-height:20px;transition:all 0.3s;position:relative;z-index:1}
+.send-status{margin-top:11px;font-size:13px;min-height:18px;transition:all 0.3s}
 .send-status.ok{color:var(--green)}.send-status.err{color:#DC2626}
 
-/* ── Loading progress steps ── */
-.loading-wrap{position:relative;z-index:1;padding:4px 0}
-.loading-header{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
-.loading-ring{width:48px;height:48px;position:relative;margin-bottom:14px}
+/* Loading progress */
+.loading-section{padding:20px 26px;display:none;border-bottom:1px solid rgba(221,232,245,0.6);position:relative;z-index:1;text-align:center}
+.loading-ring{width:44px;height:44px;position:relative;margin:0 auto 12px}
 .loading-ring::before,.loading-ring::after{content:'';position:absolute;border-radius:50%;border:2.5px solid transparent}
 .loading-ring::before{inset:0;border-top-color:var(--blue);animation:spin 0.9s linear infinite}
 .loading-ring::after{inset:7px;border-top-color:var(--blue-m);animation:spin 0.6s linear infinite reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px;text-align:center}
-.loading-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.55}
-
-.load-steps{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:18px}
-.lstep{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 14px;border-radius:var(--r);
-  font-size:13px;color:var(--muted);font-weight:400;
-  background:rgba(240,246,255,0.60);
-  transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
-  border:1px solid transparent;
-}
-.lstep.active{
-  background:rgba(224,242,254,0.85);color:var(--blue-d);font-weight:600;
-  border-color:var(--blue-m);
-  box-shadow:0 2px 8px rgba(14,165,233,0.10);
-}
-.lstep.done{
-  background:rgba(236,253,245,0.85);color:#059669;
-  border-color:#6EE7B7;
-}
-.lind{
-  width:20px;height:20px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;font-weight:700;
-  background:var(--border);color:var(--muted);
-  transition:all 0.4s;
-}
+.loading-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px}
+.loading-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.load-steps{list-style:none;display:flex;flex-direction:column;gap:5px;text-align:left}
+.lstep{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:var(--r);font-size:12px;color:var(--muted);background:rgba(240,246,255,0.60);transition:all 0.4s;border:1px solid transparent}
+.lstep.active{background:rgba(224,242,254,0.85);color:var(--blue-d);font-weight:600;border-color:var(--blue-m)}
+.lstep.done{background:rgba(236,253,245,0.85);color:#059669;border-color:#6EE7B7}
+.lind{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:var(--border);color:var(--muted);transition:all 0.4s}
 .lstep.active .lind{background:var(--blue);color:#fff;animation:pulse 0.9s infinite}
 .lstep.done .lind{background:var(--green);color:#fff;font-size:11px}
-.lstep-time{font-size:11px;color:var(--muted);margin-left:auto;flex-shrink:0;font-weight:400}
+.lstep-time{font-size:10px;color:var(--muted);margin-left:auto;flex-shrink:0}
 .lstep.active .lstep-time{color:var(--blue-d)}
 .lstep.done .lstep-time{color:#059669}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-
-/* Progress bar */
-.prog-bar-wrap{height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:16px}
+.prog-bar-wrap{height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:14px}
 .prog-bar{height:100%;background:linear-gradient(90deg,var(--blue),#38BDF8);border-radius:99px;transition:width 8s linear;width:0%}
 
-/* ── Report display ── */
-.report-section{width:100%;max-width:580px;margin-bottom:20px;animation:up 0.5s 0.3s both}
-.report-card{
-  background:rgba(255,255,255,0.80);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-border);
-  border-radius:var(--r-xl);box-shadow:var(--shadow-glass);
-  padding:30px;line-height:1.8;
-  position:relative;overflow:hidden;
-}
-.report-card::after{
-  content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 55%);
-  pointer-events:none;
-}
-.report-card h2{font-family:'Outfit',sans-serif;font-size:19px;font-weight:600;letter-spacing:-0.3px;margin-bottom:6px;position:relative;z-index:1}
-.report-card h3{font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin:22px 0 8px;padding-top:14px;border-top:1px solid var(--border);position:relative;z-index:1}
-.report-card h3:first-of-type{margin-top:0;border-top:none;padding-top:0}
-.report-card p{font-size:14px;color:var(--mid);margin-bottom:10px;position:relative;z-index:1}
-.report-card ul,.report-card ol{padding-left:20px;margin-bottom:10px;position:relative;z-index:1}
-.report-card li{font-size:14px;color:var(--mid);margin-bottom:4px}
-.report-card strong{color:var(--text)}
-.report-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-l);color:#059669;font-size:10px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:18px;position:relative;z-index:1}
-
-/* ── What's included card ── */
-.includes-card{width:100%;max-width:580px;margin-bottom:20px;animation:up 0.5s 0.3s both}
-.includes-inner{padding:24px 26px}
-.card-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-.steps{display:flex;flex-direction:column;gap:14px}
-.step{display:flex;align-items:flex-start;gap:13px}
+/* Includes */
+.includes-section{padding:22px 26px;position:relative;z-index:1}
+.card-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.steps{display:flex;flex-direction:column;gap:11px}
+.step{display:flex;align-items:flex-start;gap:11px}
 .step-aside{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.step-num{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.70);border:1px solid var(--border);font-size:14px;display:flex;align-items:center;justify-content:center}
-.step-line{width:1px;height:12px;background:var(--border);margin:3px 0}
+.step-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.70);border:1px solid var(--border);font-size:14px;display:flex;align-items:center;justify-content:center}
+.step-line{width:1px;height:10px;background:var(--border);margin:2px 0}
 .step:last-child .step-line{display:none}
-.step-body{padding-top:4px}
-.step-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
-.step-desc{font-size:12px;color:var(--muted);line-height:1.55;font-weight:300}
+.step-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;padding-top:3px}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
+.disclaimer-note{margin-top:14px;padding-top:12px;border-top:1px solid rgba(221,232,245,0.6);font-size:11px;color:var(--muted);line-height:1.6}
 
-/* ── No data ── */
-.nodata-card{
-  background:rgba(255,255,255,0.75);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-border);border-radius:var(--r-xl);
-  box-shadow:var(--shadow-glass);
-  padding:40px;text-align:center;max-width:580px;width:100%;margin-bottom:20px;
-}
-.nodata-card p{color:var(--mid);font-size:14px;line-height:1.75;margin-bottom:20px}
-.start-btn{display:inline-block;background:var(--blue);color:#fff;padding:12px 28px;border-radius:99px;text-decoration:none;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(14,165,233,0.35)}
-
-/* ── Actions ── */
-.actions{width:100%;max-width:580px;margin-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;animation:up 0.5s 0.45s both}
+.actions{width:100%;max-width:580px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;animation:up 0.5s 0.4s both}
 .back-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color var(--tr)}
 .back-link:hover{color:var(--blue)}
 .support-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--blue);text-decoration:none;padding:8px 16px;border:1.5px solid var(--blue-m);border-radius:99px;background:var(--blue-l);transition:all var(--tr)}
@@ -218,16 +118,17 @@ footer{text-align:center;padding:26px 24px;font-size:12px;color:var(--faint);lin
 footer a{color:var(--muted);text-decoration:none;transition:color var(--tr)}
 footer a:hover{color:var(--blue)}
 
-/* ── Confetti ── */
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;overflow:hidden}
 .cdot{position:absolute;border-radius:50%;animation:fall linear forwards;opacity:0}
 @keyframes fall{0%{opacity:0.85;transform:translateY(-10px) rotate(0deg)}100%{opacity:0;transform:translateY(105vh) rotate(480deg)}}
 
 @media(max-width:520px){
-  nav{padding:0 20px}
+  nav{padding:0 16px}
   .actions{flex-direction:column;align-items:flex-start}
   .email-row{flex-direction:column}
   .send-btn{width:100%;justify-content:center}
+  .city-row{grid-template-columns:1fr}
+  .email-section,.loading-section,.preview-section,.includes-section{padding-left:18px;padding-right:18px}
 }
 </style>
 </head>
@@ -247,58 +148,64 @@ footer a:hover{color:var(--blue)}
 
   <div class="hero">
     <div class="hero-label">Payment successful</div>
-    <h1 class="hero-title" id="hero-title">Your AI planning report<br>is being prepared.</h1>
-    <p class="hero-sub" id="hero-sub">Enter your email below — we'll generate your complete AI Relocation Planning Report and send it directly to your inbox. Generation takes 60–90 seconds.</p>
+    <h1 class="hero-title" id="hero-title">Your AI report is<br>ready to generate.</h1>
+    <p class="hero-sub" id="hero-sub">Enter your email below — we'll build and send your complete AI Relocation Planning Report in 60–90 seconds.</p>
   </div>
 
-  <!-- ── Email capture ── -->
-  <div class="email-section" id="email-section">
-    <div class="email-card">
-      <div class="email-title">📧 Send my planning report to email</div>
-      <div class="email-desc">Enter your email to receive your AI-generated relocation planning report. All figures are estimated ranges for planning purposes. Generation takes 60–90 seconds.</div>
+  <div class="main-card">
+
+    <!-- Preview report (shown when we have cached data) -->
+    <div class="preview-section" id="preview-section" style="display:none">
+      <div class="report-badge">✨ Your AI Preview</div>
+      <div id="report-card"></div>
+    </div>
+
+    <!-- THE ONE FORM: email input + optional 2 city fields if data missing -->
+    <div class="email-section">
+      <div class="email-title" id="email-title">📧 Send my report to email</div>
+      <div class="email-desc" id="email-desc">Enter your email — we'll generate and send your complete AI planning report in 60–90 seconds.</div>
+
+      <!-- City fields: ONLY shown if no cached data found -->
+      <div id="city-fields" style="display:none">
+        <div class="city-row">
+          <div>
+            <label class="city-label">📍 Moving From</label>
+            <input class="city-input" id="fb-from" type="text" placeholder="e.g. New York, NY">
+          </div>
+          <div>
+            <label class="city-label">📍 Moving To</label>
+            <input class="city-input" id="fb-to" type="text" placeholder="e.g. Lisbon, Portugal">
+          </div>
+        </div>
+      </div>
+
       <div class="email-row">
         <input class="email-input" type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
         <button class="send-btn" id="send-btn" onclick="sendReport()">
-          <span id="send-btn-text">Send Report →</span>
+          <span id="send-btn-text">Generate &amp; Send →</span>
         </button>
       </div>
       <div class="send-status" id="send-status"></div>
-
-      <!-- Loading steps — hidden until send is clicked -->
-      <div id="loading-progress" style="display:none;margin-top:20px;border-top:1px solid rgba(14,165,233,0.15);padding-top:18px">
-        <div class="loading-header">
-          <div class="loading-ring"></div>
-          <div class="loading-title">Generating your report…</div>
-          <div class="loading-sub">Claude AI is writing your personalised plan</div>
-        </div>
-        <ul class="load-steps">
-          <li class="lstep" id="lp1"><div class="lind">1</div>Analysing your financial profile<span class="lstep-time">~10s</span></li>
-          <li class="lstep" id="lp2"><div class="lind">2</div>Building cost comparison tables<span class="lstep-time">~25s</span></li>
-          <li class="lstep" id="lp3"><div class="lind">3</div>Researching visa &amp; immigration options<span class="lstep-time">~40s</span></li>
-          <li class="lstep" id="lp4"><div class="lind">4</div>Writing tax strategy &amp; financial plan<span class="lstep-time">~55s</span></li>
-          <li class="lstep" id="lp5"><div class="lind">5</div>Compiling 90-day action plan<span class="lstep-time">~70s</span></li>
-          <li class="lstep" id="lp6"><div class="lind">6</div>Sending to your inbox<span class="lstep-time">~85s</span></li>
-        </ul>
-        <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar"></div></div>
-      </div>
     </div>
-  </div>
 
-  <!-- ── Preview report display ── -->
-  <div class="report-section" id="report-section" style="display:none">
-    <div class="report-card" id="report-card"></div>
-  </div>
+    <!-- Loading progress — hidden until send is clicked -->
+    <div class="loading-section" id="loading-section">
+      <div class="loading-ring"></div>
+      <div class="loading-title">Generating your report…</div>
+      <div class="loading-sub">Claude AI is writing your personalised plan — please keep this tab open</div>
+      <ul class="load-steps">
+        <li class="lstep" id="lp1"><div class="lind">1</div>Analysing your financial profile<span class="lstep-time">~10s</span></li>
+        <li class="lstep" id="lp2"><div class="lind">2</div>Building cost comparison tables<span class="lstep-time">~25s</span></li>
+        <li class="lstep" id="lp3"><div class="lind">3</div>Researching visa &amp; immigration options<span class="lstep-time">~40s</span></li>
+        <li class="lstep" id="lp4"><div class="lind">4</div>Writing tax strategy &amp; financial plan<span class="lstep-time">~55s</span></li>
+        <li class="lstep" id="lp5"><div class="lind">5</div>Compiling 90-day action plan<span class="lstep-time">~70s</span></li>
+        <li class="lstep" id="lp6"><div class="lind">6</div>Sending to your inbox<span class="lstep-time">~85s</span></li>
+      </ul>
+      <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar"></div></div>
+    </div>
 
-  <!-- ── No data fallback ── -->
-  <div class="nodata-card" id="nodata-section" style="display:none">
-    <div style="font-size:40px;margin-bottom:16px">🔍</div>
-    <p>We couldn't find your moving plan data. This can happen if you opened this page on a different device or browser.<br><br>Please start a new plan — your payment is confirmed and your report will be ready instantly after you fill in the details.</p>
-    <a href="/planner" class="start-btn">Start My Plan →</a>
-  </div>
-
-  <!-- ── What's included ── -->
-  <div class="includes-card glass-card" id="static-cards">
-    <div class="includes-inner">
+    <!-- What's included -->
+    <div class="includes-section" id="includes-section">
       <div class="card-label">Your AI planning report includes</div>
       <div class="steps">
         <div class="step">
@@ -307,22 +214,21 @@ footer a:hover{color:var(--blue)}
         </div>
         <div class="step">
           <div class="step-aside"><div class="step-num">🛂</div><div class="step-line"></div></div>
-          <div class="step-body"><div class="step-title">Visa &amp; immigration planning notes</div><div class="step-desc">Cautious overview of likely visa options — verify with official sources</div></div>
+          <div class="step-body"><div class="step-title">Visa &amp; immigration planning notes</div><div class="step-desc">Overview of likely visa options — verify with official sources</div></div>
         </div>
         <div class="step">
           <div class="step-aside"><div class="step-num">💰</div><div class="step-line"></div></div>
-          <div class="step-body"><div class="step-title">Tax &amp; financial planning notes</div><div class="step-desc">General tax context and financial setup guidance — not professional tax advice</div></div>
+          <div class="step-body"><div class="step-title">Tax &amp; financial planning notes</div><div class="step-desc">General tax context and financial setup guidance</div></div>
         </div>
         <div class="step">
           <div class="step-aside"><div class="step-num">✅</div></div>
           <div class="step-body"><div class="step-title">90-day action checklist</div><div class="step-desc">Week-by-week tasks to keep your move on track</div></div>
         </div>
       </div>
-      <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(221,232,245,0.6);font-size:11px;color:var(--muted);line-height:1.65;position:relative;z-index:1">
-        ⚠️ This is an AI-generated planning report for informational purposes only. Cost figures are estimated ranges. Always verify visa, tax, and immigration details with qualified professionals.
-      </div>
+      <div class="disclaimer-note">⚠️ AI-generated planning report for informational purposes only. Always verify visa, tax, and immigration details with qualified professionals.</div>
     </div>
-  </div>
+
+  </div><!-- /.main-card -->
 
   <div class="actions">
     <a href="/" class="back-link">← Back to MovingCOST.ai</a>
@@ -338,102 +244,134 @@ footer a:hover{color:var(--blue)}
 </footer>
 
 <script>
-const userData    = JSON.parse(localStorage.getItem('movingData')    || 'null');
-const previewReport = JSON.parse(localStorage.getItem('movingReport') || 'null');
-
-window.addEventListener('DOMContentLoaded', function() {
-  if (!userData) {
-    document.getElementById('nodata-section').style.display = 'block';
-    document.getElementById('email-section').style.display = 'none';
-    document.getElementById('hero-title').textContent = 'Payment received!';
-    document.getElementById('hero-sub').textContent = 'Please start a new plan to generate your report.';
-    return;
+// ── READ DATA: localStorage first, then Cookie ─────────────────────────────
+// Cookie keys must match what planner.html saves: 'mcData' and 'mcReport'
+function getCookie(name) {
+  var v = '; ' + document.cookie;
+  var parts = v.split('; ' + name + '=');
+  if (parts.length === 2) {
+    try { return decodeURIComponent(parts.pop().split(';').shift()); } catch(e) {}
   }
-  if (previewReport) renderPreviewReport(previewReport, userData);
+  return null;
+}
+
+function loadData(lsKey, cookieKey) {
+  try { var ls = localStorage.getItem(lsKey); if (ls) return JSON.parse(ls); } catch(e) {}
+  try { var ck = getCookie(cookieKey); if (ck) return JSON.parse(ck); } catch(e) {}
+  return null;
+}
+
+var userData      = loadData('movingData',   'mcData');
+var previewReport = loadData('movingReport', 'mcReport');
+var usingFallback = !userData;
+
+// ── ON LOAD ────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function() {
+
+  if (userData) {
+    // ✅ Normal flow: data found — show preview if available
+    if (previewReport) renderPreviewReport(previewReport, userData);
+    document.getElementById('email-desc').textContent =
+      'Enter your email — we\'ll send your complete 10-section AI planning report in 60–90 seconds.';
+
+  } else {
+    // ⚠️ Data lost — show city fields seamlessly, NO scary message
+    document.getElementById('city-fields').style.display = 'block';
+    document.getElementById('email-title').textContent = '📧 Confirm your move & send report';
+    document.getElementById('email-desc').textContent =
+      'Just confirm your cities below — we\'ll generate and send your complete AI planning report right away.';
+    // Hero text — friendly, not alarming
+    document.getElementById('hero-title').textContent = 'Almost ready —\njust one more step.';
+    document.getElementById('hero-sub').textContent =
+      'Confirm your move cities and email below and we\'ll send your complete AI report in 60–90 seconds.';
+  }
 });
 
-// ── Render preview report ──────────────────────────────────────────────
+// ── RENDER PREVIEW ─────────────────────────────────────────────────────────
 function renderPreviewReport(r, d) {
   var card = document.getElementById('report-card');
-  var html = '<div class="report-badge">✨ Your AI Preview</div>';
-  html += '<h2>' + (r.headline || 'Your Personalized Plan') + '</h2>';
-  html += '<p style="color:var(--mid);margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">' + (r.summary || '') + '</p>';
+  var html = '';
+  html += '<h2 style="font-family:Outfit,sans-serif;font-size:17px;font-weight:600;letter-spacing:-0.2px;margin-bottom:5px;color:var(--text)">' + (r.headline || 'Your Personalised Plan') + '</h2>';
+  html += '<p style="font-size:13px;color:var(--mid);margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid var(--border);line-height:1.65">' + (r.summary || '') + '</p>';
 
   if (d.type === 'relocation' && r.current_monthly) {
     var isSave = r.direction === 'save';
     var diff = Math.abs((r.current_monthly||0) - (r.destination_monthly||0));
-    html += '<h3>💰 Cost Overview</h3>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
-    html += '<div style="background:rgba(240,246,255,0.80);border-radius:var(--r);padding:13px 15px"><div style="font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:4px">Current ('+d.from+')</div><div style="font-family:Outfit,sans-serif;font-size:21px;font-weight:700;color:var(--text)">$'+(r.current_monthly||0).toLocaleString()+'/mo</div></div>';
-    html += '<div style="background:rgba(224,242,254,0.80);border-radius:var(--r);padding:13px 15px"><div style="font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:4px">Destination ('+d.to+')</div><div style="font-family:Outfit,sans-serif;font-size:21px;font-weight:700;color:var(--blue)">$'+(r.destination_monthly||0).toLocaleString()+'/mo</div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px">';
+    html += '<div style="background:rgba(240,246,255,0.80);border-radius:var(--r);padding:11px 13px"><div style="font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:3px">Current · ' + d.from + '</div><div style="font-family:Outfit,sans-serif;font-size:19px;font-weight:700;color:var(--text)">$' + (r.current_monthly||0).toLocaleString() + '/mo</div></div>';
+    html += '<div style="background:rgba(224,242,254,0.80);border-radius:var(--r);padding:11px 13px"><div style="font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:3px">In ' + d.to + '</div><div style="font-family:Outfit,sans-serif;font-size:19px;font-weight:700;color:var(--blue)">$' + (r.destination_monthly||0).toLocaleString() + '/mo</div></div>';
     html += '</div>';
-    html += '<div style="background:'+(isSave?'rgba(236,253,245,0.85)':'rgba(255,251,235,0.85)')+';border:1px solid '+(isSave?'#6EE7B7':'#FCD34D')+';border-radius:var(--r);padding:12px 15px;margin-bottom:18px;font-weight:600;font-size:14px;color:'+(isSave?'#065F46':'#92400E')+'">';
-    html += (isSave ? '↓ Estimated saving: ' : '↑ Estimated increase: ') + '$'+diff.toLocaleString()+'/month · $'+(diff*12).toLocaleString()+'/year</div>';
+    html += '<div style="background:' + (isSave ? 'rgba(236,253,245,0.85)' : 'rgba(255,251,235,0.85)') + ';border:1px solid ' + (isSave ? '#6EE7B7' : '#FCD34D') + ';border-radius:var(--r);padding:10px 13px;margin-bottom:12px;font-weight:600;font-size:13px;color:' + (isSave ? '#065F46' : '#92400E') + '">';
+    html += (isSave ? '↓ Estimated saving: ' : '↑ Estimated increase: ') + '$' + diff.toLocaleString() + '/month · $' + (diff * 12).toLocaleString() + '/year</div>';
   }
 
   if (d.type === 'nomad' && r.top_cities && r.top_cities.length) {
-    html += '<h3>🌍 Top City Matches</h3>';
     r.top_cities.forEach(function(c, i) {
-      html += '<div style="border:1.5px solid '+(i===0?'var(--blue)':'var(--border)')+';background:'+(i===0?'rgba(224,242,254,0.80)':'rgba(255,255,255,0.70)')+';border-radius:var(--r);padding:11px 14px;margin-bottom:7px">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><strong>'+(i===0?'⭐ ':'')+c.name+'</strong><span style="color:var(--blue);font-weight:700">$'+(c.monthly_cost||0).toLocaleString()+'/mo</span></div>';
-      html += '<div style="font-size:12px;color:var(--mid)">'+c.fit+' — '+c.reason+'</div></div>';
+      html += '<div style="border:1.5px solid ' + (i===0?'var(--blue)':'var(--border)') + ';background:' + (i===0?'rgba(224,242,254,0.80)':'rgba(255,255,255,0.70)') + ';border-radius:var(--r);padding:9px 12px;margin-bottom:6px">';
+      html += '<div style="display:flex;justify-content:space-between;margin-bottom:2px"><strong style="font-size:13px">' + (i===0?'⭐ ':'') + c.name + '</strong><span style="color:var(--blue);font-weight:700;font-size:13px">$' + (c.monthly_cost||0).toLocaleString() + '/mo</span></div>';
+      html += '<div style="font-size:11px;color:var(--mid)">' + c.fit + ' — ' + c.reason + '</div></div>';
     });
   }
 
   if (r.insights && r.insights.length) {
-    html += '<h3>💡 Key Insights</h3>';
     r.insights.forEach(function(ins) {
-      html += '<div style="display:flex;gap:10px;padding:10px 13px;background:rgba(240,246,255,0.80);border-radius:var(--r);border-left:3px solid var(--blue-m);margin-bottom:7px">';
-      html += '<span style="font-size:17px">'+ins.icon+'</span>';
-      html += '<div><strong style="font-size:12px;color:var(--text)">'+ins.title+'</strong><br><span style="font-size:12px;color:var(--mid)">'+ins.text+'</span></div></div>';
+      html += '<div style="display:flex;gap:9px;padding:9px 11px;background:rgba(240,246,255,0.80);border-radius:var(--r);border-left:3px solid var(--blue-m);margin-bottom:6px">';
+      html += '<span style="font-size:16px;flex-shrink:0">' + ins.icon + '</span>';
+      html += '<div><strong style="font-size:12px;color:var(--text)">' + ins.title + '</strong><br><span style="font-size:12px;color:var(--mid)">' + ins.text + '</span></div></div>';
     });
   }
 
   if (r.first_action) {
-    html += '<h3>🎯 Your #1 Next Step</h3>';
-    html += '<div style="background:rgba(239,246,255,0.90);border:1.5px solid var(--blue-m);border-radius:var(--r);padding:13px 15px;font-size:13px;color:var(--text);font-weight:500">'+r.first_action+'</div>';
+    html += '<div style="background:rgba(239,246,255,0.90);border:1.5px solid var(--blue-m);border-radius:var(--r);padding:11px 13px;font-size:13px;color:var(--text);font-weight:500;margin-top:4px">🎯 ' + r.first_action + '</div>';
   }
 
-  html += '<div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px">📧 Enter your email above to receive the <strong style="color:var(--text)">complete 12-section report</strong> including housing deep-dive, visa steps, tax strategy &amp; 90-day checklist</div>';
-
   card.innerHTML = html;
-  document.getElementById('report-section').style.display = 'block';
+  document.getElementById('preview-section').style.display = 'block';
 }
 
-// ── Loading animation ──────────────────────────────────────────────────
-var loadTimer = null;
-var loadStep = 0;
+// ── LOADING ANIMATION ──────────────────────────────────────────────────────
+var loadTimers = [];
 
-function startLoadingAnimation() {
-  document.getElementById('loading-progress').style.display = 'block';
-  // Animate progress bar
-  setTimeout(function() {
-    document.getElementById('prog-bar').style.width = '90%';
-  }, 100);
-
+function startLoading() {
+  document.getElementById('loading-section').style.display = 'block';
+  document.getElementById('includes-section').style.display = 'none';
+  setTimeout(function() { document.getElementById('prog-bar').style.width = '90%'; }, 100);
   var steps = ['lp1','lp2','lp3','lp4','lp5','lp6'];
   var timings = [0, 12000, 25000, 40000, 55000, 70000];
-
   steps.forEach(function(id, i) {
-    setTimeout(function() {
-      // Mark previous as done
+    loadTimers.push(setTimeout(function() {
       if (i > 0) {
-        var prev = document.getElementById(steps[i-1]);
-        prev.classList.remove('active');
-        prev.classList.add('done');
-        prev.querySelector('.lind').textContent = '✓';
+        var p = document.getElementById(steps[i-1]);
+        p.classList.remove('active'); p.classList.add('done');
+        p.querySelector('.lind').textContent = '✓';
+        p.querySelector('.lstep-time').textContent = '✓';
       }
       document.getElementById(id).classList.add('active');
-    }, timings[i]);
+    }, timings[i]));
   });
 }
 
-function stopLoadingAnimation(success) {
-  document.getElementById('loading-progress').style.display = 'none';
-  if (loadTimer) clearTimeout(loadTimer);
+function stopLoading(success) {
+  loadTimers.forEach(function(t) { clearTimeout(t); });
+  loadTimers = [];
+  if (success) {
+    ['lp1','lp2','lp3','lp4','lp5','lp6'].forEach(function(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('active'); el.classList.add('done');
+      el.querySelector('.lind').textContent = '✓';
+    });
+    document.getElementById('prog-bar').style.width = '100%';
+    document.getElementById('prog-bar').style.transition = 'width 0.5s ease';
+    setTimeout(function() {
+      document.getElementById('loading-section').style.display = 'none';
+    }, 2500);
+  } else {
+    document.getElementById('loading-section').style.display = 'none';
+    document.getElementById('includes-section').style.display = 'block';
+  }
 }
 
-// ── Send report ────────────────────────────────────────────────────────
+// ── SEND REPORT ────────────────────────────────────────────────────────────
 async function sendReport() {
   var email = document.getElementById('email-input').value.trim();
   var statusEl = document.getElementById('send-status');
@@ -445,61 +383,59 @@ async function sendReport() {
     statusEl.textContent = '⚠️ Please enter a valid email address.';
     return;
   }
-  if (!userData) {
-    statusEl.className = 'send-status err';
-    statusEl.textContent = '⚠️ No plan data found. Please start a new plan.';
-    return;
+
+  // Build data to send
+  var dataToSend = userData;
+
+  if (!dataToSend) {
+    // Fallback: build minimal data from city fields
+    var from = (document.getElementById('fb-from').value || '').trim();
+    var to   = (document.getElementById('fb-to').value   || '').trim();
+    if (!from || !to) {
+      statusEl.className = 'send-status err';
+      statusEl.textContent = '⚠️ Please enter your origin and destination cities above.';
+      return;
+    }
+    dataToSend = {
+      type: 'relocation', from: from, to: to,
+      who: 'not specified', income: 'not specified',
+      lifestyle: 'not specified', notes: 'none',
+      source: 'city-fallback'
+    };
   }
 
   btn.disabled = true;
   btnText.textContent = 'Generating…';
-  statusEl.className = 'send-status';
   statusEl.textContent = '';
-
-  // Start the animated loading steps
-  startLoadingAnimation();
+  startLoading();
 
   try {
     var resp = await fetch('/api/send-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, name: '', userData: userData, previewReport: previewReport })
+      body: JSON.stringify({ email: email, name: '', userData: dataToSend, previewReport: previewReport })
     });
-
     var result = await resp.json();
     if (!resp.ok) throw new Error(result.error || 'Server error');
 
-    // Mark all steps done
-    stopLoadingAnimation(true);
-    document.getElementById('prog-bar').style.width = '100%';
-    document.getElementById('prog-bar').style.transition = 'width 0.5s ease';
-    ['lp1','lp2','lp3','lp4','lp5','lp6'].forEach(function(id) {
-      var el = document.getElementById(id);
-      el.classList.remove('active');
-      el.classList.add('done');
-      el.querySelector('.lind').textContent = '✓';
-    });
-
+    stopLoading(true);
     statusEl.className = 'send-status ok';
-    statusEl.textContent = '✅ Full report sent to ' + email + '! Check your inbox (and spam folder).';
+    statusEl.textContent = '✅ Report sent to ' + email + '! Check your inbox (and spam folder).';
     btnText.textContent = '✓ Sent!';
 
-    localStorage.removeItem('movingData');
-    localStorage.removeItem('movingReport');
+    // Clear stored data
+    try { localStorage.removeItem('movingData'); localStorage.removeItem('movingReport'); } catch(e) {}
 
     document.getElementById('hero-title').textContent = 'Report sent! 🎉';
-    document.getElementById('hero-sub').textContent = 'Your complete AI Mobility Report is on its way to ' + email + '. Check your inbox in a moment.';
+    document.getElementById('hero-sub').textContent = 'Your AI planning report is on its way to ' + email + '. Check your inbox in a moment.';
+    document.getElementById('city-fields').style.display = 'none';
 
-    setTimeout(function() {
-      document.getElementById('loading-progress').style.display = 'none';
-    }, 3000);
-
-  } catch (err) {
-    stopLoadingAnimation(false);
+  } catch(err) {
+    stopLoading(false);
     statusEl.className = 'send-status err';
     statusEl.textContent = '❌ ' + err.message + '. Please try again or contact support@movingcost.ai';
     btn.disabled = false;
-    btnText.textContent = 'Send Report →';
+    btnText.textContent = 'Generate & Send →';
   }
 }
 
@@ -507,26 +443,22 @@ document.getElementById('email-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') sendReport();
 });
 
-// ── Confetti ───────────────────────────────────────────────────────────
-(function(){
+// ── CONFETTI ───────────────────────────────────────────────────────────────
+(function() {
   var c = document.getElementById('confetti');
   var cols = ['#0EA5E9','#BAE6FD','#10B981','#6EE7B7','#FCD34D','#A5B4FC'];
   for (var i = 0; i < 28; i++) {
     (function(i) {
       setTimeout(function() {
-        var d = document.createElement('div');
-        d.className = 'cdot';
-        var s = Math.random()*7+5;
-        d.style.cssText = [
-          'width:'+s+'px','height:'+s+'px',
-          'left:'+(Math.random()*100)+'%',
+        var d = document.createElement('div'); d.className = 'cdot';
+        var s = Math.random() * 7 + 5;
+        d.style.cssText = ['width:'+s+'px','height:'+s+'px','left:'+(Math.random()*100)+'%',
           'background:'+cols[Math.floor(Math.random()*cols.length)],
           'animation-duration:'+(Math.random()*2.5+2)+'s',
-          'border-radius:'+(Math.random()>0.4?'50%':'3px')
-        ].join(';');
+          'border-radius:'+(Math.random()>0.4?'50%':'3px')].join(';');
         c.appendChild(d);
-        setTimeout(function(){ d.remove(); }, 5500);
-      }, i*70);
+        setTimeout(function() { d.remove(); }, 5500);
+      }, i * 70);
     })(i);
   }
 })();
