@@ -639,14 +639,14 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
                 <div class="chip">✓ PDF download</div>
               </div>
               <!--
-                ★ COOKIE FIX: onclick calls saveBeforeStripe() instead of inline localStorage code.
-                  saveBeforeStripe() saves to BOTH localStorage AND a Cookie (mcData / mcReport).
-                  Cookie persists through the Stripe redirect, solving the "no data" bug.
+                数据传递方案：调用 /api/create-checkout 创建 Stripe Checkout Session，
+                成功跳转 URL 里直接携带用户数据 (?d=base64)，彻底解决数据丢失问题。
+                Cookie 作为备用保险。
               -->
-              <a href="https://buy.stripe.com/aFa6oG51x1KUgXT0C2cfK00"
-                 onclick="saveBeforeStripe()"
+              <a href="#" onclick="goToCheckout(event)"
                  class="unlock-btn"
-                 style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">
+                 style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px"
+                 id="unlock-btn">
                 🔓 Unlock Full Report →
               </a>
             </div>
@@ -700,22 +700,44 @@ function collectData(){
   if(userType==='comparing')return{...base,city1:v('c-city1')||'City A',city2:v('c-city2')||'City B',city3:v('c-city3'),income:v('c-income'),rent:v('c-rent'),draws:getChecked('s2-comparing').join(', ')||'not specified',priorities:getChecked('s3-comparing').slice(0,8).join(', ')||'not specified',blockers:getChecked('s3-comparing').slice(8).join(', ')||'not specified',lifestyle:v('c-lifestyle'),decisionTimeline:v('c-timeline'),notes:v('c-notes')};
 }
 
-// ── COOKIE HELPERS ────────────────────────────────────────────────────────────
-// Saves data to BOTH localStorage AND a Cookie.
-// Cookie persists through Stripe's cross-domain redirect — this solves the
-// "We couldn't find your data" bug on the thank-you page.
+// ── COOKIE HELPERS (backup layer) ────────────────────────────────────────────
 function setCookie(name,value,minutes){
-  var d=new Date();
-  d.setTime(d.getTime()+(minutes*60*1000));
+  var d=new Date();d.setTime(d.getTime()+(minutes*60*1000));
   document.cookie=name+'='+encodeURIComponent(value)+';expires='+d.toUTCString()+';path=/;SameSite=Lax';
 }
-function saveBeforeStripe(){
-  var data=JSON.stringify(collectData());
-  var report=JSON.stringify(reportJSON);
-  try{localStorage.setItem('movingData',data)}catch(e){}
-  try{localStorage.setItem('movingReport',report)}catch(e){}
-  try{setCookie('mcData',data,120)}catch(e){}    // 2-hour expiry
-  try{setCookie('mcReport',report,120)}catch(e){}
+
+// ── GO TO CHECKOUT: reliable data passing via Stripe Checkout Session URL ─────
+// Primary: calls /api/create-checkout which encodes data in the success URL (?d=)
+// Fallback: if API fails, saves to localStorage+cookie and uses Payment Link
+async function goToCheckout(e) {
+  e.preventDefault();
+  var btn = document.getElementById('unlock-btn');
+  btn.textContent = '⏳ Preparing checkout…';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+
+  var data = collectData();
+
+  // Always save to localStorage + cookie as backup
+  try { localStorage.setItem('movingData', JSON.stringify(data)); } catch(ex) {}
+  try { localStorage.setItem('movingReport', JSON.stringify(reportJSON)); } catch(ex) {}
+  try { setCookie('mcData', JSON.stringify(data), 120); } catch(ex) {}
+  try { setCookie('mcReport', JSON.stringify(reportJSON), 120); } catch(ex) {}
+
+  try {
+    var resp = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userData: data })
+    });
+    if (!resp.ok) throw new Error('checkout API error');
+    var result = await resp.json();
+    window.location.href = result.url; // redirect to Stripe Checkout
+  } catch(ex) {
+    // Fallback to Payment Link (data still in cookie/localStorage)
+    console.warn('Checkout API failed, falling back to Payment Link:', ex.message);
+    window.location.href = 'https://buy.stripe.com/aFa6oG51x1KUgXT0C2cfK00';
+  }
 }
 
 // ── PROMPT BUILDERS ───────────────────────────────────────────────────────────
