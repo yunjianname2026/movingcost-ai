@@ -248,7 +248,7 @@ async function callClaude(prompt) {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000,
+      max_tokens: 16000,
       system: SYSTEM_RULES,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -382,7 +382,7 @@ HTML FORMAT:
 - Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
 - Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows
 
-Write all 10 sections now. Do not skip or abbreviate any section.`;
+Write all 10 sections now. Do not skip or abbreviate any section. Do not stop early. Complete the entire report including all sections through Section 10 — Final Recommendations & Next Steps.`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
