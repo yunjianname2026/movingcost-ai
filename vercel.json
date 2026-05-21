@@ -1,12 +1,23 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "functions": {
-    "api/webhook.js": {
-      "maxDuration": 30
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
     },
-    "api/generate.js": {
-      "maxDuration": 60
+    {
+      "source": "/blog/nyc-to-lisbon-cover.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
     }
-  }
+  ],
+  "rewrites": [
+    { "source": "/blog", "destination": "/blog/index.html" }
+  ]
 }
