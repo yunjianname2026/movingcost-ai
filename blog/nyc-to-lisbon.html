@@ -64,19 +64,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .article-wrap{max-width:740px;margin:0 auto;padding:0 24px}
 
 /* HERO */
-.article-hero{padding:64px 0 48px;background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 50%,#F4F8FE 100%);margin-bottom:0}
+.article-hero{padding:0;background:#0A1628;margin-bottom:0;position:relative;overflow:hidden;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end}
+.article-hero-bg{position:absolute;inset:0;background:url('/blog/nyc-to-lisbon-cover.jpg') center center/cover no-repeat;opacity:0.45}
+.article-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,18,38,0.97) 0%,rgba(8,18,38,0.65) 55%,rgba(8,18,38,0.15) 100%)}
+.article-hero .article-wrap{position:relative;z-index:1;padding-top:80px;padding-bottom:56px}
 .article-hero .article-wrap{text-align:left}
 .article-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d)}
-.article-date{font-size:13px;color:var(--muted);font-weight:400}
-.article-read{font-size:13px;color:var(--muted)}
-.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:18px}
-.article-title em{font-style:normal;color:var(--blue)}
-.article-intro{font-size:18px;color:var(--mid);line-height:1.75;font-weight:300;margin-bottom:28px}
+.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:rgba(14,165,233,0.25);color:#7DD3FC;border:1px solid rgba(14,165,233,0.35)}
+.article-date{font-size:13px;color:rgba(255,255,255,0.55);font-weight:400}
+.article-read{font-size:13px;color:rgba(255,255,255,0.45)}
+.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:700;letter-spacing:-1.2px;line-height:1.10;color:#fff;margin-bottom:18px}
+.article-title em{font-style:normal;color:#38BDF8}
+.article-intro{font-size:18px;color:rgba(255,255,255,0.70);line-height:1.75;font-weight:300;margin-bottom:28px}
 .author-row{display:flex;align-items:center;gap:12px}
 .author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38BDF8);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.author-name{font-size:14px;font-weight:600;color:var(--text)}
-.author-bio{font-size:12px;color:var(--muted)}
+.author-name{font-size:14px;font-weight:600;color:#fff}
+.author-bio{font-size:12px;color:rgba(255,255,255,0.50)}
 
 /* ARTICLE BODY */
 .article-body{padding:56px 0 80px}
@@ -219,6 +222,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
 
 <!-- ARTICLE HERO -->
 <section class="article-hero">
+  <div class="article-hero-bg"></div>
+  <div class="article-hero-overlay"></div>
   <div class="article-wrap">
     <div class="article-meta">
       <span class="article-tag">Relocation</span>
