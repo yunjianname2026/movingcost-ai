@@ -43,7 +43,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
 .logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
 .logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
-.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{font-size:13.5px;font-weight:500;color:var(--muted);transition:color var(--tr);white-space:nowrap}
 .nav-links a:hover{color:var(--blue)}
 .nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
@@ -190,11 +190,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   <div class="nav-inner">
     <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
     <div class="nav-links">
-      <a href="/#tools">AI Tools</a>
-      <a href="/#services">Services</a>
-      <a href="/#guides">Guides</a>
-      <a href="/about">About</a>
-    </div>
+        <a href="/">Home</a>
+        <a href="/#tools">AI Tools</a>
+        <a href="/">Cities</a>
+        <a href="/">Routes</a>
+        <a href="/#guides">Guides</a>
+        <a href="/#services">Services</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+      </div>
     <a href="/planner" class="nav-cta">Start Free Plan →</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -202,9 +206,13 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   </div>
 </nav>
 <div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
   <a href="/#tools" onclick="closeMenu()">AI Tools</a>
-  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/" onclick="closeMenu()">Cities</a>
+  <a href="/" onclick="closeMenu()">Routes</a>
   <a href="/#guides" onclick="closeMenu()">Guides</a>
+  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
   <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
 </div>
@@ -496,28 +504,31 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
         <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
         <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
       </div>
-      <div class="footer-col">
+            <div class="footer-col">
         <h4>AI Tools</h4>
         <ul>
           <li><a href="/planner">Relocation Planner</a></li>
           <li><a href="/planner">Nomad Planner</a></li>
           <li><a href="/planner">City Comparison</a></li>
+          <li><a href="/planner">Cost Calculator</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Resources</h4>
+        <h4>Explore</h4>
         <ul>
-          <li><a href="/#guides">Mobility Guides</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="/about">About Us</a></li>
+          <li><a href="/">Cities</a></li>
+          <li><a href="/">Routes</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#guides">Guides</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="/about">About</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/#services">Services</a></li>
           <li><a href="mailto:support@movingcost.ai">Contact</a></li>
-          <li><a href="/planner">Start Free</a></li>
+          <li><a href="/planner">Pricing</a></li>
         </ul>
       </div>
     </div>
