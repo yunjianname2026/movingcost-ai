@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — MovingCOST.ai</title>
+<meta name="description" content="MovingCOST.ai was born from real relocation experience. Learn why we built AI-powered cost planning for people making major life moves.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.movingcost.ai/about">
+<meta property="og:title" content="About MovingCOST.ai — Why We Built This">
+<meta property="og:description" content="Born from real moving experience. AI-powered cost planning for people making major life moves.">
+<meta property="og:image" content="https://www.movingcost.ai/og-image.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-dd:#0369A1;
+  --blue-l:#E0F2FE;--blue-m:#BAE6FD;--blue-xl:#F0F9FF;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
+  --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--green-l:#ECFDF5;
+  --glass-bg:rgba(255,255,255,0.75);
+  --glass-border:rgba(255,255,255,0.85);
+  --shadow-glass:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
+  --shadow-lg:0 12px 48px rgba(14,165,233,0.14),0 4px 16px rgba(10,22,40,0.07);
+  --r:10px;--r-lg:16px;--r-xl:24px;
+  --tr:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;color:var(--text);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
+.logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--mid);transition:color var(--tr);white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--blue)}
+.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.nav-cta:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;transition:background var(--tr);border:none;background:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr);transform-origin:center}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{display:none;position:fixed;inset:62px 0 0 0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:32px 24px;gap:4px;border-top:1px solid var(--border);overflow-y:auto}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border);transition:color var(--tr)}
+.nav-mobile a:last-child{border:none}
+.nav-mobile a:hover{color:var(--blue)}
+.nav-mobile .mobile-cta{margin-top:20px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:15px;font-size:16px;font-weight:700}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 45%,#F4F8FE 100%);padding:88px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-140px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(14,165,233,0.09) 0%,transparent 68%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,0.05) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:760px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:20px}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:600;letter-spacing:-1.2px;line-height:1.10;margin-bottom:18px;color:var(--text)}
+.hero-title em{font-style:normal;color:var(--blue)}
+.hero-lead{font-size:18px;color:var(--mid);line-height:1.78;font-weight:300;max-width:600px;margin:0 auto}
+
+/* CONTAINER */
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+.container-narrow{max-width:780px;margin:0 auto;padding:0 24px}
+
+/* STORY SECTION */
+.story{padding:96px 0}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.story-left{position:sticky;top:90px}
+.story-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.story-heading{font-family:'Outfit',sans-serif;font-size:clamp(28px,3vw,40px);font-weight:600;letter-spacing:-0.8px;line-height:1.18;color:var(--text);margin-bottom:20px}
+.story-quote{font-family:'Outfit',sans-serif;font-size:20px;font-weight:400;font-style:italic;color:var(--mid);line-height:1.6;padding-left:20px;border-left:3px solid var(--blue);margin-top:28px}
+.story-right p{font-size:16px;color:var(--mid);line-height:1.85;margin-bottom:22px;font-weight:300}
+.story-right p strong{color:var(--text);font-weight:600}
+.story-right p:last-child{margin-bottom:0}
+
+/* MISSION BANNER */
+.mission{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);padding:72px 0;position:relative;overflow:hidden}
+.mission::before{content:'';position:absolute;top:-80px;right:-60px;width:420px;height:420px;background:radial-gradient(circle,rgba(14,165,233,0.14) 0%,transparent 70%);pointer-events:none}
+.mission-inner{max-width:720px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
+.mission-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue-m);margin-bottom:20px}
+.mission-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:600;letter-spacing:-0.8px;line-height:1.15;color:#fff;margin-bottom:18px}
+.mission-title em{font-style:normal;color:#38BDF8}
+.mission-sub{font-size:16px;color:rgba(255,255,255,0.60);line-height:1.75;font-weight:300}
+
+/* VALUES */
+.values{padding:96px 0;background:var(--bg)}
+.section-header{text-align:center;margin-bottom:60px}
+.section-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:16px}
+.section-title{font-family:'Outfit',sans-serif;font-size:clamp(26px,3vw,38px);font-weight:600;letter-spacing:-0.6px;line-height:1.18;color:var(--text);margin-bottom:10px}
+.section-sub{font-size:15px;color:var(--mid);line-height:1.7;font-weight:300;max-width:520px;margin:0 auto}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.value-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:32px 28px;box-shadow:var(--shadow-glass);position:relative;overflow:hidden;transition:transform var(--tr),box-shadow var(--tr)}
+.value-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
+.value-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.14)}
+.value-icon{font-size:32px;margin-bottom:16px;line-height:1}
+.value-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-0.2px;color:var(--text);margin-bottom:10px}
+.value-desc{font-size:14px;color:var(--mid);line-height:1.72;font-weight:300}
+
+/* APPROACH */
+.approach{padding:96px 0}
+.approach-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.approach-visual{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:36px 32px;box-shadow:var(--shadow-glass);position:relative;overflow:hidden}
+.approach-visual::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
+.av-item{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(221,232,245,0.6)}
+.av-item:last-child{border:none;padding-bottom:0}
+.av-num{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--blue);background:var(--blue-l);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.av-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.av-desc{font-size:13px;color:var(--mid);line-height:1.6;font-weight:300}
+.approach-content{}
+.approach-content .story-label{margin-bottom:14px}
+.approach-heading{font-family:'Outfit',sans-serif;font-size:clamp(24px,2.5vw,34px);font-weight:600;letter-spacing:-0.5px;line-height:1.22;color:var(--text);margin-bottom:20px}
+.approach-content p{font-size:15px;color:var(--mid);line-height:1.8;margin-bottom:18px;font-weight:300}
+.approach-content p:last-child{margin-bottom:0}
+
+/* TEAM */
+.team{padding:96px 0;background:var(--bg)}
+.team-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:48px;box-shadow:var(--shadow-glass);max-width:720px;margin:0 auto;position:relative;overflow:hidden;text-align:center}
+.team-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38BDF8);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px;box-shadow:0 8px 24px rgba(14,165,233,0.30)}
+.team-name{font-family:'Outfit',sans-serif;font-size:22px;font-weight:600;letter-spacing:-0.3px;color:var(--text);margin-bottom:6px}
+.team-role{font-size:13px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:20px}
+.team-bio{font-size:15px;color:var(--mid);line-height:1.8;font-weight:300;max-width:520px;margin:0 auto 28px}
+.team-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.badge{background:var(--bg);border:1px solid var(--border);border-radius:99px;padding:5px 14px;font-size:12px;color:var(--mid);font-weight:500}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:var(--r-xl);overflow:hidden;margin-top:48px}
+.stat-box{background:var(--white);padding:32px 24px;text-align:center}
+.stat-num{font-family:'Outfit',sans-serif;font-size:36px;font-weight:700;letter-spacing:-1px;color:var(--text);margin-bottom:6px}
+.stat-num span{color:var(--blue)}
+.stat-label{font-size:13px;color:var(--muted);font-weight:400}
+
+/* CTA */
+.cta{padding:96px 0;background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-80px;right:-60px;width:420px;height:420px;background:radial-gradient(circle,rgba(14,165,233,0.14) 0%,transparent 70%);pointer-events:none}
+.cta-inner{max-width:600px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
+.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:600;letter-spacing:-0.6px;color:#fff;line-height:1.18;margin-bottom:14px}
+.cta-sub{font-size:16px;color:rgba(255,255,255,0.60);margin-bottom:32px;line-height:1.7;font-weight:300}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.btn-white{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#fff;color:var(--blue);padding:13px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;transition:all var(--tr);box-shadow:0 4px 20px rgba(0,0,0,0.12)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.18);color:var(--blue)}
+.btn-outline-white{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:#fff;padding:13px 24px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;transition:all var(--tr);border:1.5px solid rgba(255,255,255,0.45)}
+.btn-outline-white:hover{background:rgba(255,255,255,0.10);border-color:#fff;color:#fff}
+
+/* CONTACT BAR */
+.contact-bar{background:var(--bg);border-top:1px solid var(--border);padding:32px 24px;text-align:center}
+.contact-bar p{font-size:14px;color:var(--muted);margin-bottom:8px}
+.contact-bar a{color:var(--blue);font-weight:600;font-size:15px}
+.contact-bar a:hover{text-decoration:underline}
+
+/* FOOTER */
+footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.5px;color:#fff;display:block;margin-bottom:12px}
+.footer-logo span{color:var(--blue)}
+.footer-brand p{font-size:13px;line-height:1.72;max-width:270px;margin-bottom:20px;color:rgba(255,255,255,0.40);font-weight:300}
+.social-row{display:flex;gap:9px}
+.social-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:background var(--tr)}
+.social-btn:hover{background:rgba(255,255,255,0.14)}
+.footer-col h4{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.85);margin-bottom:15px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.40);transition:color var(--tr);font-weight:300}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.07);padding-top:26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.28)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:rgba(255,255,255,0.28);transition:color var(--tr)}
+.footer-links a:hover{color:rgba(255,255,255,0.65)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.52s ease,transform 0.52s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .story-grid,.approach-grid{grid-template-columns:1fr;gap:40px}
+  .story-left{position:static}
+  .values-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .footer-grid{grid-template-columns:1fr}
+  .cta-btns{flex-direction:column;align-items:stretch}
+  .cta-btns a{text-align:center}
+  .team-card{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
+    <div class="nav-links">
+      <a href="/#tools">AI Tools</a>
+      <a href="/#services">Services</a>
+      <a href="/#guides">Guides</a>
+      <a href="/about" class="active">About</a>
+    </div>
+    <a href="/planner" class="nav-cta">Start Free Plan →</a>
+    <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/#tools" onclick="closeMenu()">AI Tools</a>
+  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/#guides" onclick="closeMenu()">Guides</a>
+  <a href="/about" onclick="closeMenu()">About</a>
+  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="tag">✦ Our Story</div>
+    <h1 class="hero-title">Built by someone who<br>has <em>actually moved</em>.</h1>
+    <p class="hero-lead">MovingCOST.ai was born from lived experience — not a whiteboard. We know what it feels like to start over somewhere new, and we built the tool we wish we'd had.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-left reveal">
+        <div class="story-label">Why We Built This</div>
+        <h2 class="story-heading">Moving is never just a logistics problem.</h2>
+        <blockquote class="story-quote">
+          "It is a life decision — one that touches your finances, your family, your identity, and your sense of home."
+        </blockquote>
+      </div>
+      <div class="story-right reveal">
+        <p>Our founder is an <strong>artist, collector, and entrepreneur</strong> who has navigated multiple major relocations across continents and cultures over the course of his life.</p>
+        <p>Each move carried its own weight: new cities, new systems, new costs, new uncertainties. And each time, the process of figuring it all out felt far harder than it should have been.</p>
+        <p>Most people are forced to make these decisions with <strong>scattered information, contradictory estimates, and no real clarity</strong> on what things will actually cost on the other side.</p>
+        <p>That gap is what MovingCOST.ai was built to close. We combine AI-powered cost planning, city comparison, and practical relocation guidance to help individuals and families move with <strong>greater clarity, confidence, and control</strong> — whether you're crossing a border for the first time or planning your fifth chapter in a new place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION BANNER -->
+<section class="mission">
+  <div class="mission-inner">
+    <div class="mission-eyebrow">Our Mission</div>
+    <h2 class="mission-title">Move smarter.<br><em>Spend less. Live better.</em></h2>
+    <p class="mission-sub">We believe the decision to move your life somewhere new deserves better tools. Not generic averages. Not outdated forum posts. Real intelligence, built around your actual situation.</p>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">What We Stand For</div>
+      <h2 class="section-title">Three principles that guide everything we build.</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon">🎯</div>
+        <div class="value-title">Clarity over complexity</div>
+        <p class="value-desc">Moving decisions shouldn't require a finance degree or an immigration lawyer just to get started. We make complex information simple, specific, and actionable.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">💡</div>
+        <div class="value-title">Honesty over hype</div>
+        <p class="value-desc">We give you ranges, not false precision. We flag real risks, not just opportunities. Every estimate comes with the context you need to make it useful.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">🌍</div>
+        <div class="value-title">Built for real movers</div>
+        <p class="value-desc">From first-time expats to seasoned global nomads, our tools are designed for people who are actually doing this — not just thinking about it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach">
+  <div class="container">
+    <div class="approach-grid">
+      <div class="approach-visual reveal">
+        <div class="av-item">
+          <div class="av-num">1</div>
+          <div>
+            <div class="av-title">You tell us about your move</div>
+            <p class="av-desc">Income, lifestyle, timeline, household — 2 minutes in our planner.</p>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-num">2</div>
+          <div>
+            <div class="av-title">AI builds your plan</div>
+            <p class="av-desc">Our analyst cross-references 180+ cities and 50+ cost factors against your profile.</p>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-num">3</div>
+          <div>
+            <div class="av-title">You get a real report</div>
+            <p class="av-desc">Cost breakdown, housing guide, visa notes, tax context, and a 90-day action plan — all personalised to you.</p>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-num">4</div>
+          <div>
+            <div class="av-title">You move with confidence</div>
+            <p class="av-desc">No more scattered tabs and forum guessing. One clear plan, one informed decision.</p>
+          </div>
+        </div>
+      </div>
+      <div class="approach-content reveal">
+        <div class="story-label">How It Works</div>
+        <h2 class="approach-heading">Good decisions come from good information.</h2>
+        <p>Not generic city averages. Not outdated blog posts. Not rough guesses from strangers online.</p>
+        <p>Every plan we generate is built around <strong>your life</strong> — your income, your lifestyle, your priorities, and your timeline. Our AI draws on real cost data across 180+ cities to give you a picture that's honest, specific, and actually useful.</p>
+        <p>We also know the limits of AI. Every report includes clear disclaimers, cost ranges rather than false precision, and specific recommendations on when to engage a professional — because some decisions are too important to get wrong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">The Team</div>
+      <h2 class="section-title">Small team. Big ambition.</h2>
+      <p class="section-sub">We're building at the intersection of AI, relocation planning, and human experience. Early, focused, and genuinely passionate about getting this right.</p>
+    </div>
+
+    <div class="team-card reveal">
+      <div class="team-avatar">🎨</div>
+      <div class="team-name">Da Vinci</div>
+      <div class="team-role">Founder & Creative Director</div>
+      <p class="team-bio">Artist, collector, and entrepreneur with decades of international experience across multiple continents. After living through numerous major relocations firsthand, he built the tool he always wished existed. He brings deep cross-cultural insight and an obsessive attention to quality to every aspect of MovingCOST.ai.</p>
+      <div class="team-badges">
+        <span class="badge">🎨 Artist</span>
+        <span class="badge">🌍 Multi-continent experience</span>
+        <span class="badge">🚀 Entrepreneur</span>
+        <span class="badge">💎 Collector</span>
+      </div>
+    </div>
+
+    <div class="stats-row reveal">
+      <div class="stat-box">
+        <div class="stat-num">50K<span>+</span></div>
+        <div class="stat-label">Plans generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">180<span>+</span></div>
+        <div class="stat-label">Cities covered</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">$2,400<span>/mo</span></div>
+        <div class="stat-label">Average savings found</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to plan your move with AI?</h2>
+    <p class="cta-sub">Join thousands of people making smarter mobility decisions. Your personalised report is ready in minutes.</p>
+    <div class="cta-btns">
+      <a href="/planner" class="btn-white">Generate My AI Plan →</a>
+      <a href="/#guides" class="btn-outline-white">Browse Free Guides</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT BAR -->
+<div class="contact-bar">
+  <p>Have a question, feedback, or want to share your moving story?</p>
+  <a href="mailto:support@movingcost.ai">support@movingcost.ai</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
+        <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
+        <div class="social-row">
+          <div class="social-btn">𝕏</div>
+          <div class="social-btn">in</div>
+          <div class="social-btn">▶</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>AI Tools</h4>
+        <ul>
+          <li><a href="/planner">Relocation Planner</a></li>
+          <li><a href="/planner">Nomad Planner</a></li>
+          <li><a href="/planner">City Comparison</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/#guides">Mobility Guides</a></li>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="/about">About Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="mailto:support@movingcost.ai">Contact</a></li>
+          <li><a href="/planner">Pricing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 MovingCOST.ai · All rights reserved</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:support@movingcost.ai">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Hamburger
+var menuBtn=document.getElementById('menuBtn');
+var mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',function(){
+  var open=mobileMenu.classList.toggle('open');
+  menuBtn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+});
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  menuBtn.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('click',function(e){
+  if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu();
+});
+
+// Scroll reveal
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
+</script>
+</body>
+</html>
