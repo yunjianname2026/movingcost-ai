@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobility Guides & Blog — MovingCOST.ai</title>
+<meta name="description" content="Expert guides on international relocation, digital nomad life, city comparisons, and moving costs. Real insights for people making major life moves.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://www.movingcost.ai/blog">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.movingcost.ai/blog">
+<meta property="og:title" content="Mobility Guides & Blog — MovingCOST.ai">
+<meta property="og:description" content="Expert guides on international relocation, digital nomad life, and city comparisons.">
+<meta property="og:image" content="https://www.movingcost.ai/og-image.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
+  --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--green-l:#ECFDF5;
+  --glass-bg:rgba(255,255,255,0.78);--glass-border:rgba(255,255,255,0.88);
+  --shadow-glass:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.05);
+  --r:10px;--r-xl:24px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;color:var(--text);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
+.logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);transition:color var(--tr);white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--blue)}
+.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.nav-cta:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;border:none;background:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr);transform-origin:center}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{display:none;position:fixed;inset:62px 0 0 0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:32px 24px;gap:4px;border-top:1px solid var(--border);overflow-y:auto}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border);transition:color var(--tr)}
+.nav-mobile a:last-child{border:none}
+.nav-mobile a:hover{color:var(--blue)}
+.nav-mobile .mobile-cta{margin-top:20px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:15px;font-size:16px;font-weight:700}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 45%,#F4F8FE 100%);padding:72px 0 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 68%);pointer-events:none}
+.hero-inner{max-width:1140px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:18px}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(32px,4vw,48px);font-weight:700;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:14px}
+.hero-title em{font-style:normal;color:var(--blue)}
+.hero-sub{font-size:17px;color:var(--mid);line-height:1.75;font-weight:300;max-width:560px}
+
+/* CONTAINER */
+.container{max-width:1140px;margin:0 auto;padding:0 24px}
+
+/* FILTER TABS */
+.filter-row{display:flex;align-items:center;gap:8px;padding:32px 0 8px;flex-wrap:wrap}
+.filter-btn{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;padding:7px 16px;border-radius:99px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all var(--tr)}
+.filter-btn:hover,.filter-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* FEATURED ARTICLE */
+.featured{padding:32px 0 0}
+.featured-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--blue);margin-bottom:20px}
+.featured-card{
+  background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);border-radius:var(--r-xl);
+  box-shadow:var(--shadow-glass);
+  display:grid;grid-template-columns:1fr 1fr;
+  overflow:hidden;transition:transform var(--tr),box-shadow var(--tr);
+  position:relative;
+}
+.featured-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
+.featured-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.14)}
+.featured-img{
+  background:url('/blog/nyc-to-lisbon-cover.jpg') center center/cover no-repeat;
+  padding:48px 44px;display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;overflow:hidden;min-height:280px;
+}
+.featured-img::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(8,18,38,0.92) 0%, rgba(8,18,38,0.55) 50%, rgba(8,18,38,0.20) 100%);
+  pointer-events:none;z-index:0;
+}
+.featured-img-eyebrow,.featured-img-title{position:relative;z-index:1;}
+.featured-img-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:12px;position:relative;z-index:1}
+.featured-img-title{font-family:'Outfit',sans-serif;font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-0.5px;line-height:1.2;color:#fff;position:relative;z-index:1}
+.featured-content{padding:40px 40px;display:flex;flex-direction:column;justify-content:center}
+.article-tag{display:inline-flex;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:16px;width:fit-content}
+.featured-content h2{font-family:'Outfit',sans-serif;font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-0.4px;color:var(--text);line-height:1.28;margin-bottom:12px}
+.featured-content p{font-size:15px;color:var(--mid);line-height:1.75;margin-bottom:24px;font-weight:300}
+.featured-meta{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);margin-bottom:24px}
+.read-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--blue);transition:gap var(--tr)}
+.read-btn:hover{gap:10px}
+
+/* ARTICLES GRID */
+.articles{padding:48px 0 80px}
+.articles-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:28px}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* ARTICLE CARD */
+.article-card{
+  background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--glass-border);border-radius:var(--r-xl);
+  box-shadow:var(--shadow-glass);
+  padding:28px 24px;display:flex;flex-direction:column;
+  transition:transform var(--tr),box-shadow var(--tr);position:relative;overflow:hidden;
+}
+.article-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
+.article-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.12)}
+.article-card .article-tag{margin-bottom:14px}
+.article-card h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.2px;line-height:1.35;color:var(--text);margin-bottom:10px}
+.article-card p{font-size:13px;color:var(--mid);line-height:1.7;flex:1;margin-bottom:20px;font-weight:300}
+.article-footer{display:flex;align-items:center;justify-content:space-between}
+.article-meta-small{font-size:12px;color:var(--muted)}
+.article-link{font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:4px;transition:gap var(--tr)}
+.article-link:hover{gap:8px}
+
+/* COMING SOON CARD */
+.coming-card{
+  background:rgba(240,246,255,0.60);
+  border:1.5px dashed var(--border);border-radius:var(--r-xl);
+  padding:28px 24px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;min-height:200px;
+}
+.coming-card-icon{font-size:28px;margin-bottom:12px;opacity:0.5}
+.coming-card-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.coming-card-sub{font-size:12px;color:var(--faint)}
+
+/* CTA STRIP */
+.cta-strip{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);padding:64px 0;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;top:-60px;right:-40px;width:350px;height:350px;background:radial-gradient(circle,rgba(14,165,233,0.14) 0%,transparent 70%);pointer-events:none}
+.cta-inner{max-width:600px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
+.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-0.5px;color:#fff;line-height:1.18;margin-bottom:12px}
+.cta-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.7;font-weight:300}
+.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
+.cta-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
+
+/* FOOTER */
+footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.5px;color:#fff;display:block;margin-bottom:12px}
+.footer-logo span{color:var(--blue)}
+.footer-brand p{font-size:13px;line-height:1.72;max-width:270px;margin-bottom:20px;color:rgba(255,255,255,0.40);font-weight:300}
+.social-row{display:flex;gap:9px}
+.social-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:background var(--tr)}
+.social-btn:hover{background:rgba(255,255,255,0.14)}
+.footer-col h4{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.85);margin-bottom:15px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,0.40);transition:color var(--tr);font-weight:300}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.07);padding-top:26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.28)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:rgba(255,255,255,0.28);transition:color var(--tr)}
+.footer-links a:hover{color:rgba(255,255,255,0.65)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.52s ease,transform 0.52s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}.nav-hamburger{display:flex}
+  .featured-card{grid-template-columns:1fr}
+  .featured-img{min-height:200px;padding:32px 28px}
+  .featured-content{padding:28px 28px}
+  .articles-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .articles-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#tools">AI Tools</a>
+      <a href="/">Cities</a>
+      <a href="/">Routes</a>
+      <a href="/#guides">Guides</a>
+      <a href="/#services">Services</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="/about">About</a>
+    </div>
+    <a href="/planner" class="nav-cta">Start Free Plan →</a>
+    <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
+  <a href="/#tools" onclick="closeMenu()">AI Tools</a>
+  <a href="/" onclick="closeMenu()">Cities</a>
+  <a href="/" onclick="closeMenu()">Routes</a>
+  <a href="/#guides" onclick="closeMenu()">Guides</a>
+  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/about" onclick="closeMenu()">About</a>
+  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="tag">✦ Mobility Blog</div>
+    <h1 class="hero-title">Guides for people who<br>are <em>actually moving</em>.</h1>
+    <p class="hero-sub">Real numbers, honest advice, and firsthand insights on international relocation, digital nomad life, and city comparisons — written for people seriously thinking about the move.</p>
+  </div>
+</section>
+
+<!-- FILTER TABS -->
+<div class="container">
+  <div class="filter-row">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Relocation</button>
+    <button class="filter-btn">Digital Nomad</button>
+    <button class="filter-btn">City Guides</button>
+    <button class="filter-btn">Finance & Tax</button>
+    <button class="filter-btn">Visa & Immigration</button>
+  </div>
+</div>
+
+<!-- FEATURED ARTICLE -->
+<div class="container">
+  <section class="featured">
+    <div class="featured-label">Featured Guide</div>
+    <a href="/blog/nyc-to-lisbon" class="featured-card reveal">
+      <div class="featured-img">
+        <div class="featured-img-eyebrow">🇵🇹 Relocation · 9 min read</div>
+        <div class="featured-img-title">Moving from New York<br>to Lisbon: How Much<br>Can You Actually Save?</div>
+      </div>
+      <div class="featured-content">
+        <span class="article-tag">Relocation</span>
+        <h2>The honest monthly breakdown — from someone who actually did it.</h2>
+        <p>I used to spend $4,200 a month just on rent. My new two-bedroom in Príncipe Real costs €1,850. Here's the full picture — housing, food, transport, healthcare, visas — and what nobody told me before I left.</p>
+        <div class="featured-meta">
+          <span>May 2026</span>
+          <span>·</span>
+          <span>9 min read</span>
+          <span>·</span>
+          <span>NYC → Lisbon</span>
+        </div>
+        <span class="read-btn">Read the full guide →</span>
+      </div>
+    </a>
+  </section>
+</div>
+
+<!-- ARTICLES GRID -->
+<div class="container">
+  <section class="articles">
+    <div class="articles-title">All Guides</div>
+    <div class="articles-grid">
+
+      <!-- Published -->
+      <a href="/blog/nyc-to-lisbon" class="article-card reveal">
+        <span class="article-tag">Relocation</span>
+        <h3>Moving from New York to Lisbon: How Much Can You Actually Save?</h3>
+        <p>The full monthly cost breakdown — rent, food, transport, healthcare — and what life actually looks like on the other side.</p>
+        <div class="article-footer">
+          <span class="article-meta-small">May 2026 · 9 min</span>
+          <span class="article-link">Read →</span>
+        </div>
+      </a>
+
+      <!-- Coming soon -->
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🌍</div>
+        <div class="coming-card-title">Best Cities for Digital Nomads in 2026</div>
+        <div class="coming-card-sub">Coming soon</div>
+      </div>
+
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">💰</div>
+        <div class="coming-card-title">Moving vs Selling Everything: Which Saves More?</div>
+        <div class="coming-card-sub">Coming soon</div>
+      </div>
+
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🛂</div>
+        <div class="coming-card-title">Portugal D7 Visa: The Complete 2026 Guide</div>
+        <div class="coming-card-sub">Coming soon</div>
+      </div>
+
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">🏙️</div>
+        <div class="coming-card-title">Lisbon vs Barcelona: Which City Fits Your Life?</div>
+        <div class="coming-card-sub">Coming soon</div>
+      </div>
+
+      <div class="coming-card reveal">
+        <div class="coming-card-icon">📋</div>
+        <div class="coming-card-title">The Ultimate International Moving Checklist</div>
+        <div class="coming-card-sub">Coming soon</div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- CTA -->
+<section class="cta-strip">
+  <div class="cta-inner">
+    <h2 class="cta-title">Ready to calculate your own numbers?</h2>
+    <p class="cta-sub">Tell us about your move — our AI builds a personalised cost plan in under 2 minutes. Free to start.</p>
+    <a href="/planner" class="cta-btn">Generate My AI Plan →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
+        <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
+        <div class="social-row">
+          <a href="https://x.com/movingcostai" target="_blank" rel="noopener" class="social-btn">𝕏</a>
+          <a href="https://linkedin.com/company/movingcostai" target="_blank" rel="noopener" class="social-btn">in</a>
+          <a href="https://youtube.com/@movingcostai" target="_blank" rel="noopener" class="social-btn">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>AI Tools</h4>
+        <ul>
+          <li><a href="/planner">Relocation Planner</a></li>
+          <li><a href="/planner">Nomad Planner</a></li>
+          <li><a href="/planner">City Comparison</a></li>
+          <li><a href="/planner">Cost Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/">Cities</a></li>
+          <li><a href="/">Routes</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#guides">Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="mailto:support@movingcost.ai">Contact</a></li>
+          <li><a href="/planner">Pricing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 MovingCOST.ai · All rights reserved</div>
+      <div class="footer-links">
+        <a href="mailto:support@movingcost.ai">Privacy</a>
+        <a href="mailto:support@movingcost.ai">Terms</a>
+        <a href="mailto:support@movingcost.ai">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var menuBtn=document.getElementById('menuBtn');
+var mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',function(){
+  var open=mobileMenu.classList.toggle('open');
+  menuBtn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+});
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  menuBtn.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('click',function(e){
+  if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu();
+});
+
+// Filter tabs (UI only for now)
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+    this.classList.add('active');
+  });
+});
+
+// Scroll reveal
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
+</script>
+</body>
+</html>

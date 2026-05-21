@@ -43,7 +43,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
 .logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
 .logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
-.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{font-size:13.5px;font-weight:500;color:var(--muted);transition:color var(--tr);white-space:nowrap}
 .nav-links a:hover{color:var(--blue)}
 .nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
@@ -64,19 +64,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .article-wrap{max-width:740px;margin:0 auto;padding:0 24px}
 
 /* HERO */
-.article-hero{padding:64px 0 48px;background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 50%,#F4F8FE 100%);margin-bottom:0}
+.article-hero{padding:0;background:#0A1628;margin-bottom:0;position:relative;overflow:hidden;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end}
+.article-hero-bg{position:absolute;inset:0;background:url('/blog/nyc-to-lisbon-cover.jpg') center center/cover no-repeat;opacity:0.45}
+.article-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,18,38,0.97) 0%,rgba(8,18,38,0.65) 55%,rgba(8,18,38,0.15) 100%)}
+.article-hero .article-wrap{position:relative;z-index:1;padding-top:80px;padding-bottom:56px}
 .article-hero .article-wrap{text-align:left}
 .article-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d)}
-.article-date{font-size:13px;color:var(--muted);font-weight:400}
-.article-read{font-size:13px;color:var(--muted)}
-.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:18px}
-.article-title em{font-style:normal;color:var(--blue)}
-.article-intro{font-size:18px;color:var(--mid);line-height:1.75;font-weight:300;margin-bottom:28px}
+.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:rgba(14,165,233,0.25);color:#7DD3FC;border:1px solid rgba(14,165,233,0.35)}
+.article-date{font-size:13px;color:rgba(255,255,255,0.55);font-weight:400}
+.article-read{font-size:13px;color:rgba(255,255,255,0.45)}
+.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:700;letter-spacing:-1.2px;line-height:1.10;color:#fff;margin-bottom:18px}
+.article-title em{font-style:normal;color:#38BDF8}
+.article-intro{font-size:18px;color:rgba(255,255,255,0.70);line-height:1.75;font-weight:300;margin-bottom:28px}
 .author-row{display:flex;align-items:center;gap:12px}
 .author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38BDF8);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.author-name{font-size:14px;font-weight:600;color:var(--text)}
-.author-bio{font-size:12px;color:var(--muted)}
+.author-name{font-size:14px;font-weight:600;color:#fff}
+.author-bio{font-size:12px;color:rgba(255,255,255,0.50)}
 
 /* ARTICLE BODY */
 .article-body{padding:56px 0 80px}
@@ -132,8 +135,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-card{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);border-radius:var(--r-xl);padding:48px 40px;text-align:center;margin:56px 0;position:relative;overflow:hidden}
 .cta-card::before{content:'';position:absolute;top:-60px;right:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%);pointer-events:none}
 .cta-card-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:14px}
-.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.5px;color:#fff;line-height:1.2;margin-bottom:12px}
-.cta-card-sub{font-size:15px;color:rgba(255,255,255,0.60);margin-bottom:28px;line-height:1.7;font-weight:300}
+.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.5px;color:#fff !important;line-height:1.2;margin-bottom:12px}
+.cta-card-sub{font-size:15px;color:rgba(255,255,255,0.65) !important;margin-bottom:28px;line-height:1.7;font-weight:300}
+.article-body .cta-card p{color:rgba(255,255,255,0.65) !important}
 .cta-card-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--blue);color:#fff;padding:14px 32px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
 .cta-card-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
 .cta-trust{display:flex;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap}
@@ -189,11 +193,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   <div class="nav-inner">
     <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
     <div class="nav-links">
-      <a href="/#tools">AI Tools</a>
-      <a href="/#services">Services</a>
-      <a href="/#guides">Guides</a>
-      <a href="/about">About</a>
-    </div>
+        <a href="/">Home</a>
+        <a href="/#tools">AI Tools</a>
+        <a href="/">Cities</a>
+        <a href="/">Routes</a>
+        <a href="/#guides">Guides</a>
+        <a href="/#services">Services</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+      </div>
     <a href="/planner" class="nav-cta">Start Free Plan →</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -201,15 +209,21 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   </div>
 </nav>
 <div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
   <a href="/#tools" onclick="closeMenu()">AI Tools</a>
-  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/" onclick="closeMenu()">Cities</a>
+  <a href="/" onclick="closeMenu()">Routes</a>
   <a href="/#guides" onclick="closeMenu()">Guides</a>
+  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
   <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
 </div>
 
 <!-- ARTICLE HERO -->
 <section class="article-hero">
+  <div class="article-hero-bg"></div>
+  <div class="article-hero-overlay"></div>
   <div class="article-wrap">
     <div class="article-meta">
       <span class="article-tag">Relocation</span>
@@ -495,28 +509,31 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
         <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
         <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
       </div>
-      <div class="footer-col">
+            <div class="footer-col">
         <h4>AI Tools</h4>
         <ul>
           <li><a href="/planner">Relocation Planner</a></li>
           <li><a href="/planner">Nomad Planner</a></li>
           <li><a href="/planner">City Comparison</a></li>
+          <li><a href="/planner">Cost Calculator</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Resources</h4>
+        <h4>Explore</h4>
         <ul>
-          <li><a href="/#guides">Mobility Guides</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="/about">About Us</a></li>
+          <li><a href="/">Cities</a></li>
+          <li><a href="/">Routes</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#guides">Guides</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="/about">About</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/#services">Services</a></li>
           <li><a href="mailto:support@movingcost.ai">Contact</a></li>
-          <li><a href="/planner">Start Free</a></li>
+          <li><a href="/planner">Pricing</a></li>
         </ul>
       </div>
     </div>
@@ -550,4 +567,3 @@ document.addEventListener('click',function(e){
 </script>
 </body>
 </html>
-
