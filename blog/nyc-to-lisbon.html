@@ -132,8 +132,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-card{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);border-radius:var(--r-xl);padding:48px 40px;text-align:center;margin:56px 0;position:relative;overflow:hidden}
 .cta-card::before{content:'';position:absolute;top:-60px;right:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%);pointer-events:none}
 .cta-card-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:14px}
-.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.5px;color:#fff;line-height:1.2;margin-bottom:12px}
-.cta-card-sub{font-size:15px;color:rgba(255,255,255,0.60);margin-bottom:28px;line-height:1.7;font-weight:300}
+.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.5px;color:#fff !important;line-height:1.2;margin-bottom:12px}
+.cta-card-sub{font-size:15px;color:rgba(255,255,255,0.65) !important;margin-bottom:28px;line-height:1.7;font-weight:300}
+.article-body .cta-card p{color:rgba(255,255,255,0.65) !important}
 .cta-card-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--blue);color:#fff;padding:14px 32px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
 .cta-card-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
 .cta-trust{display:flex;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap}
@@ -550,4 +551,3 @@ document.addEventListener('click',function(e){
 </script>
 </body>
 </html>
-
