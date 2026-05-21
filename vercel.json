@@ -1,26 +1,23 @@
-	
-cleanUrls	true
-trailingSlash	false
-headers	
-0	
-source	"/(.*)"
-headers	
-0	
-key	"X-Content-Type-Options"
-value	"nosniff"
-1	
-key	"X-Frame-Options"
-value	"DENY"
-2	
-key	"Cache-Control"
-value	"public, max-age=3600"
-1	
-source	"/blog/nyc-to-lisbon-cover.jpg"
-headers	
-0	
-key	"Cache-Control"
-value	"public, max-age=86400"
-rewrites	
-0	
-source	"/blog"
-destination	"/blog/index.html"
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/blog/nyc-to-lisbon-cover.jpg",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/blog", "destination": "/blog/index.html" }
+  ]
+}
