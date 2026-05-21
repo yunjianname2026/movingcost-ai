@@ -47,8 +47,8 @@ nav{position:sticky;top:0;z-index:200;background:rgba(240,246,255,0.90);backdrop
 .logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
 .logo span{color:var(--blue)}
 .logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-links a{font-size:13.5px;font-weight:500;color:var(--mid);transition:color var(--tr);white-space:nowrap}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--mid);transition:color var(--tr);white-space:nowrap}
 .nav-links a:hover{color:var(--blue)}
 .nav-back{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:var(--mid);padding:9px 18px;border-radius:99px;border:1.5px solid var(--border);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
 .nav-back:hover{border-color:var(--blue);color:var(--blue)}
@@ -256,11 +256,15 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
   <div class="nav-inner">
     <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
     <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="/#tools">AI Tools</a>
-      <a href="/#services">Services</a>
-      <a href="/#guides">Guides</a>
-    </div>
+        <a href="/">Home</a>
+        <a href="/#tools">AI Tools</a>
+        <a href="/">Cities</a>
+        <a href="/">Routes</a>
+        <a href="/#guides">Guides</a>
+        <a href="/#services">Services</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+      </div>
     <a href="/" class="nav-back">← Back to Home</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -270,9 +274,13 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
 <div class="nav-mobile" id="mobileMenu">
   <a href="/" onclick="closeMenu()">Home</a>
   <a href="/#tools" onclick="closeMenu()">AI Tools</a>
-  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/" onclick="closeMenu()">Cities</a>
+  <a href="/" onclick="closeMenu()">Routes</a>
   <a href="/#guides" onclick="closeMenu()">Guides</a>
-  <a href="/" onclick="closeMenu()" style="color:var(--blue);font-weight:700">← Back to Home</a>
+  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/about" onclick="closeMenu()">About</a>
+  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
 </div>
 
 <!-- PAGE -->
