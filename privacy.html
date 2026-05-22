@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — MovingCOST.ai</title>
+<meta name="description" content="Privacy Policy for MovingCOST.ai. Learn how we collect, use, and protect your data.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
+  --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--amber:#F59E0B;
+  --r:10px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;color:var(--text);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.90);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,232,245,0.8)}
+.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text)}
+.logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super}
+.nav-links{display:flex;align-items:center;gap:18px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--mid);transition:color var(--tr)}
+.nav-links a:hover{color:var(--blue)}
+.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr)}
+.nav-cta:hover{background:var(--blue-d);color:#fff}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;border:none;background:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr)}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{display:none;position:fixed;inset:62px 0 0 0;background:rgba(255,255,255,0.97);z-index:199;flex-direction:column;padding:32px 24px;gap:4px;border-top:1px solid var(--border)}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border)}
+/* PAGE */
+.page{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+.page-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:18px}
+.page-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-0.8px;line-height:1.15;margin-bottom:10px}
+.page-meta{font-size:13px;color:var(--muted);margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+/* CONTENT */
+h2{font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.2px;margin:36px 0 12px;color:var(--text)}
+h3{font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;margin:22px 0 8px;color:var(--mid)}
+p{font-size:14px;color:#334155;line-height:1.8;margin-bottom:12px}
+ul{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px}
+.callout{background:var(--blue-l);border-left:4px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:14px 18px;margin:16px 0}
+.callout p{color:#0C4A6E;margin:0}
+.warn{background:#FFF7ED;border-left:4px solid var(--amber);border-radius:0 var(--r) var(--r) 0;padding:14px 18px;margin:16px 0}
+.warn p{color:#92400E;margin:0}
+/* FOOTER */
+footer{background:#0A1628;color:rgba(255,255,255,0.4);padding:40px 0 28px;font-size:13px;line-height:1.8}
+.footer-inner{max-width:1140px;margin:0 auto;padding:0 24px}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.5px;color:#fff}
+.footer-logo span{color:var(--blue)}
+.footer-links-row{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links-row a{font-size:12px;color:rgba(255,255,255,0.35);transition:color var(--tr)}
+.footer-links-row a:hover{color:#fff}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.22)}
+.footer-disclaimer{font-size:11px;color:rgba(255,255,255,0.18);margin-top:12px;line-height:1.7;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:14px}
+@media(max-width:768px){.nav-links,.nav-cta{display:none}.nav-hamburger{display:flex}.footer-top{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
+    <div class="nav-links">
+      <a href="/">Home</a><a href="/#tools">AI Tools</a><a href="/#guides">Guides</a><a href="/contact">Contact</a>
+    </div>
+    <a href="/planner" class="nav-cta">Start Free Plan →</a>
+    <button class="nav-hamburger" id="menuBtn"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
+  <a href="/#tools" onclick="closeMenu()">AI Tools</a>
+  <a href="/contact" onclick="closeMenu()">Contact</a>
+  <a href="/planner" onclick="closeMenu()" style="color:var(--blue);font-weight:700">Start Free Plan →</a>
+</div>
+
+<div class="page">
+  <div class="page-tag">🔒 Legal</div>
+  <h1 class="page-title">Privacy Policy</h1>
+  <p class="page-meta">Last updated: May 2026 · Operated by CLASSIC SPREAD INC</p>
+
+  <div class="callout"><p><strong>Short version:</strong> We collect the minimum data needed to generate your AI planning report. We do not sell your data. Payment is handled entirely by Stripe — we never see your card details.</p></div>
+
+  <h2>1. Who We Are</h2>
+  <p>MovingCOST.ai is an AI mobility planning platform operated by <strong>CLASSIC SPREAD INC</strong>. We help people plan smarter moves by comparing relocation costs, city living expenses, risks, and lifestyle fit.</p>
+  <p>Questions? Contact us at <a href="mailto:support@movingcost.ai" style="color:var(--blue);font-weight:500">support@movingcost.ai</a></p>
+
+  <h2>2. What Data We Collect</h2>
+  <h3>Information you provide</h3>
+  <ul>
+    <li><strong>Move details:</strong> origin city, destination city, move type (relocation, nomad, or comparing cities)</li>
+    <li><strong>Profile information:</strong> household size, income range, lifestyle preferences, move timeline</li>
+    <li><strong>Email address:</strong> collected only when you request your report to be sent</li>
+    <li><strong>Optional notes:</strong> any free-text you add to personalise your plan</li>
+  </ul>
+  <h3>Automatically collected</h3>
+  <ul>
+    <li>Basic browser and device information (standard web server logs)</li>
+    <li>Session cookies to maintain your form state during your visit</li>
+    <li>General geographic region (not precise location)</li>
+  </ul>
+  <p>We do <strong>not</strong> collect: government IDs, passport details, social security numbers, or precise financial account details.</p>
+
+  <h2>3. How We Use Your Data</h2>
+  <ul>
+    <li>To generate your personalised AI mobility planning report</li>
+    <li>To send your report to the email address you provide</li>
+    <li>To improve the quality of our AI-generated planning content</li>
+    <li>To send occasional mobility tips if you subscribe (you can unsubscribe at any time)</li>
+  </ul>
+  <p>We do <strong>not</strong> use your data for advertising profiling, and we do <strong>not</strong> sell your data to third parties.</p>
+
+  <h2>4. Third-Party Services</h2>
+  <h3>Stripe (Payments)</h3>
+  <p>Payment processing is handled entirely by <strong>Stripe, Inc.</strong> We never see, store, or have access to your credit card number, CVV, or full payment details. Stripe is PCI-DSS certified. Their privacy policy is at <a href="https://stripe.com/privacy" target="_blank" style="color:var(--blue)">stripe.com/privacy</a>.</p>
+
+  <h3>Anthropic / Claude AI</h3>
+  <p>Your move details are sent to <strong>Anthropic's Claude API</strong> to generate your planning report. Anthropic processes this data to produce the report content. Their privacy policy is at <a href="https://www.anthropic.com/privacy" target="_blank" style="color:var(--blue)">anthropic.com/privacy</a>.</p>
+
+  <h3>Resend (Email Delivery)</h3>
+  <p>Your email address and report content are passed to <strong>Resend</strong> to deliver your report to your inbox. Their privacy policy is at <a href="https://resend.com/privacy" target="_blank" style="color:var(--blue)">resend.com/privacy</a>.</p>
+
+  <h2>5. Data Retention</h2>
+  <ul>
+    <li>Form data (cities, preferences) is stored temporarily in your browser's localStorage and cleared after use</li>
+    <li>Email addresses used for report delivery are retained for up to 90 days for support purposes</li>
+    <li>Generated report content is not permanently stored on our servers after delivery</li>
+    <li>Payment records are maintained by Stripe per their own retention policies</li>
+  </ul>
+
+  <h2>6. Cookies</h2>
+  <p>We use minimal session cookies to maintain your form state as you complete your plan. We do not use tracking cookies or advertising cookies. Third-party services (Stripe, Google Fonts) may set their own cookies per their policies.</p>
+
+  <h2>7. Your Rights</h2>
+  <p>Depending on your location, you may have rights to:</p>
+  <ul>
+    <li>Access the personal data we hold about you</li>
+    <li>Request correction of inaccurate data</li>
+    <li>Request deletion of your data</li>
+    <li>Withdraw consent for email communications</li>
+  </ul>
+  <p>To exercise any of these rights, email us at <a href="mailto:support@movingcost.ai" style="color:var(--blue)">support@movingcost.ai</a>. We will respond within 5 business days.</p>
+
+  <h2>8. Children's Privacy</h2>
+  <p>MovingCOST.ai is not directed at children under 16. We do not knowingly collect data from children. If you believe a child has submitted data, please contact us immediately.</p>
+
+  <h2>9. Changes to This Policy</h2>
+  <p>We may update this policy periodically. When we do, we will update the "Last updated" date above. Continued use of the service after changes constitutes acceptance of the updated policy.</p>
+
+  <h2>10. Contact</h2>
+  <p>For any privacy-related questions or requests:<br>
+  📧 <a href="mailto:support@movingcost.ai" style="color:var(--blue);font-weight:500">support@movingcost.ai</a><br>
+  🏢 CLASSIC SPREAD INC · MovingCOST.ai</p>
+
+  <div class="warn"><p><strong>Reminder:</strong> MovingCOST.ai generates AI-based planning estimates for informational purposes only. We do not provide legal, tax, immigration, or financial advice. Always verify important decisions with qualified professionals.</p></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
+      <div class="footer-links-row">
+        <a href="/">Home</a><a href="/planner">AI Planner</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a><a href="/contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.28)"><a href="mailto:support@movingcost.ai" style="color:rgba(255,255,255,0.35)">support@movingcost.ai</a></div>
+    </div>
+    <div class="footer-disclaimer">AI-generated planning estimates only · Not legal, tax, or immigration advice · Costs are estimates — verify with qualified professionals before making decisions</div>
+  </div>
+</footer>
+
+<script>
+var menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',function(){var o=mobileMenu.classList.toggle('open');menuBtn.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''});
+function closeMenu(){mobileMenu.classList.remove('open');menuBtn.classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('click',function(e){if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu()});
+</script>
+</body>
+</html>
