@@ -109,6 +109,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(240,246,255,0.90);backdrop
 select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%237B92B2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:34px}
 textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
 
+/* VALIDATION */
+.finput.input-err{border-color:var(--danger)!important;box-shadow:0 0 0 3px rgba(239,68,68,0.10)!important;background:#FFF5F5!important}
+.fld-err{font-size:11px;color:var(--danger);font-weight:600;margin-top:5px;display:block;animation:sIn 0.2s ease}
+.type-err{font-size:11px;color:var(--danger);font-weight:600;margin-top:8px;display:block;text-align:center;animation:sIn 0.2s ease}
+
 /* TYPE CARDS */
 .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;position:relative;z-index:1}
 .type-card{border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px 10px;cursor:pointer;transition:all var(--tr);background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;overflow:hidden}
@@ -315,8 +320,14 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
           <div class="card-title">AI Mobility Planner</div>
           <div class="card-sub">Tell us about your move — we'll build a plan tailored to your life.</div>
           <div class="frow">
-            <div><label class="flabel">📍 Moving From</label><input class="finput" id="fromCity" type="text" placeholder="e.g. New York, NY"></div>
-            <div><label class="flabel">📍 Moving To</label><input class="finput" id="toCity" type="text" placeholder="e.g. Lisbon, Portugal"></div>
+            <div>
+              <label class="flabel">📍 Moving From <span style="color:var(--danger)">*</span></label>
+              <input class="finput" id="fromCity" type="text" placeholder="e.g. New York, NY" autocomplete="off">
+            </div>
+            <div>
+              <label class="flabel" id="toCity-label">📍 Moving To <span style="color:var(--danger)">*</span></label>
+              <input class="finput" id="toCity" type="text" placeholder="e.g. Lisbon, Portugal" autocomplete="off">
+            </div>
           </div>
           <div class="frow">
             <div>
@@ -333,7 +344,7 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
             </div>
           </div>
           <div class="field">
-            <label class="flabel">🎯 What best describes your move?</label>
+            <label class="flabel">🎯 What best describes your move? <span style="color:var(--danger)">*</span></label>
             <div class="type-grid">
               <div class="type-card" onclick="selectType('relocation',this)"><div class="type-icon">🏠</div><div class="type-title">Relocation</div><div class="type-desc">Permanent or long-term move</div></div>
               <div class="type-card" onclick="selectType('nomad',this)"><div class="type-icon">🌍</div><div class="type-title">Digital Nomad</div><div class="type-desc">Remote life across borders</div></div>
@@ -514,11 +525,11 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
           <div class="card-title">🔍 Cities You're Comparing</div>
           <div class="card-sub">Tell us what's on your shortlist and a bit about your life now.</div>
           <div class="field">
-            <label class="flabel">🏙️ Cities on your shortlist (up to 3)</label>
+            <label class="flabel">🏙️ Cities on your shortlist <span style="color:var(--danger)">*</span> (City A &amp; B required)</label>
             <div style="display:flex;flex-direction:column;gap:7px">
-              <input class="finput" id="c-city1" type="text" placeholder="City A — e.g. Dubai, UAE">
-              <input class="finput" id="c-city2" type="text" placeholder="City B — e.g. Lisbon, Portugal">
-              <input class="finput" id="c-city3" type="text" placeholder="City C (optional)">
+              <input class="finput" id="c-city1" type="text" placeholder="City A — e.g. Dubai, UAE" autocomplete="off">
+              <input class="finput" id="c-city2" type="text" placeholder="City B — e.g. Lisbon, Portugal" autocomplete="off">
+              <input class="finput" id="c-city3" type="text" placeholder="City C — optional (e.g. Chiang Mai, Thailand)">
             </div>
           </div>
           <div class="field">
@@ -536,7 +547,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
             <div><label class="flabel">💰 Monthly Household Income</label><select class="finput" id="c-income"><option>Under $3,000</option><option>$3,000–$6,000</option><option selected>$6,000–$10,000</option><option>$10,000–$20,000</option><option>$20,000+</option></select></div>
             <div><label class="flabel">🏠 Current Monthly Rent</label><select class="finput" id="c-rent"><option>Under $1,000</option><option>$1,000–$2,000</option><option selected>$2,000–$3,500</option><option>$3,500–$6,000</option><option>$6,000+</option></select></div>
           </div>
-          <div class="btn-row"><button class="btn-back" onclick="goBack('s1')">← Back</button><button class="btn-next" onclick="showS('s3-comparing')">Continue →</button></div>
+          <!-- *** KEY FIX: was onclick="showS('s3-comparing')" — now validates cities first *** -->
+          <div class="btn-row"><button class="btn-back" onclick="goBack('s1')">← Back</button><button class="btn-next" onclick="goS3Comparing()">Continue →</button></div>
         </div>
 
         <!-- COMPARING S3 -->
@@ -646,11 +658,6 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
                 <div class="chip">✓ 90-day checklist</div>
                 <div class="chip">✓ PDF download</div>
               </div>
-              <!--
-                数据传递方案：调用 /api/create-checkout 创建 Stripe Checkout Session，
-                成功跳转 URL 里直接携带用户数据 (?d=base64)，彻底解决数据丢失问题。
-                Cookie 作为备用保险。
-              -->
               <a href="#" onclick="goToCheckout(event)"
                  class="unlock-btn"
                  style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px"
@@ -685,6 +692,43 @@ menuBtn.addEventListener('click',function(){
 function closeMenu(){mobileMenu.classList.remove('open');menuBtn.classList.remove('open');document.body.style.overflow=''}
 document.addEventListener('click',function(e){if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu()});
 
+// ── VALIDATION HELPERS ────────────────────────────────────────────────────────
+function valCity(val,label){
+  const t=(val||'').trim();
+  if(t.length<2)return label+' is required';
+  if(!/[a-zA-Z]{2,}/.test(t))return label+': please enter a valid city name (e.g. "Lisbon, Portugal")';
+  if(t.length>80)return label+' name is too long';
+  return null;
+}
+function showFldErr(el,msg){
+  el.classList.add('input-err');
+  const existing=el.parentNode.querySelector('.fld-err');
+  if(existing)existing.remove();
+  const e=document.createElement('span');
+  e.className='fld-err';
+  e.textContent='⚠ '+msg;
+  el.parentNode.appendChild(e);
+  el.addEventListener('input',function onFix(){
+    el.classList.remove('input-err');
+    const err=el.parentNode.querySelector('.fld-err');
+    if(err)err.remove();
+    el.removeEventListener('input',onFix);
+  },{once:true});
+}
+function showTypeErr(msg){
+  clearTypeErr();
+  const e=document.createElement('div');
+  e.id='type-err-msg';
+  e.className='type-err';
+  e.textContent='⚠ '+msg;
+  document.querySelector('.type-grid').insertAdjacentElement('afterend',e);
+}
+function clearTypeErr(){const e=document.getElementById('type-err-msg');if(e)e.remove()}
+function clearAllErrs(){
+  document.querySelectorAll('.fld-err,.type-err').forEach(e=>e.remove());
+  document.querySelectorAll('.input-err').forEach(e=>e.classList.remove('input-err'));
+}
+
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
 function showS(id,back=false){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','back'));
@@ -693,58 +737,124 @@ function showS(id,back=false){
   t.classList.add('active');
   document.querySelector('.form-card').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function selectType(type,el){userType=type;document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected')}
+
+function selectType(type,el){
+  userType=type;
+  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  clearTypeErr();
+  // Update toCity placeholder & label to match move type
+  const toEl=document.getElementById('toCity');
+  const toLabelEl=document.getElementById('toCity-label');
+  if(type==='nomad'){
+    toEl.placeholder='e.g. Southeast Asia (optional)';
+    if(toLabelEl)toLabelEl.innerHTML='📍 General Destination <span style="font-size:9px;color:var(--muted)">(optional)</span>';
+  }else if(type==='comparing'){
+    toEl.placeholder='e.g. flexible / undecided (optional)';
+    if(toLabelEl)toLabelEl.innerHTML='📍 General Region <span style="font-size:9px;color:var(--muted)">(optional)</span>';
+  }else{
+    toEl.placeholder='e.g. Lisbon, Portugal';
+    if(toLabelEl)toLabelEl.innerHTML='📍 Moving To <span style="color:var(--danger)">*</span>';
+  }
+  // Clear any toCity error when type changes
+  toEl.classList.remove('input-err');
+  const toErr=toEl.parentNode.querySelector('.fld-err');
+  if(toErr)toErr.remove();
+}
+
 function toggleCI(el){el.classList.toggle('checked');el.querySelector('.cbox').textContent=el.classList.contains('checked')?'✓':''}
-function goBack(id){showS(id,true)}
-function goCard2(){if(!userType){userType='relocation';document.querySelectorAll('.type-card')[0].classList.add('selected')}showS('s2-'+userType)}
+
+function goBack(id){clearAllErrs();showS(id,true)}
+
+// Step 1 → Step 2: validate required fields
+function goCard2(){
+  clearAllErrs();
+  let ok=true;
+  const fromEl=document.getElementById('fromCity');
+  const toEl=document.getElementById('toCity');
+
+  // fromCity always required
+  const fromErr=valCity(fromEl.value,'Moving From');
+  if(fromErr){showFldErr(fromEl,fromErr);ok=false;}
+
+  // toCity required only for Relocation; optional but validated-if-filled for others
+  if(userType==='relocation'){
+    const toErr=valCity(toEl.value,'Moving To');
+    if(toErr){showFldErr(toEl,toErr);ok=false;}
+  }else if(toEl.value.trim().length>0&&!/[a-zA-Z]{2,}/.test(toEl.value)){
+    showFldErr(toEl,'Please enter a valid city or region name');
+    ok=false;
+  }
+
+  // Move type must be selected
+  if(!userType){showTypeErr('Please select a move type above to continue');ok=false;}
+
+  if(!ok){
+    const first=document.querySelector('.input-err')||document.querySelector('.fld-err')||document.querySelector('.type-err');
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  showS('s2-'+userType);
+}
+
+// Comparing Step 2 → Step 3: validate city A & B
+function goS3Comparing(){
+  clearAllErrs();
+  let ok=true;
+  const c1=document.getElementById('c-city1');
+  const c2=document.getElementById('c-city2');
+  const c3=document.getElementById('c-city3');
+  const e1=valCity(c1.value,'City A');
+  const e2=valCity(c2.value,'City B');
+  if(e1){showFldErr(c1,e1);ok=false;}
+  if(e2){showFldErr(c2,e2);ok=false;}
+  if(c3&&c3.value.trim().length>0&&!/[a-zA-Z]{2,}/.test(c3.value)){
+    showFldErr(c3,'Please enter a valid city name or leave blank');ok=false;
+  }
+  if(!ok){
+    const first=document.querySelector('.input-err');
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  showS('s3-comparing');
+}
 
 // ── DATA COLLECTION ───────────────────────────────────────────────────────────
 function getChecked(screenId){return[...document.querySelectorAll(`#${screenId} .ci.checked`)].map(el=>el.textContent.trim().replace(/^\s*✓\s*/,'').trim()).filter(Boolean)}
 function v(id){const el=document.getElementById(id);return el?el.value:''}
 function collectData(){
-  const base={type:userType,from:document.getElementById('fromCity').value||'current city',to:document.getElementById('toCity').value||'destination',timeline:v('timeline'),who:v('whoMoving')};
+  const base={type:userType,from:document.getElementById('fromCity').value.trim()||'current city',to:document.getElementById('toCity').value.trim()||'destination',timeline:v('timeline'),who:v('whoMoving')};
   if(userType==='relocation')return{...base,employment:v('r-employ'),income:v('r-income'),rent:v('r-rent'),homeSize:v('r-home'),lifestyle:getChecked('s2-relocation').join(', ')||'not specified',items:getChecked('s3-relocation').join(', ')||'not specified',budget:v('r-budget'),diy:v('r-diy'),concerns:getChecked('s3-relocation').slice(-6).join(', ')||'not specified',notes:v('r-notes')};
   if(userType==='nomad')return{...base,income:v('n-income'),stayLength:v('n-stay'),destinations:v('n-dest'),taxStatus:v('n-tax'),incomeTypes:getChecked('s2-nomad').join(', ')||'not specified',workNeeds:getChecked('s3-nomad').slice(0,4).join(', ')||'not specified',lifestyle:getChecked('s3-nomad').slice(4).join(', ')||'not specified',accommodation:v('n-accom'),challenge:v('n-challenge'),notes:v('n-notes')};
   if(userType==='comparing')return{...base,city1:v('c-city1')||'City A',city2:v('c-city2')||'City B',city3:v('c-city3'),income:v('c-income'),rent:v('c-rent'),draws:getChecked('s2-comparing').join(', ')||'not specified',priorities:getChecked('s3-comparing').slice(0,8).join(', ')||'not specified',blockers:getChecked('s3-comparing').slice(8).join(', ')||'not specified',lifestyle:v('c-lifestyle'),decisionTimeline:v('c-timeline'),notes:v('c-notes')};
 }
 
-// ── COOKIE HELPERS (backup layer) ────────────────────────────────────────────
+// ── COOKIE HELPERS ────────────────────────────────────────────────────────────
 function setCookie(name,value,minutes){
   var d=new Date();d.setTime(d.getTime()+(minutes*60*1000));
   document.cookie=name+'='+encodeURIComponent(value)+';expires='+d.toUTCString()+';path=/;SameSite=Lax';
 }
 
-// ── GO TO CHECKOUT: reliable data passing via Stripe Checkout Session URL ─────
-// Primary: calls /api/create-checkout which encodes data in the success URL (?d=)
-// Fallback: if API fails, saves to localStorage+cookie and uses Payment Link
-async function goToCheckout(e) {
+// ── GO TO CHECKOUT ─────────────────────────────────────────────────────────────
+async function goToCheckout(e){
   e.preventDefault();
-  var btn = document.getElementById('unlock-btn');
-  btn.textContent = '⏳ Preparing checkout…';
-  btn.style.opacity = '0.7';
-  btn.style.pointerEvents = 'none';
-
-  var data = collectData();
-
-  // Always save to localStorage + cookie as backup
-  try { localStorage.setItem('movingData', JSON.stringify(data)); } catch(ex) {}
-  try { localStorage.setItem('movingReport', JSON.stringify(reportJSON)); } catch(ex) {}
-  try { setCookie('mcData', JSON.stringify(data), 120); } catch(ex) {}
-  try { setCookie('mcReport', JSON.stringify(reportJSON), 120); } catch(ex) {}
-
-  try {
-    var resp = await fetch('/api/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userData: data })
-    });
-    if (!resp.ok) throw new Error('checkout API error');
-    var result = await resp.json();
-    window.location.href = result.url; // redirect to Stripe Checkout
-  } catch(ex) {
-    // Fallback to Payment Link (data still in cookie/localStorage)
-    console.warn('Checkout API failed, falling back to Payment Link:', ex.message);
-    window.location.href = 'https://buy.stripe.com/aFa6oG51x1KUgXT0C2cfK00';
+  var btn=document.getElementById('unlock-btn');
+  btn.textContent='⏳ Preparing checkout…';
+  btn.style.opacity='0.7';
+  btn.style.pointerEvents='none';
+  var data=collectData();
+  try{localStorage.setItem('movingData',JSON.stringify(data));}catch(ex){}
+  try{localStorage.setItem('movingReport',JSON.stringify(reportJSON));}catch(ex){}
+  try{setCookie('mcData',JSON.stringify(data),120);}catch(ex){}
+  try{setCookie('mcReport',JSON.stringify(reportJSON),120);}catch(ex){}
+  try{
+    var resp=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userData:data})});
+    if(!resp.ok)throw new Error('checkout API error');
+    var result=await resp.json();
+    window.location.href=result.url;
+  }catch(ex){
+    console.warn('Checkout API failed, falling back to Payment Link:',ex.message);
+    window.location.href='https://buy.stripe.com/aFa6oG51x1KUgXT0C2cfK00';
   }
 }
 
@@ -769,6 +879,13 @@ async function callClaude(prompt){
 
 // ── GENERATE ──────────────────────────────────────────────────────────────────
 async function generate(type){
+  // Safety check: ensure origin city is present
+  const fromVal=document.getElementById('fromCity').value.trim();
+  if(!fromVal||fromVal.length<2){
+    const errEl=document.getElementById(type[0]+'-error')||document.getElementById('r-error');
+    if(errEl){errEl.textContent='⚠ Please go back to Step 1 and enter your origin city.';errEl.classList.add('show');}
+    return;
+  }
   var errEl=document.getElementById(type[0]+'-error')||document.getElementById('r-error');
   if(errEl)errEl.classList.remove('show');
   const data=collectData();
@@ -837,9 +954,15 @@ function renderReport(r,d){
 // ── RESET ─────────────────────────────────────────────────────────────────────
 function resetAll(){
   userType='';
+  clearAllErrs();
   document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
   document.querySelectorAll('.ci').forEach(c=>{c.classList.remove('checked');c.querySelector('.cbox').textContent=''});
   document.querySelectorAll('.api-error').forEach(e=>e.classList.remove('show'));
+  // Reset toCity label/placeholder
+  const toEl=document.getElementById('toCity');
+  toEl.placeholder='e.g. Lisbon, Portugal';
+  const toLabelEl=document.getElementById('toCity-label');
+  if(toLabelEl)toLabelEl.innerHTML='📍 Moving To <span style="color:var(--danger)">*</span>';
   resetLoadSteps();
   ['rpt-cost-section','rpt-insights-section','rpt-action-section'].forEach(id=>{document.getElementById(id).innerHTML=''});
   showS('s1',true);

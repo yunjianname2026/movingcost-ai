@@ -2,7 +2,7 @@
 const { Resend } = require('resend');
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 1. SYSTEM RULES — injected into every prompt
+// 1. SYSTEM RULES
 // ─────────────────────────────────────────────────────────────────────────────
 const SYSTEM_RULES = `You are MovingCOST.ai's relocation planning analyst.
 Your job is to generate a practical relocation planning report based only on the user's submitted information.
@@ -23,24 +23,24 @@ MANDATORY RULES — every rule applies without exception:
 13. NEVER say "100% guaranteed", "perfectly aligns", or present AI-generated estimates as official data.`;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 2. DESTINATION KNOWLEDGE BASE — accurate facts for 5 key destinations
+// 2. DESTINATION KNOWLEDGE BASE
 // ─────────────────────────────────────────────────────────────────────────────
 const DESTINATION_KB = {
   portugal: {
     immigration_body: 'AIMA (Agência para a Integração, Migrações e Asilo) — replaced SEF in late 2023',
     visas: [
-      'D7 Passive Income Visa: requires approximately €920/month stable income for a single applicant (2026 guidance based on Portugal minimum wage — always verify with the Portuguese consulate as requirements change annually)',
-      'D8 Digital Nomad Visa: for remote workers employed by foreign companies; income threshold commonly cited around €3,280/month (verify officially as this changes)',
+      'D7 Passive Income Visa: requires approximately €920/month stable income for a single applicant (2026 guidance — verify with Portuguese consulate as requirements change annually)',
+      'D8 Digital Nomad Visa: for remote workers employed by foreign companies; income threshold commonly cited around €3,280/month (verify officially)',
       'D2 Entrepreneur Visa: for those starting or investing in a business in Portugal; requires a business plan and investment',
       'Golden Visa: property or fund investment routes available; minimum thresholds have changed multiple times — verify current requirements',
     ],
     tax_notes: [
       'Portugal original NHR (Non-Habitual Resident) regime was closed to most new applicants in 2024',
-      'IFICI / NHR 2.0 has stricter eligibility — primarily for qualifying professions in tech, science, research — consult a Portugal-qualified tax advisor before relying on this',
+      'IFICI / NHR 2.0 has stricter eligibility — primarily for qualifying professions in tech, science, research — consult a Portugal-qualified tax advisor',
       'Standard IRS income tax: approximately 14.5% to 48% depending on income bracket',
       'Portugal has double taxation treaties with many countries — check your home country treaty status',
     ],
-    cost_context: 'Lisbon 2026 rental market: 2BR apartments in central areas typically €1,600–2,500/month; outer districts €900–1,400/month. Market favours landlords in premium neighbourhoods.',
+    cost_context: 'Lisbon 2026 rental market: 2BR apartments in central areas typically €1,600–2,500/month; outer districts €900–1,400/month.',
   },
   uae: {
     immigration_body: 'GDRFA (General Directorate of Residency and Foreigners Affairs) for Dubai; ICP for federal matters',
@@ -55,40 +55,38 @@ const DESTINATION_KB = {
       'Corporate tax of 9% applies to businesses with taxable income above AED 375,000 (introduced 2023)',
       'VAT: 5% on most goods and services',
       'No capital gains tax on personal investments in UAE',
-      'Check your home country exit tax obligations and whether your country taxes worldwide income of its citizens/residents abroad',
+      'Check your home country exit tax obligations and whether your country taxes worldwide income of citizens abroad',
     ],
-    cost_context: 'Dubai 2026 rental: 2BR in prime areas (Marina, Downtown, JBR) AED 120,000–200,000/year; more affordable in JVC, Sports City, or Jumeirah Village AED 70,000–110,000/year.',
+    cost_context: 'Dubai 2026 rental: 2BR in prime areas (Marina, Downtown, JBR) AED 120,000–200,000/year; more affordable in JVC, Sports City AED 70,000–110,000/year.',
   },
   spain: {
     immigration_body: 'Oficina de Extranjería for residence permits; Spanish consulate in home country for initial visa application',
     visas: [
-      'Non-Lucrative Visa (NLV): for those with sufficient passive income or savings; not permitted to work in Spain; income commonly ~€2,160/month for single applicant (approximately 2× Spain SMI — verify as SMI increases annually)',
-      'Digital Nomad Visa (Startup Law 2023): for remote workers employed by non-Spanish companies; income requirement approximately €2,646/month (3× SMI — verify officially)',
+      'Non-Lucrative Visa (NLV): for those with sufficient passive income or savings; income commonly ~€2,160/month for single applicant (verify as SMI increases annually)',
+      'Digital Nomad Visa (Startup Law 2023): for remote workers employed by non-Spanish companies; income requirement approximately €2,646/month (verify officially)',
       'Golden Visa: property investment of €500,000+ for residence; under review for changes — verify current status',
     ],
     tax_notes: [
-      'Beckham Law (Régimen Especial de Trabajadores Impatriados): flat 24% tax on income up to €600,000 for qualifying new Spanish residents; must apply within 6 months of becoming tax resident',
+      'Beckham Law: flat 24% tax on income up to €600,000 for qualifying new Spanish residents; must apply within 6 months of becoming tax resident',
       'Standard IRPF income tax: approximately 19%–47% depending on income level and autonomous community',
       'Spanish tax residency: 183+ days in Spain in a calendar year, or centre of economic interests in Spain',
-      'Spain has a wealth tax (Impuesto sobre el Patrimonio) that varies by autonomous community',
     ],
-    cost_context: 'Madrid 2026 rental: 2BR in desirable areas €1,800–3,500/month. Barcelona similar. Valencia significantly more affordable at €900–1,600/month for equivalent quality.',
+    cost_context: 'Madrid 2026 rental: 2BR in desirable areas €1,800–3,500/month. Valencia significantly more affordable at €900–1,600/month.',
   },
   mexico: {
     immigration_body: 'Instituto Nacional de Migración (INM) for all immigration matters',
     visas: [
-      'Temporary Resident Visa (Residente Temporal): 1–4 years renewable; requires proof of financial solvency — commonly approximately $1,400–2,500/month income or equivalent savings (verify with Mexican consulate as thresholds change)',
-      'No dedicated digital nomad visa; many remote workers enter on tourist/visitor permit (FMM, up to 180 days) then apply for Temporary Residency from outside Mexico',
-      'Permanent Residency: available after 4 years as Temporary Resident or via qualifying criteria (retirement income, family ties)',
+      'Temporary Resident Visa (Residente Temporal): 1–4 years renewable; requires proof of financial solvency — commonly approximately $1,400–2,500/month income (verify with Mexican consulate)',
+      'No dedicated digital nomad visa; many remote workers enter on tourist/visitor permit (FMM, up to 180 days) then apply for Temporary Residency',
+      'Permanent Residency: available after 4 years as Temporary Resident or via qualifying criteria',
     ],
     tax_notes: [
       'Mexican tax residency triggers at 183+ days in Mexico in a calendar year',
       'Once tax resident, Mexico taxes worldwide income under ISR: rates 1.92%–35%',
       'Mexico has tax treaties with approximately 60 countries',
       'Remote workers employed by foreign companies may have complex dual tax obligations — consult a Mexican fiscal advisor',
-      'Social security (IMSS) obligations depend on employment structure',
     ],
-    cost_context: 'Mexico City 2026 rental: 2BR in expat neighbourhoods (Condesa, Roma Norte, Polanco) MXN 22,000–50,000/month ($1,300–3,000). Beach destinations like Playa del Carmen or Puerto Vallarta vary widely by season and proximity to beach.',
+    cost_context: 'Mexico City 2026 rental: 2BR in expat neighbourhoods (Condesa, Roma Norte, Polanco) MXN 22,000–50,000/month ($1,300–3,000).',
   },
   usa: {
     immigration_body: 'USCIS (U.S. Citizenship and Immigration Services) for petitions; DOS (Department of State) for visas',
@@ -97,17 +95,15 @@ const DESTINATION_KB = {
       'O-1 Extraordinary Ability Visa: for individuals with demonstrated exceptional achievement in their field',
       'E-2 Treaty Investor Visa: available to nationals of treaty countries; investment amount varies but must be "substantial"',
       'EB-5 Investor Green Card: minimum $800,000–$1,050,000 investment in job-creating enterprise',
-      'L-1 Intracompany Transferee: for managers/executives or specialised knowledge employees of multinationals',
-      'Note: US immigration is highly complex and fact-specific — an experienced immigration attorney is strongly recommended',
+      'Note: US immigration is highly complex — an experienced immigration attorney is strongly recommended',
     ],
     tax_notes: [
       'US taxes its citizens and green card holders on worldwide income regardless of where they live',
-      'Foreign Earned Income Exclusion (FEIE): qualifying expats may exclude approximately $126,500 (2024, indexed annually) — verify current limit',
+      'Foreign Earned Income Exclusion (FEIE): qualifying expats may exclude approximately $126,500 (2024, indexed annually)',
       'FBAR (FinCEN 114): required if foreign financial accounts exceed $10,000 aggregate at any point in the year',
       'State income tax varies: Florida, Texas, Nevada, Washington have no state income tax',
-      'Moving to the US typically does not immediately affect your home country tax obligations',
     ],
-    cost_context: 'US costs vary enormously: NYC/SF/LA among most expensive globally; Sun Belt cities (Miami, Austin, Tampa) mid-range; Midwest significantly more affordable. Florida has no state income tax.',
+    cost_context: 'US costs vary enormously by city. Sun Belt cities (Miami, Austin, Tampa) mid-range; Midwest significantly more affordable. Florida has no state income tax.',
   },
 };
 
@@ -118,19 +114,15 @@ function getDestinationNotes(userData) {
   if (to.includes('portugal') || to.includes('lisbon') || to.includes('porto') || to.includes('algarve')) matched = DESTINATION_KB.portugal;
   else if (to.includes('uae') || to.includes('dubai') || to.includes('abu dhabi') || to.includes('sharjah')) matched = DESTINATION_KB.uae;
   else if (to.includes('spain') || to.includes('madrid') || to.includes('barcelona') || to.includes('valencia') || to.includes('seville') || to.includes('malaga')) matched = DESTINATION_KB.spain;
-  else if (to.includes('mexico') || to.includes('cdmx') || to.includes('playa del carmen') || to.includes('puerto vallarta') || to.includes('oaxaca') || to.includes('guadalajara') || to.includes('monterrey')) matched = DESTINATION_KB.mexico;
-  else if (to.includes('usa') || to.includes('united states') || to.includes('florida') || to.includes('miami') || to.includes('new york') || to.includes('california') || to.includes('texas') || to.includes('austin') || to.includes('los angeles')) matched = DESTINATION_KB.usa;
+  else if (to.includes('mexico') || to.includes('cdmx') || to.includes('playa del carmen') || to.includes('puerto vallarta') || to.includes('oaxaca') || to.includes('guadalajara')) matched = DESTINATION_KB.mexico;
+  else if (to.includes('usa') || to.includes('united states') || to.includes('florida') || to.includes('miami') || to.includes('new york') || to.includes('california') || to.includes('texas') || to.includes('austin')) matched = DESTINATION_KB.usa;
 
   if (!matched) return '';
 
-  return `
-
-VERIFIED DESTINATION REFERENCE DATA (use this to inform your report — cite as "commonly reported" or "as of 2026"):
+  return `\n\nVERIFIED DESTINATION REFERENCE DATA (use this to inform your report — cite as "commonly reported" or "as of 2026"):
 Immigration body: ${matched.immigration_body}
-Visa options:
-- ${matched.visas.join('\n- ')}
-Tax planning notes:
-- ${matched.tax_notes.join('\n- ')}
+Visa options:\n- ${matched.visas.join('\n- ')}
+Tax planning notes:\n- ${matched.tax_notes.join('\n- ')}
 Cost context: ${matched.cost_context}`;
 }
 
@@ -138,46 +130,42 @@ Cost context: ${matched.cost_context}`;
 // 3. VALIDATION — check 10 sections, banned terms, minimum length
 // ─────────────────────────────────────────────────────────────────────────────
 const REQUIRED_SECTION_KEYS = [
-  { key: 'executive summary',     label: 'Section 1 — Executive Summary' },
-  { key: 'monthly cost',          label: 'Section 2 — Monthly Cost Breakdown' },
-  { key: 'housing',               label: 'Section 3 — Housing Market' },
-  { key: 'visa',                  label: 'Section 4 — Visa & Immigration' },
-  { key: 'tax',                   label: 'Section 5 — Tax & Financial Planning' },
-  { key: 'moving cost',           label: 'Section 6 — One-Time Moving Costs' },
-  { key: 'checklist',             label: 'Section 7 — Pre-Departure Checklist' },
-  { key: 'hidden cost',           label: 'Section 8 — Hidden Costs & Risks' },
-  { key: 'action plan',           label: 'Section 9 — 90-Day Action Plan' },
-  { key: 'final',                 label: 'Section 10 — Final Recommendations' },
+  { key: 'executive summary',  label: 'Section 1 — Executive Summary' },
+  { key: 'monthly cost',       label: 'Section 2 — Monthly Cost Breakdown' },
+  { key: 'housing',            label: 'Section 3 — Housing Market' },
+  { key: 'visa',               label: 'Section 4 — Visa & Immigration' },
+  { key: 'tax',                label: 'Section 5 — Tax & Financial Planning' },
+  { key: 'moving cost',        label: 'Section 6 — One-Time Moving Costs' },
+  { key: 'checklist',          label: 'Section 7 — Pre-Departure Checklist' },
+  { key: 'hidden cost',        label: 'Section 8 — Hidden Costs & Risks' },
+  { key: 'action plan',        label: 'Section 9 — 90-Day Action Plan' },
+  { key: 'final',              label: 'Section 10 — Final Recommendations' },
 ];
 
 const BANNED_TERMS = [
-  { term: 'SEF ',              reason: 'Outdated agency — use AIMA' },
-  { term: '€4,320',           reason: 'Incorrect D7 income figure' },
-  { term: '100% guaranteed',  reason: 'Guarantee claims not allowed' },
-  { term: 'perfectly aligns', reason: 'Overconfident language' },
-  { term: 'is guaranteed',    reason: 'Guarantee claims not allowed' },
-  { term: 'guaranteed to',    reason: 'Guarantee claims not allowed' },
+  { term: 'SEF ',             reason: 'Outdated agency — use AIMA' },
+  { term: '€4,320',          reason: 'Incorrect D7 income figure' },
+  { term: '100% guaranteed', reason: 'Guarantee claims not allowed' },
+  { term: 'perfectly aligns',reason: 'Overconfident language' },
+  { term: 'is guaranteed',   reason: 'Guarantee claims not allowed' },
+  { term: 'guaranteed to',   reason: 'Guarantee claims not allowed' },
 ];
 
-const MIN_LENGTH = 10000; // ~1,500–2,000 words in HTML
+const MIN_LENGTH = 10000;
 
 function validateReport(content) {
   const issues = [];
   const lower = content.toLowerCase();
-
   REQUIRED_SECTION_KEYS.forEach(s => {
     if (!lower.includes(s.key)) issues.push('Missing: ' + s.label);
   });
-
   BANNED_TERMS.forEach(b => {
     if (content.includes(b.term)) issues.push('Banned term "' + b.term + '" — ' + b.reason);
   });
-
   if (content.length < MIN_LENGTH) {
     issues.push('Report too short: ' + content.length + ' chars (minimum ' + MIN_LENGTH + ')');
   }
-
-  return issues; // empty array = pass
+  return issues;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -191,7 +179,6 @@ module.exports = async function handler(req, res) {
     const { email, name, userData, previewReport } = req.body;
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
 
-    // Build prompt and call Claude (with one retry if validation fails)
     let reportContent = null;
     let validationIssues = [];
     let attempt = 0;
@@ -209,7 +196,6 @@ module.exports = async function handler(req, res) {
 
       console.warn('Validation failed (attempt ' + attempt + '):', validationIssues.join('; '));
       if (attempt >= 2) {
-        // Use the content anyway on second attempt but log issues
         reportContent = raw;
         console.error('Using report despite validation issues after 2 attempts');
       }
@@ -222,6 +208,7 @@ module.exports = async function handler(req, res) {
     await resend.emails.send({
       from: 'MovingCOST.ai <reports@movingcost.ai>',
       to: email,
+      replyTo: 'support@movingcost.ai',
       subject: 'Your MovingCOST.ai Report — ' + getSubjectLine(userData),
       html: emailHTML,
     });
@@ -267,20 +254,20 @@ async function callClaude(prompt) {
 // 6. PROMPT BUILDER
 // ─────────────────────────────────────────────────────────────────────────────
 function getSubjectLine(d) {
-  if (d.type === 'relocation') return (d.from || 'Your City') + ' to ' + (d.to || 'Destination') + ' Relocation Report';
-  if (d.type === 'nomad') return 'Digital Nomad Life Plan';
-  return 'City Comparison Report';
+  if (d.type === 'relocation') return (d.from || 'Your City') + ' → ' + (d.to || 'Destination') + ' Relocation Report';
+  if (d.type === 'nomad') return 'Your Digital Nomad Life Plan';
+  return 'Your City Comparison Report';
 }
 
 function buildFullReportPrompt(d, preview, retryIssues) {
-  const type   = d.type || 'relocation';
-  const from   = d.from || 'current city';
-  const to     = d.to   || 'destination';
-  const who    = d.who  || 'individual';
-  const income = d.income  || 'not specified';
-  const lifestyle = d.lifestyle || 'not specified';
-  const notes  = d.notes || 'none';
-  const destNotes = getDestinationNotes(d);
+  const type     = d.type || 'relocation';
+  const from     = d.from || 'current city';
+  const to       = d.to   || 'destination';
+  const who      = d.who  || 'individual';
+  const income   = d.income   || 'not specified';
+  const lifestyle= d.lifestyle|| 'not specified';
+  const notes    = d.notes    || 'none';
+  const destNotes= getDestinationNotes(d);
   const previewCtx = preview
     ? '\nPreview report shown to user — headline: "' + preview.headline + '" / summary: "' + preview.summary + '"'
     : '';
@@ -382,34 +369,34 @@ HTML FORMAT:
 - Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
 - Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows
 
-Write all 10 sections now. Do not skip or abbreviate any section. Do not stop early. Complete the entire report including all sections through Section 10 — Final Recommendations & Next Steps.`;
+Write all 10 sections now. Do not skip or abbreviate any section. Do not stop early. Complete the entire report including all sections through Section 10.`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 7. EMAIL HTML BUILDER
+// 7. EMAIL HTML BUILDER — upgraded footer with regeneration guarantee
 // ─────────────────────────────────────────────────────────────────────────────
 function buildEmailHTML(firstName, userData, reportContent) {
-  var subject = getSubjectLine(userData);
+  const subject = getSubjectLine(userData);
 
   return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>MovingCOST.ai Report</title></head>' +
     '<body style="margin:0;padding:0;background:#F1F5F9;font-family:Arial,Helvetica,sans-serif;color:#0F172A;">' +
     '<div style="max-width:680px;margin:0 auto;padding:32px 16px 60px;">' +
 
-    // Header
+    // ── Header ──
     '<div style="background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 50%,#0E3D5C 100%);border-radius:20px;padding:48px 44px;text-align:center;margin-bottom:20px;">' +
     '<div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#BAE6FD;margin-bottom:14px;">AI Planning Report · Full Access</div>' +
     '<h1 style="margin:0 0 8px;font-size:36px;font-weight:900;color:#ffffff;letter-spacing:-1.5px;">Moving<span style="color:#0EA5E9;">COST</span>.ai</h1>' +
     '<p style="margin:14px 0 0;color:rgba(255,255,255,0.7);font-size:16px;line-height:1.5;">' + subject + '</p>' +
     '</div>' +
 
-    // Greeting
+    // ── Greeting ──
     '<div style="background:#ffffff;border-radius:16px;padding:36px 40px;border:1px solid #E2E8F0;margin-bottom:16px;">' +
     '<h2 style="margin:0 0 14px;font-size:22px;font-weight:700;color:#0F172A;">Hi ' + firstName + '! 👋</h2>' +
     '<p style="margin:0 0 12px;color:#475569;font-size:15px;line-height:1.75;">Thank you for your purchase. Below is your <strong style="color:#0F172A;">AI-generated relocation planning report</strong> — built using your specific inputs to help you plan smarter.</p>' +
     '<p style="margin:0;color:#475569;font-size:15px;line-height:1.75;">This report covers 10 planning sections: cost estimates, housing guide, visa notes, tax planning, moving costs, checklists, and a 90-day action plan. <strong style="color:#0F172A;">Bookmark this email</strong> as your moving reference.</p>' +
     '</div>' +
 
-    // Stats bar — accurate, no overstatements
+    // ── Stats bar ──
     '<div style="background:#0EA5E9;border-radius:12px;padding:20px 28px;margin-bottom:20px;">' +
     '<table style="width:100%;border-collapse:collapse;"><tr>' +
     '<td style="text-align:center;padding:0 8px;"><div style="font-size:22px;font-weight:800;color:#fff;">10</div><div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px;">Sections</div></td>' +
@@ -418,26 +405,37 @@ function buildEmailHTML(firstName, userData, reportContent) {
     '</tr></table>' +
     '</div>' +
 
-    // Report content
+    // ── Report content ──
     '<div style="background:#ffffff;border-radius:16px;padding:44px 44px;border:1px solid #E2E8F0;margin-bottom:20px;">' +
     reportContent +
     '</div>' +
 
-    // Footer CTA
+    // ── NEW: Regeneration Guarantee Banner ──
+    '<div style="background:#FFF7ED;border:2px solid #FCD34D;border-radius:16px;padding:28px 32px;margin-bottom:16px;text-align:center;">' +
+    '<p style="margin:0 0 6px;font-size:18px;">📋</p>' +
+    '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#92400E;">Not happy with your report?</p>' +
+    '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">If your report looks incomplete or misses key details, reply to this email within <strong>7 days</strong> and we\'ll regenerate one updated version for you — completely free.</p>' +
+    '<a href="mailto:support@movingcost.ai" style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">Reply to Request Regeneration →</a>' +
+    '</div>' +
+
+    // ── New plan CTA ──
     '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;padding:32px 40px;text-align:center;margin-bottom:20px;">' +
     '<p style="margin:0 0 8px;font-size:18px;font-weight:700;color:#0F172A;">Need a new plan?</p>' +
     '<p style="margin:0 0 20px;font-size:14px;color:#64748B;">Run another analysis — new city, new scenario, updated numbers.</p>' +
     '<a href="https://movingcost.ai/planner" style="display:inline-block;background:#0EA5E9;color:#fff;padding:14px 36px;border-radius:99px;text-decoration:none;font-weight:700;font-size:15px;">Start Another Plan →</a>' +
     '</div>' +
 
-    // Email footer
+    // ── Footer ──
     '<div style="text-align:center;padding:20px 0;">' +
-    '<p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#0F172A;">MovingCOST.ai</p>' +
-    '<p style="margin:0;font-size:12px;color:#94A3B8;line-height:1.8;">' +
-    'Questions? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;">support@movingcost.ai</a> &nbsp;·&nbsp; ' +
-    '<a href="https://movingcost.ai" style="color:#0EA5E9;">movingcost.ai</a>' +
+    '<p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#0F172A;">MovingCOST.ai</p>' +
+    '<p style="margin:0 0 8px;font-size:12px;color:#94A3B8;line-height:1.8;">' +
+    'Questions or issues? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;font-weight:600;">support@movingcost.ai</a>' +
+    ' &nbsp;·&nbsp; <a href="https://movingcost.ai" style="color:#0EA5E9;">movingcost.ai</a>' +
     '</p>' +
-    '<p style="margin:8px 0 0;font-size:11px;color:#CBD5E1;line-height:1.6;">This report is AI-generated for planning purposes only and does not constitute legal, tax, or immigration advice. Verify all important decisions with qualified professionals.</p>' +
+    '<p style="margin:6px 0 0;font-size:11px;color:#CBD5E1;line-height:1.7;">' +
+    'This report is AI-generated for planning purposes only and does not constitute legal, tax, immigration, or financial advice.<br>' +
+    'Verify all important decisions with qualified professionals before acting. Generated May 2026 · CLASSIC SPREAD INC' +
+    '</p>' +
     '</div>' +
 
     '</div></body></html>';
