@@ -4,8 +4,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
   const { prompt } = req.body;
   if (!prompt) return res.status(400).json({ error: 'No prompt provided' });
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -16,16 +18,22 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 2000,       // was 1000 — increased to prevent JSON truncation
+        temperature: 0.2,       // added: low temperature = consistent cost figures
         messages: [{ role: 'user', content: prompt }]
       })
     });
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      return res.status(response.status).json({ error: errorData.error?.message || `Claude API error: ${response.status}` });
+      return res.status(response.status).json({
+        error: errorData.error?.message || `Claude API error: ${response.status}`
+      });
     }
+
     const data = await response.json();
     return res.status(200).json(data);
+
   } catch (err) {
     return res.status(500).json({ error: 'Server error. Please try again.' });
   }
