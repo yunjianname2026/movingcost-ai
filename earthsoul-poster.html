@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390px, initial-scale=1.0">
+<title>EarthSoul Quiz — Sharing Poster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;background:#040810;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;font-family:'Outfit',sans-serif}
+
+/* ── Poster wrapper ── */
+.poster{
+  width:390px;
+  min-height:844px;
+  background:#040810;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:48px 32px 44px;
+}
+
+/* Ambient layers */
+.poster::before{
+  content:'';position:absolute;
+  top:-15%;left:-20%;
+  width:80%;height:70%;
+  background:radial-gradient(ellipse,rgba(14,165,233,0.13) 0%,transparent 65%);
+  pointer-events:none;
+}
+.poster::after{
+  content:'';position:absolute;
+  bottom:-10%;right:-15%;
+  width:65%;height:55%;
+  background:radial-gradient(ellipse,rgba(99,50,200,0.1) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+/* Stars / particles */
+.stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.star{
+  position:absolute;
+  border-radius:50%;
+  background:#fff;
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:0.1}50%{opacity:0.6}}
+
+/* ── TOP LOGO ── */
+.top-logo{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;margin-bottom:44px;position:relative;z-index:2;
+}
+.logo-es{
+  font-family:'Outfit',sans-serif;
+  font-size:15px;font-weight:800;
+  color:#EEF2FF;letter-spacing:-0.01em;
+}
+.logo-es .dot{color:#0EA5E9}
+.logo-mc{
+  font-size:11px;font-weight:600;
+  color:rgba(238,242,255,0.35);
+  letter-spacing:0.06em;
+}
+
+/* ── EYEBROW ── */
+.eyebrow{
+  font-size:10.5px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:#0EA5E9;
+  margin-bottom:20px;
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before,.eyebrow::after{
+  content:'';width:28px;height:1px;
+  background:#0EA5E9;opacity:0.45;
+}
+
+/* ── HEADLINE ── */
+.headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:50px;
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-0.025em;
+  color:#EEF2FF;
+  text-align:center;
+  margin-bottom:8px;
+  position:relative;z-index:2;
+}
+.headline em{
+  font-style:italic;
+  background:linear-gradient(135deg,#0EA5E9 0%,#7DD3FC 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.subhead{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:18px;font-weight:300;
+  color:rgba(238,242,255,0.5);
+  text-align:center;
+  margin-bottom:40px;
+  position:relative;z-index:2;
+  letter-spacing:0.01em;
+  line-height:1.5;
+}
+
+/* ── TYPE CARDS ── */
+.types-grid{
+  display:flex;flex-direction:column;gap:10px;
+  width:100%;margin-bottom:36px;
+  position:relative;z-index:2;
+}
+.type-card{
+  background:rgba(255,255,255,0.034);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  padding:14px 18px;
+  display:flex;align-items:center;gap:14px;
+  position:relative;overflow:hidden;
+  animation:cardIn 0.5s ease both;
+}
+.type-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--accent-dim),transparent 60%);
+  opacity:0.6;
+}
+.type-card:nth-child(1){--accent:#0EA5E9;--accent-dim:rgba(14,165,233,0.07);animation-delay:0.1s}
+.type-card:nth-child(2){--accent:#8B5CF6;--accent-dim:rgba(139,92,246,0.07);animation-delay:0.2s}
+.type-card:nth-child(3){--accent:#10B981;--accent-dim:rgba(16,185,129,0.07);animation-delay:0.3s}
+.type-card:nth-child(4){--accent:#E8B84B;--accent-dim:rgba(232,184,75,0.07);animation-delay:0.4s}
+.type-card:nth-child(5){--accent:#EC4899;--accent-dim:rgba(236,72,153,0.07);animation-delay:0.5s}
+
+@keyframes cardIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+
+.tc-ico{font-size:26px;flex-shrink:0;position:relative;z-index:1}
+.tc-body{flex:1;position:relative;z-index:1}
+.tc-name{
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:700;
+  color:#EEF2FF;
+  margin-bottom:3px;letter-spacing:-0.01em;
+}
+.tc-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:12.5px;font-weight:300;
+  color:rgba(238,242,255,0.45);
+  line-height:1.4;
+}
+.tc-arr{
+  font-size:14px;
+  color:var(--accent);
+  flex-shrink:0;
+  position:relative;z-index:1;
+  opacity:0.7;
+}
+
+/* dots row */
+.more-row{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:36px;
+  position:relative;z-index:2;
+}
+.more-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.12)}
+.more-text{font-size:11px;color:rgba(238,242,255,0.28);font-family:'Outfit',sans-serif;letter-spacing:0.06em}
+
+/* ── DIVIDER ── */
+.divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(14,165,233,0.25),transparent);
+  margin-bottom:28px;
+  position:relative;z-index:2;
+}
+
+/* ── CTA BLOCK ── */
+.cta-block{
+  display:flex;flex-direction:column;align-items:center;
+  gap:16px;width:100%;
+  position:relative;z-index:2;
+}
+.cta-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.cta-chip{
+  font-size:11px;font-weight:600;
+  padding:5px 13px;border-radius:99px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.09);
+  color:rgba(238,242,255,0.45);
+  letter-spacing:0.04em;
+}
+.cta-url{
+  font-family:'Outfit',sans-serif;
+  font-size:22px;font-weight:800;
+  color:#EEF2FF;letter-spacing:-0.01em;
+  display:flex;align-items:center;gap:6px;
+}
+.cta-url .url-hl{color:#0EA5E9}
+.cta-sub{
+  font-size:12px;
+  color:rgba(238,242,255,0.3);
+  letter-spacing:0.06em;
+  font-family:'Outfit',sans-serif;
+}
+
+/* ── BOTTOM BRAND ── */
+.bottom-brand{
+  position:relative;z-index:2;
+  margin-top:32px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.bb-line{
+  font-size:10px;color:rgba(238,242,255,0.2);
+  letter-spacing:0.1em;text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+}
+.bb-logo{
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:700;
+  color:rgba(238,242,255,0.35);
+  letter-spacing:-0.01em;
+}
+.bb-logo span{color:#0EA5E9}
+
+/* ── SAVE BUTTON (outside poster) ── */
+.action-bar{
+  width:390px;
+  padding:16px 24px;
+  display:flex;gap:10px;
+  position:relative;z-index:10;
+}
+.btn-save{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#0EA5E9;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  padding:13px;border-radius:12px;border:none;cursor:pointer;
+  transition:all 0.25s ease;letter-spacing:0.02em;
+}
+.btn-save:hover{background:#38BDF8;transform:translateY(-1px)}
+.btn-tip{
+  font-family:'Outfit',sans-serif;
+  font-size:11px;color:rgba(238,242,255,0.3);
+  text-align:center;padding:0 8px;
+  display:flex;align-items:center;
+}
+</style>
+</head>
+<body>
+
+<div class="poster" id="poster">
+  <!-- Stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Top logo row -->
+  <div class="top-logo">
+    <div class="logo-es">Earth<span class="dot">Soul</span></div>
+    <div class="logo-mc">by MovingCOST.ai</div>
+  </div>
+
+  <!-- Eyebrow -->
+  <div class="eyebrow">City Personality Quiz</div>
+
+  <!-- Headline -->
+  <h1 class="headline">
+    Where Does<br>Your <em>Soul</em><br>Belong?
+  </h1>
+  <p class="subhead">9 questions. Surprisingly accurate.<br>Actually useful.</p>
+
+  <!-- Type cards -->
+  <div class="types-grid">
+    <div class="type-card">
+      <span class="tc-ico">🌍</span>
+      <div class="tc-body">
+        <div class="tc-name">The Digital Nomad Explorer</div>
+        <div class="tc-quote">"Your office is wherever the WiFi takes you next."</div>
+      </div>
+      <span class="tc-arr">›</span>
+    </div>
+    <div class="type-card">
+      <span class="tc-ico">🎨</span>
+      <div class="tc-body">
+        <div class="tc-name">The Creative Wanderer</div>
+        <div class="tc-quote">"You don't chase cities. You chase atmosphere."</div>
+      </div>
+      <span class="tc-arr">›</span>
+    </div>
+    <div class="type-card">
+      <span class="tc-ico">🌊</span>
+      <div class="tc-body">
+        <div class="tc-name">The Coastal Minimalist</div>
+        <div class="tc-quote">"You're not looking for more. Looking for lighter."</div>
+      </div>
+      <span class="tc-arr">›</span>
+    </div>
+    <div class="type-card">
+      <span class="tc-ico">⚡</span>
+      <div class="tc-body">
+        <div class="tc-name">The Global Optimizer</div>
+        <div class="tc-quote">"You see borders as options, not limits."</div>
+      </div>
+      <span class="tc-arr">›</span>
+    </div>
+    <div class="type-card">
+      <span class="tc-ico">🚀</span>
+      <div class="tc-body">
+        <div class="tc-name">The Urban Power Player</div>
+        <div class="tc-quote">"You move toward momentum, not away from pressure."</div>
+      </div>
+      <span class="tc-arr">›</span>
+    </div>
+  </div>
+
+  <!-- More types hint -->
+  <div class="more-row">
+    <div class="more-dot"></div><div class="more-dot"></div><div class="more-dot"></div>
+    <span class="more-text">+ 3 more personality types</span>
+    <div class="more-dot"></div><div class="more-dot"></div><div class="more-dot"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-chips">
+      <span class="cta-chip">Free</span>
+      <span class="cta-chip">2 minutes</span>
+      <span class="cta-chip">8 personality types</span>
+      <span class="cta-chip">Dual-type result</span>
+    </div>
+    <div class="cta-url">
+      <span class="url-hl">earthsoul</span>.ai
+    </div>
+    <div class="cta-sub">Take the quiz · Share your result</div>
+  </div>
+
+  <!-- Bottom brand -->
+  <div class="bottom-brand">
+    <div class="bb-line">Powered by</div>
+    <div class="bb-logo">Moving<span>COST</span>.ai</div>
+  </div>
+</div>
+
+<!-- Action bar -->
+<div class="action-bar">
+  <button class="btn-save" onclick="downloadPoster(this)">📸 &nbsp;Download Poster</button>
+  <div class="btn-tip">or long-press<br>to save</div>
+</div>
+
+<script>
+/* Stars */
+(function(){
+  const s = document.getElementById('stars');
+  for(let i=0;i<55;i++){
+    const d = document.createElement('div');
+    d.className='star';
+    const sz = 1 + Math.random()*2;
+    d.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${(Math.random()*4).toFixed(1)}s;animation-duration:${(2+Math.random()*4).toFixed(1)}s`;
+    s.appendChild(d);
+  }
+})();
+
+/* Download poster using html2canvas */
+function downloadPoster(btn){
+  const orig = btn.innerHTML;
+  btn.innerHTML = 'Generating…';
+  const load = () => {
+    html2canvas(document.getElementById('poster'),{
+      scale:3,
+      backgroundColor:'#040810',
+      useCORS:true,
+      logging:false,
+      width:390,
+    }).then(canvas=>{
+      const a = document.createElement('a');
+      a.download = 'earthsoul-quiz-poster.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+      btn.innerHTML = '✅ Downloaded!';
+      setTimeout(()=>btn.innerHTML=orig, 2500);
+    }).catch(()=>{
+      btn.innerHTML = '📸 Long-press the poster to save';
+      setTimeout(()=>btn.innerHTML=orig, 3000);
+    });
+  };
+  if(window.html2canvas){ load(); }
+  else {
+    const sc=document.createElement('script');
+    sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    sc.onload=load;
+    sc.onerror=()=>{btn.innerHTML='📸 Long-press to save';setTimeout(()=>btn.innerHTML=orig,3000)};
+    document.head.appendChild(sc);
+  }
+}
+</script>
+</body>
+</html>
