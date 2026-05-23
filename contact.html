@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -265,6 +266,68 @@ function sendContact(){
   status.className='form-status ok';
   status.textContent='✅ Opening your email app... If it didn\'t open, email support@movingcost.ai directly.';
 }
+</script>
+
+<script>
+(function(){
+  var shareTitle = 'Contact — MovingCOST.ai';
+  var shareDesc  = 'Get help with your AI mobility report. support@movingcost.ai';
+  var shareImg   = 'https://www.movingcost.ai/og-image.png';
+  var pageUrl    = window.location.href.split('#')[0];
+  fetch('/api/wx-signature?url=' + encodeURIComponent(pageUrl))
+    .then(function(r){return r.json();})
+    .then(function(cfg){
+      wx.config({
+        debug: false,
+        appId: cfg.appId,
+        timestamp: cfg.timestamp,
+        nonceStr: cfg.nonceStr,
+        signature: cfg.signature,
+        jsApiList: ['updateTimelineShareData','updateAppMessageShareData']
+      });
+      wx.ready(function(){
+        wx.updateTimelineShareData({title:shareTitle,link:pageUrl,imgUrl:shareImg,success:function(){}});
+        wx.updateAppMessageShareData({title:shareTitle,desc:shareDesc,link:pageUrl,imgUrl:shareImg,success:function(){}});
+      });
+      wx.error(function(res){console.warn('wx.config error:',res.errMsg);});
+    })
+    .catch(function(e){console.warn('wx-signature error:',e);});
+})();
+</script>
+
+<!-- WeChat JSSDK — 朋友圈分享图片 -->
+<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script>
+(function(){
+  var shareTitle = 'Contact — MovingCOST.ai';
+  var shareDesc  = 'Get help with your AI mobility report. support@movingcost.ai';
+  var shareImg   = 'https://www.movingcost.ai/og-image.png';
+  var pageUrl    = window.location.href.split('#')[0];
+  fetch('/api/wx-signature?url=' + encodeURIComponent(pageUrl))
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(cfg){
+      if (!cfg.appId) throw new Error('Invalid response');
+      wx.config({
+        debug: false,
+        appId: cfg.appId,
+        timestamp: cfg.timestamp,
+        nonceStr: cfg.nonceStr,
+        signature: cfg.signature,
+        jsApiList: ['updateTimelineShareData','updateAppMessageShareData']
+      });
+      wx.ready(function(){
+        wx.updateTimelineShareData({title:shareTitle,link:pageUrl,imgUrl:shareImg,success:function(){}});
+        wx.updateAppMessageShareData({title:shareTitle,desc:shareDesc,link:pageUrl,imgUrl:shareImg,success:function(){}});
+      });
+      wx.error(function(res){console.warn('wx.config error:',res.errMsg);});
+    })
+    .catch(function(e){
+      // Silent fail — page works normally without WeChat sharing
+    });
+})();
 </script>
 </body>
 </html>
