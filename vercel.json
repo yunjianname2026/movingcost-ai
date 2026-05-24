@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/earthsoul", "destination": "/quiz.html" },
+    { "source": "/earthsoul", "destination": "/quiz" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/nyc-to-lisbon", "destination": "/blog/nyc-to-lisbon.html" },
     { "source": "/planner", "destination": "/planner.html" },
