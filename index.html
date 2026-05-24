@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -280,8 +278,6 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 @media(max-width:480px){.services-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.hero-stats{flex-direction:column;gap:16px}}
 
 /* ── EarthSoul Quiz Entry Points ────────────────── */
-
-/* Announcement bar */
 .announce-bar{background:linear-gradient(90deg,#0C1628 0%,#0D2040 50%,#0C1628 100%);color:#fff;padding:11px 48px 11px 20px;display:flex;align-items:center;justify-content:center;position:relative;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;border-bottom:1px solid rgba(14,165,233,0.18)}
 .announce-inner{display:flex;align-items:center;gap:8px;text-align:center;flex-wrap:wrap;justify-content:center}
 .announce-dot{width:6px;height:6px;border-radius:50%;background:#0EA5E9;animation:adot 1.8s ease-in-out infinite;flex-shrink:0}
@@ -291,8 +287,6 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 .announce-link:hover{color:#fff}
 .announce-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,0.35);cursor:pointer;font-size:16px;padding:4px 6px;line-height:1;transition:color 0.2s}
 .announce-close:hover{color:rgba(255,255,255,0.8)}
-
-/* Hero quiz nudge */
 .hero-quiz-nudge{margin-top:18px}
 .quiz-nudge-link{display:inline-flex;align-items:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text-mid);text-decoration:none;transition:all 0.2s;padding:6px 0;border-bottom:1px solid transparent}
 .quiz-nudge-link:hover{color:var(--text);border-bottom-color:var(--blue)}
@@ -300,8 +294,6 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 .qnl-action{color:var(--blue);font-weight:600}
 .qnl-arr{font-size:13px;color:var(--blue);transition:transform 0.2s;display:inline-block}
 .quiz-nudge-link:hover .qnl-arr{transform:translateX(4px)}
-
-/* Mid-page EarthSoul banner */
 .es-banner{background:linear-gradient(135deg,#0A1020 0%,#0C1C32 55%,#0A1020 100%);padding:52px 0;position:relative;overflow:hidden}
 .es-banner::before{content:'';position:absolute;top:-40%;left:-5%;width:45%;height:180%;background:radial-gradient(ellipse,rgba(14,165,233,0.09),transparent 60%);pointer-events:none}
 .es-banner::after{content:'';position:absolute;bottom:-30%;right:-5%;width:35%;height:120%;background:radial-gradient(ellipse,rgba(99,50,200,0.07),transparent 65%);pointer-events:none}
@@ -329,16 +321,16 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 </style>
 </head>
 <body>
+
 <!-- EARTHSOUL ANNOUNCEMENT BAR -->
 <div class="announce-bar" id="announceBar">
   <div class="announce-inner">
     <span class="announce-dot"></span>
     <span class="announce-text">New &nbsp;·&nbsp; <strong style="color:#fff">EarthSoul Quiz</strong> — Discover your city soul type in 2 minutes, free</span>
-    <a href="/quiz" class="announce-link">Take the Quiz &nbsp;→</a>
+    <a href="/earthsoul" class="announce-link">Take the Quiz &nbsp;→</a>
   </div>
   <button class="announce-close" onclick="this.closest('.announce-bar').style.display='none'" aria-label="Close">✕</button>
 </div>
-
 
 <!-- NAV -->
 <nav>
@@ -352,9 +344,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <a href="/">Routes</a>
         <a href="/#guides">Guides</a>
         <a href="/#services">Services</a>
-        <a href="/quiz" style="color:var(--blue);font-weight:600">EarthSoul ✦</a>
-        <a href="/quiz" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
-  <a href="/blog">Blog</a>
+        <a href="/earthsoul" style="color:var(--blue);font-weight:600">EarthSoul ✦</a>
+        <a href="/blog">Blog</a>
         <a href="/about">About</a>
       </div>
       <a href="/planner" class="nav-cta">Start Free Plan &#x2192;</a>
@@ -371,7 +362,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <a href="/" onclick="closeMenu()">Routes</a>
   <a href="/#guides" onclick="closeMenu()">Guides</a>
   <a href="/#services" onclick="closeMenu()">Services</a>
-  <a href="/quiz" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
+  <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
   <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan &#x2192;</a>
@@ -397,7 +388,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
           <a href="#tools" class="btn btn-ghost">Explore Tools</a>
         </div>
         <div class="hero-quiz-nudge">
-          <a href="/quiz" class="quiz-nudge-link">
+          <a href="/earthsoul" class="quiz-nudge-link">
             <span class="qnl-label">Not sure which city fits you?</span>
             <span class="qnl-action">Try the free EarthSoul Quiz</span>
             <span class="qnl-arr">→</span>
@@ -446,7 +437,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <p class="esb-desc">Take the EarthSoul Quiz — 9 questions, 8 city personality types. Discover whether you're a Digital Nomad, Coastal Minimalist, Urban Power Player, or something else entirely. Surprisingly accurate. Actually useful.</p>
       </div>
       <div class="esb-right">
-        <a href="/quiz" class="esb-btn">Find My City Soul <span class="arr">→</span></a>
+        <a href="/earthsoul" class="esb-btn">Find My City Soul <span class="arr">→</span></a>
         <div class="esb-badges">
           <span class="esb-badge">✨ Free</span>
           <span class="esb-badge">2 minutes</span>
@@ -758,9 +749,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <ul>
           <li><a href="/">Cities</a></li>
           <li><a href="/">Routes</a></li>
-          <li><a href="/quiz" style="color:var(--blue);font-weight:600">EarthSoul ✦</a>
-        <a href="/quiz" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
-  <a href="/blog">Blog</a></li>
+          <li><a href="/earthsoul" style="color:var(--blue);font-weight:600">EarthSoul ✦</a></li>
+          <li><a href="/blog">Blog</a></li>
           <li><a href="/#guides">Guides</a></li>
         </ul>
       </div>
@@ -797,39 +787,12 @@ var observer=new IntersectionObserver(function(entries){entries.forEach(function
 document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 </script>
 
-<script>
-(function(){
-  var shareTitle = 'MovingCOST.ai — Move Smarter. Live Lighter.';
-  var shareDesc  = 'AI mobility planning platform. Compare relocation costs, city expenses, risks &amp; lifestyle fit — before you move.';
-  var shareImg   = 'https://www.movingcost.ai/og-image.png';
-  var pageUrl    = window.location.href.split('#')[0];
-  fetch('/api/wx-signature?url=' + encodeURIComponent(pageUrl))
-    .then(function(r){return r.json();})
-    .then(function(cfg){
-      wx.config({
-        debug: false,
-        appId: cfg.appId,
-        timestamp: cfg.timestamp,
-        nonceStr: cfg.nonceStr,
-        signature: cfg.signature,
-        jsApiList: ['updateTimelineShareData','updateAppMessageShareData']
-      });
-      wx.ready(function(){
-        wx.updateTimelineShareData({title:shareTitle,link:pageUrl,imgUrl:shareImg,success:function(){}});
-        wx.updateAppMessageShareData({title:shareTitle,desc:shareDesc,link:pageUrl,imgUrl:shareImg,success:function(){}});
-      });
-      wx.error(function(res){console.warn('wx.config error:',res.errMsg);});
-    })
-    .catch(function(e){console.warn('wx-signature error:',e);});
-})();
-</script>
-
-<!-- WeChat JSSDK — 朋友圈分享图片 -->
+<!-- WeChat JSSDK -->
 <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 <script>
 (function(){
   var shareTitle = 'MovingCOST.ai — Move Smarter. Live Lighter.';
-  var shareDesc  = 'AI mobility planning platform. Compare relocation costs, city expenses, risks &amp; lifestyle fit — before you move.';
+  var shareDesc  = 'AI mobility planning platform. Compare relocation costs, city expenses, risks & lifestyle fit — before you move.';
   var shareImg   = 'https://www.movingcost.ai/og-image.png';
   var pageUrl    = window.location.href.split('#')[0];
   fetch('/api/wx-signature?url=' + encodeURIComponent(pageUrl))
