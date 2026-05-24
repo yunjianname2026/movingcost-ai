@@ -6,18 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EarthSoul — Where Does Your Soul Belong? · MovingCOST.ai</title>
 <meta name="description" content="9 questions. 8 city personalities. Surprisingly accurate. Find the city your soul was built for.">
-<meta property="og:site_name" content="MovingCOST.ai">
+<!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.movingcost.ai/quiz">
-<meta property="og:title" content="EarthSoul Quiz — Where Does Your Soul Belong?">
+<meta property="og:site_name" content="MovingCOST.ai">
+<meta property="og:url" content="https://www.movingcost.ai/earthsoul">
+<meta property="og:title" content="EarthSoul — Where Does Your Soul Belong?">
 <meta property="og:description" content="Take the EarthSoul Quiz and discover where your next chapter belongs. 9 questions. Surprisingly accurate — actually useful.">
 <meta property="og:image" content="https://www.movingcost.ai/earthsoul-og.png">
 <meta property="og:image:width" content="630">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
+<!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@movingcostai">
-<meta name="twitter:title" content="EarthSoul Quiz — Where Does Your Soul Belong?">
+<meta name="twitter:url" content="https://www.movingcost.ai/earthsoul">
+<meta name="twitter:title" content="EarthSoul — Where Does Your Soul Belong?">
 <meta name="twitter:description" content="Take the EarthSoul Quiz and discover where your next chapter belongs. 8 city personalities. Surprisingly accurate.">
 <meta name="twitter:image" content="https://www.movingcost.ai/earthsoul-og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -143,26 +146,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes popIn{from{transform:scale(0.2);opacity:0}to{transform:scale(1);opacity:1}}
 .res-name{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,64px);font-weight:300;line-height:1.02;text-align:center;letter-spacing:-0.025em;color:var(--text);margin-bottom:22px;animation:fadeUp 0.5s 0.22s both}
 
-/* Gold quote */
 .res-quote{text-align:center;padding:0 20px;margin-bottom:24px;animation:fadeUp 0.5s 0.3s both}
 .rq-mark{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:0.5;display:block;margin-bottom:12px;opacity:0.65}
 .rq-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,3vw,27px);font-weight:300;color:var(--gold);line-height:1.45;letter-spacing:0.005em}
 
-/* Secondary badge */
 .sec-badge{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:36px;animation:fadeUp 0.5s 0.35s both}
 .sec-inner{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:8px 20px;font-family:'Outfit',sans-serif;font-size:12px}
 .sec-lbl{font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
 .sec-name{font-weight:600;color:var(--text);font-size:13px}
 .sec-pull{color:var(--muted);font-size:11px}
 
-/* Main card */
 .res-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:14px;animation:fadeUp 0.5s 0.4s both}
 .res-top{padding:28px 30px;border-bottom:1px solid var(--border)}
 .res-desc{font-size:14px;color:var(--mid);line-height:1.8;margin-bottom:20px}
 .res-traits{display:flex;flex-wrap:wrap;gap:7px}
 .trait{font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:600;padding:5px 13px;border-radius:99px;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);color:var(--blue);letter-spacing:0.04em}
 
-/* Cities two-col */
 .res-cities{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
 @media(max-width:480px){.res-cities{grid-template-columns:1fr}}
 .cty-col{padding:22px 24px}
@@ -175,7 +174,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cty-item{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--text)}
 .cty-flag{font-size:17px}
 
-/* Stats */
 .res-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
 .stat{padding:20px 12px;text-align:center;border-right:1px solid var(--border);position:relative}
 .stat:last-child{border-right:none}
@@ -183,7 +181,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .stat-l{font-family:'Outfit',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted)}
 .stat-note{font-size:9.5px;color:rgba(238,242,255,0.38);margin-top:5px;line-height:1.4;max-width:120px;margin-left:auto;margin-right:auto}
 
-/* Match bar */
 .res-match{padding:20px 30px}
 .match-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .match-lbl{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
@@ -191,13 +188,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .bar-track{height:5px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
 .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),#7DD3FC);box-shadow:0 0 8px rgba(14,165,233,0.4);width:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
 
-/* Why card */
 .why-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:26px 30px;margin-bottom:14px;animation:fadeUp 0.5s 0.45s both}
 .why-hd{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;opacity:0.8}
 .why-text{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.2vw,21px);font-weight:300;color:var(--mid);line-height:1.75;font-style:italic}
 .why-text strong{font-style:normal;color:var(--text);font-weight:400}
 
-/* Share card visual */
 .share-section{margin-bottom:14px;animation:fadeUp 0.5s 0.5s both}
 .share-hd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .share-hd{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
@@ -227,7 +222,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-sh.x{color:#1DA1F2;border-color:rgba(29,161,242,0.25)}.btn-sh.x:hover{background:rgba(29,161,242,0.08)}
 .btn-sh.dl{color:var(--blue);border-color:rgba(14,165,233,0.25)}.btn-sh.dl:hover{background:var(--blue-dim)}
 
-/* Email card */
 .email-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:26px 30px;margin-bottom:14px;animation:fadeUp 0.5s 0.55s both}
 .email-hd{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
 .email-sub{font-size:13px;color:var(--mid);line-height:1.55;margin-bottom:18px}
@@ -242,7 +236,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-email:hover{background:#38BDF8;transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,0.35)}
 .email-note{font-size:11px;color:var(--muted);margin-top:10px}
 
-/* Friends card */
 .friends-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;padding:22px 28px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;animation:fadeUp 0.5s 0.6s both}
 .friends-copy{flex:1;min-width:200px}
 .friends-hd{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
@@ -250,7 +243,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-friends{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text);font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s ease;white-space:nowrap}
 .btn-friends:hover{background:rgba(255,255,255,0.08);transform:translateY(-1px)}
 
-/* CTA */
 .res-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(135deg,rgba(14,165,233,0.1),rgba(14,165,233,0.03));border:1px solid rgba(14,165,233,0.22);border-radius:20px;padding:26px 30px;flex-wrap:wrap;margin-bottom:14px;animation:fadeUp 0.5s 0.65s both}
 .cta-copy h3{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:5px}
 .cta-copy p{font-size:13px;color:var(--mid);line-height:1.55}
@@ -259,7 +251,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-cta .arr{transition:transform 0.25s;font-size:14px}
 .btn-cta:hover .arr{transform:translateX(4px)}
 
-/* Points */
 .points-card{background:var(--gold-dim);border:1px solid rgba(232,184,75,0.18);border-radius:18px;padding:20px 28px;margin-bottom:14px;animation:fadeUp 0.5s 0.7s both}
 .points-hd{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px;letter-spacing:0.02em}
 .pts-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
@@ -407,7 +398,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="scv-line"></div>
         <div class="scv-quote" id="scv-quote"></div>
         <div class="scv-cities" id="scv-cities"></div>
-        <div class="scv-url">earthsoul.ai</div>
+        <div class="scv-url">movingcost.ai/earthsoul</div>
       </div>
       <div class="share-btns">
         <a class="btn-sh x" id="btn-x" href="#" target="_blank" rel="noopener">𝕏 &nbsp;Post to X</a>
@@ -687,7 +678,7 @@ const TYPES = {
 /* ═══════════════════════════════════════════════════════ */
 let curQ = 0, chosen = null;
 let scores = {};
-let answers = {}; // stores chosen labels per question for "why" section
+let answers = {};
 
 function resetScores(){
   scores = {nomad:0,power:0,optimizer:0,creative:0,builder:0,coastal:0,luxury:0,reinvent:0};
@@ -804,42 +795,35 @@ function buildResult(){
   const {primary, secondary} = topTwo();
   const r = TYPES[primary], s = TYPES[secondary];
 
-  // Primary
   document.getElementById('res-ico').textContent = r.ico;
   document.getElementById('res-name').textContent = r.name;
   document.getElementById('rq-text').textContent = r.quote;
   document.getElementById('res-desc').textContent = r.desc;
   document.getElementById('res-traits').innerHTML = r.traits.map(t => '<span class="trait">'+t+'</span>').join('');
 
-  // Secondary
   document.getElementById('sec-ico').textContent = s.ico;
   document.getElementById('sec-name').textContent = s.name;
   document.getElementById('sec-pull').textContent = s.secPull;
 
-  // Cities
   document.getElementById('soul-cities').innerHTML = r.soulCities.map(c => '<div class="cty-item"><span class="cty-flag">'+c.f+'</span><span>'+c.n+'</span></div>').join('');
   document.getElementById('prac-cities').innerHTML = r.pracCities.map(c => '<div class="cty-item"><span class="cty-flag">'+c.f+'</span><span>'+c.n+'</span></div>').join('');
 
-  // Stats
   document.getElementById('res-stats').innerHTML = r.stats.map(s => '<div class="stat"><div class="stat-v">'+s.v+'</div><div class="stat-l">'+s.l+'</div>'+(s.n ? '<div class="stat-note">'+s.n+'</div>' : '')+'</div>').join('');
 
-  // Match bar
   document.getElementById('match-pct').textContent = r.match+'%';
   setTimeout(() => document.getElementById('bar-fill').style.width = r.match+'%', 900);
 
-  // Why
   document.getElementById('why-text').innerHTML = buildWhy(primary);
 
-  // Share card
   document.getElementById('scv-ico').textContent = r.ico;
   document.getElementById('scv-name').textContent = r.name;
   document.getElementById('scv-quote').textContent = '"'+r.quote+'"';
   const allC = [...r.soulCities, ...r.pracCities].slice(0,4);
   document.getElementById('scv-cities').innerHTML = allC.map(c => '<span class="scv-city">'+c.f+' '+c.n.split(',')[0]+'</span>').join('');
 
-  // X share (Version B style — feels human)
+  // X share — use movingcost.ai/earthsoul as canonical URL
   const xText = encodeURIComponent(
-    'Apparently my city soul type is:\n\n'+r.ico+' '+r.name+'\n\n"'+r.quote+'"\n\nI feel called out.\nTake the quiz → earthsoul.ai'
+    'Apparently my city soul type is:\n\n'+r.ico+' '+r.name+'\n\n"'+r.quote+'"\n\nI feel called out.\nTake the quiz → movingcost.ai/earthsoul'
   );
   document.getElementById('btn-x').href = 'https://twitter.com/intent/tweet?text='+xText;
 
@@ -888,7 +872,7 @@ function nativeShare(){
   const shareData = {
     title: 'My EarthSoul Type: '+r.name,
     text: r.ico+' I got "'+r.name+'" on the EarthSoul Quiz!\n"'+r.quote+'"\n\nFind yours:',
-    url: 'https://earthsoul.ai'
+    url: 'https://www.movingcost.ai/earthsoul'
   };
   if(navigator.share && navigator.canShare && navigator.canShare(shareData)){
     navigator.share(shareData).catch(()=>{});
@@ -898,7 +882,7 @@ function nativeShare(){
 }
 
 function copyLink(btn){
-  navigator.clipboard.writeText('https://earthsoul.ai').then(() => {
+  navigator.clipboard.writeText('https://www.movingcost.ai/earthsoul').then(() => {
     const orig = btn.innerHTML;
     btn.innerHTML = '✅ Copied!';
     setTimeout(() => btn.innerHTML = orig, 2000);
@@ -910,9 +894,9 @@ function copyLink(btn){
 }
 
 function sendToFriend(){
-  const msg = encodeURIComponent('Take this quiz and tell me your result — I want to see if our city souls match 👀\n→ earthsoul.ai');
+  const msg = encodeURIComponent('Take this quiz and tell me your result — I want to see if our city souls match 👀\n→ movingcost.ai/earthsoul');
   if(navigator.share){
-    navigator.share({title:'EarthSoul Quiz',text:'Take this and tell me your result!',url:'https://earthsoul.ai'}).catch(()=>{
+    navigator.share({title:'EarthSoul Quiz',text:'Take this and tell me your result!',url:'https://www.movingcost.ai/earthsoul'}).catch(()=>{
       window.open('https://wa.me/?text='+msg,'_blank');
     });
   } else {
