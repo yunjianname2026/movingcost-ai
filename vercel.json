@@ -1,7 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/quiz", "destination": "/earthsoul", "permanent": true }
+  ],
   "rewrites": [
+    { "source": "/earthsoul", "destination": "/quiz.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/nyc-to-lisbon", "destination": "/blog/nyc-to-lisbon.html" },
     { "source": "/planner", "destination": "/planner.html" },
