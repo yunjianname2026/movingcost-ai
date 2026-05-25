@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -823,7 +824,7 @@ function buildResult(){
 
   // X share — use movingcost.ai/earthsoul as canonical URL
   const xText = encodeURIComponent(
-    'Apparently my city soul type is:\n\n'+r.ico+' '+r.name+'\n\n"'+r.quote+'"\n\nI feel called out.\nTake the quiz → movingcost.ai/earthsoul'
+    'Apparently my city soul type is:\n\n'+r.ico+' '+r.name+'\n\n"'+r.quote+'"\n\nI feel called out.\nTake the quiz → https://www.movingcost.ai/earthsoul'
   );
   document.getElementById('btn-x').href = 'https://twitter.com/intent/tweet?text='+xText;
 
@@ -894,7 +895,7 @@ function copyLink(btn){
 }
 
 function sendToFriend(){
-  const msg = encodeURIComponent('Take this quiz and tell me your result — I want to see if our city souls match 👀\n→ movingcost.ai/earthsoul');
+  const msg = encodeURIComponent('Take this quiz and tell me your result — I want to see if our city souls match 👀\n→ https://www.movingcost.ai/earthsoul');
   if(navigator.share){
     navigator.share({title:'EarthSoul Quiz',text:'Take this and tell me your result!',url:'https://www.movingcost.ai/earthsoul'}).catch(()=>{
       window.open('https://wa.me/?text='+msg,'_blank');
@@ -958,15 +959,58 @@ function retake(){
   }
 
   // API 调用封装
+  // 디버그 모드: URL에 ?debug=1 추가하면 API 호출 결과를 화면에 표시
+  const DEBUG = new URLSearchParams(window.location.search).get('debug') === '1';
+
+  // 진단 로그 패널 (디버그 모드 전용)
+  let _debugPanel = null;
+  function debugLog(label, data, isError) {
+    if (!DEBUG) return;
+    if (!_debugPanel) {
+      _debugPanel = document.createElement('div');
+      _debugPanel.id = 'mc-debug-panel';
+      _debugPanel.style.cssText = `
+        position:fixed;bottom:0;left:0;right:0;max-height:45vh;overflow-y:auto;
+        background:#0A0F1A;border-top:2px solid ${isError?'#F87171':'#0EA5E9'};
+        font-family:'Courier New',monospace;font-size:11px;color:#94A3B8;
+        z-index:99999;padding:8px 12px;
+      `;
+      _debugPanel.innerHTML = '<div style="color:#E2E8F0;font-weight:bold;margin-bottom:4px">🔍 Rewards Debug Panel (remove ?debug=1 to hide)</div>';
+      document.body.appendChild(_debugPanel);
+    }
+    const color = isError ? '#F87171' : (data?.error ? '#FBBF24' : '#34D399');
+    const line = document.createElement('div');
+    line.style.cssText = `border-bottom:1px solid #1E293B;padding:3px 0;color:${color}`;
+    line.textContent = `[${new Date().toLocaleTimeString()}] ${label}: ${JSON.stringify(data)}`;
+    _debugPanel.appendChild(line);
+    _debugPanel.scrollTop = _debugPanel.scrollHeight;
+  }
+
   async function api(path, options = {}) {
     try {
       const res = await fetch(path, {
         headers: { 'Content-Type': 'application/json' },
         ...options,
       });
-      return await res.json();
+      const data = await res.json();
+      if (!res.ok) {
+        // HTTP 에러 (4xx/5xx) — 에러로 처리
+        const errMsg = data?.detail || data?.error || `HTTP ${res.status}`;
+        console.error(`[Rewards] API ${res.status} — ${path}:`, errMsg);
+        debugLog(`❌ ${path.split('?')[1] || path}`, data, true);
+        // 사용자에게 보이는 에러 표시 (선택적)
+        if (res.status === 500) {
+          showToast(`⚠ Points sync failed (${errMsg.slice(0,50)})`, 'error');
+        }
+        return data; // 에러 객체 그대로 반환 (호출부에서 result?.error 체크 가능)
+      }
+      debugLog(`✅ ${path.split('?')[1] || path}`, data, false);
+      return data;
     } catch (e) {
-      console.warn('[Rewards] API error:', e.message);
+      // 네트워크 에러 / CORS 차단
+      console.error('[Rewards] Network/CORS error:', e.message, path);
+      debugLog(`🚫 NETWORK ${path}`, { error: e.message }, true);
+      if (DEBUG) showToast(`🚫 Network error: ${e.message.slice(0,60)}`, 'error');
       return null;
     }
   }
@@ -984,7 +1028,7 @@ function retake(){
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      background: ${type === 'success' ? '#0EA5E9' : '#1E293B'};
+      background: ${type === 'error' ? '#7F1D1D' : type === 'success' ? '#0EA5E9' : '#1E293B'};
       color: #fff;
       font-family: 'Outfit', sans-serif;
       font-size: 14px;
@@ -1038,6 +1082,10 @@ function retake(){
       method: 'POST',
       body:   JSON.stringify({ user_id: userId, referred_by: referredBy }),
     });
+
+    if (!result || result.error) {
+      console.error('[Rewards] User init failed:', result?.detail || result?.error || 'null — check Supabase env vars & CORS');
+    }
 
     if (result?.user) {
       lsSet('mc_referral_code', result.user.referral_code);
