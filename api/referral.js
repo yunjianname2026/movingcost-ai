@@ -56,7 +56,10 @@ function isDuplicateError(err) {
 // ================================================================
 export default async function handler(req, res) {
   // CORS
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.movingcost.ai');
+  const _origin = req.headers.origin || "";
+  const _allowedOrigins = ["https://www.movingcost.ai","https://movingcost.ai"];
+  res.setHeader("Access-Control-Allow-Origin", _allowedOrigins.includes(_origin) ? _origin : _allowedOrigins[0]);
+  res.setHeader("Vary", "Origin");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();

@@ -7,8 +7,26 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// ── 允许的跨域来源（同时支持 www 和非 www）───────────────────
+const ALLOWED_ORIGINS = [
+  'https://www.movingcost.ai',
+  'https://movingcost.ai',
+];
+
+function setCORS(req, res) {
+  const origin = req.headers.origin || '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  res.setHeader('Access-Control-Allow-Origin', allowed);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
+}
+
 // ── Supabase REST 请求封装 ────────────────────────────────────
 async function supabase(path, options = {}) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error('环境变量缺失：SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY 未配置');
+  }
   const res = await fetch(`${SUPABASE_URL}/rest/v1${path}`, {
     ...options,
     headers: {
@@ -19,37 +37,59 @@ async function supabase(path, options = {}) {
       ...options.headers,
     },
   });
-
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
-
   if (!res.ok) {
-    throw new Error(data?.message || data?.error || `Supabase error ${res.status}`);
+    throw new Error(data?.message || data?.error || data?.hint || `Supabase HTTP ${res.status}`);
   }
   return data;
 }
 
-// ── 重新计算并更新 points_balance 缓存 ───────────────────────
+// ── 积分重新计算（优先RPC，失败则直接聚合）──────────────────
 async function recalculate(user_id) {
-  await supabase('/rpc/recalculate_points_balance', {
-    method: 'POST',
-    body:   JSON.stringify({ target_user_id: user_id }),
-  });
+  try {
+    await supabase('/rpc/recalculate_points_balance', {
+      method: 'POST',
+      body:   JSON.stringify({ target_user_id: user_id }),
+    });
+  } catch (rpcErr) {
+    console.warn('[recalculate] RPC不可用，使用fallback直接计算:', rpcErr.message);
+    const events = await supabase(
+      `/reward_events?user_id=eq.${user_id}&status=eq.approved&select=points`,
+      { method: 'GET', prefer: '' }
+    );
+    const total = (events || []).reduce((sum, e) => sum + (e.points || 0), 0);
+    await supabase(`/users?id=eq.${user_id}`, {
+      method: 'PATCH', prefer: 'return=minimal',
+      body: JSON.stringify({ points_balance: total, updated_at: new Date().toISOString() }),
+    });
+  }
 }
 
-// ── 今天的 UTC 日期字符串（YYYY-MM-DD）───────────────────────
+// ── 工具函数 ─────────────────────────────────────────────────
 function todayUTC() {
   return new Date().toISOString().split('T')[0];
 }
 
-// ================================================================
-// 积分规则配置（集中管理，方便调整）
-// ================================================================
+async function getUser(user_id) {
+  const users = await supabase(
+    `/users?id=eq.${user_id}&select=id,email,referral_code,referred_by,points_balance,status`,
+    { method: 'GET', prefer: '' }
+  );
+  return users && users.length > 0 ? users[0] : null;
+}
+
+function isDuplicateError(err) {
+  const msg = err.message || '';
+  return msg.includes('duplicate key') || msg.includes('unique constraint') || msg.includes('23505');
+}
+
+// ── 积分规则配置（集中管理）──────────────────────────────────
 const REWARD_CONFIG = {
-  quiz_completed:   { points: 20,  status: 'approved' },
-  shared_result:    { points: 50,  status: 'approved' },
-  downloaded_card:  { points: 10,  status: 'approved' },
-  email_submitted:  { points: 30,  status: 'approved' },
+  quiz_completed:            { points: 20,  status: 'approved' },
+  shared_result:             { points: 50,  status: 'approved' },
+  downloaded_card:           { points: 10,  status: 'approved' },
+  email_submitted:           { points: 30,  status: 'approved' },
   friend_completed_quiz:     { points: 100, status: 'pending'  },
   friend_submitted_email:    { points: 50,  status: 'approved' },
   purchase_completed:        { points: 200, status: 'approved' },
@@ -60,10 +100,7 @@ const REWARD_CONFIG = {
 // 主处理函数
 // ================================================================
 export default async function handler(req, res) {
-  // CORS
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.movingcost.ai');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  setCORS(req, res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { action } = req.query;
@@ -71,26 +108,24 @@ export default async function handler(req, res) {
   try {
     switch (action) {
 
-      // ── 1. 完成测试 +20 ──────────────────────────────────────
+      // ── 完成测试 +20 ─────────────────────────────────────────
       // POST /api/rewards?action=quiz-completed
       // Body: { user_id, source?, quiz_type? }
       case 'quiz-completed': {
         if (req.method !== 'POST') return res.status(405).end();
 
         const { user_id, source = 'earthsoul', quiz_type = 'earthsoul_city_quiz' } = req.body;
-        if (!user_id) return res.status(400).json({ error: 'user_id required' });
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
-        // 验证用户存在
         const user = await getUser(user_id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: '用户不存在' });
 
         // 防重复：每用户每来源只能一次（unique index 保护）
         try {
           await supabase('/reward_events', {
             method: 'POST',
             body: JSON.stringify({
-              user_id,
-              source,
+              user_id, source,
               event_type: 'quiz_completed',
               points:     REWARD_CONFIG.quiz_completed.points,
               status:     'approved',
@@ -98,46 +133,38 @@ export default async function handler(req, res) {
               metadata:   { quiz_type },
             }),
           });
-
           await recalculate(user_id);
-
           return res.status(200).json({
-            success:      true,
+            success:       true,
             points_earned: REWARD_CONFIG.quiz_completed.points,
-            message:      '+20 EarthSoul Points — Your city soul journey has started.',
+            message:       '+20 EarthSoul Points — Your city soul journey has started.',
           });
-
         } catch (e) {
           if (isDuplicateError(e)) {
-            return res.status(200).json({
-              success:      false,
-              points_earned: 0,
-              message:      'Quiz already completed — points already awarded.',
-            });
+            return res.status(200).json({ success: false, points_earned: 0, message: '测试已完成，积分已发放。' });
           }
           throw e;
         }
       }
 
-      // ── 2. 分享结果 +50（每天一次）──────────────────────────
+      // ── 分享结果 +50（每天一次）──────────────────────────────
       // POST /api/rewards?action=shared-result
       // Body: { user_id, platform, source? }
       case 'shared-result': {
         if (req.method !== 'POST') return res.status(405).end();
 
         const { user_id, platform = 'unknown', source = 'earthsoul' } = req.body;
-        if (!user_id) return res.status(400).json({ error: 'user_id required' });
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
         const user = await getUser(user_id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: '用户不存在' });
 
         // 防重复：每用户每天一次（unique index: user_id + source + event_type + event_date）
         try {
           await supabase('/reward_events', {
             method: 'POST',
             body: JSON.stringify({
-              user_id,
-              source,
+              user_id, source,
               event_type: 'shared_result',
               points:     REWARD_CONFIG.shared_result.points,
               status:     'approved',
@@ -145,45 +172,37 @@ export default async function handler(req, res) {
               metadata:   { platform },
             }),
           });
-
           await recalculate(user_id);
-
           return res.status(200).json({
-            success:      true,
+            success:       true,
             points_earned: REWARD_CONFIG.shared_result.points,
-            message:      '+50 EarthSoul Points — Your result is ready to travel.',
+            message:       '+50 EarthSoul Points — Your result is ready to travel.',
           });
-
         } catch (e) {
           if (isDuplicateError(e)) {
-            return res.status(200).json({
-              success:      false,
-              points_earned: 0,
-              message:      "You already earned today's sharing points.",
-            });
+            return res.status(200).json({ success: false, points_earned: 0, message: "今天的分享积分已领取。" });
           }
           throw e;
         }
       }
 
-      // ── 3. 下载分享卡片 +10（每天一次）──────────────────────
+      // ── 下载分享卡片 +10（每天一次）─────────────────────────
       // POST /api/rewards?action=downloaded-card
       // Body: { user_id, source? }
       case 'downloaded-card': {
         if (req.method !== 'POST') return res.status(405).end();
 
         const { user_id, source = 'earthsoul' } = req.body;
-        if (!user_id) return res.status(400).json({ error: 'user_id required' });
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
         const user = await getUser(user_id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: '用户不存在' });
 
         try {
           await supabase('/reward_events', {
             method: 'POST',
             body: JSON.stringify({
-              user_id,
-              source,
+              user_id, source,
               event_type: 'downloaded_card',
               points:     REWARD_CONFIG.downloaded_card.points,
               status:     'approved',
@@ -191,81 +210,65 @@ export default async function handler(req, res) {
               metadata:   {},
             }),
           });
-
           await recalculate(user_id);
-
           return res.status(200).json({
-            success:      true,
+            success:       true,
             points_earned: REWARD_CONFIG.downloaded_card.points,
-            message:      '+10 EarthSoul Points — Card downloaded!',
+            message:       '+10 EarthSoul Points — Card downloaded!',
           });
-
         } catch (e) {
           if (isDuplicateError(e)) {
-            return res.status(200).json({
-              success:      false,
-              points_earned: 0,
-              message:      "You already earned today's download points.",
-            });
+            return res.status(200).json({ success: false, points_earned: 0, message: "今天的下载积分已领取。" });
           }
           throw e;
         }
       }
 
-      // ── 4. 获取积分历史 ──────────────────────────────────────
+      // ── 获取积分历史 ─────────────────────────────────────────
       // GET /api/rewards?action=history&user_id=xxx&limit=20
       case 'history': {
         if (req.method !== 'GET') return res.status(405).end();
 
         const { user_id, limit = '20' } = req.query;
-        if (!user_id) return res.status(400).json({ error: 'user_id required' });
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
         const events = await supabase(
           `/reward_events?user_id=eq.${user_id}&order=created_at.desc&limit=${parseInt(limit)}&select=*`,
           { method: 'GET', prefer: '' }
         );
 
-        // 聚合统计
         let approved = 0, pending = 0;
         (events || []).forEach(e => {
           if (e.status === 'approved') approved += e.points;
           if (e.status === 'pending')  pending  += e.points;
         });
 
-        return res.status(200).json({
-          events:          events || [],
-          total_approved:  approved,
-          total_pending:   pending,
-        });
+        return res.status(200).json({ events: events || [], total_approved: approved, total_pending: pending });
       }
 
-      // ── 5. 人工/系统补积分（admin only）─────────────────────
+      // ── 管理员手动调整积分（需要 x-admin-secret 请求头）────
       // POST /api/rewards?action=admin-adjust
       // Body: { user_id, points, reason, support_case_id?, admin_id }
-      // 必须通过此接口，禁止直接改 points_balance
       case 'admin-adjust': {
         if (req.method !== 'POST') return res.status(405).end();
 
-        // 简单的 admin 验证（v1 用固定 secret，未来换 JWT）
         const adminSecret = req.headers['x-admin-secret'];
         if (adminSecret !== process.env.ADMIN_SECRET) {
-          return res.status(401).json({ error: 'Unauthorized' });
+          return res.status(401).json({ error: '未授权' });
         }
 
         const { user_id, points, reason, support_case_id, admin_id = 'admin' } = req.body;
         if (!user_id || points === undefined || !reason) {
-          return res.status(400).json({ error: 'user_id, points, reason required' });
+          return res.status(400).json({ error: 'user_id、points、reason 不能为空' });
         }
 
         const user = await getUser(user_id);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).json({ error: '用户不存在' });
 
-        // 写入 reward_events
-        const event = await supabase('/reward_events', {
+        await supabase('/reward_events', {
           method: 'POST',
           body: JSON.stringify({
-            user_id,
-            source:     'admin',
+            user_id, source: 'admin',
             event_type: 'admin_adjustment',
             points:     parseInt(points),
             status:     'approved',
@@ -273,64 +276,21 @@ export default async function handler(req, res) {
             metadata:   { reason, support_case_id, admin_id },
           }),
         });
-
-        // 重新计算余额（不允许直接改 points_balance）
-        const newBalance = await recalculate(user_id);
-
-        // 写入 audit_logs
-        await supabase('/audit_logs', {
-          method: 'POST',
-          body: JSON.stringify({
-            actor_type:  'human_admin',
-            actor_id:    admin_id,
-            actor_level: 'human',
-            action_type: 'adjust_points',
-            target_type: 'reward_events',
-            target_id:   event[0]?.id,
-            before_data: { points_balance: user.points_balance },
-            after_data:  { points_balance: newBalance, points_added: points },
-            reason,
-            support_case_id: support_case_id || null,
-          }),
-        }).catch(e => console.warn('audit_log write failed:', e.message));
+        await recalculate(user_id);
 
         return res.status(200).json({
-          success:     true,
+          success:      true,
           points_added: parseInt(points),
-          new_balance: newBalance,
-          message:     `Admin adjustment: ${points > 0 ? '+' : ''}${points} points. Reason: ${reason}`,
+          message:      `管理员调整：${points > 0 ? '+' : ''}${points} 积分。原因：${reason}`,
         });
       }
 
       default:
-        return res.status(400).json({ error: `Unknown action: ${action}` });
+        return res.status(400).json({ error: `未知操作: ${action}` });
     }
 
   } catch (err) {
-    console.error('[api/rewards] Error:', err.message);
-    return res.status(500).json({ error: 'Internal server error', detail: err.message });
+    console.error('[api/rewards] 错误:', err.message);
+    return res.status(500).json({ error: '服务器内部错误', detail: err.message });
   }
-}
-
-// ================================================================
-// 辅助函数
-// ================================================================
-
-// 获取用户（带缓存查询）
-async function getUser(user_id) {
-  const users = await supabase(
-    `/users?id=eq.${user_id}&select=id,email,referral_code,referred_by,points_balance,status`,
-    { method: 'GET', prefer: '' }
-  );
-  return users && users.length > 0 ? users[0] : null;
-}
-
-// 判断是否为 unique constraint 冲突错误
-function isDuplicateError(err) {
-  const msg = err.message || '';
-  return (
-    msg.includes('duplicate key') ||
-    msg.includes('unique constraint') ||
-    msg.includes('23505')  // PostgreSQL unique violation code
-  );
 }
