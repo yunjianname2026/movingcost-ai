@@ -1,29 +1,30 @@
 // ================================================================
 // api/user.js — MovingCOST Rewards System v1
-// 用户管理 API：创建用户 / 获取用户+积分 / 绑定邮箱
-// 所有数据库操作使用 SUPABASE_SERVICE_ROLE_KEY（后端专用）
-// 前端永远不直接访问 Supabase
+// 修改记录：
+// 1. case 'get'：返回 membership_tier / membership_status /
+//               member_since / is_member 字段
+// 2. case 'bind-email'：绑定邮箱后自动写入 Free Member 状态
+//    规则：只有 tier 为 NULL 时才写 free（不覆盖 plus/pro/annual）
+//          member_since 只在首次绑定时写入
 // ================================================================
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// ── 允许的跨域来源（同时支持 www 和非 www）───────────────────
 const ALLOWED_ORIGINS = [
   'https://www.movingcost.ai',
   'https://movingcost.ai',
 ];
 
 function setCORS(req, res) {
-  const origin = req.headers.origin || '';
+  const origin  = req.headers.origin || '';
   const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  res.setHeader('Access-Control-Allow-Origin', allowed);
+  res.setHeader('Access-Control-Allow-Origin',  allowed);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Vary', 'Origin');
 }
 
-// ── Supabase REST 请求封装 ────────────────────────────────────
 async function supabase(path, options = {}) {
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     throw new Error('环境变量缺失：SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY 未配置');
@@ -49,7 +50,6 @@ async function supabase(path, options = {}) {
   return data;
 }
 
-// ── 生成 referral_code（8位，排除易混淆字符 O/0/I/1）────────
 function generateReferralCode() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code = '';
@@ -57,17 +57,15 @@ function generateReferralCode() {
   return code;
 }
 
-// ── 生成唯一推荐码（碰撞重试最多10次）──────────────────────
 async function generateUniqueReferralCode() {
   for (let i = 0; i < 10; i++) {
-    const code = generateReferralCode();
+    const code     = generateReferralCode();
     const existing = await supabase(`/users?referral_code=eq.${code}&select=id`, { method: 'GET', prefer: '' });
     if (!existing || existing.length === 0) return code;
   }
   throw new Error('无法生成唯一推荐码，请重试');
 }
 
-// ── 积分重新计算（优先RPC，失败则直接聚合）──────────────────
 async function recalculate(user_id) {
   try {
     await supabase('/rpc/recalculate_points_balance', {
@@ -76,7 +74,6 @@ async function recalculate(user_id) {
     });
   } catch (rpcErr) {
     console.warn('[recalculate] RPC不可用，使用fallback直接计算:', rpcErr.message);
-    // fallback：直接聚合 reward_events 更新 users.points_balance
     const events = await supabase(
       `/reward_events?user_id=eq.${user_id}&status=eq.approved&select=points`,
       { method: 'GET', prefer: '' }
@@ -101,16 +98,13 @@ export default async function handler(req, res) {
   try {
     switch (action) {
 
-      // ── 1. 创建匿名用户（幂等：已存在则返回现有记录）──────────
-      // POST /api/user?action=create
-      // Body: { user_id, referred_by? }
+      // ── 1. 创建匿名用户 ─────────────────────────────────────
       case 'create': {
         if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
         const { user_id, referred_by } = req.body;
         if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
-        // 已存在则更新 last_seen_at 并返回
         const existing = await supabase(`/users?id=eq.${user_id}&select=*`, { method: 'GET', prefer: '' });
         if (existing && existing.length > 0) {
           await supabase(`/users?id=eq.${user_id}`, {
@@ -120,17 +114,14 @@ export default async function handler(req, res) {
           return res.status(200).json({ user: existing[0], created: false });
         }
 
-        // 生成唯一推荐码
         const referral_code = await generateUniqueReferralCode();
 
-        // 验证 referred_by（不能自我推荐）
         let validReferredBy = null;
         if (referred_by && referred_by !== referral_code) {
           const referrer = await supabase(`/users?referral_code=eq.${referred_by}&select=id`, { method: 'GET', prefer: '' });
           if (referrer && referrer.length > 0) validReferredBy = referred_by;
         }
 
-        // 创建新用户
         const newUser = await supabase('/users', {
           method: 'POST',
           body: JSON.stringify({
@@ -139,14 +130,16 @@ export default async function handler(req, res) {
             referred_by:    validReferredBy,
             points_balance: 0,
             status:         'active',
+            // membership 字段保持 NULL，直到绑定邮箱才写入
           }),
         });
 
         return res.status(201).json({ user: newUser[0], created: true });
       }
 
-      // ── 2. 获取用户信息 + 积分余额 ─────────────────────────
-      // GET /api/user?action=get&user_id=xxx
+      // ── 2. 获取用户信息 + 积分 ──────────────────────────────
+      // ★ 修改：新增返回 membership_tier / membership_status /
+      //         member_since / is_member 字段
       case 'get': {
         if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -157,7 +150,6 @@ export default async function handler(req, res) {
         if (!users || users.length === 0) return res.status(404).json({ error: '用户不存在' });
         const user = users[0];
 
-        // 从 reward_events 实时聚合（真实账本）
         const events = await supabase(
           `/reward_events?user_id=eq.${user_id}&select=points,status,event_type,source,created_at,metadata&order=created_at.desc&limit=20`,
           { method: 'GET', prefer: '' }
@@ -169,7 +161,6 @@ export default async function handler(req, res) {
           if (e.status === 'pending')  pendingPoints  += e.points;
         });
 
-        // 更新活跃时间
         await supabase(`/users?id=eq.${user_id}`, {
           method: 'PATCH', prefer: 'return=minimal',
           body: JSON.stringify({ last_seen_at: new Date().toISOString() }),
@@ -177,11 +168,16 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
           user: {
-            id:            user.id,
-            email:         user.email,
-            referral_code: user.referral_code,
-            referred_by:   user.referred_by,
-            status:        user.status,
+            id:                user.id,
+            email:             user.email             || null,
+            referral_code:     user.referral_code,
+            referred_by:       user.referred_by       || null,
+            status:            user.status,
+            // ★ 新增会员字段
+            membership_tier:   user.membership_tier   || null,
+            membership_status: user.membership_status || null,
+            member_since:      user.member_since       || null,
+            is_member:         !!user.email,           // 有邮箱 = Free Member
           },
           points: {
             available:      approvedPoints,
@@ -194,16 +190,19 @@ export default async function handler(req, res) {
         });
       }
 
-      // ── 3. 绑定邮箱（+30积分，全局去重）───────────────────
-      // POST /api/user?action=bind-email
-      // Body: { user_id, email }
+      // ── 3. 绑定邮箱 ─────────────────────────────────────────
+      // ★ 修改：绑定成功后自动写入 Free Member 状态
+      //   安全规则：
+      //   - 只有 membership_tier 为 NULL 时才写 free
+      //   - 不覆盖 plus / pro / annual
+      //   - member_since 只在首次绑定时写入
+      //   - 邮箱已属于其他账号时返回 409（不做无验证合并）
       case 'bind-email': {
         if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
         let { user_id, email } = req.body;
         if (!user_id || !email) return res.status(400).json({ error: 'user_id 和 email 不能为空' });
 
-        // 统一小写 + 去空格
         email = email.trim().toLowerCase();
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
           return res.status(400).json({ error: '邮箱格式不正确' });
@@ -216,13 +215,17 @@ export default async function handler(req, res) {
         // 已绑定相同邮箱，直接返回
         if (user.email === email) return res.status(200).json({ message: '邮箱已绑定', points_earned: 0 });
 
-        // 检查邮箱是否已被其他账号使用
+        // ★ 安全检查：邮箱是否已属于其他账号
         const emailExists = await supabase(
           `/users?email=eq.${encodeURIComponent(email)}&select=id`,
           { method: 'GET', prefer: '' }
         );
         if (emailExists && emailExists.length > 0 && emailExists[0].id !== user_id) {
-          return res.status(409).json({ error: '该邮箱已被其他账号绑定' });
+          // 不做无验证合并，返回 409
+          return res.status(409).json({
+            error: '该邮箱已被其他账号绑定',
+            message: 'Account recovery by email is coming soon. For now, please use the same device or contact support.',
+          });
         }
 
         // 绑定邮箱
@@ -231,7 +234,25 @@ export default async function handler(req, res) {
           body: JSON.stringify({ email }),
         });
 
-        // 检查该邮箱是否已领过 email_submitted 奖励（全局去重）
+        // ★ 会员状态安全写入
+        // 只有 tier 为 NULL 时才写 free（不覆盖 plus/pro/annual）
+        // member_since 只在首次成为会员时写入
+        const membershipUpdate = {};
+        if (!user.membership_tier) {
+          membershipUpdate.membership_tier   = 'free';
+          membershipUpdate.membership_status = 'active';
+        }
+        if (!user.member_since) {
+          membershipUpdate.member_since = new Date().toISOString();
+        }
+        if (Object.keys(membershipUpdate).length > 0) {
+          await supabase(`/users?id=eq.${user_id}`, {
+            method: 'PATCH', prefer: 'return=minimal',
+            body: JSON.stringify(membershipUpdate),
+          });
+        }
+
+        // 检查是否已领过 email_submitted 奖励
         const emailRewarded = await supabase(
           `/reward_events?event_type=eq.email_submitted&status=neq.rejected&metadata->>email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
           { method: 'GET', prefer: '' }
@@ -255,12 +276,11 @@ export default async function handler(req, res) {
             pointsEarned = 30;
             await recalculate(user_id);
           } catch (e) {
-            // unique constraint 触发说明已发过，忽略
             console.warn('email_submitted 积分已发，跳过:', e.message);
           }
         }
 
-        // 处理推荐奖励：被推荐人绑定邮箱后，推荐人 pending→approved
+        // 推荐奖励：被推荐人绑定邮箱后，推荐人 pending→approved
         if (user.referred_by) {
           await approvePendingReferralReward(user_id, user.referred_by).catch(e =>
             console.warn('[bind-email] 推荐奖励处理失败:', e.message)
@@ -268,14 +288,15 @@ export default async function handler(req, res) {
         }
 
         return res.status(200).json({
-          message:       '邮箱绑定成功',
-          points_earned: pointsEarned,
+          message:           '邮箱绑定成功',
+          points_earned:     pointsEarned,
           email,
+          membership_tier:   membershipUpdate.membership_tier || user.membership_tier,
+          is_member:         true,
         });
       }
 
-      // ── 4. 保存测试结果到 quiz_results 表 ──────────────────
-      // POST /api/user?action=save-quiz-result
+      // ── 4. 保存测试结果 ──────────────────────────────────────
       case 'save-quiz-result': {
         if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -284,14 +305,12 @@ export default async function handler(req, res) {
         if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
 
         try {
-          // 同一用户同一来源只保存最新一条（upsert）
           const existing = await supabase(
             `/quiz_results?user_id=eq.${user_id}&source=eq.${source}&select=id`,
             { method: 'GET', prefer: '' }
           );
 
           if (existing && existing.length > 0) {
-            // 更新现有记录
             await supabase(`/quiz_results?user_id=eq.${user_id}&source=eq.${source}`, {
               method: 'PATCH', prefer: 'return=minimal',
               body: JSON.stringify({
@@ -301,7 +320,6 @@ export default async function handler(req, res) {
               }),
             });
           } else {
-            // 新建记录
             await supabase('/quiz_results', {
               method: 'POST',
               body: JSON.stringify({
@@ -318,8 +336,7 @@ export default async function handler(req, res) {
         }
       }
 
-      // ── 5. 提交客服工单到 support_cases 表 ──────────────────
-      // POST /api/user?action=save-support-case
+      // ── 5. 客服工单 ──────────────────────────────────────────
       case 'save-support-case': {
         if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -332,10 +349,10 @@ export default async function handler(req, res) {
             body: JSON.stringify({
               user_id,
               issue_type,
-              description: description || '',
+              description:   description || '',
               contact_email: email || null,
-              status: 'open',
-              metadata: metadata || {},
+              status:        'open',
+              metadata:      metadata || {},
             }),
           });
           return res.status(201).json({ success: true, case_id: newCase?.[0]?.id });
@@ -359,7 +376,6 @@ export default async function handler(req, res) {
 // 辅助函数
 // ================================================================
 
-// 积分等级计算
 function getPointsLevel(points) {
   if (points >= 800) return { num: 4, name: 'Global Pathfinder', next: null };
   if (points >= 300) return { num: 3, name: 'EarthSoul Guide',   next: 800 - points };
@@ -367,10 +383,8 @@ function getPointsLevel(points) {
   return               { num: 1, name: 'New Explorer',          next: 100 - points };
 }
 
-// 邮箱绑定后：推荐人的 pending friend_completed_quiz → approved
 async function approvePendingReferralReward(referredUserId, referrerCode) {
   try {
-    // 找到推荐人
     const referrers = await supabase(
       `/users?referral_code=eq.${referrerCode}&select=id`,
       { method: 'GET', prefer: '' }
@@ -378,7 +392,6 @@ async function approvePendingReferralReward(referredUserId, referrerCode) {
     if (!referrers || referrers.length === 0) return;
     const referrerId = referrers[0].id;
 
-    // 更新 referrals 表状态
     await supabase(
       `/referrals?referred_user_id=eq.${referredUserId}&status=neq.rejected`,
       {
@@ -387,7 +400,6 @@ async function approvePendingReferralReward(referredUserId, referrerCode) {
       }
     );
 
-    // 推荐人的 pending friend_completed_quiz → approved
     await supabase(
       `/reward_events?user_id=eq.${referrerId}&event_type=eq.friend_completed_quiz&status=eq.pending&metadata->>referred_user_id=eq.${referredUserId}`,
       {
@@ -396,7 +408,6 @@ async function approvePendingReferralReward(referredUserId, referrerCode) {
       }
     );
 
-    // 给推荐人发 friend_submitted_email +50（全局去重保护）
     try {
       await supabase('/reward_events', {
         method: 'POST',
@@ -414,7 +425,6 @@ async function approvePendingReferralReward(referredUserId, referrerCode) {
       console.warn('friend_submitted_email 积分已存在，跳过:', e.message);
     }
 
-    // 重新计算推荐人积分
     await recalculate(referrerId);
   } catch (err) {
     console.error('[approvePendingReferralReward] 错误:', err.message);

@@ -447,7 +447,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
     <!-- Points teaser -->
     <div class="points-card">
-      <div class="points-hd">⭐ EarthSoul Points — coming soon</div>
+      <div class="points-hd">⭐ MovingCOST Points</div>
       <div class="pts-grid">
         <div class="pt"><span>Complete quiz</span><span class="pt-v">+20 pts</span></div>
         <div class="pt"><span>Share result</span><span class="pt-v">+50 pts</span></div>
@@ -1168,7 +1168,7 @@ function retake(){
     });
 
     if (result?.success) {
-      showToast('⭐ +20 EarthSoul Points — Your city soul journey has started!');
+      showToast('⭐ +20 MovingCOST Points — Earned through EarthSoul Quiz. Your rewards journey has started!');
     }
 
     // 保存测试结果到 Supabase quiz_results 表
@@ -1221,7 +1221,7 @@ function retake(){
     });
 
     if (result?.success) {
-      showToast(`⭐ +50 EarthSoul Points — Your result is ready to travel!`);
+      showToast(`⭐ +50 MovingCOST Points — Your result is ready to travel!`);
     } else if (result?.points_earned === 0) {
       showToast("You already earned today's sharing points.", 'info');
     }
@@ -1239,7 +1239,7 @@ function retake(){
     });
 
     if (result?.success) {
-      showToast('⭐ +10 EarthSoul Points — Card downloaded!');
+      showToast('⭐ +10 MovingCOST Points — Card downloaded!');
     }
   }
 
@@ -1320,7 +1320,8 @@ function retake(){
     if (!existingCard) return;
 
     existingCard.innerHTML = `
-      <div class="points-hd">⭐ EarthSoul Points</div>
+      <div class="points-hd">⭐ MovingCOST Points</div>
+      <div style="font-size:11px;color:rgba(232,184,75,0.6);margin:-8px 0 12px;letter-spacing:0.02em">Earned through EarthSoul Quiz</div>
       <div style="display:flex;gap:20px;margin-bottom:14px;flex-wrap:wrap">
         <div style="flex:1;min-width:120px">
           <div style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;
@@ -1398,7 +1399,7 @@ function retake(){
     const referralCode = lsGet('mc_referral_code') || '';
     const currentUrl   = window.location.href;
 
-    const subject = encodeURIComponent('Missing EarthSoul Points');
+    const subject = encodeURIComponent('Missing MovingCOST Points');
     const body    = encodeURIComponent(
       `Hi MovingCOST Support,\n\nI have an issue with my EarthSoul Points.\n\n` +
       `Issue type: missing_points\n` +
@@ -1437,7 +1438,7 @@ function retake(){
     const orig = btn ? btn.innerHTML : '';
 
     navigator.clipboard.writeText(link).then(() => {
-      showToast('🔗 Invite link copied! +50 EarthSoul Points incoming.');
+      showToast('🔗 Invite link copied! +50 MovingCOST Points incoming.');
       onShareClicked('copy_link');
       if (btn) {
         btn.innerHTML = '✅ Copied!';
@@ -1525,7 +1526,7 @@ function retake(){
 
     if (btn)   btn.textContent = '✅ On its way!';
     if (msg) {
-      const pts = result?.points_earned > 0 ? ` +${result.points_earned} EarthSoul Points earned.` : '';
+      const pts = result?.points_earned > 0 ? ` +${result.points_earned} MovingCOST Points earned.` : '';
       msg.textContent = `Report saved!${pts} Check your inbox.`;
       msg.style.color = 'var(--green)';
     }
