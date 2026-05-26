@@ -274,6 +274,77 @@ export default async function handler(req, res) {
         });
       }
 
+      // ── 4. 保存测试结果到 quiz_results 表 ──────────────────
+      // POST /api/user?action=save-quiz-result
+      case 'save-quiz-result': {
+        if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+        const { user_id, source = 'earthsoul', quiz_type = 'earthsoul_city_quiz',
+                primary_type, secondary_type, result_data } = req.body;
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
+
+        try {
+          // 同一用户同一来源只保存最新一条（upsert）
+          const existing = await supabase(
+            `/quiz_results?user_id=eq.${user_id}&source=eq.${source}&select=id`,
+            { method: 'GET', prefer: '' }
+          );
+
+          if (existing && existing.length > 0) {
+            // 更新现有记录
+            await supabase(`/quiz_results?user_id=eq.${user_id}&source=eq.${source}`, {
+              method: 'PATCH', prefer: 'return=minimal',
+              body: JSON.stringify({
+                quiz_type, primary_type, secondary_type,
+                result_data: result_data || {},
+                updated_at: new Date().toISOString(),
+              }),
+            });
+          } else {
+            // 新建记录
+            await supabase('/quiz_results', {
+              method: 'POST',
+              body: JSON.stringify({
+                user_id, source, quiz_type,
+                primary_type, secondary_type,
+                result_data: result_data || {},
+              }),
+            });
+          }
+          return res.status(200).json({ success: true });
+        } catch (e) {
+          console.warn('[save-quiz-result] 写入失败:', e.message);
+          return res.status(500).json({ error: '写入失败', detail: e.message });
+        }
+      }
+
+      // ── 5. 提交客服工单到 support_cases 表 ──────────────────
+      // POST /api/user?action=save-support-case
+      case 'save-support-case': {
+        if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+        const { user_id, issue_type = 'missing_points', description, email, metadata } = req.body;
+        if (!user_id) return res.status(400).json({ error: 'user_id 不能为空' });
+
+        try {
+          const newCase = await supabase('/support_cases', {
+            method: 'POST',
+            body: JSON.stringify({
+              user_id,
+              issue_type,
+              description: description || '',
+              contact_email: email || null,
+              status: 'open',
+              metadata: metadata || {},
+            }),
+          });
+          return res.status(201).json({ success: true, case_id: newCase?.[0]?.id });
+        } catch (e) {
+          console.warn('[save-support-case] 写入失败:', e.message);
+          return res.status(500).json({ error: '工单创建失败', detail: e.message });
+        }
+      }
+
       default:
         return res.status(400).json({ error: `未知操作: ${action}` });
     }
