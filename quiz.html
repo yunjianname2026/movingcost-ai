@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -959,10 +960,10 @@ function retake(){
   }
 
   // API 调用封装
-  // 디버그 모드: URL에 ?debug=1 추가하면 API 호출 결과를 화면에 표시
+  // 调试模式: URL加 ?debug=1 后，API调用结果会显示在页面底部
   const DEBUG = new URLSearchParams(window.location.search).get('debug') === '1';
 
-  // 진단 로그 패널 (디버그 모드 전용)
+  // 诊断日志面板（仅调试模式显示）
   let _debugPanel = null;
   function debugLog(label, data, isError) {
     if (!DEBUG) return;
@@ -994,20 +995,20 @@ function retake(){
       });
       const data = await res.json();
       if (!res.ok) {
-        // HTTP 에러 (4xx/5xx) — 에러로 처리
+        // HTTP 错误 (4xx/5xx) — 当作错误处理
         const errMsg = data?.detail || data?.error || `HTTP ${res.status}`;
         console.error(`[Rewards] API ${res.status} — ${path}:`, errMsg);
         debugLog(`❌ ${path.split('?')[1] || path}`, data, true);
-        // 사용자에게 보이는 에러 표시 (선택적)
+        // 向用户显示错误提示（可选）
         if (res.status === 500) {
           showToast(`⚠ Points sync failed (${errMsg.slice(0,50)})`, 'error');
         }
-        return data; // 에러 객체 그대로 반환 (호출부에서 result?.error 체크 가능)
+        return data; // 返回错误对象（调用方可检查 result?.error）
       }
       debugLog(`✅ ${path.split('?')[1] || path}`, data, false);
       return data;
     } catch (e) {
-      // 네트워크 에러 / CORS 차단
+      // 网络错误 / CORS 拦截
       console.error('[Rewards] Network/CORS error:', e.message, path);
       debugLog(`🚫 NETWORK ${path}`, { error: e.message }, true);
       if (DEBUG) showToast(`🚫 Network error: ${e.message.slice(0,60)}`, 'error');
@@ -1168,6 +1169,31 @@ function retake(){
 
     if (result?.success) {
       showToast('⭐ +20 EarthSoul Points — Your city soul journey has started!');
+    }
+
+    // 保存测试结果到 Supabase quiz_results 表
+    try {
+      const quizData = typeof topTwo === 'function' ? topTwo() : {};
+      const typeInfo = typeof TYPES !== 'undefined' && quizData.primary ? TYPES[quizData.primary] : {};
+      await api(`${API_BASE}/user?action=save-quiz-result`, {
+        method: 'POST',
+        body:   JSON.stringify({
+          user_id:        userId,
+          source:         SOURCE,
+          quiz_type:      'earthsoul_city_quiz',
+          primary_type:   primaryType,
+          secondary_type: secondaryType,
+          result_data:    {
+            primary:   quizData.primary,
+            secondary: quizData.secondary,
+            name:      typeInfo.name  || primaryType,
+            quote:     typeInfo.quote || '',
+            icon:      typeInfo.ico   || '',
+          },
+        }),
+      });
+    } catch (e) {
+      console.warn('[Rewards] quiz_results 写入失败:', e.message);
     }
 
     // 触发朋友完成测试奖励（给推荐人 +100 pending）
@@ -1384,6 +1410,22 @@ function retake(){
     );
 
     link.href = `mailto:support@movingcost.ai?subject=${subject}&body=${body}`;
+
+    // 点击时同时写入 support_cases 表（静默，不影响邮件打开）
+    link.onclick = () => {
+      const uid = lsGet('mc_user_id');
+      if (!uid) return;
+      api(`${API_BASE}/user?action=save-support-case`, {
+        method: 'POST',
+        body: JSON.stringify({
+          user_id:     uid,
+          issue_type:  'missing_points',
+          description: 'User clicked Missing Points support link',
+          email:       lsGet('mc_user_email') || null,
+          metadata:    { referral_code: lsGet('mc_referral_code'), page: window.location.href },
+        }),
+      }).catch(() => {}); // 静默失败，不阻止邮件打开
+    };
   }
 
   // ── 覆盖现有函数：copyLink ────────────────────────────────────
