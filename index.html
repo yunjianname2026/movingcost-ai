@@ -318,6 +318,113 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   .esb-btn{width:100%;justify-content:center}
   .esb-badges{justify-content:flex-start}
 }
+  /* ================================================================
+   Hero Card 视觉升级补丁
+   操作：粘贴到 index.html 的 </style> 标签之前
+   影响范围：仅右侧 AI 卡片外观，字体/字重/内容/布局全部不动
+   ================================================================ */
+
+/* 覆盖 .card-blue 在 hero-card 上的背景，改为纯净玻璃感 */
+.hero-card {
+  /* 等高：已有 align-items:stretch，这里让内容均匀分布（原来是 center） */
+  justify-content: space-evenly;
+
+  /* 背景：从蓝色毛玻璃 → 纯净白色毛玻璃 */
+  background: rgba(255, 255, 255, 0.80) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+
+  /* 阴影：蓝色方向感，与品牌色呼应 */
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 8px 32px rgba(14, 165, 233, 0.09),
+    0 32px 80px rgba(14, 165, 233, 0.07),
+    0 2px 8px rgba(0, 0, 0, 0.05) !important;
+
+  /* 顶部需要 overflow:hidden 才能让细线裁剪整齐（card 已有，确认保留） */
+  overflow: hidden;
+
+  /* 内边距微调：顶部留给细线，其余不变 */
+  padding-top: 0 !important;
+}
+
+/* 顶部蓝色细线（用 ::before，不影响现有 ::after 的光晕效果） */
+.hero-card::before {
+  content: '';
+  display: block;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--blue) 25%,
+    var(--blue-d) 75%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  /* 突破左右内边距，贴边显示 */
+  margin: 0 -28px 32px -28px;
+  flex-shrink: 0;
+}
+
+/* 卡片内容区各元素间距微调，配合 space-evenly */
+.hero-card .hcard-title {
+  margin-bottom: 14px;
+}
+.hcard-row {
+  margin-bottom: 14px;
+}
+.path-mini {
+  margin-bottom: 16px;
+}
+
+/* 类型选择按钮 hover 状态增强（原代码仅改边框色，补充背景过渡） */
+.path-mini label:hover {
+  background: rgba(224, 242, 254, 0.60);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.10);
+  transition: all 0.18s ease;
+}
+
+/* 类型已选中时的样式增强（原 CSS checked 状态补充阴影） */
+#path-relocation:checked ~ .path-mini label[for="path-relocation"],
+#path-nomad:checked     ~ .path-mini label[for="path-nomad"],
+#path-comparing:checked ~ .path-mini label[for="path-comparing"] {
+  border-color: var(--blue);
+  background: rgba(224, 242, 254, 0.85);
+  box-shadow:
+    0 0 0 3px rgba(14, 165, 233, 0.12),
+    0 2px 8px rgba(14, 165, 233, 0.10);
+  transform: translateY(-1px);
+}
+
+/* Generate 按钮：原来是圆角99px，保持不动；补充更丰富的阴影 */
+.hcard-btn {
+  box-shadow:
+    0 4px 16px rgba(14, 165, 233, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.22s ease !important;
+}
+.hcard-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow:
+    0 8px 28px rgba(14, 165, 233, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 手机端：保持原样，取消桌面端的视觉增强 */
+@media (max-width: 768px) {
+  .hero-card {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    justify-content: center;
+    padding-top: 32px !important;
+  }
+  .hero-card::before {
+    display: none; /* 手机端不显示细线 */
+  }
+}
 </style>
 </head>
 <body>
