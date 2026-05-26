@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member Dashboard — MovingCOST.ai</title>
+<meta name="description" content="Your MovingCOST member dashboard. View your points, EarthSoul profile, reports and rewards.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060A12;--s1:#0C1422;--s2:#111B2E;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(14,165,233,0.35);
+  --text:#EEF2FF;--mid:rgba(238,242,255,0.58);--muted:rgba(238,242,255,0.30);
+  --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.10);--blue-d:#0284C7;
+  --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.10);
+  --green:#10B981;--green-dim:rgba(16,185,129,0.10);
+  --purple:#7C3AED;
+}
+html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 5%,rgba(14,165,233,0.07) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 95%,rgba(99,50,200,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;letter-spacing:-0.5px}
+.nav-logo .ac{color:var(--blue)}
+.nav-logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-badge{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(232,184,75,0.2);padding:4px 12px;border-radius:99px}
+.nav-home{font-size:13px;color:var(--muted);transition:color 0.2s}
+.nav-home:hover{color:var(--text)}
+
+/* LAYOUT */
+.page{max-width:760px;margin:0 auto;padding:32px 20px 80px;position:relative;z-index:1}
+
+/* SECTION LABEL */
+.sec-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* CARDS */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:12px}
+.card-blue{background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(14,165,233,0.03));border-color:var(--border-hi)}
+.card-gold{background:var(--gold-dim);border-color:rgba(232,184,75,0.18)}
+.card-green{background:var(--green-dim);border-color:rgba(16,185,129,0.2)}
+
+/* ── HERO AREA ── */
+.hero-area{text-align:center;padding:40px 0 32px}
+.hero-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7DD3FC);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px}
+.hero-name{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
+.hero-email{font-size:13px;color:var(--muted);margin-bottom:12px}
+.hero-since{font-size:12px;color:var(--muted)}
+.hero-since span{color:var(--green);font-weight:600}
+
+/* Member badge */
+.member-badge{display:inline-flex;align-items:center;gap:7px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.25);border-radius:99px;padding:6px 16px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:20px}
+.member-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── EMAIL GATE ── */
+#email-gate{text-align:center;padding:48px 24px}
+.gate-ico{font-size:48px;margin-bottom:20px}
+.gate-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
+.gate-sub{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+.gate-perks{display:flex;flex-direction:column;gap:8px;max-width:340px;margin:0 auto 28px;text-align:left}
+.gate-perk{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mid)}
+.gate-perk::before{content:'✦';color:var(--blue);font-size:11px;flex-shrink:0}
+.gate-input-row{display:flex;gap:10px;max-width:400px;margin:0 auto;flex-wrap:wrap}
+.gate-input{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s}
+.gate-input::placeholder{color:var(--muted)}
+.gate-input:focus{border-color:rgba(14,165,233,0.4)}
+.gate-btn{background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.gate-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
+.gate-note{font-size:12px;color:var(--muted);margin-top:12px}
+.gate-recovery{font-size:12px;color:var(--muted);margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.gate-recovery strong{color:var(--mid)}
+
+/* ── POINTS SECTION ── */
+.pts-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.pts-big{font-family:'Outfit',sans-serif;font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1}
+.pts-big.gold{color:var(--gold)}
+.pts-big.muted{color:rgba(232,184,75,0.4)}
+.pts-lbl{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.level-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.level-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--gold)}
+.level-next{font-size:12px;color:var(--muted)}
+.pts-bar{height:4px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.pts-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),rgba(232,184,75,0.6));transition:width 1s cubic-bezier(0.4,0,0.2,1)}
+.pts-events{display:flex;flex-direction:column;gap:8px}
+.pts-event{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border)}
+.evt-left{display:flex;align-items:center;gap:10px}
+.evt-ico{font-size:16px;width:28px;text-align:center}
+.evt-name{font-size:13px;color:var(--mid)}
+.evt-date{font-size:11px;color:var(--muted)}
+.evt-pts{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700}
+.evt-pts.approved{color:var(--gold)}
+.evt-pts.pending{color:rgba(232,184,75,0.45)}
+.evt-status{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px}
+.status-approved{background:var(--green-dim);color:var(--green)}
+.status-pending{background:rgba(245,158,11,0.1);color:#F59E0B}
+.pts-earn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.earn-item{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mid);background:rgba(255,255,255,0.02);border-radius:8px;padding:8px 12px}
+.earn-val{font-family:'Outfit',sans-serif;font-weight:700;color:var(--gold);font-size:12px}
+
+/* ── EARTHSOUL PROFILE ── */
+.es-result{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.es-ico-wrap{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.es-type{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.2px;margin-bottom:3px}
+.es-quote{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5}
+.es-cities-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.es-city{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--mid)}
+.es-retake{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue);margin-top:14px;transition:gap 0.2s}
+.es-retake:hover{gap:10px}
+
+/* ── INVITE SECTION ── */
+.invite-link-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.invite-link-box{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-copy{background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-copy:hover{background:var(--blue-d)}
+.invite-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.inv-stat{text-align:center;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 8px;border:1px solid var(--border)}
+.inv-stat-v{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.inv-stat-l{font-size:10px;color:var(--muted);margin-top:2px;font-family:'Outfit',sans-serif;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+
+/* ── MEMBERSHIP TIERS ── */
+.tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.tiers-grid{grid-template-columns:1fr}}
+.tier-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden}
+.tier-card.current{border-color:var(--green);background:var(--green-dim)}
+.tier-card.coming{opacity:0.65}
+.tier-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
+.tier-label.free{color:var(--green)}
+.tier-label.plus{color:var(--blue)}
+.tier-label.pro{color:var(--purple)}
+.tier-label.annual{color:var(--gold)}
+.tier-price{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:12px}
+.tier-perks{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.tier-perk{font-size:11.5px;color:var(--mid);display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.tier-perk::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.tier-card.coming .tier-perk::before{color:var(--muted)}
+.tier-btn{width:100%;padding:9px;border-radius:99px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;border:none;cursor:default;letter-spacing:0.02em;text-align:center}
+.tier-btn.active{background:var(--green);color:#fff}
+.tier-btn.soon{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid var(--border)}
+.tier-coming-badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.07);color:var(--muted);padding:3px 8px;border-radius:99px}
+.tier-disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6}
+
+/* ── REPORTS ── */
+.report-empty{text-align:center;padding:28px;color:var(--muted);font-size:13px}
+.report-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border);gap:12px}
+.report-ico{font-size:20px;flex-shrink:0}
+.report-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.report-date{font-size:11px;color:var(--muted)}
+.report-btn{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2);padding:6px 14px;border-radius:99px;white-space:nowrap;transition:all 0.2s;cursor:pointer;border:none}
+.report-btn:hover{background:rgba(14,165,233,0.18)}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:99px;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.btn-primary:hover{background:var(--blue-d);transform:translateY(-1px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:10px 18px;border-radius:99px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;text-decoration:none}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;padding:12px 24px;border-radius:99px;box-shadow:0 8px 32px rgba(14,165,233,0.35);z-index:9999;white-space:nowrap;animation:toastIn 0.3s ease;pointer-events:none}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);font-size:13px;gap:10px}
+.spin{width:18px;height:18px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:560px){
+  .pts-grid{grid-template-columns:1fr 1fr}
+  .pts-earn-row{grid-template-columns:1fr}
+  .invite-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">Moving<span class="ac">COST</span><sup>.ai</sup></a>
+  <div class="nav-right">
+    <span class="nav-badge" id="nav-tier" style="display:none">Free Member</span>
+    <a href="/" class="nav-home">← Home</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ══ EMAIL GATE (匿名用户显示) ══ -->
+  <div id="email-gate" style="display:none">
+    <div class="gate-ico">🌍</div>
+    <div class="gate-title">Your MovingCOST Dashboard</div>
+    <div class="gate-sub">Save your MovingCOST Points permanently and access your full member benefits.</div>
+    <div class="gate-perks">
+      <div class="gate-perk">Keep your points across devices</div>
+      <div class="gate-perk">Access your EarthSoul profile anytime</div>
+      <div class="gate-perk">View your report history</div>
+      <div class="gate-perk">Earn +30 MovingCOST Points just for signing up</div>
+    </div>
+    <div class="gate-input-row">
+      <input class="gate-input" type="email" id="gate-email" placeholder="your@email.com">
+      <button class="gate-btn" onclick="gateSubmit()">Save My Points →</button>
+    </div>
+    <div class="gate-note" id="gate-msg">No spam. Unsubscribe anytime. Free forever.</div>
+    <div class="gate-recovery">
+      <strong>Already saved your points?</strong><br>
+      Account recovery by email is coming soon.<br>
+      For now, please use the same device or <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
+    </div>
+  </div>
+
+  <!-- ══ DASHBOARD (已绑定邮箱用户显示) ══ -->
+  <div id="dashboard" style="display:none">
+
+    <!-- Hero -->
+    <div class="hero-area">
+      <div class="hero-avatar" id="dash-avatar">🌍</div>
+      <div class="hero-name" id="dash-name">Welcome back</div>
+      <div class="hero-email" id="dash-email"></div>
+      <div class="member-badge">
+        <span class="member-dot"></span>
+        <span id="dash-tier">Free Member</span>
+      </div>
+      <div class="hero-since" id="dash-since"></div>
+    </div>
+
+    <!-- ── MovingCOST Points ── -->
+    <div class="sec-label">MovingCOST Points</div>
+    <div class="card card-gold" id="points-card">
+      <div class="pts-grid">
+        <div>
+          <div class="pts-big gold" id="pts-available">—</div>
+          <div class="pts-lbl">Available Points</div>
+        </div>
+        <div>
+          <div class="pts-big muted" id="pts-pending">—</div>
+          <div class="pts-lbl">Pending Points</div>
+        </div>
+      </div>
+      <div class="level-row">
+        <span class="level-name" id="pts-level">—</span>
+        <span class="level-next" id="pts-next"></span>
+      </div>
+      <div class="pts-bar"><div class="pts-bar-fill" id="pts-bar" style="width:0%"></div></div>
+      <div class="pts-earn-row">
+        <div class="earn-item"><span>Complete quiz</span><span class="earn-val">+20 pts</span></div>
+        <div class="earn-item"><span>Share result</span><span class="earn-val">+50 pts</span></div>
+        <div class="earn-item"><span>Save email</span><span class="earn-val">+30 pts</span></div>
+        <div class="earn-item"><span>Friend completes</span><span class="earn-val">+100 pts</span></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6">
+        Pending points become available after your invited friend saves their report by email.
+      </div>
+    </div>
+
+    <!-- Points History -->
+    <div class="card" style="margin-top:-4px">
+      <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;margin-bottom:12px;color:var(--mid);letter-spacing:0.02em">Points History</div>
+      <div id="pts-history">
+        <div class="loading"><div class="spin"></div>Loading…</div>
+      </div>
+    </div>
+
+    <!-- ── EarthSoul Profile ── -->
+    <div class="sec-label" style="margin-top:8px">EarthSoul Profile</div>
+    <div class="card" id="es-card">
+      <div class="loading"><div class="spin"></div>Loading…</div>
+    </div>
+
+    <!-- ── Reports ── -->
+    <div class="sec-label" style="margin-top:8px">Reports</div>
+    <div class="card" id="reports-card">
+      <div class="report-empty">No reports yet. <a href="/planner" style="color:var(--blue);font-weight:600">Generate your first AI report →</a></div>
+    </div>
+
+    <!-- ── Invite & Rewards ── -->
+    <div class="sec-label" style="margin-top:8px">Invite & Rewards</div>
+    <div class="card card-blue">
+      <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">Invite friends, earn points</div>
+      <div style="font-size:13px;color:var(--mid);margin-bottom:16px">Share your unique link. When a friend completes the quiz, you earn +100 MovingCOST Points.</div>
+      <div class="invite-link-row">
+        <div class="invite-link-box" id="invite-link-box">movingcost.ai/earthsoul</div>
+        <button class="btn-copy" onclick="copyInviteLink(this)">🔗 Copy Link</button>
+      </div>
+      <div class="invite-stats">
+        <div class="inv-stat">
+          <div class="inv-stat-v" id="inv-count">0</div>
+          <div class="inv-stat-l">Invited</div>
+        </div>
+        <div class="inv-stat">
+          <div class="inv-stat-v" id="inv-pending" style="color:rgba(245,158,11,0.7)">0</div>
+          <div class="inv-stat-l">Pending</div>
+        </div>
+        <div class="inv-stat">
+          <div class="inv-stat-v" style="color:var(--green)" id="inv-approved">0</div>
+          <div class="inv-stat-l">Approved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Membership ── -->
+    <div class="sec-label" style="margin-top:8px">Membership</div>
+    <div class="tiers-grid">
+      <div class="tier-card current">
+        <div class="tier-label free">Free Member</div>
+        <div class="tier-price">$0</div>
+        <div class="tier-perks">
+          <div class="tier-perk">Save MovingCOST Points</div>
+          <div class="tier-perk">View EarthSoul result</div>
+          <div class="tier-perk">Invite friends & earn</div>
+          <div class="tier-perk">Free report by email</div>
+        </div>
+        <div class="tier-btn active">✓ Current Plan</div>
+      </div>
+      <div class="tier-card coming">
+        <div class="tier-coming-badge">Coming Soon</div>
+        <div class="tier-label plus">Plus Member</div>
+        <div class="tier-price">$9.90<span style="font-size:13px;font-weight:400;color:var(--muted)">/mo</span></div>
+        <div class="tier-perks">
+          <div class="tier-perk">Monthly city insights</div>
+          <div class="tier-perk">Expanded city previews</div>
+          <div class="tier-perk">Bonus points monthly</div>
+          <div class="tier-perk">Early access to new tests</div>
+        </div>
+        <div class="tier-btn soon">Notify Me</div>
+      </div>
+      <div class="tier-card coming">
+        <div class="tier-coming-badge">Coming Soon</div>
+        <div class="tier-label pro">Pro Member</div>
+        <div class="tier-price">$19.90<span style="font-size:13px;font-weight:400;color:var(--muted)">/mo</span></div>
+        <div class="tier-perks">
+          <div class="tier-perk">Full city comparison tools</div>
+          <div class="tier-perk">Deeper report benefits</div>
+          <div class="tier-perk">Priority support</div>
+          <div class="tier-perk">Higher monthly bonus pts</div>
+        </div>
+        <div class="tier-btn soon">Notify Me</div>
+      </div>
+      <div class="tier-card coming">
+        <div class="tier-coming-badge">Coming Soon</div>
+        <div class="tier-label annual">Annual Member</div>
+        <div class="tier-price">$69.90<span style="font-size:13px;font-weight:400;color:var(--muted)">/yr</span></div>
+        <div class="tier-perks">
+          <div class="tier-perk">Best value annual access</div>
+          <div class="tier-perk">Annual bonus points</div>
+          <div class="tier-perk">Founder-style badge</div>
+          <div class="tier-perk">Early product drops</div>
+        </div>
+        <div class="tier-btn soon">Notify Me</div>
+      </div>
+    </div>
+    <div class="tier-disclaimer">Premium memberships are not yet active. Benefits and pricing may change before launch.</div>
+
+    <!-- ── Support ── -->
+    <div class="sec-label" style="margin-top:20px">Support</div>
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:4px">Missing points or need help?</div>
+        <div style="font-size:13px;color:var(--muted)">Our team usually responds within 24 hours.</div>
+      </div>
+      <a id="support-link" href="mailto:support@movingcost.ai" class="btn-ghost">Contact Support →</a>
+    </div>
+
+  </div><!-- /dashboard -->
+
+  <!-- Loading state -->
+  <div id="page-loading" class="loading" style="padding:80px">
+    <div class="spin"></div>Loading your dashboard…
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ================================================================
+// member.html — MovingCOST Member Dashboard v1
+// 数据全部来自后端 API，不在前端本地计算
+// ================================================================
+
+const API  = '/api';
+const BASE = 'https://www.movingcost.ai';
+
+// localStorage 工具
+function lsGet(k){ try{ return localStorage.getItem(k) }catch{ return null } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v) }catch{} }
+
+// Toast
+function showToast(msg, type='success'){
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.style.background = type==='error' ? '#7F1D1D' : type==='info' ? '#1E293B' : 'var(--blue)';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// API 调用
+async function api(path, opts={}){
+  try{
+    const r = await fetch(path, { headers:{'Content-Type':'application/json'}, ...opts });
+    const d = await r.json();
+    return d;
+  }catch(e){
+    console.error('[member] API error:', e.message);
+    return null;
+  }
+}
+
+// 积分等级对应进度条
+function levelProgress(pts){
+  if(pts >= 800) return 100;
+  if(pts >= 300) return 50 + Math.round((pts-300)/500*50);
+  if(pts >= 100) return 25 + Math.round((pts-100)/200*25);
+  return Math.round(pts/100*25);
+}
+
+// 积分 event 图标
+function eventIcon(type){
+  const m = {
+    quiz_completed:'🧭', email_submitted:'📬',
+    shared_result:'📤', downloaded_card:'📸',
+    friend_completed_quiz:'🤝', friend_submitted_email:'✅',
+    admin_adjustment:'⚙️'
+  };
+  return m[type] || '⭐';
+}
+
+function eventLabel(type){
+  const m = {
+    quiz_completed:'Completed EarthSoul Quiz',
+    email_submitted:'Saved email — Free Member',
+    shared_result:'Shared result',
+    downloaded_card:'Downloaded card',
+    friend_completed_quiz:'Friend completed quiz',
+    friend_submitted_email:'Friend saved email',
+    admin_adjustment:'Points adjustment'
+  };
+  return m[type] || type;
+}
+
+function formatDate(iso){
+  if(!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+// ── 主初始化 ────────────────────────────────────────────────────
+async function init(){
+  const userId = lsGet('mc_user_id');
+
+  // 没有 userId → 显示 gate
+  if(!userId){
+    document.getElementById('page-loading').style.display = 'none';
+    document.getElementById('email-gate').style.display   = 'block';
+    return;
+  }
+
+  // 获取用户数据
+  const data = await api(`${API}/user?action=get&user_id=${userId}`);
+
+  document.getElementById('page-loading').style.display = 'none';
+
+  // 没有邮箱 → 匿名用户，显示 gate（带已有积分提示）
+  if(!data || !data.user || !data.user.email){
+    // 如果有积分，在 gate 里提示
+    if(data?.points?.available > 0){
+      const sub = document.querySelector('.gate-sub');
+      if(sub) sub.textContent = `You have ${data.points.available} MovingCOST Points saved on this device. Add your email to keep them permanently.`;
+    }
+    document.getElementById('email-gate').style.display = 'block';
+    return;
+  }
+
+  // 有邮箱 → 显示 dashboard
+  document.getElementById('dashboard').style.display = 'block';
+  renderDashboard(data);
+
+  // 加载 EarthSoul 数据
+  loadEarthSoulProfile(userId);
+
+  // 加载推荐数据
+  loadReferralStats(userId);
+
+  // 更新 support 链接
+  updateSupportLink(data.user);
+}
+
+// ── 渲染 Dashboard ──────────────────────────────────────────────
+function renderDashboard(data){
+  const { user, points, recent_events } = data;
+
+  // Nav badge
+  const navTier = document.getElementById('nav-tier');
+  navTier.style.display = 'inline-flex';
+  navTier.textContent   = tierLabel(user.membership_tier);
+
+  // Hero
+  document.getElementById('dash-avatar').textContent = avatarEmoji(user.membership_tier);
+  document.getElementById('dash-name').textContent   = user.email.split('@')[0] || 'Member';
+  document.getElementById('dash-email').textContent  = user.email;
+  document.getElementById('dash-tier').textContent   = tierLabel(user.membership_tier);
+  if(user.member_since){
+    document.getElementById('dash-since').textContent = 'Member since ' + formatDate(user.member_since);
+  }
+
+  // Points
+  document.getElementById('pts-available').textContent = points.available;
+  document.getElementById('pts-pending').textContent   = points.pending;
+  document.getElementById('pts-level').textContent     = `${points.level_num} · ${points.level}`;
+  if(points.next_level_pts){
+    document.getElementById('pts-next').textContent = `${points.next_level_pts} pts to next level`;
+  }
+  setTimeout(()=>{
+    document.getElementById('pts-bar').style.width = levelProgress(points.available) + '%';
+  }, 300);
+
+  // Points history
+  const histEl = document.getElementById('pts-history');
+  if(!recent_events || recent_events.length === 0){
+    histEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No activity yet. <a href="/earthsoul" style="color:var(--blue);font-weight:600">Take the EarthSoul Quiz →</a></div>';
+  } else {
+    histEl.innerHTML = recent_events.map(e => `
+      <div class="pts-event">
+        <div class="evt-left">
+          <span class="evt-ico">${eventIcon(e.event_type)}</span>
+          <div>
+            <div class="evt-name">${eventLabel(e.event_type)}</div>
+            <div class="evt-date">${formatDate(e.created_at)}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="evt-pts ${e.status}">+${e.points} pts</span>
+          <span class="evt-status status-${e.status}">${e.status}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Invite link
+  const refCode = lsGet('mc_referral_code') || user.referral_code || '';
+  if(refCode){
+    const link = `${BASE}/earthsoul?ref=${refCode}`;
+    lsSet('mc_referral_code', refCode);
+    lsSet('mc_referral_link', link);
+    document.getElementById('invite-link-box').textContent = `movingcost.ai/earthsoul?ref=${refCode}`;
+  }
+}
+
+// ── EarthSoul Profile ────────────────────────────────────────────
+async function loadEarthSoulProfile(userId){
+  const card = document.getElementById('es-card');
+
+  // 先尝试从 localStorage 读取
+  const cached = lsGet('mc_quiz_result');
+  let quizData = null;
+
+  if(cached){
+    try{ quizData = JSON.parse(cached); }catch{}
+  }
+
+  if(!quizData){
+    card.innerHTML = `
+      <div style="text-align:center;padding:20px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:14px">No EarthSoul result yet.</div>
+        <a href="/earthsoul" class="btn-primary" style="font-size:13px;padding:10px 20px">Take the EarthSoul Quiz →</a>
+      </div>`;
+    return;
+  }
+
+  // TYPES 数据（精简版）
+  const TYPES = {
+    nomad:   { ico:'🌍', name:'The Digital Nomad Explorer',   quote:'Your office is wherever the WiFi takes you next.' },
+    power:   { ico:'🚀', name:'The Urban Power Player',       quote:"You don't move to escape pressure. You move toward momentum." },
+    optimizer:{ ico:'⚡', name:'The Global Optimizer',        quote:'You see borders as options, not limits.' },
+    creative:{ ico:'🎨', name:'The Creative Wanderer',        quote:"You don't chase cities. You chase atmosphere." },
+    builder: { ico:'🌲', name:'The Nature-Rooted Builder',    quote:"You're not just finding a city. You're planting a flag." },
+    coastal: { ico:'🌊', name:'The Coastal Minimalist',       quote:"You're not looking for more. You're looking for lighter." },
+    luxury:  { ico:'💎', name:'The Quiet Luxury Seeker',      quote:"You've figured out that the best life isn't the loudest one." },
+    reinvent:{ ico:'🌱', name:'The Reinventionist',           quote:"You're not relocating. You're rewriting the next chapter." },
+  };
+
+  const pt = quizData.primaryType || quizData.primary || 'nomad';
+  const st = quizData.secondaryType || quizData.secondary || '';
+  const r  = TYPES[pt] || TYPES.nomad;
+  const s  = TYPES[st];
+
+  card.innerHTML = `
+    <div class="es-result">
+      <div class="es-ico-wrap">${r.ico}</div>
+      <div>
+        <div class="es-type">${r.name}</div>
+        <div class="es-quote">"${r.quote}"</div>
+      </div>
+    </div>
+    ${s ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Secondary pull: <strong style="color:var(--mid)">${s.ico} ${s.name}</strong></div>` : ''}
+    <a href="/earthsoul" class="es-retake">Retake the quiz →</a>
+  `;
+}
+
+// ── Referral Stats ───────────────────────────────────────────────
+async function loadReferralStats(userId){
+  const data = await api(`${API}/referral?action=stats&user_id=${userId}`);
+  if(!data) return;
+
+  if(data.total !== undefined)    document.getElementById('inv-count').textContent    = data.total    || 0;
+  if(data.pending !== undefined)  document.getElementById('inv-pending').textContent  = data.pending  || 0;
+  if(data.approved !== undefined) document.getElementById('inv-approved').textContent = data.approved || 0;
+}
+
+// ── Support Link ─────────────────────────────────────────────────
+function updateSupportLink(user){
+  const link = document.getElementById('support-link');
+  if(!link) return;
+  const subject = encodeURIComponent('MovingCOST Support Request');
+  const body    = encodeURIComponent(
+    `Hi MovingCOST Support,\n\nUser ID: ${lsGet('mc_user_id')||''}\nEmail: ${user?.email||''}\nReferral Code: ${lsGet('mc_referral_code')||''}\n\nIssue:\n\n`
+  );
+  link.href = `mailto:support@movingcost.ai?subject=${subject}&body=${body}`;
+}
+
+// ── Gate Submit (匿名用户绑定邮箱) ──────────────────────────────
+async function gateSubmit(){
+  const email = document.getElementById('gate-email')?.value?.trim();
+  const msg   = document.getElementById('gate-msg');
+  if(!email || !email.includes('@')){
+    msg.textContent = '⚠ Please enter a valid email.';
+    msg.style.color = '#F87171';
+    return;
+  }
+
+  const userId = lsGet('mc_user_id');
+  if(!userId){
+    msg.textContent = '⚠ Session not found. Please take the quiz first.';
+    msg.style.color = '#F87171';
+    return;
+  }
+
+  document.querySelector('.gate-btn').disabled = true;
+  document.querySelector('.gate-btn').textContent = 'Saving…';
+
+  const result = await api(`${API}/user?action=bind-email`, {
+    method: 'POST',
+    body:   JSON.stringify({ user_id: userId, email }),
+  });
+
+  if(result?.error === '该邮箱已被其他账号绑定'){
+    msg.textContent = 'This email is linked to another account. Account recovery coming soon — contact support.';
+    msg.style.color = '#F87171';
+    document.querySelector('.gate-btn').disabled    = false;
+    document.querySelector('.gate-btn').textContent = 'Save My Points →';
+    return;
+  }
+
+  if(result?.error){
+    msg.textContent = `⚠ ${result.error}`;
+    msg.style.color = '#F87171';
+    document.querySelector('.gate-btn').disabled    = false;
+    document.querySelector('.gate-btn').textContent = 'Save My Points →';
+    return;
+  }
+
+  // 成功 → 保存邮箱，刷新页面显示 dashboard
+  lsSet('mc_user_email', email);
+  showToast(result?.points_earned > 0
+    ? `🎉 Welcome! +${result.points_earned} MovingCOST Points earned.`
+    : '🎉 Welcome to MovingCOST!'
+  );
+  setTimeout(() => window.location.reload(), 1200);
+}
+
+// ── Copy Invite Link ─────────────────────────────────────────────
+function copyInviteLink(btn){
+  const link = lsGet('mc_referral_link') || BASE + '/earthsoul';
+  navigator.clipboard.writeText(link).then(()=>{
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ Copied!';
+    showToast('🔗 Invite link copied!');
+    setTimeout(()=> btn.innerHTML = orig, 2000);
+  }).catch(()=>{
+    showToast('Link: ' + link, 'info');
+  });
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function tierLabel(tier){
+  return { free:'Free Member', plus:'Plus Member', pro:'Pro Member', annual:'Annual Member' }[tier] || 'Free Member';
+}
+function avatarEmoji(tier){
+  return { free:'🌍', plus:'⚡', pro:'🚀', annual:'💎' }[tier] || '🌍';
+}
+
+// ── Start ────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
