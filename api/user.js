@@ -1,15 +1,15 @@
 // ================================================================
-// api/user.js — MovingCOST Rewards System v1
+// api/user.js — MovingCOST Rewards System v1.1
 // 修改记录：
-// 1. case 'get'：返回 membership_tier / membership_status /
-//               member_since / is_member 字段
-// 2. case 'bind-email'：绑定邮箱后自动写入 Free Member 状态
-//    规则：只有 tier 为 NULL 时才写 free（不覆盖 plus/pro/annual）
-//          member_since 只在首次绑定时写入
+// v1.0  case 'get'：返回 membership 字段
+//        case 'bind-email'：绑定邮箱后自动写入 Free Member
+// v1.1  case 'bind-email'：首次绑定后发送欢迎邮件（非阻塞）
+//        sendWelcomeEmail：Resend 发送，失败只记录错误，不回滚用户
 // ================================================================
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const RESEND_KEY   = process.env.RESEND_API_KEY;
 
 const ALLOWED_ORIGINS = [
   'https://www.movingcost.ai',
@@ -87,6 +87,171 @@ async function recalculate(user_id) {
 }
 
 // ================================================================
+// 欢迎邮件（非阻塞，失败不回滚用户）
+// ================================================================
+async function sendWelcomeEmail(email, referralCode, pointsEarned) {
+  if (!RESEND_KEY) {
+    console.warn('[welcome-email] RESEND_API_KEY 未配置，跳过');
+    return;
+  }
+
+  const inviteLink    = `https://movingcost.ai/earthsoul?ref=${referralCode || ''}`;
+  const dashboardLink = 'https://movingcost.ai/member';
+  const quizLink      = 'https://movingcost.ai/earthsoul';
+
+  const pointsLine = pointsEarned > 0
+    ? `<p style="margin:0 0 8px;font-size:14px;color:#475569;">
+         You also earned <strong style="color:#E8B84B;">+${pointsEarned} MovingCOST Points</strong> for joining.
+       </p>`
+    : '';
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Welcome to MovingCOST</title>
+</head>
+<body style="margin:0;padding:0;background:#F0F6FF;font-family:'Helvetica Neue',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F0F6FF;padding:40px 20px;">
+  <tr><td align="center">
+    <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,0.08);">
+
+      <!-- Header -->
+      <tr>
+        <td style="background:#060A12;padding:28px 36px;text-align:left;">
+          <span style="font-size:18px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">
+            Moving<span style="color:#0EA5E9;">COST</span><sup style="font-size:10px;color:#0EA5E9;">.ai</sup>
+          </span>
+        </td>
+      </tr>
+
+      <!-- Body -->
+      <tr>
+        <td style="padding:36px 36px 28px;">
+
+          <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#0F172A;letter-spacing:-0.3px;">
+            Welcome to MovingCOST ✦
+          </p>
+          <p style="margin:0 0 20px;font-size:15px;color:#475569;line-height:1.7;">
+            Your account is active and your MovingCOST Points are safely saved.
+          </p>
+
+          <!-- Points badge -->
+          ${pointsLine}
+
+          <!-- Divider -->
+          <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
+
+          <!-- What's in your dashboard -->
+          <p style="margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#94A3B8;">
+            Your Dashboard Includes
+          </p>
+
+          <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td style="padding:0 0 10px;">
+                <span style="font-size:18px;">✦</span>
+                <span style="font-size:14px;color:#334155;margin-left:8px;">MovingCOST Points — track and earn rewards</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 0 10px;">
+                <span style="font-size:18px;">🌍</span>
+                <span style="font-size:14px;color:#334155;margin-left:8px;">EarthSoul Profile — your city personality type</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 0 10px;">
+                <span style="font-size:18px;">📋</span>
+                <span style="font-size:14px;color:#334155;margin-left:8px;">Reports — your AI moving cost reports</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 0 10px;">
+                <span style="font-size:18px;">🔗</span>
+                <span style="font-size:14px;color:#334155;margin-left:8px;">Invite friends — earn +100 pts per referral</span>
+              </td>
+            </tr>
+          </table>
+
+          <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
+
+          <!-- CTAs -->
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding-right:12px;padding-bottom:10px;">
+                <a href="${dashboardLink}"
+                   style="display:inline-block;background:#0EA5E9;color:#ffffff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;letter-spacing:0.01em;">
+                  Open My Dashboard →
+                </a>
+              </td>
+              <td style="padding-bottom:10px;">
+                <a href="${quizLink}"
+                   style="display:inline-block;background:#F0F6FF;color:#0EA5E9;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;border:1.5px solid #0EA5E9;">
+                  Take EarthSoul Quiz
+                </a>
+              </td>
+            </tr>
+          </table>
+
+          <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
+
+          <!-- Invite link -->
+          <p style="margin:0 0 8px;font-size:13px;color:#475569;">
+            Your personal invite link — share and earn points when friends complete the quiz:
+          </p>
+          <div style="background:#F8FBFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 16px;font-size:13px;color:#0EA5E9;font-family:monospace;word-break:break-all;">
+            ${inviteLink}
+          </div>
+
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="background:#F8FBFF;padding:20px 36px;border-top:1px solid #E2E8F0;">
+          <p style="margin:0;font-size:12px;color:#94A3B8;line-height:1.7;">
+            You're receiving this because you joined MovingCOST.<br>
+            Questions? Reply to this email or contact
+            <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;">support@movingcost.ai</a><br>
+            © 2025 CLASSIC SPREAD INC — movingcost.ai
+          </p>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+
+  const payload = {
+    from:    'MovingCOST.ai <reports@movingcost.ai>',
+    to:      [email],
+    subject: 'Welcome to MovingCOST — Your points are saved ✦',
+    html,
+  };
+
+  const resp = await fetch('https://api.resend.com/emails', {
+    method:  'POST',
+    headers: {
+      'Authorization': `Bearer ${RESEND_KEY}`,
+      'Content-Type':  'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`Resend HTTP ${resp.status}: ${err}`);
+  }
+
+  const result = await resp.json();
+  console.log('[welcome-email] 发送成功, id:', result?.id);
+}
+
+// ================================================================
 // 主处理函数
 // ================================================================
 export default async function handler(req, res) {
@@ -138,8 +303,6 @@ export default async function handler(req, res) {
       }
 
       // ── 2. 获取用户信息 + 积分 ──────────────────────────────
-      // ★ 修改：新增返回 membership_tier / membership_status /
-      //         member_since / is_member 字段
       case 'get': {
         if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -173,11 +336,10 @@ export default async function handler(req, res) {
             referral_code:     user.referral_code,
             referred_by:       user.referred_by       || null,
             status:            user.status,
-            // ★ 新增会员字段
             membership_tier:   user.membership_tier   || null,
             membership_status: user.membership_status || null,
             member_since:      user.member_since       || null,
-            is_member:         !!user.email,           // 有邮箱 = Free Member
+            is_member:         !!user.email,
           },
           points: {
             available:      approvedPoints,
@@ -191,12 +353,6 @@ export default async function handler(req, res) {
       }
 
       // ── 3. 绑定邮箱 ─────────────────────────────────────────
-      // ★ 修改：绑定成功后自动写入 Free Member 状态
-      //   安全规则：
-      //   - 只有 membership_tier 为 NULL 时才写 free
-      //   - 不覆盖 plus / pro / annual
-      //   - member_since 只在首次绑定时写入
-      //   - 邮箱已属于其他账号时返回 409（不做无验证合并）
       case 'bind-email': {
         if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -215,30 +371,29 @@ export default async function handler(req, res) {
         // 已绑定相同邮箱，直接返回
         if (user.email === email) return res.status(200).json({ message: '邮箱已绑定', points_earned: 0 });
 
-        // ★ 安全检查：邮箱是否已属于其他账号
+        // 安全检查：邮箱是否已属于其他账号
         const emailExists = await supabase(
           `/users?email=eq.${encodeURIComponent(email)}&select=id`,
           { method: 'GET', prefer: '' }
         );
         if (emailExists && emailExists.length > 0 && emailExists[0].id !== user_id) {
-          // 不做无验证合并，返回 409
           return res.status(409).json({
             error: '该邮箱已被其他账号绑定',
             message: 'Account recovery by email is coming soon. For now, please use the same device or contact support.',
           });
         }
 
-        // 绑定邮箱
+        // ── 绑定邮箱 ──────────────────────────────────────────
         await supabase(`/users?id=eq.${user_id}`, {
           method: 'PATCH', prefer: 'return=minimal',
           body: JSON.stringify({ email }),
         });
 
-        // ★ 会员状态安全写入
-        // 只有 tier 为 NULL 时才写 free（不覆盖 plus/pro/annual）
-        // member_since 只在首次成为会员时写入
+        // ── 会员状态安全写入 ───────────────────────────────────
+        // isFirstBind：membership_tier 之前为 NULL → 首次绑定
+        const isFirstBind = !user.membership_tier;
         const membershipUpdate = {};
-        if (!user.membership_tier) {
+        if (isFirstBind) {
           membershipUpdate.membership_tier   = 'free';
           membershipUpdate.membership_status = 'active';
         }
@@ -252,7 +407,7 @@ export default async function handler(req, res) {
           });
         }
 
-        // 检查是否已领过 email_submitted 奖励
+        // ── 积分奖励 ───────────────────────────────────────────
         const emailRewarded = await supabase(
           `/reward_events?event_type=eq.email_submitted&status=neq.rejected&metadata->>email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
           { method: 'GET', prefer: '' }
@@ -280,13 +435,22 @@ export default async function handler(req, res) {
           }
         }
 
-        // 推荐奖励：被推荐人绑定邮箱后，推荐人 pending→approved
+        // ── 推荐奖励 ───────────────────────────────────────────
         if (user.referred_by) {
           await approvePendingReferralReward(user_id, user.referred_by).catch(e =>
             console.warn('[bind-email] 推荐奖励处理失败:', e.message)
           );
         }
 
+        // ── ★ 欢迎邮件（非阻塞）──────────────────────────────
+        // 仅首次绑定时发送；失败只记录日志，不影响响应
+        if (isFirstBind) {
+          sendWelcomeEmail(email, user.referral_code || '', pointsEarned).catch(e =>
+            console.error('[bind-email] 欢迎邮件发送失败（不影响绑定）:', e.message)
+          );
+        }
+
+        // ── 返回成功 ───────────────────────────────────────────
         return res.status(200).json({
           message:           '邮箱绑定成功',
           points_earned:     pointsEarned,
