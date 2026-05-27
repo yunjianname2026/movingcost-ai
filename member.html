@@ -16,7 +16,7 @@
   --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.10);--blue-d:#0284C7;
   --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.10);
   --green:#10B981;--green-dim:rgba(16,185,129,0.10);
-  --purple:#7C3AED;
+  --purple:#7C3AED;--red-dim:rgba(248,113,113,0.08);
 }
 html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 5%,rgba(14,165,233,0.07) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 95%,rgba(99,50,200,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
@@ -63,6 +63,16 @@ a{text-decoration:none;color:inherit}
 .gate-ico{font-size:48px;margin-bottom:20px}
 .gate-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
 .gate-sub{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+
+/* 匿名用户积分展示卡 */
+.gate-pts-card{max-width:360px;margin:0 auto 28px;padding:20px 24px;background:rgba(232,184,75,0.07);border:1px solid rgba(232,184,75,0.20);border-radius:16px;text-align:center}
+.gate-pts-num{font-family:'Outfit',sans-serif;font-size:48px;font-weight:800;color:var(--gold);letter-spacing:-2px;line-height:1}
+.gate-pts-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(232,184,75,0.55);margin-top:4px}
+.gate-pts-hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* API 错误提示 */
+.gate-error-card{max-width:400px;margin:0 auto 20px;padding:14px 20px;background:var(--red-dim);border:1px solid rgba(248,113,113,0.18);border-radius:12px;font-size:13px;color:#F87171;line-height:1.6}
+
 .gate-perks{display:flex;flex-direction:column;gap:8px;max-width:340px;margin:0 auto 28px;text-align:left}
 .gate-perk{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mid)}
 .gate-perk::before{content:'✦';color:var(--blue);font-size:11px;flex-shrink:0}
@@ -190,30 +200,48 @@ a{text-decoration:none;color:inherit}
 
 <div class="page">
 
-  <!-- ══ EMAIL GATE (匿名用户显示) ══ -->
+  <!-- ══ EMAIL GATE (匿名用户 / 未绑定邮箱) ══ -->
   <div id="email-gate" style="display:none">
     <div class="gate-ico">🌍</div>
     <div class="gate-title">Your MovingCOST Dashboard</div>
     <div class="gate-sub">Save your MovingCOST Points permanently and access your full member benefits.</div>
-    <div class="gate-perks">
+
+    <!-- ① API 错误提示（仅在后端请求失败时显示） -->
+    <div id="gate-error" class="gate-error-card" style="display:none">
+      Unable to load your data. Please refresh the page or <a href="mailto:support@movingcost.ai" style="color:#F87171;text-decoration:underline">contact support</a>.
+    </div>
+
+    <!-- ② 匿名用户积分展示（有积分时才显示） -->
+    <div id="gate-pts-card" class="gate-pts-card" style="display:none">
+      <div class="gate-pts-num" id="gate-pts-num">0</div>
+      <div class="gate-pts-label">MovingCOST Points on this device</div>
+      <div class="gate-pts-hint">Add your email to keep them permanently across all devices.</div>
+    </div>
+
+    <!-- ③ 功能说明（有积分时隐藏，避免冗余） -->
+    <div class="gate-perks" id="gate-perks-list">
       <div class="gate-perk">Keep your points across devices</div>
       <div class="gate-perk">Access your EarthSoul profile anytime</div>
       <div class="gate-perk">View your report history</div>
       <div class="gate-perk">Earn +30 MovingCOST Points just for signing up</div>
     </div>
+
+    <!-- ④ 邮箱表单 -->
     <div class="gate-input-row">
       <input class="gate-input" type="email" id="gate-email" placeholder="your@email.com">
       <button class="gate-btn" onclick="gateSubmit()">Save My Points →</button>
     </div>
     <div class="gate-note" id="gate-msg">No spam. Unsubscribe anytime. Free forever.</div>
+
+    <!-- ⑤ 账户找回说明 -->
     <div class="gate-recovery">
-      <strong>Already saved your points?</strong><br>
+      <strong>Already saved your points on another device?</strong><br>
       Account recovery by email is coming soon.<br>
       For now, please use the same device or <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
     </div>
   </div>
 
-  <!-- ══ DASHBOARD (已绑定邮箱用户显示) ══ -->
+  <!-- ══ DASHBOARD (已绑定邮箱用户) ══ -->
   <div id="dashboard" style="display:none">
 
     <!-- Hero -->
@@ -376,8 +404,13 @@ a{text-decoration:none;color:inherit}
 
 <script>
 // ================================================================
-// member.html — MovingCOST Member Dashboard v1
-// 数据全部来自后端 API，不在前端本地计算
+// member.html — MovingCOST Member Dashboard v1.1
+// 变更说明（v1.1）：
+// 1. init() 重构：后端返回值为唯一判断依据（非 localStorage）
+//    - 拆分 API 失败 vs 真匿名用户两种情况
+//    - data.user.email 有值 → Dashboard；否则 → Gate
+// 2. 匿名状态积分展示升级为独立卡片（gate-pts-card）
+// 3. gateSubmit 成功后 localStorage key 统一为 mc_email
 // ================================================================
 
 const API  = '/api';
@@ -446,44 +479,59 @@ function formatDate(iso){
   return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 }
 
+// ── 显示 Gate ───────────────────────────────────────────────────
+// pointsAvailable: number | null（null = 不显示积分卡，true = 显示）
+// showError: boolean
+function showGate(pointsAvailable, showError){
+  document.getElementById('page-loading').style.display = 'none';
+
+  // API 错误提示
+  if(showError){
+    document.getElementById('gate-error').style.display = 'block';
+  }
+
+  // 有积分 → 显示积分卡，隐藏 perks 列表（避免冗余）
+  if(pointsAvailable && pointsAvailable > 0){
+    document.getElementById('gate-pts-num').textContent = pointsAvailable;
+    document.getElementById('gate-pts-card').style.display = 'block';
+    document.getElementById('gate-perks-list').style.display = 'none';
+  }
+
+  document.getElementById('email-gate').style.display = 'block';
+}
+
 // ── 主初始化 ────────────────────────────────────────────────────
 async function init(){
   const userId = lsGet('mc_user_id');
 
-  // 没有 userId → 显示 gate
+  // 没有 userId → 真正的新访客（未做过测验）
   if(!userId){
-    document.getElementById('page-loading').style.display = 'none';
-    document.getElementById('email-gate').style.display   = 'block';
+    showGate(null, false);
     return;
   }
 
-  // 获取用户数据
+  // 有 userId → 以后端返回值为权威判断依据
   const data = await api(`${API}/user?action=get&user_id=${userId}`);
 
   document.getElementById('page-loading').style.display = 'none';
 
-  // 没有邮箱 → 匿名用户，显示 gate（带已有积分提示）
-  if(!data || !data.user || !data.user.email){
-    // 如果有积分，在 gate 里提示
-    if(data?.points?.available > 0){
-      const sub = document.querySelector('.gate-sub');
-      if(sub) sub.textContent = `You have ${data.points.available} MovingCOST Points saved on this device. Add your email to keep them permanently.`;
-    }
-    document.getElementById('email-gate').style.display = 'block';
+  // 后端请求失败（网络错误或用户不存在）
+  if(!data || data.error){
+    showGate(null, true);
     return;
   }
 
-  // 有邮箱 → 显示 dashboard
+  // 后端返回 email 为空 → 匿名用户，显示 Gate + 积分卡
+  if(!data.user?.email){
+    showGate(data.points?.available || 0, false);
+    return;
+  }
+
+  // 后端确认 email 存在 → 显示完整 Dashboard
   document.getElementById('dashboard').style.display = 'block';
   renderDashboard(data);
-
-  // 加载 EarthSoul 数据
   loadEarthSoulProfile(userId);
-
-  // 加载推荐数据
   loadReferralStats(userId);
-
-  // 更新 support 链接
   updateSupportLink(data.user);
 }
 
@@ -552,13 +600,9 @@ function renderDashboard(data){
 async function loadEarthSoulProfile(userId){
   const card = document.getElementById('es-card');
 
-  // 先尝试从 localStorage 读取
   const cached = lsGet('mc_quiz_result');
   let quizData = null;
-
-  if(cached){
-    try{ quizData = JSON.parse(cached); }catch{}
-  }
+  if(cached){ try{ quizData = JSON.parse(cached); }catch{} }
 
   if(!quizData){
     card.innerHTML = `
@@ -569,7 +613,6 @@ async function loadEarthSoulProfile(userId){
     return;
   }
 
-  // TYPES 数据（精简版）
   const TYPES = {
     nomad:   { ico:'🌍', name:'The Digital Nomad Explorer',   quote:'Your office is wherever the WiFi takes you next.' },
     power:   { ico:'🚀', name:'The Urban Power Player',       quote:"You don't move to escape pressure. You move toward momentum." },
@@ -632,41 +675,47 @@ async function gateSubmit(){
 
   const userId = lsGet('mc_user_id');
   if(!userId){
-    msg.textContent = '⚠ Session not found. Please take the quiz first.';
+    msg.textContent = '⚠ No session found. Please take the quiz first.';
     msg.style.color = '#F87171';
     return;
   }
 
-  document.querySelector('.gate-btn').disabled = true;
-  document.querySelector('.gate-btn').textContent = 'Saving…';
+  const btn = document.querySelector('.gate-btn');
+  btn.disabled    = true;
+  btn.textContent = 'Saving…';
 
   const result = await api(`${API}/user?action=bind-email`, {
     method: 'POST',
     body:   JSON.stringify({ user_id: userId, email }),
   });
 
+  // 邮箱已被其他账号绑定（409）
   if(result?.error === '该邮箱已被其他账号绑定'){
     msg.textContent = 'This email is linked to another account. Account recovery coming soon — contact support.';
     msg.style.color = '#F87171';
-    document.querySelector('.gate-btn').disabled    = false;
-    document.querySelector('.gate-btn').textContent = 'Save My Points →';
+    btn.disabled    = false;
+    btn.textContent = 'Save My Points →';
     return;
   }
 
+  // 其他错误
   if(result?.error){
     msg.textContent = `⚠ ${result.error}`;
     msg.style.color = '#F87171';
-    document.querySelector('.gate-btn').disabled    = false;
-    document.querySelector('.gate-btn').textContent = 'Save My Points →';
+    btn.disabled    = false;
+    btn.textContent = 'Save My Points →';
     return;
   }
 
-  // 成功 → 保存邮箱，刷新页面显示 dashboard
-  lsSet('mc_user_email', email);
+  // 成功 → 统一用 mc_email 存储（全站一致）
+  lsSet('mc_email', email);
+
   showToast(result?.points_earned > 0
     ? `🎉 Welcome! +${result.points_earned} MovingCOST Points earned.`
     : '🎉 Welcome to MovingCOST!'
   );
+
+  // 短暂延迟后刷新，让 init() 重新走后端判断路径
   setTimeout(() => window.location.reload(), 1200);
 }
 
