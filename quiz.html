@@ -1032,13 +1032,17 @@ function retake(){
       background: ${type === 'error' ? '#7F1D1D' : type === 'success' ? '#0EA5E9' : '#1E293B'};
       color: #fff;
       font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 99px;
+      padding: 12px 20px;
+      border-radius: 16px;
       box-shadow: 0 8px 32px rgba(14,165,233,0.35);
       z-index: 9999;
-      white-space: nowrap;
+      white-space: normal;
+      max-width: calc(100vw - 32px);
+      width: max-content;
+      text-align: center;
+      line-height: 1.4;
       animation: toastIn 0.3s ease;
       pointer-events: none;
     `;
@@ -1168,7 +1172,7 @@ function retake(){
     });
 
     if (result?.success) {
-      showToast('⭐ +20 MovingCOST Points — Earned through EarthSoul Quiz. Your rewards journey has started!');
+      showToast('⭐ +20 Points — Your city soul journey has started!');
     }
 
     // 保存测试结果到 Supabase quiz_results 表
@@ -1369,6 +1373,23 @@ function retake(){
         <div class="pt"><span>Friend completes</span><span class="pt-v">+100 pts</span></div>
       </div>
 
+      <div id="mc-email-prompt" style="background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);
+        border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;
+        align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:12px;color:#94A3B8;flex:1;min-width:180px">
+          📧 Add email to earn <strong style="color:#F59E0B">+30 pts</strong> &amp; keep points permanently
+        </span>
+        <input id="mc-email-input" type="email" placeholder="your@email.com"
+          style="flex:1;min-width:150px;background:#0F172A;border:1px solid rgba(255,255,255,0.1);
+          border-radius:8px;padding:6px 10px;font-size:12px;color:#fff;font-family:'Outfit',sans-serif;outline:none"/>
+        <button onclick="mcBindEmail(this)"
+          style="background:#0EA5E9;color:#fff;border:none;border-radius:8px;
+          padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;
+          font-family:'Outfit',sans-serif;white-space:nowrap">
+          Save +30
+        </button>
+      </div>
+
       <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;
         display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
         <button onclick="copyReferralLink(this)"
@@ -1387,6 +1408,59 @@ function retake(){
 
     // 设置 support 链接自动带参数
     updateSupportLink();
+    // 已绑定邮箱则隐藏邮箱提示框
+    hideEmailPromptIfBound();
+  }
+
+  // 邮箱绑定函数（积分卡片内）
+  window.mcBindEmail = async function(btn) {
+    const input = document.getElementById('mc-email-input');
+    const email = input ? input.value.trim() : '';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.style.borderColor = '#F87171';
+      setTimeout(() => { input.style.borderColor = 'rgba(255,255,255,0.1)'; }, 2000);
+      return;
+    }
+
+    const userId = lsGet('mc_user_id');
+    if (!userId) return;
+
+    const origText = btn.innerHTML;
+    btn.innerHTML = '...';
+    btn.disabled = true;
+
+    const result = await api(`${API_BASE}/user?action=bind-email`, {
+      method: 'POST',
+      body: JSON.stringify({ user_id: userId, email }),
+    });
+
+    if (result && !result.error) {
+      lsSet('mc_user_email', email);
+      // 绑定成功：隐藏提示框
+      const prompt = document.getElementById('mc-email-prompt');
+      if (prompt) {
+        prompt.innerHTML = `<span style="font-size:12px;color:#34D399;width:100%;text-align:center">
+          ✅ Email saved! ${result.points_earned > 0 ? '+30 pts added.' : 'Already registered.'}
+        </span>`;
+        setTimeout(() => { if (prompt) prompt.style.display = 'none'; }, 3000);
+      }
+      if (result.points_earned > 0) {
+        showToast('⭐ +30 Points — Email saved!');
+        await refreshPointsUI(userId);
+      }
+    } else {
+      const msg = result?.error || 'Failed, please try again.';
+      btn.innerHTML = origText;
+      btn.disabled = false;
+      showToast(`⚠ ${msg}`, 'error');
+    }
+  };
+
+  // 已绑定邮箱时隐藏提示框
+  function hideEmailPromptIfBound() {
+    const email = lsGet('mc_user_email');
+    const prompt = document.getElementById('mc-email-prompt');
+    if (email && prompt) prompt.style.display = 'none';
   }
 
   // 更新 support 邮件链接（自动带入用户信息）
