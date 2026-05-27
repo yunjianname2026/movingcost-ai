@@ -269,16 +269,7 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
 <nav>
   <div class="nav-inner">
     <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/#tools">AI Tools</a>
-        <a href="/">Cities</a>
-        <a href="/">Routes</a>
-        <a href="/#guides">Guides</a>
-        <a href="/#services">Services</a>
-        <a href="/blog">Blog</a>
-        <a href="/about">About</a>
-      </div>
+
     <a href="/" class="nav-back">← Back to Home</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -286,15 +277,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
   </div>
 </nav>
 <div class="nav-mobile" id="mobileMenu">
-  <a href="/" onclick="closeMenu()">Home</a>
-  <a href="/#tools" onclick="closeMenu()">AI Tools</a>
-  <a href="/" onclick="closeMenu()">Cities</a>
-  <a href="/" onclick="closeMenu()">Routes</a>
-  <a href="/#guides" onclick="closeMenu()">Guides</a>
-  <a href="/#services" onclick="closeMenu()">Services</a>
-  <a href="/blog" onclick="closeMenu()">Blog</a>
-  <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
+  <a href="/" onclick="closeMenu()">← Back to Home</a>
+  <a href="/member" id="planner-mobile-member" style="display:none;color:var(--blue);font-weight:600" onclick="closeMenu()">My Dashboard</a>
 </div>
 
 <!-- PAGE -->
@@ -1037,6 +1021,18 @@ function resetAll(){
     .catch(function(e){
       // Silent fail — page works normally without WeChat sharing
     });
+})();
+</script>
+
+<script>
+/* ── planner.html 导航：已绑定邮箱 → 显示 My Dashboard ── */
+(function(){
+  var email = null;
+  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  if(email){
+    var el = document.getElementById('planner-mobile-member');
+    if(el) el.style.display = 'block';
+  }
 })();
 </script>
 </body>

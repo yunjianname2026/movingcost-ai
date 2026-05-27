@@ -382,8 +382,9 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <a href="/earthsoul" style="color:var(--blue);font-weight:600">EarthSoul ✦</a>
         <a href="/blog">Blog</a>
         <a href="/about">About</a>
+        <a href="/member" id="nav-member-link" style="display:none;color:var(--blue);font-weight:700">My Dashboard</a>
       </div>
-      <a href="/planner" class="nav-cta">Start Free Plan &#x2192;</a>
+      <a href="/planner" class="nav-cta" id="nav-main-cta">Start Free Plan &#x2192;</a>
       <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -400,7 +401,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan &#x2192;</a>
+  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
+  <a href="/planner" class="mobile-cta" id="mobile-main-cta" onclick="closeMenu()">Start Free Plan &#x2192;</a>
 </div>
 
 <!-- HERO -->
@@ -852,6 +854,24 @@ document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
       wx.error(function(res){console.warn('wx.config error:',res.errMsg);});
     })
     .catch(function(e){});
+})();
+</script>
+
+<script>
+/* ── 导航动态状态：已绑定邮箱 → 显示 My Dashboard ── */
+(function(){
+  var email = null;
+  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  if(email){
+    var navCta = document.getElementById('nav-main-cta');
+    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; }
+    var memberLink = document.getElementById('nav-member-link');
+    if(memberLink) memberLink.style.display = 'inline';
+    var mobileMember = document.getElementById('mobile-member-cta');
+    if(mobileMember) mobileMember.style.display = 'block';
+    var mobileCta = document.getElementById('mobile-main-cta');
+    if(mobileCta){ mobileCta.textContent = 'My Dashboard →'; mobileCta.href = '/member'; }
+  }
 })();
 </script>
 </body>
