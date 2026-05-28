@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — MovingCOST.ai</title>
+<meta name="description" content="Sign in to your MovingCOST.ai member account to access your points, reports and EarthSoul profile.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#C8D9EE;
+  --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--green-l:#ECFDF5;
+  --gold:#F59E0B;--gold-l:#FFFBEB;
+  --glass:rgba(255,255,255,0.92);
+  --shadow:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
+  --r:12px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 10%,rgba(14,165,233,0.09) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 90%,rgba(16,185,129,0.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* ── NAV ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px;background:rgba(255,255,255,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);text-decoration:none}
+.logo span{color:var(--blue)}
+.nav-link{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:99px;transition:var(--tr)}
+.nav-link:hover{background:var(--blue-l);color:var(--blue-d)}
+
+/* ── MAIN ── */
+main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px 80px;min-height:calc(100vh - 62px)}
+
+/* ── CARD ── */
+.login-wrap{width:100%;max-width:440px;animation:fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.login-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38BDF8);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 10px 28px rgba(14,165,233,0.25)}
+.login-icon svg{width:28px;height:28px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+.login-kicker{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);text-align:center;margin-bottom:8px}
+.login-h1{font-family:'Outfit',sans-serif;font-size:clamp(24px,5vw,30px);font-weight:800;letter-spacing:-0.5px;text-align:center;color:var(--text);margin-bottom:10px;line-height:1.2}
+.login-sub{font-size:14px;color:var(--mid);text-align:center;line-height:1.6;margin-bottom:32px;max-width:360px;margin-left:auto;margin-right:auto}
+
+/* ── FORM CARD ── */
+.form-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px;box-shadow:var(--shadow);margin-bottom:16px}
+
+.form-label{font-size:12px;font-weight:600;color:var(--mid);margin-bottom:8px;display:block;letter-spacing:0.02em}
+
+.input-row{display:flex;gap:10px}
+.form-input{flex:1;background:var(--white);border:1px solid var(--border);border-radius:99px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:var(--tr);box-shadow:inset 0 1px 3px rgba(0,0,0,0.04)}
+.form-input::placeholder{color:var(--muted)}
+.form-input:focus{border-color:var(--blue-m);box-shadow:0 0 0 3px rgba(14,165,233,0.08),inset 0 1px 3px rgba(0,0,0,0.04)}
+
+.btn-send{background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:13px 22px;border-radius:99px;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap;box-shadow:0 4px 14px rgba(14,165,233,0.28);letter-spacing:0.02em}
+.btn-send:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,165,233,0.35)}
+.btn-send:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6}
+.form-note a{color:var(--blue);text-decoration:none}
+
+/* ── SUCCESS STATE ── */
+.success-state{display:none;text-align:center;padding:20px 0}
+.success-icon{font-size:40px;margin-bottom:16px}
+.success-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-0.3px}
+.success-sub{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:20px}
+.success-email{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--blue);background:var(--blue-l);border:1px solid var(--blue-m);padding:8px 18px;border-radius:99px;display:inline-block;margin-bottom:20px}
+.resend-link{font-size:13px;color:var(--muted);cursor:pointer;transition:var(--tr)}
+.resend-link:hover{color:var(--blue)}
+
+/* ── DIVIDER ── */
+.or-divider{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:12px;margin:16px 0}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── ALTERNATIVE ── */
+.alt-card{background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:var(--r-xl);padding:20px 24px;margin-bottom:16px}
+.alt-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+.alt-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.alt-perks{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.alt-perk{font-size:12px;color:var(--mid);display:flex;align-items:center;gap:8px}
+.alt-perk::before{content:'✦';color:var(--blue);font-size:10px;flex-shrink:0}
+.btn-new{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--white);border:1px solid var(--border);color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:11px;border-radius:99px;cursor:pointer;text-decoration:none;transition:var(--tr);width:100%}
+.btn-new:hover{border-color:var(--blue-m);color:var(--blue-d);background:var(--blue-l)}
+
+/* ── FOOTER ── */
+.login-footer{text-align:center;font-size:12px;color:var(--muted);line-height:1.6}
+.login-footer a{color:var(--blue);text-decoration:none}
+
+/* ── MOBILE ── */
+@media(max-width:480px){
+  nav{padding:0 18px}
+  main{padding:36px 16px 60px}
+  .form-card{padding:20px 18px}
+  .input-row{flex-direction:column}
+  .btn-send{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">Moving<span>COST</span>.ai</a>
+  <a href="/" class="nav-link">← Home</a>
+</nav>
+
+<main>
+  <div class="login-wrap">
+
+    <!-- 图标 -->
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+
+    <div class="login-kicker">Member Access</div>
+    <h1 class="login-h1">Sign in with Email</h1>
+    <p class="login-sub">Enter the email you used to save your points or reports. We'll send you a secure sign-in link.</p>
+
+    <!-- 表单卡片 -->
+    <div class="form-card">
+
+      <!-- 输入状态 -->
+      <div id="input-state">
+        <label class="form-label" for="email-input">Your email address</label>
+        <div class="input-row">
+          <input class="form-input" type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
+          <button class="btn-send" id="send-btn" onclick="sendMagicLink()">Send Link →</button>
+        </div>
+        <div class="form-note" id="form-msg">
+          We'll send a one-click sign-in link. No password needed.
+        </div>
+      </div>
+
+      <!-- 发送成功状态 -->
+      <div class="success-state" id="success-state">
+        <div class="success-icon">📬</div>
+        <div class="success-title">Check your inbox!</div>
+        <div class="success-sub">We sent a sign-in link to</div>
+        <div class="success-email" id="sent-email">—</div>
+        <div class="success-sub">Click the link in the email to access your member dashboard. The link expires in 15 minutes.</div>
+        <div class="resend-link" onclick="resetForm()">Didn't receive it? Try again →</div>
+      </div>
+
+    </div>
+
+    <div class="or-divider">or</div>
+
+    <!-- 没有账号 -->
+    <div class="alt-card">
+      <div class="alt-title">New to MovingCOST.ai?</div>
+      <div class="alt-sub">Take the EarthSoul Quiz or plan your move — you'll create your account when you save your results.</div>
+      <div class="alt-perks">
+        <div class="alt-perk">Free to join — no credit card needed</div>
+        <div class="alt-perk">Earn +30 points just for signing up</div>
+        <div class="alt-perk">Save your reports and quiz results</div>
+      </div>
+      <a href="/quiz" class="btn-new">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Start with EarthSoul Quiz →
+      </a>
+    </div>
+
+    <div class="login-footer">
+      Questions? <a href="mailto:hello@movingcost.ai">hello@movingcost.ai</a>
+      &nbsp;·&nbsp; <a href="/">movingcost.ai</a>
+    </div>
+
+  </div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── 如果已登录，直接跳 member ──
+  try{
+    var uid   = localStorage.getItem('mc_user_id');
+    var email = localStorage.getItem('mc_email');
+    if(uid && email){
+      window.location.replace('/member');
+      return;
+    }
+  }catch(e){}
+
+  // ── 发送 Magic Link ──
+  window.sendMagicLink = async function(){
+    var emailVal = document.getElementById('email-input').value.trim();
+    var msg      = document.getElementById('form-msg');
+    var btn      = document.getElementById('send-btn');
+
+    if(!emailVal || !emailVal.includes('@')){
+      msg.textContent  = '⚠ Please enter a valid email address.';
+      msg.style.color  = '#B91C1C';
+      return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Sending…';
+    msg.textContent = '';
+    msg.style.color = '';
+
+    try{
+      var res  = await fetch('/api/magic-link', {
+        method:  'POST',
+        headers: {'Content-Type':'application/json'},
+        body:    JSON.stringify({ email: emailVal })
+      });
+      var data = await res.json();
+
+      if(data.error){
+        msg.textContent = '⚠ ' + data.error;
+        msg.style.color = '#B91C1C';
+        btn.disabled    = false;
+        btn.textContent = 'Send Link →';
+        return;
+      }
+
+      // 成功 → 显示成功状态
+      document.getElementById('sent-email').textContent = emailVal;
+      document.getElementById('input-state').style.display  = 'none';
+      document.getElementById('success-state').style.display = 'block';
+
+    }catch(err){
+      // API 还没上线时的降级提示
+      msg.textContent = 'Magic link coming soon. For now, use the same device where you took the quiz.';
+      msg.style.color = '#92400E';
+      btn.disabled    = false;
+      btn.textContent = 'Send Link →';
+    }
+  };
+
+  // ── Enter 键提交 ──
+  document.getElementById('email-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') window.sendMagicLink();
+  });
+
+  // ── 重置表单 ──
+  window.resetForm = function(){
+    document.getElementById('input-state').style.display  = 'block';
+    document.getElementById('success-state').style.display = 'none';
+    document.getElementById('email-input').value = '';
+    var btn = document.getElementById('send-btn');
+    btn.disabled    = false;
+    btn.textContent = 'Send Link →';
+  };
+
+})();
+</script>
+</body>
+</html>

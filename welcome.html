@@ -367,19 +367,24 @@ main{
 (function(){
   'use strict';
 
-  // ── 读取 localStorage ──
-  var email = '';
-  var referralLink = '';
-  var quizType = '';
-  var points = 0;
+  var TYPES = {
+    nomad:'The Digital Nomad Explorer', power:'The Urban Power Player',
+    optimizer:'The Global Optimizer', creative:'The Creative Wanderer',
+    builder:'The Nature-Rooted Builder', coastal:'The Coastal Minimalist',
+    luxury:'The Quiet Luxury Seeker', reinvent:'The Reinventionist'
+  };
 
+  // ── 读取 localStorage ──
+  var email = '', userId = '', referralLink = '', quizType = '';
   try {
-    email = localStorage.getItem('mc_email') || '';
+    email        = localStorage.getItem('mc_email') || '';
+    userId       = localStorage.getItem('mc_user_id') || '';
     referralLink = localStorage.getItem('mc_referral_link') || '';
-    var quizRaw = localStorage.getItem('mc_quiz_result');
+    var quizRaw  = localStorage.getItem('mc_quiz_result');
     if(quizRaw){
       var q = JSON.parse(quizRaw);
-      quizType = q.type_name || q.primary_type || '';
+      var pt = q.primaryType || q.primary_type || q.primary || '';
+      quizType = TYPES[pt] || q.type_name || '';
     }
   } catch(e){}
 
@@ -391,47 +396,58 @@ main{
   var typeEl = document.getElementById('display-type');
   if(typeEl && quizType) typeEl.textContent = quizType;
 
-  // ── 邀请链接 ──
+  // ── 邀请链接初始值 ──
   var inviteInput = document.getElementById('invite-input');
   if(inviteInput){
-    if(referralLink){
-      inviteInput.value = referralLink;
-    } else if(email){
-      inviteInput.value = 'https://www.movingcost.ai/?ref=loading';
-    } else {
-      inviteInput.value = 'Please bind your email first';
-    }
+    if(referralLink)       inviteInput.value = referralLink;
+    else if(email || userId) inviteInput.value = 'Loading your link…';
+    else                   inviteInput.value = 'Please bind your email first';
   }
 
-  // ── 从 API 获取积分 ──
-  if(email){
-    fetch('/api/user?email=' + encodeURIComponent(email))
+  // ── 从 API 获取积分和推荐码（用 user_id 查询）──
+  if(userId){
+    fetch('/api/user?action=get&user_id=' + encodeURIComponent(userId))
       .then(function(r){ return r.json(); })
       .then(function(d){
-        if(d && d.user){
-          var pts = d.user.total_points || 0;
-          var ptsEl = document.getElementById('display-pts');
-          if(ptsEl){
-            // 数字滚动动画
-            var start = 0;
-            var end = pts;
-            var duration = 800;
-            var startTime = null;
-            function animatePts(ts){
-              if(!startTime) startTime = ts;
-              var progress = Math.min((ts - startTime) / duration, 1);
-              var ease = 1 - Math.pow(1 - progress, 3);
-              ptsEl.textContent = Math.round(start + (end - start) * ease);
-              if(progress < 1) requestAnimationFrame(animatePts);
-            }
-            requestAnimationFrame(animatePts);
+        if(!d || !d.user) return;
+        var user = d.user;
+
+        // 邮箱（API为准）
+        if(user.email && emailEl){
+          emailEl.textContent = user.email;
+          try{ localStorage.setItem('mc_email', user.email); }catch(e){}
+        }
+
+        // 积分滚动动画
+        var pts = (d.points && d.points.available) || user.total_points || 0;
+        var ptsEl = document.getElementById('display-pts');
+        if(ptsEl && pts > 0){
+          var start = 0, duration = 800, startTime = null;
+          function animatePts(ts){
+            if(!startTime) startTime = ts;
+            var p = Math.min((ts - startTime) / duration, 1);
+            var ease = 1 - Math.pow(1 - p, 3);
+            ptsEl.textContent = Math.round(start + (pts - start) * ease);
+            if(p < 1) requestAnimationFrame(animatePts);
           }
-          // 更新邀请链接
-          if(d.user.referral_code){
-            var link = 'https://www.movingcost.ai/?ref=' + d.user.referral_code;
-            localStorage.setItem('mc_referral_link', link);
-            if(inviteInput) inviteInput.value = link;
-          }
+          requestAnimationFrame(animatePts);
+        }
+
+        // 今日获得积分（从最近事件计算）
+        var todayEl = document.getElementById('pts-earned-today');
+        if(todayEl && d.recent_events && d.recent_events.length > 0){
+          var today = new Date().toDateString();
+          var todayPts = d.recent_events
+            .filter(function(e){ return new Date(e.created_at).toDateString() === today && e.status === 'approved'; })
+            .reduce(function(s, e){ return s + (e.points || 0); }, 0);
+          if(todayPts > 0) todayEl.textContent = '+' + todayPts + ' pts';
+        }
+
+        // 推荐链接
+        if(user.referral_code){
+          var link = 'https://www.movingcost.ai/?ref=' + user.referral_code;
+          try{ localStorage.setItem('mc_referral_link', link); }catch(e){}
+          if(inviteInput) inviteInput.value = link;
         }
       })
       .catch(function(){});
