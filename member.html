@@ -6,184 +6,182 @@
 <title>Member Dashboard — MovingCOST.ai</title>
 <meta name="description" content="Your MovingCOST member dashboard. View your points, EarthSoul profile, reports and rewards.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#060A12;--s1:#0C1422;--s2:#111B2E;
-  --border:rgba(255,255,255,0.07);--border-hi:rgba(14,165,233,0.35);
-  --text:#EEF2FF;--mid:rgba(238,242,255,0.58);--muted:rgba(238,242,255,0.30);
-  --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.10);--blue-d:#0284C7;
-  --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.10);
-  --green:#10B981;--green-dim:rgba(16,185,129,0.10);
-  --purple:#7C3AED;--red-dim:rgba(248,113,113,0.08);
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#C8D9EE;
+  --bg:#F0F6FF;--bg2:#F8FBFF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--green-l:#ECFDF5;--green-b:rgba(16,185,129,0.15);
+  --gold:#F59E0B;--gold-l:#FFFBEB;--gold-b:rgba(245,158,11,0.12);
+  --purple:#7C3AED;--purple-l:#F5F3FF;
+  --red-l:#FEF2F2;
+  --glass:rgba(255,255,255,0.82);--glass-b:rgba(255,255,255,0.94);
+  --shadow:0 4px 20px rgba(14,165,233,0.08),0 1px 6px rgba(10,22,40,0.05);
+  --shadow-md:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
+  --r:12px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
 }
 html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 5%,rgba(14,165,233,0.07) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 95%,rgba(99,50,200,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 5%,rgba(14,165,233,0.08) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 95%,rgba(16,185,129,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
 a{text-decoration:none;color:inherit}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;letter-spacing:-0.5px}
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.90);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
 .nav-logo .ac{color:var(--blue)}
-.nav-logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-badge{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(232,184,75,0.2);padding:4px 12px;border-radius:99px}
-.nav-home{font-size:13px;color:var(--muted);transition:color 0.2s}
-.nav-home:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-badge{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid rgba(16,185,129,0.2);padding:4px 12px;border-radius:99px}
+.nav-home{font-size:13px;font-weight:500;color:var(--muted);padding:6px 14px;border-radius:99px;transition:var(--tr)}
+.nav-home:hover{background:var(--blue-l);color:var(--blue-d)}
 
-/* LAYOUT */
-.page{max-width:760px;margin:0 auto;padding:32px 20px 80px;position:relative;z-index:1}
+/* ── LAYOUT ── */
+.page{max-width:720px;margin:0 auto;padding:36px 20px 80px;position:relative;z-index:1}
 
-/* SECTION LABEL */
-.sec-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+/* ── SECTION LABEL ── */
+.sec-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:24px;display:flex;align-items:center;gap:10px}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* CARDS */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:12px}
-.card-blue{background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(14,165,233,0.03));border-color:var(--border-hi)}
-.card-gold{background:var(--gold-dim);border-color:rgba(232,184,75,0.18)}
-.card-green{background:var(--green-dim);border-color:rgba(16,185,129,0.2)}
+/* ── CARDS ── */
+.card{background:var(--glass-b);border:1px solid var(--border);border-radius:var(--r-xl);padding:22px 24px;margin-bottom:10px;box-shadow:var(--shadow)}
+.card-blue{background:linear-gradient(135deg,rgba(14,165,233,0.05),rgba(14,165,233,0.02));border-color:rgba(14,165,233,0.18)}
+.card-gold{background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(245,158,11,0.02));border-color:rgba(245,158,11,0.18)}
+.card-green{background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(16,185,129,0.02));border-color:rgba(16,185,129,0.18)}
 
-/* ── HERO AREA ── */
-.hero-area{text-align:center;padding:40px 0 32px}
-.hero-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7DD3FC);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px}
-.hero-name{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px}
-.hero-email{font-size:13px;color:var(--muted);margin-bottom:12px}
-.hero-since{font-size:12px;color:var(--muted)}
+/* ── HERO ── */
+.hero-area{text-align:center;padding:36px 0 28px}
+.hero-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7DD3FC);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 14px;box-shadow:0 8px 24px rgba(14,165,233,0.25)}
+.hero-name{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:3px;color:var(--text)}
+.hero-email{font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:500}
+.hero-since{font-size:12px;color:var(--muted);margin-top:8px}
 .hero-since span{color:var(--green);font-weight:600}
-
-/* Member badge */
-.member-badge{display:inline-flex;align-items:center;gap:7px;background:var(--green-dim);border:1px solid rgba(16,185,129,0.25);border-radius:99px;padding:6px 16px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:20px}
-.member-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.member-badge{display:inline-flex;align-items:center;gap:7px;background:var(--green-l);border:1px solid rgba(16,185,129,0.25);border-radius:99px;padding:6px 16px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--green)}
+.member-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
 /* ── EMAIL GATE ── */
-#email-gate{text-align:center;padding:48px 24px}
+#email-gate{text-align:center;padding:48px 20px}
 .gate-ico{font-size:48px;margin-bottom:20px}
-.gate-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px}
-.gate-sub{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
-
-/* 匿名用户积分展示卡 */
-.gate-pts-card{max-width:360px;margin:0 auto 28px;padding:20px 24px;background:rgba(232,184,75,0.07);border:1px solid rgba(232,184,75,0.20);border-radius:16px;text-align:center}
-.gate-pts-num{font-family:'Outfit',sans-serif;font-size:48px;font-weight:800;color:var(--gold);letter-spacing:-2px;line-height:1}
-.gate-pts-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(232,184,75,0.55);margin-top:4px}
-.gate-pts-hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
-
-/* API 错误提示 */
-.gate-error-card{max-width:400px;margin:0 auto 20px;padding:14px 20px;background:var(--red-dim);border:1px solid rgba(248,113,113,0.18);border-radius:12px;font-size:13px;color:#F87171;line-height:1.6}
-
-.gate-perks{display:flex;flex-direction:column;gap:8px;max-width:340px;margin:0 auto 28px;text-align:left}
+.gate-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-0.4px;color:var(--text)}
+.gate-sub{font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.gate-pts-card{max-width:320px;margin:0 auto 24px;padding:20px 24px;background:var(--gold-l);border:1px solid rgba(245,158,11,0.2);border-radius:var(--r-xl);text-align:center}
+.gate-pts-num{font-family:'Outfit',sans-serif;font-size:52px;font-weight:800;color:var(--gold);letter-spacing:-2px;line-height:1}
+.gate-pts-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,158,11,0.6);margin-top:4px}
+.gate-pts-hint{font-size:12px;color:#92400E;margin-top:8px;line-height:1.6}
+.gate-error-card{max-width:400px;margin:0 auto 20px;padding:14px 20px;background:var(--red-l);border:1px solid rgba(239,68,68,0.18);border-radius:var(--r);font-size:13px;color:#B91C1C;line-height:1.6}
+.gate-perks{display:flex;flex-direction:column;gap:8px;max-width:320px;margin:0 auto 24px;text-align:left}
 .gate-perk{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mid)}
 .gate-perk::before{content:'✦';color:var(--blue);font-size:11px;flex-shrink:0}
 .gate-input-row{display:flex;gap:10px;max-width:400px;margin:0 auto;flex-wrap:wrap}
-.gate-input{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s}
+.gate-input{flex:1;min-width:180px;background:var(--white);border:1px solid var(--border);border-radius:99px;padding:13px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;box-shadow:var(--shadow)}
 .gate-input::placeholder{color:var(--muted)}
-.gate-input:focus{border-color:rgba(14,165,233,0.4)}
-.gate-btn{background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.gate-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
+.gate-input:focus{border-color:var(--blue-m);box-shadow:0 0 0 3px rgba(14,165,233,0.08)}
+.gate-btn{background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap;box-shadow:0 4px 14px rgba(14,165,233,0.28)}
+.gate-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,165,233,0.35)}
 .gate-note{font-size:12px;color:var(--muted);margin-top:12px}
-.gate-recovery{font-size:12px;color:var(--muted);margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.gate-recovery{font-size:12px;color:var(--muted);margin-top:20px;padding-top:20px;border-top:1px solid var(--border);line-height:1.6}
 .gate-recovery strong{color:var(--mid)}
 
-/* ── POINTS SECTION ── */
-.pts-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.pts-big{font-family:'Outfit',sans-serif;font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1}
+/* ── POINTS ── */
+.pts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.pts-col{background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.pts-big{font-family:'Outfit',sans-serif;font-size:38px;font-weight:800;letter-spacing:-1px;line-height:1}
 .pts-big.gold{color:var(--gold)}
-.pts-big.muted{color:rgba(232,184,75,0.4)}
+.pts-big.muted{color:var(--faint)}
 .pts-lbl{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.level-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.level-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .level-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--gold)}
 .level-next{font-size:12px;color:var(--muted)}
-.pts-bar{height:4px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;margin-bottom:16px}
-.pts-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),rgba(232,184,75,0.6));transition:width 1s cubic-bezier(0.4,0,0.2,1)}
-.pts-events{display:flex;flex-direction:column;gap:8px}
-.pts-event{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border)}
+.pts-bar{height:5px;background:rgba(221,232,245,0.8);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.pts-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),#FCD34D);transition:width 1s cubic-bezier(0.4,0,0.2,1)}
+.pts-earn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.earn-item{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mid);background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:8px;padding:8px 12px}
+.earn-val{font-family:'Outfit',sans-serif;font-weight:700;color:var(--gold);font-size:12px}
+.pts-events{display:flex;flex-direction:column;gap:6px}
+.pts-event{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.6);border-radius:10px;border:1px solid var(--border)}
 .evt-left{display:flex;align-items:center;gap:10px}
 .evt-ico{font-size:16px;width:28px;text-align:center}
-.evt-name{font-size:13px;color:var(--mid)}
+.evt-name{font-size:13px;color:var(--mid);font-weight:500}
 .evt-date{font-size:11px;color:var(--muted)}
 .evt-pts{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700}
 .evt-pts.approved{color:var(--gold)}
-.evt-pts.pending{color:rgba(232,184,75,0.45)}
+.evt-pts.pending{color:rgba(245,158,11,0.5)}
 .evt-status{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px}
-.status-approved{background:var(--green-dim);color:var(--green)}
-.status-pending{background:rgba(245,158,11,0.1);color:#F59E0B}
-.pts-earn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-.earn-item{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mid);background:rgba(255,255,255,0.02);border-radius:8px;padding:8px 12px}
-.earn-val{font-family:'Outfit',sans-serif;font-weight:700;color:var(--gold);font-size:12px}
+.status-approved{background:var(--green-l);color:var(--green)}
+.status-pending{background:var(--gold-l);color:var(--gold)}
 
-/* ── EARTHSOUL PROFILE ── */
-.es-result{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-.es-ico-wrap{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.es-type{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.2px;margin-bottom:3px}
+/* ── EARTHSOUL ── */
+.es-result{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.es-ico-wrap{width:54px;height:54px;border-radius:50%;background:var(--blue-l);border:1px solid var(--blue-m);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.es-type{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.2px;margin-bottom:3px;color:var(--text)}
 .es-quote{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5}
-.es-cities-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.es-city{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--mid)}
-.es-retake{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue);margin-top:14px;transition:gap 0.2s}
+.es-cities-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.es-city{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:var(--blue-l);border:1px solid var(--blue-m);color:var(--blue-d)}
+.es-retake{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue);margin-top:12px;transition:gap 0.2s}
 .es-retake:hover{gap:10px}
 
-/* ── INVITE SECTION ── */
+/* ── INVITE ── */
 .invite-link-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.invite-link-box{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-copy{background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.btn-copy:hover{background:var(--blue-d)}
-.invite-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
-.inv-stat{text-align:center;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 8px;border:1px solid var(--border)}
-.inv-stat-v{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.invite-link-box{flex:1;min-width:180px;background:rgba(221,232,245,0.4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--mid);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-copy{background:var(--blue-l);border:1px solid var(--blue-m);color:var(--blue-d);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.btn-copy:hover{background:var(--blue-m);transform:translateY(-1px)}
+.invite-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.inv-stat{text-align:center;background:rgba(255,255,255,0.6);border-radius:var(--r);padding:12px 8px;border:1px solid var(--border)}
+.inv-stat-v{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
 .inv-stat-l{font-size:10px;color:var(--muted);margin-top:2px;font-family:'Outfit',sans-serif;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
 
-/* ── MEMBERSHIP TIERS ── */
+/* ── MEMBERSHIP ── */
 .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:480px){.tiers-grid{grid-template-columns:1fr}}
-.tier-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden}
-.tier-card.current{border-color:var(--green);background:var(--green-dim)}
+.tier-card{background:var(--glass-b);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px 16px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.tier-card.current{border-color:rgba(16,185,129,0.3);background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(16,185,129,0.01))}
 .tier-card.coming{opacity:0.65}
-.tier-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
-.tier-label.free{color:var(--green)}
-.tier-label.plus{color:var(--blue)}
-.tier-label.pro{color:var(--purple)}
-.tier-label.annual{color:var(--gold)}
-.tier-price{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:12px}
-.tier-perks{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-.tier-perk{font-size:11.5px;color:var(--mid);display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.tier-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.tier-label.free{color:var(--green)}.tier-label.plus{color:var(--blue)}.tier-label.pro{color:var(--purple)}.tier-label.annual{color:var(--gold)}
+.tier-price{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;color:var(--text)}
+.tier-perks{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.tier-perk{font-size:11.5px;color:var(--mid);display:flex;align-items:flex-start;gap:6px;line-height:1.4}
 .tier-perk::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
-.tier-card.coming .tier-perk::before{color:var(--muted)}
+.tier-card.coming .tier-perk::before{color:var(--faint)}
 .tier-btn{width:100%;padding:9px;border-radius:99px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;border:none;cursor:default;letter-spacing:0.02em;text-align:center}
 .tier-btn.active{background:var(--green);color:#fff}
-.tier-btn.soon{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid var(--border)}
-.tier-coming-badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.07);color:var(--muted);padding:3px 8px;border-radius:99px}
-.tier-disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6}
+.tier-btn.soon{background:rgba(221,232,245,0.6);color:var(--muted);border:1px solid var(--border)}
+.tier-coming-badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--border);color:var(--muted);padding:3px 8px;border-radius:99px}
+.tier-disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6}
 
 /* ── REPORTS ── */
-.report-empty{text-align:center;padding:28px;color:var(--muted);font-size:13px}
-.report-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border);gap:12px}
+.report-empty{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+.report-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.6);border-radius:10px;border:1px solid var(--border);gap:12px}
 .report-ico{font-size:20px;flex-shrink:0}
-.report-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.report-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
 .report-date{font-size:11px;color:var(--muted)}
-.report-btn{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2);padding:6px 14px;border-radius:99px;white-space:nowrap;transition:all 0.2s;cursor:pointer;border:none}
-.report-btn:hover{background:rgba(14,165,233,0.18)}
+.report-btn{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-l);border:1px solid var(--blue-m);padding:6px 14px;border-radius:99px;white-space:nowrap;transition:var(--tr);cursor:pointer;border:none}
+.report-btn:hover{background:var(--blue-m)}
 
 /* ── BUTTONS ── */
-.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:99px;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none}
-.btn-primary:hover{background:var(--blue-d);transform:translateY(-1px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:10px 18px;border-radius:99px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;text-decoration:none}
-.btn-ghost:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:99px;border:none;cursor:pointer;transition:var(--tr);text-decoration:none;box-shadow:0 4px 14px rgba(14,165,233,0.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,165,233,0.35)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:10px 18px;border-radius:99px;border:1px solid var(--border);cursor:pointer;transition:var(--tr);text-decoration:none}
+.btn-ghost:hover{border-color:var(--blue-m);color:var(--blue-d);background:var(--blue-l)}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;padding:12px 24px;border-radius:99px;box-shadow:0 8px 32px rgba(14,165,233,0.35);z-index:9999;white-space:nowrap;animation:toastIn 0.3s ease;pointer-events:none}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;padding:12px 24px;border-radius:99px;box-shadow:0 8px 32px rgba(14,165,233,0.30);z-index:9999;white-space:nowrap;animation:toastIn 0.3s ease;pointer-events:none}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
-/* LOADING */
-.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);font-size:13px;gap:10px}
-.spin{width:18px;height:18px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0}
+/* ── LOADING ── */
+.loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--muted);font-size:13px;gap:10px}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media(max-width:560px){
+  nav{padding:0 16px}
+  .page{padding:24px 14px 60px}
+  .card{padding:18px 16px}
   .pts-grid{grid-template-columns:1fr 1fr}
   .pts-earn-row{grid-template-columns:1fr}
   .invite-stats{grid-template-columns:1fr 1fr}
+  .pts-big{font-size:30px}
 }
 </style>
 </head>
@@ -191,7 +189,7 @@ a{text-decoration:none;color:inherit}
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="/" class="nav-logo">Moving<span class="ac">COST</span><sup>.ai</sup></a>
+  <a href="/" class="nav-logo">Moving<span class="ac">COST</span>.ai</a>
   <div class="nav-right">
     <span class="nav-badge" id="nav-tier" style="display:none">Free Member</span>
     <a href="/" class="nav-home">← Home</a>
@@ -200,25 +198,22 @@ a{text-decoration:none;color:inherit}
 
 <div class="page">
 
-  <!-- ══ EMAIL GATE (匿名用户 / 未绑定邮箱) ══ -->
+  <!-- ══ EMAIL GATE ══ -->
   <div id="email-gate" style="display:none">
     <div class="gate-ico">🌍</div>
     <div class="gate-title">Your MovingCOST Dashboard</div>
     <div class="gate-sub">Save your MovingCOST Points permanently and access your full member benefits.</div>
 
-    <!-- ① API 错误提示（仅在后端请求失败时显示） -->
     <div id="gate-error" class="gate-error-card" style="display:none">
-      Unable to load your data. Please refresh the page or <a href="mailto:support@movingcost.ai" style="color:#F87171;text-decoration:underline">contact support</a>.
+      Unable to load your data. Please refresh or <a href="mailto:support@movingcost.ai" style="color:#B91C1C;text-decoration:underline">contact support</a>.
     </div>
 
-    <!-- ② 匿名用户积分展示（有积分时才显示） -->
     <div id="gate-pts-card" class="gate-pts-card" style="display:none">
       <div class="gate-pts-num" id="gate-pts-num">0</div>
       <div class="gate-pts-label">MovingCOST Points on this device</div>
       <div class="gate-pts-hint">Add your email to keep them permanently across all devices.</div>
     </div>
 
-    <!-- ③ 功能说明（有积分时隐藏，避免冗余） -->
     <div class="gate-perks" id="gate-perks-list">
       <div class="gate-perk">Keep your points across devices</div>
       <div class="gate-perk">Access your EarthSoul profile anytime</div>
@@ -226,22 +221,19 @@ a{text-decoration:none;color:inherit}
       <div class="gate-perk">Earn +30 MovingCOST Points just for signing up</div>
     </div>
 
-    <!-- ④ 邮箱表单 -->
     <div class="gate-input-row">
       <input class="gate-input" type="email" id="gate-email" placeholder="your@email.com">
       <button class="gate-btn" onclick="gateSubmit()">Save My Points →</button>
     </div>
     <div class="gate-note" id="gate-msg">No spam. Unsubscribe anytime. Free forever.</div>
 
-    <!-- ⑤ 账户找回说明 -->
     <div class="gate-recovery">
       <strong>Already saved your points on another device?</strong><br>
-      Account recovery by email is coming soon.<br>
-      For now, please use the same device or <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
+      Account recovery by email is coming soon. For now, <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
     </div>
   </div>
 
-  <!-- ══ DASHBOARD (已绑定邮箱用户) ══ -->
+  <!-- ══ DASHBOARD ══ -->
   <div id="dashboard" style="display:none">
 
     <!-- Hero -->
@@ -256,15 +248,15 @@ a{text-decoration:none;color:inherit}
       <div class="hero-since" id="dash-since"></div>
     </div>
 
-    <!-- ── MovingCOST Points ── -->
+    <!-- Points -->
     <div class="sec-label">MovingCOST Points</div>
-    <div class="card card-gold" id="points-card">
+    <div class="card card-gold">
       <div class="pts-grid">
-        <div>
+        <div class="pts-col">
           <div class="pts-big gold" id="pts-available">—</div>
           <div class="pts-lbl">Available Points</div>
         </div>
-        <div>
+        <div class="pts-col">
           <div class="pts-big muted" id="pts-pending">—</div>
           <div class="pts-lbl">Pending Points</div>
         </div>
@@ -280,7 +272,7 @@ a{text-decoration:none;color:inherit}
         <div class="earn-item"><span>Save email</span><span class="earn-val">+30 pts</span></div>
         <div class="earn-item"><span>Friend completes</span><span class="earn-val">+100 pts</span></div>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6">
+      <div style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6">
         Pending points become available after your invited friend saves their report by email.
       </div>
     </div>
@@ -288,50 +280,39 @@ a{text-decoration:none;color:inherit}
     <!-- Points History -->
     <div class="card" style="margin-top:-4px">
       <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;margin-bottom:12px;color:var(--mid);letter-spacing:0.02em">Points History</div>
-      <div id="pts-history">
-        <div class="loading"><div class="spin"></div>Loading…</div>
-      </div>
+      <div id="pts-history"><div class="loading"><div class="spin"></div>Loading…</div></div>
     </div>
 
-    <!-- ── EarthSoul Profile ── -->
-    <div class="sec-label" style="margin-top:8px">EarthSoul Profile</div>
+    <!-- EarthSoul -->
+    <div class="sec-label">EarthSoul Profile</div>
     <div class="card" id="es-card">
       <div class="loading"><div class="spin"></div>Loading…</div>
     </div>
 
-    <!-- ── Reports ── -->
-    <div class="sec-label" style="margin-top:8px">Reports</div>
+    <!-- Reports -->
+    <div class="sec-label">Reports</div>
     <div class="card" id="reports-card">
       <div class="report-empty">No reports yet. <a href="/planner" style="color:var(--blue);font-weight:600">Generate your first AI report →</a></div>
     </div>
 
-    <!-- ── Invite & Rewards ── -->
-    <div class="sec-label" style="margin-top:8px">Invite & Rewards</div>
+    <!-- Invite -->
+    <div class="sec-label">Invite & Rewards</div>
     <div class="card card-blue">
-      <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">Invite friends, earn points</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;color:var(--text)">Invite friends, earn points</div>
       <div style="font-size:13px;color:var(--mid);margin-bottom:16px">Share your unique link. When a friend completes the quiz, you earn +100 MovingCOST Points.</div>
       <div class="invite-link-row">
         <div class="invite-link-box" id="invite-link-box">movingcost.ai/earthsoul</div>
         <button class="btn-copy" onclick="copyInviteLink(this)">🔗 Copy Link</button>
       </div>
       <div class="invite-stats">
-        <div class="inv-stat">
-          <div class="inv-stat-v" id="inv-count">0</div>
-          <div class="inv-stat-l">Invited</div>
-        </div>
-        <div class="inv-stat">
-          <div class="inv-stat-v" id="inv-pending" style="color:rgba(245,158,11,0.7)">0</div>
-          <div class="inv-stat-l">Pending</div>
-        </div>
-        <div class="inv-stat">
-          <div class="inv-stat-v" style="color:var(--green)" id="inv-approved">0</div>
-          <div class="inv-stat-l">Approved</div>
-        </div>
+        <div class="inv-stat"><div class="inv-stat-v" id="inv-count">0</div><div class="inv-stat-l">Invited</div></div>
+        <div class="inv-stat"><div class="inv-stat-v" id="inv-pending" style="color:var(--gold)">0</div><div class="inv-stat-l">Pending</div></div>
+        <div class="inv-stat"><div class="inv-stat-v" style="color:var(--green)" id="inv-approved">0</div><div class="inv-stat-l">Approved</div></div>
       </div>
     </div>
 
-    <!-- ── Membership ── -->
-    <div class="sec-label" style="margin-top:8px">Membership</div>
+    <!-- Membership -->
+    <div class="sec-label">Membership</div>
     <div class="tiers-grid">
       <div class="tier-card current">
         <div class="tier-label free">Free Member</div>
@@ -383,11 +364,11 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="tier-disclaimer">Premium memberships are not yet active. Benefits and pricing may change before launch.</div>
 
-    <!-- ── Support ── -->
+    <!-- Support -->
     <div class="sec-label" style="margin-top:20px">Support</div>
     <div class="card" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="font-size:14px;font-weight:600;margin-bottom:4px">Missing points or need help?</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:4px;color:var(--text)">Missing points or need help?</div>
         <div style="font-size:13px;color:var(--muted)">Our team usually responds within 24 hours.</div>
       </div>
       <a id="support-link" href="mailto:support@movingcost.ai" class="btn-ghost">Contact Support →</a>
@@ -395,7 +376,7 @@ a{text-decoration:none;color:inherit}
 
   </div><!-- /dashboard -->
 
-  <!-- Loading state -->
+  <!-- Loading -->
   <div id="page-loading" class="loading" style="padding:80px">
     <div class="spin"></div>Loading your dashboard…
   </div>
@@ -404,33 +385,25 @@ a{text-decoration:none;color:inherit}
 
 <script>
 // ================================================================
-// member.html — MovingCOST Member Dashboard v1.1
-// 变更说明（v1.1）：
-// 1. init() 重构：后端返回值为唯一判断依据（非 localStorage）
-//    - 拆分 API 失败 vs 真匿名用户两种情况
-//    - data.user.email 有值 → Dashboard；否则 → Gate
-// 2. 匿名状态积分展示升级为独立卡片（gate-pts-card）
-// 3. gateSubmit 成功后 localStorage key 统一为 mc_email
+// member.html — MovingCOST Member Dashboard v1.2
+// v1.2: 视觉升级为亮色品牌风，JS逻辑完整保留
 // ================================================================
 
 const API  = '/api';
 const BASE = 'https://www.movingcost.ai';
 
-// localStorage 工具
 function lsGet(k){ try{ return localStorage.getItem(k) }catch{ return null } }
 function lsSet(k,v){ try{ localStorage.setItem(k,v) }catch{} }
 
-// Toast
 function showToast(msg, type='success'){
   const t = document.createElement('div');
   t.className = 'toast';
-  t.style.background = type==='error' ? '#7F1D1D' : type==='info' ? '#1E293B' : 'var(--blue)';
+  t.style.background = type==='error' ? '#B91C1C' : type==='info' ? '#1E3A5F' : 'var(--blue)';
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 3000);
 }
 
-// API 调用
 async function api(path, opts={}){
   try{
     const r = await fetch(path, { headers:{'Content-Type':'application/json'}, ...opts });
@@ -442,7 +415,6 @@ async function api(path, opts={}){
   }
 }
 
-// 积分等级对应进度条
 function levelProgress(pts){
   if(pts >= 800) return 100;
   if(pts >= 300) return 50 + Math.round((pts-300)/500*50);
@@ -450,7 +422,6 @@ function levelProgress(pts){
   return Math.round(pts/100*25);
 }
 
-// 积分 event 图标
 function eventIcon(type){
   const m = {
     quiz_completed:'🧭', email_submitted:'📬',
@@ -479,55 +450,27 @@ function formatDate(iso){
   return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 }
 
-// ── 显示 Gate ───────────────────────────────────────────────────
-// pointsAvailable: number | null（null = 不显示积分卡，true = 显示）
-// showError: boolean
 function showGate(pointsAvailable, showError){
   document.getElementById('page-loading').style.display = 'none';
-
-  // API 错误提示
-  if(showError){
-    document.getElementById('gate-error').style.display = 'block';
-  }
-
-  // 有积分 → 显示积分卡，隐藏 perks 列表（避免冗余）
+  if(showError) document.getElementById('gate-error').style.display = 'block';
   if(pointsAvailable && pointsAvailable > 0){
     document.getElementById('gate-pts-num').textContent = pointsAvailable;
     document.getElementById('gate-pts-card').style.display = 'block';
     document.getElementById('gate-perks-list').style.display = 'none';
   }
-
   document.getElementById('email-gate').style.display = 'block';
 }
 
-// ── 主初始化 ────────────────────────────────────────────────────
 async function init(){
   const userId = lsGet('mc_user_id');
+  if(!userId){ showGate(null, false); return; }
 
-  // 没有 userId → 真正的新访客（未做过测验）
-  if(!userId){
-    showGate(null, false);
-    return;
-  }
-
-  // 有 userId → 以后端返回值为权威判断依据
   const data = await api(`${API}/user?action=get&user_id=${userId}`);
-
   document.getElementById('page-loading').style.display = 'none';
 
-  // 后端请求失败（网络错误或用户不存在）
-  if(!data || data.error){
-    showGate(null, true);
-    return;
-  }
+  if(!data || data.error){ showGate(null, true); return; }
+  if(!data.user?.email){ showGate(data.points?.available || 0, false); return; }
 
-  // 后端返回 email 为空 → 匿名用户，显示 Gate + 积分卡
-  if(!data.user?.email){
-    showGate(data.points?.available || 0, false);
-    return;
-  }
-
-  // 后端确认 email 存在 → 显示完整 Dashboard
   document.getElementById('dashboard').style.display = 'block';
   renderDashboard(data);
   loadEarthSoulProfile(userId);
@@ -535,36 +478,27 @@ async function init(){
   updateSupportLink(data.user);
 }
 
-// ── 渲染 Dashboard ──────────────────────────────────────────────
 function renderDashboard(data){
   const { user, points, recent_events } = data;
 
-  // Nav badge
   const navTier = document.getElementById('nav-tier');
   navTier.style.display = 'inline-flex';
   navTier.textContent   = tierLabel(user.membership_tier);
 
-  // Hero
   document.getElementById('dash-avatar').textContent = avatarEmoji(user.membership_tier);
   document.getElementById('dash-name').textContent   = user.email.split('@')[0] || 'Member';
   document.getElementById('dash-email').textContent  = user.email;
   document.getElementById('dash-tier').textContent   = tierLabel(user.membership_tier);
-  if(user.member_since){
+  if(user.member_since)
     document.getElementById('dash-since').textContent = 'Member since ' + formatDate(user.member_since);
-  }
 
-  // Points
   document.getElementById('pts-available').textContent = points.available;
   document.getElementById('pts-pending').textContent   = points.pending;
   document.getElementById('pts-level').textContent     = `${points.level_num} · ${points.level}`;
-  if(points.next_level_pts){
+  if(points.next_level_pts)
     document.getElementById('pts-next').textContent = `${points.next_level_pts} pts to next level`;
-  }
-  setTimeout(()=>{
-    document.getElementById('pts-bar').style.width = levelProgress(points.available) + '%';
-  }, 300);
+  setTimeout(()=>{ document.getElementById('pts-bar').style.width = levelProgress(points.available) + '%'; }, 300);
 
-  // Points history
   const histEl = document.getElementById('pts-history');
   if(!recent_events || recent_events.length === 0){
     histEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No activity yet. <a href="/earthsoul" style="color:var(--blue);font-weight:600">Take the EarthSoul Quiz →</a></div>';
@@ -586,7 +520,6 @@ function renderDashboard(data){
     `).join('');
   }
 
-  // Invite link
   const refCode = lsGet('mc_referral_code') || user.referral_code || '';
   if(refCode){
     const link = `${BASE}/earthsoul?ref=${refCode}`;
@@ -596,20 +529,14 @@ function renderDashboard(data){
   }
 }
 
-// ── EarthSoul Profile ────────────────────────────────────────────
 async function loadEarthSoulProfile(userId){
   const card = document.getElementById('es-card');
-
   const cached = lsGet('mc_quiz_result');
   let quizData = null;
   if(cached){ try{ quizData = JSON.parse(cached); }catch{} }
 
   if(!quizData){
-    card.innerHTML = `
-      <div style="text-align:center;padding:20px">
-        <div style="font-size:13px;color:var(--muted);margin-bottom:14px">No EarthSoul result yet.</div>
-        <a href="/earthsoul" class="btn-primary" style="font-size:13px;padding:10px 20px">Take the EarthSoul Quiz →</a>
-      </div>`;
+    card.innerHTML = `<div style="text-align:center;padding:20px"><div style="font-size:13px;color:var(--muted);margin-bottom:14px">No EarthSoul result yet.</div><a href="/earthsoul" class="btn-primary" style="font-size:13px;padding:10px 20px">Take the EarthSoul Quiz →</a></div>`;
     return;
   }
 
@@ -637,49 +564,41 @@ async function loadEarthSoulProfile(userId){
         <div class="es-quote">"${r.quote}"</div>
       </div>
     </div>
-    ${s ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Secondary pull: <strong style="color:var(--mid)">${s.ico} ${s.name}</strong></div>` : ''}
+    ${s ? `<div style="font-size:12px;color:var(--muted);margin-bottom:8px">Secondary pull: <strong style="color:var(--mid)">${s.ico} ${s.name}</strong></div>` : ''}
     <a href="/earthsoul" class="es-retake">Retake the quiz →</a>
   `;
 }
 
-// ── Referral Stats ───────────────────────────────────────────────
 async function loadReferralStats(userId){
   const data = await api(`${API}/referral?action=stats&user_id=${userId}`);
   if(!data) return;
-
   if(data.total !== undefined)    document.getElementById('inv-count').textContent    = data.total    || 0;
   if(data.pending !== undefined)  document.getElementById('inv-pending').textContent  = data.pending  || 0;
   if(data.approved !== undefined) document.getElementById('inv-approved').textContent = data.approved || 0;
 }
 
-// ── Support Link ─────────────────────────────────────────────────
 function updateSupportLink(user){
   const link = document.getElementById('support-link');
   if(!link) return;
   const subject = encodeURIComponent('MovingCOST Support Request');
-  const body    = encodeURIComponent(
-    `Hi MovingCOST Support,\n\nUser ID: ${lsGet('mc_user_id')||''}\nEmail: ${user?.email||''}\nReferral Code: ${lsGet('mc_referral_code')||''}\n\nIssue:\n\n`
-  );
+  const body    = encodeURIComponent(`Hi MovingCOST Support,\n\nUser ID: ${lsGet('mc_user_id')||''}\nEmail: ${user?.email||''}\nReferral Code: ${lsGet('mc_referral_code')||''}\n\nIssue:\n\n`);
   link.href = `mailto:support@movingcost.ai?subject=${subject}&body=${body}`;
 }
 
-// ── Gate Submit (匿名用户绑定邮箱) ──────────────────────────────
 async function gateSubmit(){
   const email = document.getElementById('gate-email')?.value?.trim();
   const msg   = document.getElementById('gate-msg');
   if(!email || !email.includes('@')){
     msg.textContent = '⚠ Please enter a valid email.';
-    msg.style.color = '#F87171';
+    msg.style.color = '#B91C1C';
     return;
   }
-
   const userId = lsGet('mc_user_id');
   if(!userId){
     msg.textContent = '⚠ No session found. Please take the quiz first.';
-    msg.style.color = '#F87171';
+    msg.style.color = '#B91C1C';
     return;
   }
-
   const btn = document.querySelector('.gate-btn');
   btn.disabled    = true;
   btn.textContent = 'Saving…';
@@ -689,37 +608,29 @@ async function gateSubmit(){
     body:   JSON.stringify({ user_id: userId, email }),
   });
 
-  // 邮箱已被其他账号绑定（409）
   if(result?.error === '该邮箱已被其他账号绑定'){
-    msg.textContent = 'This email is linked to another account. Account recovery coming soon — contact support.';
-    msg.style.color = '#F87171';
+    msg.textContent = 'This email is linked to another account. Contact support for help.';
+    msg.style.color = '#B91C1C';
     btn.disabled    = false;
     btn.textContent = 'Save My Points →';
     return;
   }
-
-  // 其他错误
   if(result?.error){
     msg.textContent = `⚠ ${result.error}`;
-    msg.style.color = '#F87171';
+    msg.style.color = '#B91C1C';
     btn.disabled    = false;
     btn.textContent = 'Save My Points →';
     return;
   }
 
-  // 成功 → 统一用 mc_email 存储（全站一致）
   lsSet('mc_email', email);
-
   showToast(result?.points_earned > 0
     ? `🎉 Welcome! +${result.points_earned} MovingCOST Points earned.`
     : '🎉 Welcome to MovingCOST!'
   );
-
-  // 短暂延迟后刷新，让 init() 重新走后端判断路径
   setTimeout(() => window.location.reload(), 1200);
 }
 
-// ── Copy Invite Link ─────────────────────────────────────────────
 function copyInviteLink(btn){
   const link = lsGet('mc_referral_link') || BASE + '/earthsoul';
   navigator.clipboard.writeText(link).then(()=>{
@@ -727,12 +638,9 @@ function copyInviteLink(btn){
     btn.innerHTML = '✅ Copied!';
     showToast('🔗 Invite link copied!');
     setTimeout(()=> btn.innerHTML = orig, 2000);
-  }).catch(()=>{
-    showToast('Link: ' + link, 'info');
-  });
+  }).catch(()=>{ showToast('Link: ' + link, 'info'); });
 }
 
-// ── Helpers ──────────────────────────────────────────────────────
 function tierLabel(tier){
   return { free:'Free Member', plus:'Plus Member', pro:'Pro Member', annual:'Annual Member' }[tier] || 'Free Member';
 }
@@ -740,7 +648,6 @@ function avatarEmoji(tier){
   return { free:'🌍', plus:'⚡', pro:'🚀', annual:'💎' }[tier] || '🌍';
 }
 
-// ── Start ────────────────────────────────────────────────────────
 init();
 </script>
 </body>
