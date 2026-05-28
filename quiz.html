@@ -280,7 +280,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <nav class="nav">
   <a href="/" class="nav-logo">Moving<span class="ac">COST</span>.ai</a>
-  <span class="nav-pill">EarthSoul Quiz</span>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="/member" id="quiz-member-link" style="display:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;padding:5px 14px;border-radius:99px;background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2)">My Dashboard</a>
+    <span class="nav-pill">EarthSoul Quiz</span>
+  </div>
 </nav>
 
 <!-- ═══ INTRO ═══ -->
@@ -1698,5 +1701,8 @@ function retake(){
 })();
 </script>
 
+<script>
+(function(){var e=null;try{e=localStorage.getItem("mc_email")}catch(x){}if(e){var el=document.getElementById("quiz-member-link");if(el)el.style.display="inline-flex";}})();
+</script>
 </body>
 </html>
