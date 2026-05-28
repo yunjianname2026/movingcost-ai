@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to MovingCOST.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#C8D9EE;
+  --bg:#F0F6FF;--bg2:#F8FBFF;--white:#FFFFFF;--border:#DDE8F5;
+  --green:#10B981;--green-l:#ECFDF5;--gold:#F59E0B;--gold-l:#FFFBEB;
+  --glass:rgba(255,255,255,0.82);--glass-b:rgba(255,255,255,0.92);
+  --shadow:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
+  --shadow-lg:0 20px 60px rgba(14,165,233,0.14),0 4px 16px rgba(10,22,40,0.08);
+  --r:12px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── 背景光晕 ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(14,165,233,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 90%, rgba(16,185,129,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(186,230,253,0.15) 0%, transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── 导航 ── */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:62px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);text-decoration:none}
+.logo span{color:var(--blue)}
+.nav-r{display:flex;align-items:center;gap:10px}
+.nav-link{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;padding:6px 14px;border-radius:99px;transition:var(--tr)}
+.nav-link:hover{background:var(--blue-l);color:var(--blue-d)}
+
+/* ── 主内容 ── */
+main{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:56px 24px 80px;
+  min-height:calc(100vh - 62px);
+}
+
+/* ── 欢迎卡片容器 ── */
+.welcome-wrap{
+  width:100%;max-width:520px;
+  animation:fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── 成功徽章 ── */
+.success-ring{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),#34D399);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  box-shadow:0 12px 32px rgba(16,185,129,0.30),0 0 0 8px rgba(16,185,129,0.08);
+  animation:popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+@keyframes popIn{from{transform:scale(0.3);opacity:0}to{transform:scale(1);opacity:1}}
+.success-ring svg{width:30px;height:30px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── 标题区 ── */
+.welcome-kicker{
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--blue);text-align:center;margin-bottom:10px;
+  animation:fadeUp 0.5s 0.2s both;
+}
+.welcome-h1{
+  font-family:'Outfit',sans-serif;font-size:clamp(26px,5vw,34px);
+  font-weight:800;letter-spacing:-0.5px;text-align:center;
+  color:var(--text);margin-bottom:12px;line-height:1.2;
+  animation:fadeUp 0.5s 0.25s both;
+}
+.welcome-h1 em{font-style:normal;color:var(--blue)}
+.welcome-sub{
+  font-size:15px;color:var(--mid);text-align:center;
+  line-height:1.6;margin-bottom:36px;max-width:400px;
+  margin-left:auto;margin-right:auto;
+  animation:fadeUp 0.5s 0.3s both;
+}
+
+/* ── 会员信息卡 ── */
+.member-card{
+  background:var(--glass-b);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  padding:24px 28px;
+  box-shadow:var(--shadow);
+  margin-bottom:16px;
+  animation:fadeUp 0.5s 0.35s both;
+}
+.member-card-row{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(221,232,245,0.6);
+}
+.member-card-row:last-child{border-bottom:none;padding-bottom:0}
+.member-card-row:first-child{padding-top:0}
+.mc-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:16px;
+}
+.mc-icon.blue{background:var(--blue-l)}
+.mc-icon.green{background:var(--green-l)}
+.mc-icon.gold{background:var(--gold-l)}
+.mc-label{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:2px}
+.mc-value{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--text)}
+.mc-value.email{font-size:14px;font-weight:600;color:var(--mid)}
+.mc-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--blue);background:var(--blue-l);
+  padding:3px 10px;border-radius:99px;
+  border:1px solid var(--blue-m);
+}
+.pts-number{
+  font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;
+  color:var(--gold);line-height:1;
+}
+.pts-suffix{font-size:13px;font-weight:600;color:var(--muted);margin-left:2px}
+
+/* ── 积分奖励提示 ── */
+.pts-earned{
+  background:linear-gradient(135deg,#FFFBEB,#FEF3C7);
+  border:1px solid rgba(245,158,11,0.2);
+  border-radius:var(--r);
+  padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:16px;
+  animation:fadeUp 0.5s 0.4s both;
+}
+.pts-earned-icon{font-size:22px;flex-shrink:0}
+.pts-earned-text{font-size:13px;color:#92400E;line-height:1.5}
+.pts-earned-text strong{font-weight:700;color:#78350F}
+
+/* ── 行动按钮 ── */
+.cta-stack{
+  display:flex;flex-direction:column;gap:10px;
+  animation:fadeUp 0.5s 0.45s both;
+}
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,var(--blue),var(--blue-d));
+  color:#fff;
+  font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;
+  padding:15px 28px;border-radius:99px;border:none;
+  cursor:pointer;text-decoration:none;
+  transition:var(--tr);letter-spacing:0.02em;
+  box-shadow:0 6px 20px rgba(14,165,233,0.30);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,#38BDF8,var(--blue));
+  transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(14,165,233,0.38);
+}
+.btn-secondary{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--glass);border:1px solid var(--border);
+  color:var(--mid);
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  padding:13px 24px;border-radius:99px;
+  cursor:pointer;text-decoration:none;
+  transition:var(--tr);
+}
+.btn-secondary:hover{
+  background:var(--white);border-color:var(--blue-m);color:var(--blue-d);
+  transform:translateY(-1px);box-shadow:0 4px 12px rgba(14,165,233,0.12);
+}
+.btn-ghost{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:transparent;border:none;
+  color:var(--muted);
+  font-size:13px;font-weight:500;
+  padding:10px 16px;border-radius:99px;
+  cursor:pointer;text-decoration:none;
+  transition:var(--tr);
+}
+.btn-ghost:hover{color:var(--blue);background:var(--blue-l)}
+
+/* ── 分隔线 ── */
+.divider{
+  display:flex;align-items:center;gap:12px;
+  color:var(--faint);font-size:12px;margin:4px 0;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* ── 邀请链接区 ── */
+.invite-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:20px 24px;
+  margin-top:16px;
+  animation:fadeUp 0.5s 0.5s both;
+}
+.invite-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.08em}
+.invite-row{display:flex;align-items:center;gap:8px}
+.invite-input{
+  flex:1;font-size:12px;color:var(--mid);
+  background:rgba(221,232,245,0.35);
+  border:1px solid var(--border);border-radius:8px;
+  padding:9px 12px;font-family:'DM Sans',sans-serif;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+  cursor:default;outline:none;
+}
+.btn-copy{
+  display:flex;align-items:center;gap:6px;
+  background:var(--blue-l);border:1px solid var(--blue-m);
+  color:var(--blue-d);font-size:12px;font-weight:700;
+  padding:8px 16px;border-radius:8px;border:none;
+  cursor:pointer;transition:var(--tr);white-space:nowrap;
+  font-family:'Outfit',sans-serif;
+}
+.btn-copy:hover{background:var(--blue-m);transform:translateY(-1px)}
+.btn-copy.copied{background:var(--green-l);color:var(--green);border-color:rgba(16,185,129,0.2)}
+.invite-hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.invite-hint strong{color:var(--gold);font-weight:700}
+
+/* ── 底部备注 ── */
+.welcome-footer{
+  text-align:center;margin-top:28px;
+  font-size:12px;color:var(--muted);line-height:1.6;
+  animation:fadeUp 0.5s 0.55s both;
+}
+.welcome-footer a{color:var(--blue);text-decoration:none}
+.welcome-footer a:hover{text-decoration:underline}
+
+/* ── 移动端 ── */
+@media(max-width:480px){
+  nav{padding:0 18px}
+  main{padding:36px 16px 60px}
+  .member-card{padding:18px 20px}
+  .btn-primary,.btn-secondary{font-size:14px;padding:13px 20px}
+  .pts-number{font-size:24px}
+  .invite-card{padding:16px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── 导航 ── -->
+<nav>
+  <a href="/" class="logo">Moving<span>COST</span>.ai</a>
+  <div class="nav-r">
+    <a href="/" class="nav-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ── 主内容 ── -->
+<main>
+  <div class="welcome-wrap">
+
+    <!-- 成功图标 -->
+    <div class="success-ring">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <!-- 标题 -->
+    <div class="welcome-kicker">Member Since Today</div>
+    <h1 class="welcome-h1">Welcome to <em>MovingCOST.ai</em></h1>
+    <p class="welcome-sub">Your profile, points and reports are now saved. This is your personal space for smarter global relocation.</p>
+
+    <!-- 会员信息卡 -->
+    <div class="member-card">
+      <div class="member-card-row">
+        <div class="mc-icon blue">✉️</div>
+        <div>
+          <div class="mc-label">Member Account</div>
+          <div class="mc-value email" id="display-email">—</div>
+        </div>
+        <div style="margin-left:auto">
+          <span class="mc-badge">✦ Free Member</span>
+        </div>
+      </div>
+      <div class="member-card-row">
+        <div class="mc-icon gold">⭐</div>
+        <div>
+          <div class="mc-label">MovingCOST Points</div>
+          <div>
+            <span class="pts-number" id="display-pts">0</span>
+            <span class="pts-suffix">pts</span>
+          </div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:11px;color:var(--muted);font-weight:500">Earned today</div>
+          <div id="pts-earned-today" style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--gold)">+30 pts</div>
+        </div>
+      </div>
+      <div class="member-card-row">
+        <div class="mc-icon green">🗺️</div>
+        <div>
+          <div class="mc-label">EarthSoul Type</div>
+          <div class="mc-value" id="display-type">Complete the quiz to discover yours</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 积分奖励提示 -->
+    <div class="pts-earned" id="pts-earned-banner">
+      <div class="pts-earned-icon">🎉</div>
+      <div class="pts-earned-text">
+        <strong>+30 points added to your account!</strong><br>
+        Welcome bonus for joining MovingCOST.ai. Earn more by inviting friends and unlocking reports.
+      </div>
+    </div>
+
+    <!-- 行动按钮 -->
+    <div class="cta-stack">
+      <a href="/member" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Enter Member Center
+      </a>
+      <div class="divider">or</div>
+      <a href="/planner" class="btn-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Plan My Move Now
+      </a>
+      <a href="/" class="btn-ghost">Back to MovingCOST.ai →</a>
+    </div>
+
+    <!-- 邀请链接 -->
+    <div class="invite-card">
+      <div class="invite-label">🔗 Your Invite Link</div>
+      <div class="invite-row">
+        <input class="invite-input" id="invite-input" readonly value="Loading..." type="text">
+        <button class="btn-copy" id="copy-btn" onclick="copyInvite()">Copy</button>
+      </div>
+      <div class="invite-hint">Share your link — friends get <strong>+20 pts</strong> and you earn <strong>+50 pts</strong> for every signup.</div>
+    </div>
+
+    <!-- 底部备注 -->
+    <div class="welcome-footer">
+      Questions? <a href="mailto:hello@movingcost.ai">hello@movingcost.ai</a>
+      &nbsp;·&nbsp; <a href="/">movingcost.ai</a>
+      &nbsp;·&nbsp; No spam, ever.
+    </div>
+
+  </div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── 读取 localStorage ──
+  var email = '';
+  var referralLink = '';
+  var quizType = '';
+  var points = 0;
+
+  try {
+    email = localStorage.getItem('mc_email') || '';
+    referralLink = localStorage.getItem('mc_referral_link') || '';
+    var quizRaw = localStorage.getItem('mc_quiz_result');
+    if(quizRaw){
+      var q = JSON.parse(quizRaw);
+      quizType = q.type_name || q.primary_type || '';
+    }
+  } catch(e){}
+
+  // ── 显示邮箱 ──
+  var emailEl = document.getElementById('display-email');
+  if(emailEl) emailEl.textContent = email || '—';
+
+  // ── 显示 EarthSoul 类型 ──
+  var typeEl = document.getElementById('display-type');
+  if(typeEl && quizType) typeEl.textContent = quizType;
+
+  // ── 邀请链接 ──
+  var inviteInput = document.getElementById('invite-input');
+  if(inviteInput){
+    if(referralLink){
+      inviteInput.value = referralLink;
+    } else if(email){
+      inviteInput.value = 'https://www.movingcost.ai/?ref=loading';
+    } else {
+      inviteInput.value = 'Please bind your email first';
+    }
+  }
+
+  // ── 从 API 获取积分 ──
+  if(email){
+    fetch('/api/user?email=' + encodeURIComponent(email))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(d && d.user){
+          var pts = d.user.total_points || 0;
+          var ptsEl = document.getElementById('display-pts');
+          if(ptsEl){
+            // 数字滚动动画
+            var start = 0;
+            var end = pts;
+            var duration = 800;
+            var startTime = null;
+            function animatePts(ts){
+              if(!startTime) startTime = ts;
+              var progress = Math.min((ts - startTime) / duration, 1);
+              var ease = 1 - Math.pow(1 - progress, 3);
+              ptsEl.textContent = Math.round(start + (end - start) * ease);
+              if(progress < 1) requestAnimationFrame(animatePts);
+            }
+            requestAnimationFrame(animatePts);
+          }
+          // 更新邀请链接
+          if(d.user.referral_code){
+            var link = 'https://www.movingcost.ai/?ref=' + d.user.referral_code;
+            localStorage.setItem('mc_referral_link', link);
+            if(inviteInput) inviteInput.value = link;
+          }
+        }
+      })
+      .catch(function(){});
+  }
+
+  // ── 复制邀请链接 ──
+  window.copyInvite = function(){
+    var val = document.getElementById('invite-input').value;
+    var btn = document.getElementById('copy-btn');
+    if(!val || val === 'Please bind your email first') return;
+    navigator.clipboard.writeText(val).then(function(){
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(function(){
+      // 降级方案
+      var ta = document.createElement('textarea');
+      ta.value = val;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  };
+
+  // ── 如果没有邮箱，跳转到 member 绑定 ──
+  if(!email){
+    document.getElementById('pts-earned-banner').style.display = 'none';
+    var kicker = document.querySelector('.welcome-kicker');
+    if(kicker) kicker.textContent = 'Join MovingCOST.ai';
+    var h1 = document.querySelector('.welcome-h1');
+    if(h1) h1.innerHTML = 'Your Personal <em>Moving Hub</em>';
+    var sub = document.querySelector('.welcome-sub');
+    if(sub) sub.textContent = 'Save your reports, track points and access your full member dashboard — all in one place.';
+  }
+
+})();
+</script>
+</body>
+</html>
