@@ -1626,6 +1626,12 @@ function retake(){
     } catch (e) {
       console.warn('Report email failed:', e.message);
     }
+
+    // ── 绑定成功 → 跳转 welcome 页面 ──
+    lsSet('mc_email', val);
+    setTimeout(() => {
+      window.location.href = '/welcome';
+    }, 1500);
   };
 
   // ── 覆盖现有函数：downloadCard ────────────────────────────────
