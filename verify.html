@@ -249,6 +249,7 @@
         // 4. 登录成功 — 写入localStorage
         const user = data.user;
         localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('mc_email', user.email);
         localStorage.setItem('userId', user.id);
         localStorage.setItem('userPoints', String(user.points || 0));
         localStorage.setItem('referralCode', user.referralCode || '');
