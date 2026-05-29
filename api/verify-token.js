@@ -23,18 +23,34 @@ export default async function handler(req, res) {
 
   try {
     const rows = await db('GET', `/magic_tokens?token=eq.${encodeURIComponent(token)}&limit=1`);
-    if (!rows || rows.length === 0) return res.status(401).json({ error: 'invalid_token' });
+
+    if (!rows || !Array.isArray(rows) || rows.length === 0) {
+      return res.status(401).json({ error: 'invalid_token', message: 'This login link is invalid.' });
+    }
 
     const tokenRow = rows[0];
-    if (tokenRow.used) return res.status(401).json({ error: 'token_used' });
-    if (new Date(tokenRow.expires_at) < new Date()) return res.status(401).json({ error: 'token_expired' });
 
+    if (tokenRow.used === true) {
+      return res.status(401).json({ error: 'token_used', message: 'This login link has already been used.' });
+    }
+
+    if (new Date(tokenRow.expires_at) < new Date()) {
+      return res.status(401).json({ error: 'token_expired', message: 'This login link has expired.' });
+    }
+
+    // 标记已使用
     await db('PATCH', `/magic_tokens?token=eq.${encodeURIComponent(token)}`, { used: true });
 
+    // 查用户
     const users = await db('GET', `/users?email=eq.${encodeURIComponent(tokenRow.email)}&limit=1`);
-    if (!users || users.length === 0) return res.status(404).json({ error: 'user_not_found' });
+
+    if (!users || !Array.isArray(users) || users.length === 0) {
+      return res.status(404).json({ error: 'user_not_found', message: 'Account not found.' });
+    }
 
     const user = users[0];
+
+    // 更新last_seen_at
     await db('PATCH', `/users?id=eq.${user.id}`, { last_seen_at: new Date().toISOString() });
 
     return res.status(200).json({
@@ -49,6 +65,7 @@ export default async function handler(req, res) {
         status: user.status
       }
     });
+
   } catch (err) {
     console.error('Verify error:', err.message);
     return res.status(500).json({ error: 'Internal server error', detail: err.message });
