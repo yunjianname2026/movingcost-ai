@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logging you in… — MovingCOST.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #0EA5E9;
+      --blue-dark: #0284C7;
+      --text: #0F172A;
+      --text-mid: #475569;
+      --text-muted: #94A3B8;
+      --bg: #F0F6FF;
+      --border: #E2E8F0;
+      --success: #10B981;
+      --error: #EF4444;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Logo */
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 48px;
+      letter-spacing: -0.3px;
+    }
+    .logo span { color: var(--blue); }
+    .logo sup { font-size: 11px; color: var(--blue); }
+
+    /* Card */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(14, 165, 233, 0.08);
+    }
+
+    /* States */
+    .icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 28px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 32px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--blue-dark); }
+    .btn-outline {
+      background: transparent;
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+      margin-left: 8px;
+    }
+    .btn-outline:hover { background: #E0F2FE; }
+
+    /* Hidden by default */
+    .state { display: none; }
+    .state.active { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="logo">Moving<span>COST</span><sup>ai</sup></div>
+
+  <div class="card">
+
+    <!-- State: Loading -->
+    <div id="state-loading" class="state active">
+      <div class="spinner"></div>
+      <h1>Logging you in…</h1>
+      <p>Verifying your link, please wait.</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+    </div>
+
+    <!-- State: Success -->
+    <div id="state-success" class="state">
+      <div class="icon">✅</div>
+      <h1>You're in!</h1>
+      <p>Login successful. Redirecting to your dashboard…</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-redirect" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- State: Error — token invalid/used -->
+    <div id="state-error-used" class="state">
+      <div class="icon">🔗</div>
+      <h1>Link already used</h1>
+      <p>This login link has already been used or has expired.<br>Please request a new one.</p>
+      <a href="/login" class="btn">Request New Link</a>
+    </div>
+
+    <!-- State: Error — expired -->
+    <div id="state-error-expired" class="state">
+      <div class="icon">⏰</div>
+      <h1>Link expired</h1>
+      <p>This link was valid for 30 minutes. Please request a new login link.</p>
+      <a href="/login" class="btn">Request New Link</a>
+    </div>
+
+    <!-- State: Error — generic -->
+    <div id="state-error-generic" class="state">
+      <div class="icon">⚠️</div>
+      <h1>Something went wrong</h1>
+      <p id="error-message">Unable to verify your login link.</p>
+      <a href="/login" class="btn">Try Again</a>
+      <a href="/" class="btn btn-outline">Home</a>
+    </div>
+
+    <!-- State: No token -->
+    <div id="state-no-token" class="state">
+      <div class="icon">🔍</div>
+      <h1>No login link found</h1>
+      <p>This page needs a valid login link. Head to login to get one.</p>
+      <a href="/login" class="btn">Go to Login</a>
+    </div>
+
+  </div>
+
+  <script>
+    // ── 工具函数 ──────────────────────────────────────
+    function showState(id) {
+      document.querySelectorAll('.state').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function animateProgress(id, targetPct, durationMs) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const start = performance.now();
+      function step(now) {
+        const pct = Math.min(((now - start) / durationMs) * targetPct, targetPct);
+        el.style.width = pct + '%';
+        if (pct < targetPct) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // ── 主流程 ────────────────────────────────────────
+    (async () => {
+      // 1. 读取URL中的token
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+
+      if (!token) {
+        showState('state-no-token');
+        return;
+      }
+
+      // 2. 进度动画（视觉反馈）
+      animateProgress('progress', 80, 1500);
+
+      try {
+        // 3. 调用后端验证
+        const res = await fetch(`/api/verify-token?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          // 根据错误类型显示对应状态
+          const errCode = data?.error || '';
+          if (errCode === 'token_used' || errCode === 'invalid_token') {
+            showState('state-error-used');
+          } else if (errCode === 'token_expired') {
+            showState('state-error-expired');
+          } else {
+            document.getElementById('error-message').textContent =
+              data?.message || 'Unable to verify your login link.';
+            showState('state-error-generic');
+          }
+          return;
+        }
+
+        // 4. 登录成功 — 写入localStorage
+        const user = data.user;
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userPoints', String(user.points || 0));
+        localStorage.setItem('referralCode', user.referralCode || '');
+        localStorage.setItem('membershipTier', user.membershipTier || '');
+        localStorage.setItem('membershipStatus', user.membershipStatus || '');
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('loginTimestamp', String(Date.now()));
+
+        // 5. 显示成功状态 + 跳转动画
+        showState('state-success');
+        animateProgress('progress-redirect', 100, 1800);
+
+        setTimeout(() => {
+          window.location.href = '/member';
+        }, 2000);
+
+      } catch (err) {
+        console.error('Verify error:', err);
+        document.getElementById('error-message').textContent =
+          'Network error. Please check your connection and try again.';
+        showState('state-error-generic');
+      }
+    })();
+  </script>
+
+</body>
+</html>
