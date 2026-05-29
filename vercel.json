@@ -1,9 +1,6 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
-    { "source": "/earthsoul", "destination": "/quiz" },
-    { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/nyc-to-lisbon", "destination": "/blog/nyc-to-lisbon.html" },
     { "source": "/planner", "destination": "/planner.html" },
     { "source": "/about", "destination": "/about.html" },
@@ -11,16 +8,23 @@
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]
     },
     {
       "source": "/(.*\\.jpg|.*\\.png|.*\\.svg|.*\\.ico)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
   ]
