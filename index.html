@@ -872,6 +872,9 @@ document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
       if(mobileSignIn) mobileSignIn.style.display = 'none';
     var mobileCta = document.getElementById('mobile-main-cta');
     if(mobileCta){ mobileCta.textContent = 'My Dashboard →'; mobileCta.href = '/member'; }
+  } else {
+    var navCta = document.getElementById('nav-main-cta');
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
   }
 })();
 </script>
