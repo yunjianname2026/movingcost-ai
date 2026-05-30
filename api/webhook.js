@@ -30,7 +30,6 @@ async function handler(req, res) {
     event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err) {
     console.error('Webhook signature error:', err.message);
-    // Return 400 only for signature errors (Stripe should not retry bad sigs)
     return res.status(400).json({ error: 'Webhook signature error: ' + err.message });
   }
 
@@ -85,46 +84,103 @@ function buildEmailHTML(name, sessionId, amount) {
   const firstName = (name || 'there').split(' ')[0];
   const reportUrl = 'https://movingcost.ai/thank-you?session=' + sessionId;
 
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>' +
-    '<body style="margin:0;padding:0;background:#F8FAFC;font-family:Arial,Helvetica,sans-serif;">' +
-    '<div style="max-width:600px;margin:0 auto;padding:40px 20px;">' +
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background:#EFF6FF;font-family:'DM Sans',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td align="center" style="padding:48px 20px;">
+<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
-    // Header
-    '<div style="background:linear-gradient(135deg,#0F172A 0%,#0C2340 60%,#0E3D5C 100%);border-radius:16px;padding:48px 40px;text-align:center;margin-bottom:24px;">' +
-    '<div style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#BAE6FD;margin-bottom:16px;">Payment Confirmed</div>' +
-    '<h1 style="margin:0;font-size:34px;font-weight:800;color:#fff;letter-spacing:-1px;">Moving<span style="color:#0EA5E9;">COST</span>.ai</h1>' +
-    '<p style="margin:14px 0 0;color:rgba(255,255,255,0.65);font-size:16px;">Your AI planning report is ready</p>' +
-    '</div>' +
+  <!-- HEADER -->
+  <tr><td style="background:linear-gradient(135deg,#0F172A 0%,#0B2545 100%);border-radius:16px 16px 0 0;padding:36px 44px;">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td>
+        <div style="font-family:Outfit,Arial,sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:-0.5px;">
+          Moving<span style="color:#0EA5E9;">COST</span><span style="font-size:13px;color:#7DD3FC;font-weight:500;vertical-align:super;margin-left:1px;">.ai</span>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;">Payment Confirmed</div>
+      </td>
+      <td align="right">
+        <div style="background:rgba(16,185,129,0.20);border:1px solid rgba(16,185,129,0.40);border-radius:20px;padding:6px 14px;display:inline-block;">
+          <span style="font-size:13px;font-weight:700;color:#34D399;">✓ $${amount} paid</span>
+        </div>
+      </td>
+    </tr></table>
+  </td></tr>
 
-    // Card
-    '<div style="background:#fff;border-radius:16px;padding:36px 40px;border:1px solid #E2E8F0;margin-bottom:16px;">' +
-    '<h2 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#0F172A;">Hi ' + firstName + '! 👋</h2>' +
-    '<p style="margin:0 0 22px;color:#64748B;font-size:15px;line-height:1.7;">Thank you for your purchase. Enter your email on the thank-you page to generate and receive your complete AI planning report.</p>' +
+  <!-- BODY -->
+  <tr><td style="background:#ffffff;padding:44px 44px 36px;">
+    <h1 style="margin:0 0 10px;font-family:Outfit,Arial,sans-serif;font-size:28px;font-weight:800;color:#0F172A;letter-spacing:-0.5px;line-height:1.2;">
+      Hi ${firstName}! 👋<br>Your report is ready
+    </h1>
+    <p style="margin:0 0 36px;font-size:15px;color:#475569;line-height:1.65;">
+      Thank you for your purchase. Head to your report page, enter your email, and your complete AI planning report will be generated and sent to you within 60 seconds.
+    </p>
 
-    // Payment badge
-    '<div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:14px 18px;margin-bottom:24px;">' +
-    '<div style="font-size:13px;font-weight:700;color:#0F172A;">✅ Payment Successful — $' + amount + '</div>' +
-    '<div style="font-size:11px;color:#94A3B8;margin-top:4px;">Ref: ' + sessionId.slice(0, 28) + '...</div>' +
-    '</div>' +
+    <!-- CTA Button -->
+    <table cellpadding="0" cellspacing="0" style="margin-bottom:36px;">
+      <tr><td style="background:#0EA5E9;border-radius:10px;box-shadow:0 4px 14px rgba(14,165,233,0.30);">
+        <a href="${reportUrl}" style="display:inline-block;padding:16px 44px;font-family:Outfit,Arial,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;letter-spacing:-0.2px;">
+          Go to My Report →
+        </a>
+      </td></tr>
+    </table>
 
-    // CTA
-    '<div style="text-align:center;">' +
-    '<a href="' + reportUrl + '" style="display:inline-block;background:#0EA5E9;color:#fff;padding:14px 36px;border-radius:99px;text-decoration:none;font-weight:700;font-size:15px;">Go to My Report →</a>' +
-    '<p style="margin:10px 0 0;font-size:12px;color:#94A3B8;">Or open: <a href="' + reportUrl + '" style="color:#0EA5E9;">' + reportUrl + '</a></p>' +
-    '</div></div>' +
+    <!-- What's included -->
+    <div style="background:#F8FBFF;border:1px solid #E2E8F0;border-radius:12px;padding:22px 24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:14px;">Your report includes</div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="width:50%;padding-bottom:10px;font-size:14px;color:#0F172A;">📊 Full cost breakdown</td>
+          <td style="width:50%;padding-bottom:10px;font-size:14px;color:#0F172A;">🏠 Housing deep dive</td>
+        </tr>
+        <tr>
+          <td style="padding-bottom:10px;font-size:14px;color:#0F172A;">🛂 Visa pathway</td>
+          <td style="padding-bottom:10px;font-size:14px;color:#0F172A;">💰 Tax strategy</td>
+        </tr>
+        <tr>
+          <td style="font-size:14px;color:#0F172A;">📅 90-day action plan</td>
+          <td style="font-size:14px;color:#0F172A;">⚠️ Hidden cost alerts</td>
+        </tr>
+      </table>
+    </div>
 
-    // Regeneration guarantee
-    '<div style="background:#FFF7ED;border:1.5px solid #FCD34D;border-radius:12px;padding:20px 24px;margin-bottom:16px;text-align:center;">' +
-    '<p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#92400E;">📋 Not satisfied with your report?</p>' +
-    '<p style="margin:0;font-size:13px;color:#B45309;line-height:1.7;">Reply to this email within <strong>7 days</strong> and we\'ll regenerate it once for free.</p>' +
-    '</div>' +
+    <!-- Guarantee -->
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:16px 22px;margin-bottom:32px;">
+      <table width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td style="font-size:20px;width:32px;vertical-align:top;">📋</td>
+        <td style="padding-left:12px;vertical-align:top;">
+          <div style="font-size:13px;font-weight:700;color:#92400E;">Not satisfied with your report?</div>
+          <div style="font-size:13px;color:#B45309;margin-top:3px;line-height:1.5;">Reply within <strong>7 days</strong> and we'll regenerate it once for free.</div>
+        </td>
+      </tr></table>
+    </div>
 
-    // Footer
-    '<div style="text-align:center;padding:20px 0;">' +
-    '<p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#0F172A;">MovingCOST.ai</p>' +
-    '<p style="margin:0;font-size:12px;color:#94A3B8;">Questions? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;">support@movingcost.ai</a></p>' +
-    '<p style="margin:8px 0 0;font-size:11px;color:#CBD5E1;">AI-generated planning estimates only · Not legal, tax, or immigration advice</p>' +
-    '</div>' +
+    <!-- Ref -->
+    <div style="border-top:1px solid #F1F5F9;padding-top:18px;">
+      <p style="margin:0;font-size:12px;color:#94A3B8;">
+        Payment ref: <span style="font-family:monospace;color:#64748B;">${sessionId.slice(0,28)}...</span>
+      </p>
+    </div>
+  </td></tr>
 
-    '</div></body></html>';
+  <!-- FOOTER -->
+  <tr><td style="background:#F8FBFF;border-radius:0 0 16px 16px;padding:22px 44px;border-top:1px solid #E2E8F0;">
+    <p style="margin:0;font-size:12px;color:#94A3B8;line-height:1.7;">
+      Questions? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;text-decoration:none;">support@movingcost.ai</a>
+      &nbsp;·&nbsp; © 2025 CLASSIC SPREAD INC &nbsp;·&nbsp;
+      <a href="https://movingcost.ai" style="color:#0EA5E9;text-decoration:none;">movingcost.ai</a><br>
+      <span style="font-size:11px;color:#CBD5E1;">AI-generated planning estimates only · Not legal, tax, or immigration advice</span>
+    </p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
 }
