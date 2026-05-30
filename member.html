@@ -488,8 +488,8 @@ function renderDashboard(data){
   const { user, points, recent_events } = data;
 
   const navTier = document.getElementById('nav-tier');
-  navTier.style.display = 'inline-flex';
-  navTier.textContent   = tierLabel(user.membership_tier);
+  if(navTier) navTier.style.display = 'inline-flex';
+  if(navTier) navTier.textContent = tierLabel(user.membership_tier);
 
   document.getElementById('dash-avatar').textContent = avatarEmoji(user.membership_tier);
   document.getElementById('dash-name').textContent   = user.email.split('@')[0] || 'Member';
