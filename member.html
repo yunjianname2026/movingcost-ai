@@ -193,6 +193,7 @@ a{text-decoration:none;color:inherit}
   <div class="nav-right">
     <span class="nav-badge" id="nav-tier" style="display:none">Free Member</span>
     <a href="/" class="nav-home">← Home</a>
+      <a href="#" class="nav-home" onclick="signOut()" style="color:var(--text-muted)">Sign Out</a>
   </div>
 </nav>
 
@@ -459,6 +460,11 @@ function showGate(pointsAvailable, showError){
     document.getElementById('gate-perks-list').style.display = 'none';
   }
   document.getElementById('email-gate').style.display = 'block';
+}
+
+function signOut(){
+  localStorage.clear();
+  window.location.href = "/";
 }
 
 async function init(){
