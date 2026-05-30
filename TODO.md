@@ -64,3 +64,12 @@
 - API-创建付款：/api/create-checkout.js
 - Webhook：/api/webhook.js
 - 站点地图：/sitemap.xml
+## 2026-05-29 完成 ✅
+- [x] earthsoul.html 品牌统一（rename from quiz.html）
+- [x] Magic Link 流程跑通
+- [x] verify.html 写入 mc_email + userEmail
+
+## 待办
+- [ ] 测试导航栏"My Dashboard"是否正常显示
+- [ ] Welcome Email（新用户绑定邮箱时发送）
+- [ ] CHANGELOG.md 推送到GitHub
