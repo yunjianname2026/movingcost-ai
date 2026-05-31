@@ -131,6 +131,57 @@
     }
     .nav-cta:hover { background: var(--blue-dark) !important; color: white !important; }
 
+    /* ── 汉堡菜单按钮 ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.24s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── 手机端展开菜单 ── */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      inset: 60px 0 0 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      z-index: 199;
+      flex-direction: column;
+      padding: 28px 24px;
+      gap: 4px;
+      border-top: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .nav-mobile a:last-child { border: none; }
+    .nav-mobile a:hover { color: var(--blue); }
+
     /* ── MOBILE ── */
     .breadcrumb {
       max-width: 740px;
@@ -407,6 +458,8 @@
     /* ── MOBILE ── */
     @media (max-width: 600px) {
       .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
       .cta-box { padding: 36px 24px; }
       .article-body h2 { margin-top: 40px; }
     }
@@ -423,10 +476,23 @@
       <li><a href="/planner">AI Planner</a></li>
       <li><a href="/earthsoul">EarthSoul Quiz</a></li>
       <li><a href="/blog">Blog</a></li>
-      <li><a href="/earthsoul" class="nav-cta">Find Your City Soul →</a></li>
+      <li><a href="/earthsoul" class="nav-cta" id="nav-main-cta">Find Your City Soul →</a></li>
     </ul>
+    <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
+  <a href="/planner" onclick="closeMenu()">AI Planner</a>
+  <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/about" onclick="closeMenu()">About</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
+</div>
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
@@ -598,6 +664,13 @@
 <section class="related-section">
   <h4>Continue Reading</h4>
   <div class="related-links">
+    <a href="/blog/nyc-to-lisbon" class="related-link">
+      <div class="related-link-icon">✈️</div>
+      <div>
+        <div class="related-link-text">Moving from New York to Lisbon: How Much Can You Actually Save?</div>
+        <div class="related-link-sub">Real numbers · 9 min read · Relocation Guide</div>
+      </div>
+    </a>
     <a href="/earthsoul" class="related-link">
       <div class="related-link-icon">🌍</div>
       <div>
@@ -612,11 +685,11 @@
         <div class="related-link-sub">Full cost breakdown for your next city · From $9.90</div>
       </div>
     </a>
-    <a href="/" class="related-link">
-      <div class="related-link-icon">🏠</div>
+    <a href="/blog" class="related-link">
+      <div class="related-link-icon">📖</div>
       <div>
-        <div class="related-link-text">Explore MovingCOST.ai</div>
-        <div class="related-link-sub">AI-powered tools for smarter relocation decisions</div>
+        <div class="related-link-text">Browse All City Soul Journal Articles</div>
+        <div class="related-link-sub">More guides on relocation, city life, and finding your place</div>
       </div>
     </a>
   </div>
@@ -636,12 +709,33 @@
 </footer>
 
 <script>
+// 汉堡菜单
+var menuBtn = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+function closeMenu() {
+  mobileMenu.classList.remove('open');
+  menuBtn.classList.remove('open');
+}
+menuBtn.addEventListener('click', function() {
+  mobileMenu.classList.toggle('open');
+  menuBtn.classList.toggle('open');
+});
+document.addEventListener('click', function(e) {
+  if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
+});
+</script>
+<script>
+// 导航动态 Sign In / My Dashboard
 (function(){
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   var navCta = document.getElementById('nav-main-cta');
   if(email){
     if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; }
+    var mobileMember = document.getElementById('mobile-member-cta');
+    if(mobileMember) mobileMember.style.display = 'block';
+    var mobileSignIn = document.getElementById('mobile-signin-link');
+    if(mobileSignIn) mobileSignIn.style.display = 'none';
   } else {
     if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
   }
