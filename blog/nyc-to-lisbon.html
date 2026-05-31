@@ -63,7 +63,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:rgba(14,165,233,0.25);color:#7DD3FC;border:1px solid rgba(14,165,233,0.35)}
 .article-date{font-size:13px;color:rgba(255,255,255,0.55);font-weight:400}
 .article-read{font-size:13px;color:rgba(255,255,255,0.45)}
-.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:700;letter-spacing:-1.2px;line-height:1.10;color:#fff;margin-bottom:18px}
+.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:500;letter-spacing:-1.2px;line-height:1.10;color:#fff;margin-bottom:18px;text-wrap:balance}
 .article-title em{font-style:normal;color:#38BDF8}
 .article-intro{font-size:18px;color:rgba(255,255,255,0.70);line-height:1.75;font-weight:300;margin-bottom:28px}
 .author-row{display:flex;align-items:center;gap:12px}
@@ -74,7 +74,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .article-body p{font-size:17px;color:#1E3A5F;line-height:1.85;margin-bottom:24px;font-weight:300}
 .article-body p strong{color:var(--text);font-weight:600}
 .article-body p em{font-style:italic;color:var(--mid)}
-.article-body h2{font-family:'Outfit',sans-serif;font-size:clamp(22px,2.5vw,30px);font-weight:700;letter-spacing:-0.4px;color:var(--text);margin:56px 0 20px;line-height:1.25}
+.article-body h2{font-family:'Outfit',sans-serif;font-size:clamp(22px,2.5vw,30px);font-weight:500;letter-spacing:-0.4px;color:var(--text);margin:56px 0 20px;line-height:1.25}
 .article-body h3{font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.2px;color:var(--text);margin:36px 0 14px}
 .article-body ul,.article-body ol{padding-left:22px;margin-bottom:24px}
 .article-body li{font-size:17px;color:#1E3A5F;line-height:1.8;margin-bottom:8px;font-weight:300}
@@ -111,7 +111,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-card{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);border-radius:var(--r-xl);padding:48px 40px;text-align:center;margin:56px 0;position:relative;overflow:hidden}
 .cta-card::before{content:'';position:absolute;top:-60px;right:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%);pointer-events:none}
 .cta-card-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:14px}
-.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.5px;color:#fff !important;line-height:1.2;margin-bottom:12px}
+.cta-card-title{font-family:'Outfit',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:500;letter-spacing:-0.5px;color:#fff !important;line-height:1.2;margin-bottom:12px}
 .cta-card-sub{font-size:15px;color:rgba(255,255,255,0.65) !important;margin-bottom:28px;line-height:1.7;font-weight:300}
 .article-body .cta-card p{color:rgba(255,255,255,0.65) !important}
 .cta-card-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--blue);color:#fff;padding:14px 32px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
@@ -120,7 +120,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-trust span{font-size:12px;color:rgba(255,255,255,0.45);display:flex;align-items:center;gap:5px}
 .cta-trust span::before{content:'';width:4px;height:4px;background:var(--green);border-radius:50%;flex-shrink:0}
 .related{padding:64px 0;background:var(--bg);border-top:1px solid var(--border)}
-.related-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:24px}
+.related-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:500;letter-spacing:-0.3px;color:var(--text);margin-bottom:24px}
 .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .related-card{background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--r-xl);padding:24px;box-shadow:var(--shadow-glass);transition:transform var(--tr),box-shadow var(--tr)}
 .related-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(14,165,233,0.12)}
@@ -177,7 +177,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
       <a href="/blog">Blog</a>
       <a href="/about">About</a>
     </div>
-    <a href="/planner" class="nav-cta">Start Free Plan →</a>
+    <a href="/login" class="nav-cta" id="nav-main-cta">Sign In</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -193,7 +193,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
 <!-- ARTICLE HERO -->
@@ -498,6 +499,22 @@ function closeMenu(){
 document.addEventListener('click',function(e){
   if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu();
 });
+</script>
+<script>
+(function(){
+  var email = null;
+  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  var navCta = document.getElementById('nav-main-cta');
+  if(email){
+    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; }
+    var mobileMember = document.getElementById('mobile-member-cta');
+    if(mobileMember) mobileMember.style.display = 'block';
+    var mobileSignIn = document.getElementById('mobile-signin-link');
+    if(mobileSignIn) mobileSignIn.style.display = 'none';
+  } else {
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
+  }
+})();
 </script>
 </body>
 </html>
