@@ -355,5 +355,21 @@ var observer=new IntersectionObserver(function(entries){
 },{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 </script>
+<script>
+(function(){
+  var email=null;
+  try{email=localStorage.getItem('mc_email');}catch(e){}
+  var navCta=document.getElementById('nav-main-cta');
+  if(email){
+    if(navCta){navCta.textContent='My Dashboard →';navCta.href='/member';}
+    var mm=document.getElementById('mobile-member-cta');
+    if(mm)mm.style.display='block';
+    var ms=document.getElementById('mobile-signin-link');
+    if(ms)ms.style.display='none';
+  } else {
+    if(navCta){navCta.textContent='Sign In';navCta.href='/login';}
+  }
+})();
+</script>
 </body>
 </html>
