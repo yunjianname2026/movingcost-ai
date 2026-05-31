@@ -52,7 +52,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .hero::before{content:'';position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 68%);pointer-events:none}
 .hero-inner{max-width:1140px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 .tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:18px}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(32px,4vw,48px);font-weight:700;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:14px}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(32px,4vw,48px);font-weight:500;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:14px}
 .hero-title em{font-style:normal;color:var(--blue)}
 .hero-sub{font-size:17px;color:var(--mid);line-height:1.75;font-weight:300;max-width:560px}
 .container{max-width:1140px;margin:0 auto;padding:0 24px}
@@ -68,22 +68,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .featured-img::before{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(8,18,38,0.92) 0%, rgba(8,18,38,0.55) 50%, rgba(8,18,38,0.20) 100%);pointer-events:none;z-index:0}
 .featured-img-eyebrow,.featured-img-title{position:relative;z-index:1}
 .featured-img-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:12px}
-.featured-img-title{font-family:'Outfit',sans-serif;font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-0.5px;line-height:1.2;color:#fff}
+.featured-img-title{font-family:'Outfit',sans-serif;font-size:clamp(20px,2.5vw,28px);font-weight:500;letter-spacing:-0.5px;line-height:1.2;color:#fff}
 .featured-content{padding:40px 40px;display:flex;flex-direction:column;justify-content:center}
 .article-tag{display:inline-flex;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:16px;width:fit-content}
-.featured-content h2{font-family:'Outfit',sans-serif;font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-0.4px;color:var(--text);line-height:1.28;margin-bottom:12px}
+.featured-content h2{font-family:'Outfit',sans-serif;font-size:clamp(20px,2vw,26px);font-weight:500;letter-spacing:-0.4px;color:var(--text);line-height:1.28;margin-bottom:12px}
 .featured-content p{font-size:15px;color:var(--mid);line-height:1.75;margin-bottom:24px;font-weight:300}
 .featured-meta{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);margin-bottom:24px}
 .read-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--blue);transition:gap var(--tr)}
 .read-btn:hover{gap:10px}
 .articles{padding:48px 0 80px}
-.articles-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:28px}
+.articles-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:500;letter-spacing:-0.3px;color:var(--text);margin-bottom:28px}
 .articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .article-card{background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--r-xl);box-shadow:var(--shadow-glass);padding:28px 24px;display:flex;flex-direction:column;transition:transform var(--tr),box-shadow var(--tr);position:relative;overflow:hidden}
 .article-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
 .article-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.12)}
 .article-card .article-tag{margin-bottom:14px}
-.article-card h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.2px;line-height:1.35;color:var(--text);margin-bottom:10px}
+.article-card h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-0.2px;line-height:1.35;color:var(--text);margin-bottom:10px}
 .article-card p{font-size:13px;color:var(--mid);line-height:1.7;flex:1;margin-bottom:20px;font-weight:300}
 .article-footer{display:flex;align-items:center;justify-content:space-between}
 .article-meta-small{font-size:12px;color:var(--muted)}
@@ -96,7 +96,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-strip{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);padding:64px 0;position:relative;overflow:hidden}
 .cta-strip::before{content:'';position:absolute;top:-60px;right:-40px;width:350px;height:350px;background:radial-gradient(circle,rgba(14,165,233,0.14) 0%,transparent 70%);pointer-events:none}
 .cta-inner{max-width:600px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
-.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-0.5px;color:#fff;line-height:1.18;margin-bottom:12px}
+.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:500;letter-spacing:-0.5px;color:#fff;line-height:1.18;margin-bottom:12px}
 .cta-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.7;font-weight:300}
 .cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
 .cta-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
@@ -152,7 +152,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
       <a href="/blog" class="active">Blog</a>
       <a href="/about">About</a>
     </div>
-    <a href="/planner" class="nav-cta">Start Free Plan →</a>
+    <a href="/login" class="nav-cta" id="nav-main-cta">Sign In</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -168,7 +168,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
   <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/planner" class="mobile-cta" onclick="closeMenu()">Start Free Plan →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
 <!-- HERO -->
@@ -232,11 +233,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
           <span class="article-link">Read →</span>
         </div>
       </a>
-      <div class="coming-card reveal">
-        <div class="coming-card-icon">🌍</div>
-        <div class="coming-card-title">Best Cities for Digital Nomads in 2026</div>
-        <div class="coming-card-sub">Coming soon</div>
-      </div>
+      <a href="/blog/living-in-the-wrong-city" class="article-card reveal">
+        <span class="article-tag" style="background:#EFF6FF;color:#0284C7;">City Soul Journal</span>
+        <h3>Maybe You Don't Dislike Your Life. Maybe You're Living in the Wrong City.</h3>
+        <p>Feeling out of place in your city? Explore the deeper relationship between personality, lifestyle, and the city that fits your soul.</p>
+        <div class="article-footer">
+          <span class="article-meta-small">May 2026 · 12 min</span>
+          <span class="article-link">Read →</span>
+        </div>
+      </a>
       <div class="coming-card reveal">
         <div class="coming-card-icon">💰</div>
         <div class="coming-card-title">Moving vs Selling Everything: Which Saves More?</div>
