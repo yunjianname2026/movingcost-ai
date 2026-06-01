@@ -378,8 +378,18 @@ async function sendReport() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email:email, name:'', userData:dataToSend, previewReport:previewReport })
     });
-    var result = await resp.json();
-    if (!resp.ok) throw new Error(result.error || 'Server error');
+
+    // 安全解析：先读text再JSON.parse，防止后端返回非JSON时崩溃
+    var raw = await resp.text();
+    var result;
+    try {
+      result = JSON.parse(raw);
+    } catch(parseErr) {
+      console.error('Non-JSON response from /api/send-report:', raw.slice(0, 300));
+      throw new Error('Server returned an unexpected response. Your payment is confirmed — please contact support@movingcost.ai and we will send your report manually.');
+    }
+
+    if (!resp.ok) throw new Error(result.error || result.detail || 'Server error');
 
     stopLoading(true);
     statusEl.className = 'send-status ok';
