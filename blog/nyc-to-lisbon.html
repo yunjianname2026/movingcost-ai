@@ -55,20 +55,22 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .nav-mobile a:hover{color:var(--blue)}
 .nav-mobile .mobile-cta{margin-top:20px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:15px;font-size:16px;font-weight:700}
 .article-wrap{max-width:740px;margin:0 auto;padding:0 24px}
-.article-hero{padding:0;background:#0A1628;margin-bottom:0;position:relative;overflow:hidden;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end}
-.article-hero-bg{position:absolute;inset:0;background:url('/blog/nyc-to-lisbon-cover.jpg') center center/cover no-repeat;opacity:0.45}
-.article-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,18,38,0.97) 0%,rgba(8,18,38,0.65) 55%,rgba(8,18,38,0.15) 100%)}
-.article-hero .article-wrap{position:relative;z-index:1;padding-top:80px;padding-bottom:56px;text-align:left}
+.article-hero{padding:0;background:var(--bg);margin-bottom:0;position:relative;overflow:hidden}
+.article-hero-bg{display:none}
+.article-hero-overlay{display:none}
+.article-hero .article-wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:0;text-align:left}
+.article-cover-img{width:100%;max-width:740px;margin:24px auto 0;display:block;height:420px;object-fit:cover;object-position:center;border-radius:16px;box-shadow:0 8px 40px rgba(14,165,233,0.12)}
+.article-cover-caption{max-width:740px;margin:12px auto 0;font-size:13px;color:var(--muted);font-style:italic;text-align:center;padding:0 24px}
 .article-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:rgba(14,165,233,0.25);color:#7DD3FC;border:1px solid rgba(14,165,233,0.35)}
+.article-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);border:1px solid var(--blue-m)}
 .article-date{font-size:13px;color:rgba(255,255,255,0.55);font-weight:400}
 .article-read{font-size:13px;color:rgba(255,255,255,0.45)}
-.article-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,50px);font-weight:500;letter-spacing:-1.2px;line-height:1.10;color:#fff;margin-bottom:18px;text-wrap:balance}
-.article-title em{font-style:normal;color:#38BDF8}
+.article-title{font-family:'Outfit',sans-serif;font-size:clamp(24px,4vw,38px);font-weight:500;letter-spacing:-0.5px;line-height:1.15;color:var(--text);margin-bottom:18px;text-wrap:balance}
+.article-title em{font-style:normal;color:var(--blue)}
 .article-intro{font-size:18px;color:rgba(255,255,255,0.70);line-height:1.75;font-weight:300;margin-bottom:28px}
 .author-row{display:flex;align-items:center;gap:12px}
 .author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38BDF8);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.author-name{font-size:14px;font-weight:600;color:#fff}
+.author-name{font-size:14px;font-weight:600;color:var(--text)}
 .author-bio{font-size:12px;color:rgba(255,255,255,0.50)}
 .article-body{padding:56px 0 80px}
 .article-body p{font-size:17px;color:#1E3A5F;line-height:1.85;margin-bottom:24px;font-weight:300}
@@ -218,6 +220,16 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
     </div>
   </div>
 </section>
+
+<!-- COVER IMAGE -->
+<img
+  src="/blog/nyc-to-lisbon-cover.jpg"
+  alt="View of Lisbon rooftops and the Tagus river at golden hour, representing the NYC to Lisbon relocation journey."
+  class="article-cover-img"
+  width="1200" height="420"
+  loading="eager"
+>
+<p class="article-cover-caption">Lisbon, Portugal — where a Brooklyn rent budget goes surprisingly far.</p>
 
 <!-- ARTICLE BODY -->
 <div class="article-body">
@@ -412,20 +424,24 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:56px 0 32px}
 <!-- RELATED -->
 <section class="related">
   <div class="article-wrap">
-    <div class="related-title">More Mobility Guides</div>
+    <div class="related-title">Continue Reading</div>
     <div class="related-grid">
-      <div class="related-card">
-        <span class="related-tag">Digital Nomad</span>
-        <h3>Best Cities for Digital Nomads in 2026</h3>
-        <p>We analyzed internet speed, cost of living, visa options, and community size across 50+ destinations.</p>
-        <span class="related-link">Read Guide →</span>
-      </div>
-      <div class="related-card">
-        <span class="related-tag">Finance</span>
-        <h3>Moving vs Selling Everything: Which Saves More?</h3>
-        <p>The real financial math behind shipping your belongings vs replacing them at your destination.</p>
-        <span class="related-link">Read Guide →</span>
-      </div>
+      <a href="/blog/living-in-the-wrong-city" style="text-decoration:none;color:inherit;">
+        <div class="related-card">
+          <span class="related-tag">City Soul Journal</span>
+          <h3>Maybe You Don't Dislike Your Life. Maybe You're Living in the Wrong City.</h3>
+          <p>Feeling out of place in your city? Explore the deeper relationship between personality, lifestyle, and the city that truly fits you.</p>
+          <span class="related-link">Read Article →</span>
+        </div>
+      </a>
+      <a href="/blog/8-city-soul-types" style="text-decoration:none;color:inherit;">
+        <div class="related-card">
+          <span class="related-tag">City Soul Journal</span>
+          <h3>8 City Soul Types — Which One Are You?</h3>
+          <p>Global Optimizer, Freedom Nomad, Nature Healer, Culture Seeker — discover which city personality type fits your life best.</p>
+          <span class="related-link">Read Article →</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
