@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome to MovingCOST.ai</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -48,7 +50,7 @@ nav{
   border-bottom:1px solid var(--border);
   position:sticky;top:0;z-index:100;
 }
-.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);text-decoration:none}
+.logo{flex-shrink:0;line-height:1}
 .logo span{color:var(--blue)}
 .nav-r{display:flex;align-items:center;gap:10px}
 .nav-link{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;padding:6px 14px;border-radius:99px;transition:var(--tr)}
@@ -265,7 +267,7 @@ main{
 
 <!-- ── 导航 ── -->
 <nav>
-  <a href="/" class="logo">Moving<span>COST</span>.ai</a>
+  <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:30px;width:auto;display:block;" loading="eager"></a>
   <div class="nav-r">
     <a href="/" class="nav-link">← Home</a>
   </div>

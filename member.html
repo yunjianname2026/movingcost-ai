@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Member Dashboard — MovingCOST.ai</title>
 <meta name="description" content="Your MovingCOST member dashboard. View your points, EarthSoul profile, reports and rewards.">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -28,8 +30,8 @@ a{text-decoration:none;color:inherit}
 
 /* ── NAV ── */
 .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.90);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
-.nav-logo .ac{color:var(--blue)}
+.nav-logo{flex-shrink:0;line-height:1}
+
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-badge{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid rgba(16,185,129,0.2);padding:4px 12px;border-radius:99px}
 .nav-home{font-size:13px;font-weight:500;color:var(--muted);padding:6px 14px;border-radius:99px;transition:var(--tr)}
@@ -189,7 +191,7 @@ a{text-decoration:none;color:inherit}
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="/" class="nav-logo">Moving<span class="ac">COST</span>.ai</a>
+  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:30px;width:auto;display:block;" loading="eager"></a>
   <div class="nav-right">
     
     <a href="/" class="nav-home">← Home</a>

@@ -33,14 +33,7 @@
     }
 
     /* Logo */
-    .logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 48px;
-      letter-spacing: -0.3px;
-    }
+    .logo{flex-shrink:0;line-height:1;display:inline-flex;align-items:center}
     .logo span { color: var(--blue); }
     .logo sup { font-size: 11px; color: var(--blue); }
 
@@ -131,10 +124,13 @@
     .state { display: none; }
     .state.active { display: block; }
   </style>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
 </head>
 <body>
 
-  <div class="logo">Moving<span>COST</span><sup>ai</sup></div>
+  <div class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:30px;width:auto;display:block;" loading="eager"></div>
 
   <div class="card">
 
