@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "why-people-change-after-moving",
+    "title": "Why Do Some People Change Completely After Moving to a New City?",
+    "cover": "/blog/images/city-change-after-moving-hero.png",
+    "label": "City Soul Journal",
+    "icon": "✨",
+    "date": "2026-06-02",
+    "readTime": "10 min read",
+    "excerpt": "A city is not just where you live. It is a life system that shapes your mood, habits, identity, and next chapter."
+  },
+  {
+    "slug": "8-city-soul-types",
+    "title": "8 City Soul Types — Which One Are You?",
+    "cover": "/blog/images/city-soul-types-overview-cover.webp",
+    "label": "City Soul Journal",
+    "icon": "🌍",
+    "date": "2026-06-01",
+    "readTime": "14 min read",
+    "excerpt": "Are you a Global Optimizer, Freedom Nomad, Urban Achiever, Nature Healer, Culture Seeker, Quiet Luxury Soul, Community Builder, or Reinvention Explorer?"
+  },
+  {
+    "slug": "living-in-the-wrong-city",
+    "title": "Maybe You Don't Dislike Your Life. Maybe You're Living in the Wrong City.",
+    "cover": "/blog/images/city-soul-direction-map.webp",
+    "label": "City Soul Journal",
+    "icon": "🏙️",
+    "date": "2026-05-31",
+    "readTime": "12 min read",
+    "excerpt": "Feeling out of place in your city? Sometimes the friction is not you. It is the environment."
+  },
+  {
+    "slug": "nyc-to-lisbon",
+    "title": "Moving from New York to Lisbon: How Much Can You Actually Save?",
+    "cover": "/blog/nyc-to-lisbon-cover.jpg",
+    "label": "Relocation Guide",
+    "icon": "✈️",
+    "date": "2026-05-20",
+    "readTime": "9 min read",
+    "excerpt": "The full monthly cost breakdown — rent, food, transport, healthcare — and what life actually looks like on the other side."
+  }
+]
