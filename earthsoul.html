@@ -42,8 +42,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;z-index:100;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(6,10,18,0.94);border-bottom:1px solid rgba(255,255,255,0.05)}
-.nav-logo{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-0.01em}
-.nav-logo .ac{color:var(--blue)}
+.nav-logo{flex-shrink:0;line-height:1}
+
 .nav-pill{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2);padding:5px 14px;border-radius:99px}
 
 /* SCREENS */
@@ -275,11 +275,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   #share-card-visual{max-width:100%;padding:28px 20px}
 }
 </style>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
 </head>
 <body>
 
 <nav class="nav">
-  <a href="/" class="nav-logo">Moving<span class="ac">COST</span>.ai</a>
+  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:30px;width:auto;display:block;" loading="eager"></a>
   <div style="display:flex;align-items:center;gap:12px">
     <a href="/member" id="quiz-member-link" style="display:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;padding:5px 14px;border-radius:99px;background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2)">My Dashboard</a>
     <span class="nav-pill">EarthSoul Quiz</span>

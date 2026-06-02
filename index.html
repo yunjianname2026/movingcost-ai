@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MovingCOST.ai — AI Mobility Planning Platform</title>
 <meta name="description" content="AI mobility planning platform for relocation, digital nomad life, and city comparison. Compare costs, risks, and lifestyle fit before you move.">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MovingCOST.ai">
 <meta property="og:url" content="https://www.movingcost.ai/">
@@ -90,8 +91,8 @@ img{display:block;max-width:100%}
 .btn-block{width:100%;display:flex}
 nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,232,245,0.8)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
-.logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.5px;color:var(--text);flex-shrink:0}
-.logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
+.logo{flex-shrink:0;line-height:1}
+
 .nav-links{display:flex;align-items:center;gap:18px}
 .nav-links a{font-size:13.5px;font-weight:500;color:var(--mid);transition:color var(--tr);white-space:nowrap}
 .nav-links a:hover{color:var(--blue)}
@@ -371,7 +372,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 <nav>
   <div class="container">
     <div class="nav-inner">
-      <a href="/" class="logo">Moving<span>COST</span><sup>.ai</sup></a>
+      <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:32px;width:auto;display:block;" loading="eager"></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/#tools">AI Tools</a>
@@ -763,7 +764,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="footer-logo">Moving<span>COST</span><sup style="font-size:9px;vertical-align:super">.ai</sup></a>
+        <a href="/" class="footer-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-white.png" alt="MovingCOST.ai" style="height:28px;width:auto;display:block;" loading="lazy"></a>
         <p>AI mobility planning platform for relocation, digital nomad life, and city comparison. Helping people plan smarter moves and live lighter.</p>
         <div class="social-row">
           <a href="https://x.com/movingcostai" target="_blank" rel="noopener" class="social-btn">&#x1D54F;</a>
