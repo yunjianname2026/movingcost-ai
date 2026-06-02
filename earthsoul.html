@@ -274,7 +274,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .pts-grid{grid-template-columns:1fr}
   #share-card-visual{max-width:100%;padding:28px 20px}
 }
-</style>
+
+  /* ── MovingCOST Typography v1 ── */
+  h1, h2, .brand-heading {
+    font-weight: 500;
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  nav a, button, .btn, .nav-cta, .nav-links a,
+  .cta-btn, .member-action {
+    white-space: nowrap;
+  }
+  button, .btn, .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    h1 { font-size: clamp(32px, 9vw, 48px); line-height: 1.1; font-weight: 500; }
+    h2 { font-size: clamp(24px, 7vw, 36px); line-height: 1.15; font-weight: 500; }
+  }
+
+  </style>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
@@ -282,7 +304,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <body>
 
 <nav class="nav">
-  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:30px;width:auto;display:block;" loading="eager"></a>
+  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1);" loading="eager"></a>
   <div style="display:flex;align-items:center;gap:12px">
     <a href="/member" id="quiz-member-link" style="display:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;padding:5px 14px;border-radius:99px;background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2)">My Dashboard</a>
     <span class="nav-pill">EarthSoul Quiz</span>

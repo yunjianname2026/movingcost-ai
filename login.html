@@ -98,7 +98,29 @@ main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:
   .input-row{flex-direction:column}
   .btn-send{width:100%}
 }
-</style>
+
+  /* ── MovingCOST Typography v1 ── */
+  h1, h2, .brand-heading {
+    font-weight: 500;
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  nav a, button, .btn, .nav-cta, .nav-links a,
+  .cta-btn, .member-action {
+    white-space: nowrap;
+  }
+  button, .btn, .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    h1 { font-size: clamp(32px, 9vw, 48px); line-height: 1.1; font-weight: 500; }
+    h2 { font-size: clamp(24px, 7vw, 36px); line-height: 1.15; font-weight: 500; }
+  }
+
+  </style>
 </head>
 <body>
 
