@@ -248,10 +248,11 @@
       position: relative; z-index: 1;
     }
     .cta-btn {
-      display: inline-block; background: var(--blue); color: white;
+      display: inline-block; background: var(--blue); color: white !important;
       font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
-      padding: 14px 32px; border-radius: 10px; text-decoration: none;
-      border: none; transition: background 0.2s, transform 0.15s;
+      padding: 14px 32px; border-radius: 10px; text-decoration: none !important;
+      border: none !important; border-bottom: none !important;
+      transition: background 0.2s, transform 0.15s;
       position: relative; z-index: 1; cursor: pointer;
     }
     .cta-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
@@ -513,15 +514,17 @@
 
   <p><strong>Maybe you have not yet found the place that lets you unfold.</strong></p>
 
-  <!-- CTA -->
+</article>
+
+<!-- CTA（移出article，避免article-body a样式覆盖按钮） -->
+<div class="article-body" style="padding-bottom:0;">
   <div class="cta-box">
     <h2 class="cta-title">Find Your City Soul</h2>
     <p class="cta-subtitle"><strong>Your next city is not just a destination.</strong> It is the environment that may shape your next version of life.</p>
     <p class="cta-text">Take the free quiz to discover which cities match your personality, values, and the life you are building.</p>
     <a href="/earthsoul" class="cta-btn">Take the Free City Soul Quiz →</a>
   </div>
-
-</article>
+</div>
 
 <hr class="section-divider">
 
