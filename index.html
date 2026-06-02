@@ -354,7 +354,29 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   }
   .hero-card::before { display: none; }
 }
-</style>
+
+  /* ── MovingCOST Typography v1 ── */
+  h1, h2, .brand-heading {
+    font-weight: 500;
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  nav a, button, .btn, .nav-cta, .nav-links a,
+  .cta-btn, .member-action {
+    white-space: nowrap;
+  }
+  button, .btn, .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    h1 { font-size: clamp(32px, 9vw, 48px); line-height: 1.1; font-weight: 500; }
+    h2 { font-size: clamp(24px, 7vw, 36px); line-height: 1.15; font-weight: 500; }
+  }
+
+  </style>
 </head>
 <body>
 
@@ -764,7 +786,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="footer-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-white.png" alt="MovingCOST.ai" style="height:28px;width:auto;display:block;" loading="lazy"></a>
+        <a href="/" class="footer-logo" style="display:inline-flex;align-items:center;"><img src="/assets/movingcost-logo-horizontal-transparent.png" alt="MovingCOST.ai" style="height:28px;width:auto;display:block;filter:brightness(0) invert(1);" loading="lazy"></a>
         <p>AI mobility planning platform for relocation, digital nomad life, and city comparison. Helping people plan smarter moves and live lighter.</p>
         <div class="social-row">
           <a href="https://x.com/movingcostai" target="_blank" rel="noopener" class="social-btn">&#x1D54F;</a>
