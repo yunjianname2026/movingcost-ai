@@ -43,15 +43,24 @@ p, li, td, th, span {
 
 /* ── 按钮和导航：禁止换行 ── */
 nav a, .nav-links a, .nav-cta,
-button, .btn, .cta-btn,
+.btn, .cta-btn,
 .nav-pill, .member-action {
   white-space: nowrap !important;
 }
 
-button, .btn, .cta-btn {
+.btn, .cta-btn, .cta-box a {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+/* 汉堡按钮不受影响 */
+.nav-hamburger {
+  display: none !important;
+}
+@media (max-width: 768px) {
+  .nav-hamburger {
+    display: flex !important;
+  }
 }
 
 /* ── 移动端标题字号 ── */
