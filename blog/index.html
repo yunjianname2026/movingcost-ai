@@ -387,10 +387,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
       <a href="/terms">Terms</a>
       <a href="/contact">Contact</a>
     </div>
-        <div class="footer-legal">
-      <p>© 2026 MovingCOST.ai. All rights reserved.</p>
-      <p>MovingCOST.ai™, City Soul™, EarthSoul™, and MovingCOST Points™ are brand assets of Classic Spread Inc.</p>
-    </div>
     
   </div>
     <div class="footer-legal">
@@ -435,13 +431,13 @@ document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
   try{email=localStorage.getItem('mc_email');}catch(e){}
   var navCta=document.getElementById('nav-main-cta');
   if(email){
-    if(navCta){navCta.textContent='My Dashboard →';navCta.href='/member';}
+    if(navCta){navCta.textContent='My Dashboard →';navCta.href='/member';navCta.classList.add('is-member');}
     var mm=document.getElementById('mobile-member-cta');
     if(mm)mm.style.display='block';
     var ms=document.getElementById('mobile-signin-link');
     if(ms)ms.style.display='none';
   } else {
-    if(navCta){navCta.textContent='Sign In';navCta.href='/login';}
+    if(navCta){navCta.textContent='Sign In';navCta.href='/login';navCta.classList.remove('is-member');}
   }
 })();
 </script>
