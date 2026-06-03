@@ -302,27 +302,16 @@
     .related-link-text { font-size: 14px; font-weight: 500; color: var(--text); }
     .related-link-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* ── FOOTER BLOG ── */
-    footer {
-      background: #0A1628;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 40px 24px;
-      text-align: center;
+    /* ── FOOTER ── */
+    footer { background: var(--text); padding: 40px 24px; text-align: center; }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif; font-size: 18px;
+      font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 10px;
     }
-    .footer-inner {
-      max-width: 700px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-logo { display: inline-flex; align-items: center; }
-    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; }
-    .footer-links a:hover { color: white; }
-    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.4); }
-    .footer-tm { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.6; max-width: 600px; }
+    .footer-logo span { color: var(--blue); }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+    footer a { color: var(--blue); text-decoration: none; }
+
     /* ── MOBILE ── */
     @media (max-width: 600px) {
       .nav-links, .nav-cta { display: none; }
@@ -336,7 +325,6 @@
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/global.css">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
   <link rel="icon" href="/favicon/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -348,7 +336,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/movingcost-ai-logo-horizontal-light.webp" alt="MovingCOST.ai" style="height:44px;width:auto;display:block;" loading="eager"></a>
+    <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" alt="MovingCOST.ai" style="height:48px;width:auto;display:block;" loading="eager"></a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/planner">AI Planner</a></li>
@@ -681,26 +669,18 @@
     });
 })();
 </script>
-<!-- ██ FOOTER BLOG ██ partials/footer-blog.html ██ -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <a href="/" class="footer-logo" aria-label="MovingCOST.ai Home">
-      <img src="/assets/logo/movingcost-ai-logo-horizontal-dark.webp"
-           alt="MovingCOST.ai"
-           style="height:36px;width:auto;display:block;"
-           loading="lazy">
-    </a>
-    <div class="footer-links">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/contact">Contact</a>
-      <a href="/blog">Blog</a>
-    </div>
-    <p class="footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</p>
-    <p class="footer-tm">MovingCOST.ai™, City Soul™, EarthSoul™, and MovingCOST Points™ are brand assets of MovingCOST.ai.</p>
-  </div>
+  <div class="footer-logo">Moving<span>COST</span><sup style="font-size:10px;">.ai</sup></div>
+  <p>AI-powered tools for smarter relocation decisions.</p>
+  <p style="margin-top:12px;">
+    <a href="/privacy">Privacy</a> &nbsp;·&nbsp;
+    <a href="/terms">Terms</a> &nbsp;·&nbsp;
+    <a href="/contact">Contact</a> &nbsp;·&nbsp;
+    <a href="/blog">Blog</a>
+  </p>
+  <p style="margin-top:12px;">© 2026 CLASSIC SPREAD INC · <a href="https://movingcost.ai">movingcost.ai</a></p>
 </footer>
-<!-- ██ /FOOTER BLOG ██ -->
 
 <script>
 // 汉堡菜单
