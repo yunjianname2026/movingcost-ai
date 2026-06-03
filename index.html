@@ -351,6 +351,35 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   }
   .hero-card::before { display: none; }
 }
+  
+  /* ── FOOTER LEGAL & DISCLAIMER (v2) ── */
+  .footer-legal {
+    margin-top: 24px; padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center; font-size: 12px;
+    line-height: 1.6; color: rgba(255,255,255,0.46);
+  }
+  .footer-legal p { margin: 3px 0; }
+  .footer-disclaimer {
+    max-width: 820px; margin: 10px auto 0;
+    text-align: center; font-size: 11px;
+    line-height: 1.55; color: rgba(255,255,255,0.32);
+  }
+  @media (max-width: 768px) {
+    .footer-legal { font-size: 11px; padding: 0 20px; }
+    .footer-disclaimer { font-size: 10.5px; padding: 0 20px; }
+  }
+  /* ── 桌面端 My Dashboard → 文字链接（已登录状态）── */
+  #nav-main-cta.is-member {
+    background: transparent !important;
+    border: none !important; box-shadow: none !important;
+    color: var(--blue, #0EA5E9) !important;
+    font-weight: 600 !important;
+    padding: 0 4px !important; border-radius: 0 !important;
+  }
+  #nav-main-cta.is-member:hover {
+    opacity: 0.8; transform: none !important;
+  }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
@@ -812,16 +841,23 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">&#xA9; 2026 MovingCOST.ai &nbsp;&#xB7;&nbsp; CLASSIC SPREAD INC &nbsp;&#xB7;&nbsp; All rights reserved</div>
+    
+    
       <div class="footer-links">
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Use</a>
         <a href="/contact">Contact</a>
       </div>
     </div>
-    <div class="footer-disclaimer">AI-generated planning estimates only &nbsp;&#xB7;&nbsp; Not legal, tax, or immigration advice &nbsp;&#xB7;&nbsp; Costs are estimates &#x2014; verify with qualified professionals before making decisions</div>
+    
   </div>
+    <div class="footer-legal">
+      <p>© 2026 MovingCOST.ai. All rights reserved.</p>
+      <p>MovingCOST.ai™, City Soul™, EarthSoul™, and MovingCOST Points™ are brand assets of Classic Spread Inc.</p>
+    </div>
+    <div class="footer-disclaimer">
+      AI-generated relocation estimates and planning suggestions are for informational purposes only. MovingCOST.ai does not provide legal, tax, immigration, financial, real estate, or medical advice. Always verify important decisions with qualified professionals.
+    </div>
 </footer>
 
 <script>
@@ -875,7 +911,7 @@ document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   if(email){
     var navCta = document.getElementById('nav-main-cta');
-    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; }
+    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; navCta.classList.add('is-member'); }
     var memberLink = document.getElementById('nav-member-link');
     if(memberLink) memberLink.style.display = 'inline';
     var mobileMember = document.getElementById('mobile-member-cta');
@@ -886,7 +922,7 @@ document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
     if(mobileCta){ mobileCta.textContent = 'My Dashboard →'; mobileCta.href = '/member'; }
   } else {
     var navCta = document.getElementById('nav-main-cta');
-    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; navCta.classList.remove('is-member'); }
   }
 })();
 </script>
