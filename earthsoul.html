@@ -283,11 +283,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/favicon/site.webmanifest">
   <meta name="theme-color" content="#0B1326">
+  <style>
+    /* MovingCOST logo mobile size */
+    @media (max-width: 768px) {
+      img.site-logo-img { height: 52px !important; width: auto !important; }
+    }
+  </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" alt="MovingCOST.ai" style="height:60px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
+  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
   <div style="display:flex;align-items:center;gap:12px">
     <a href="/member" id="quiz-member-link" style="display:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;padding:5px 14px;border-radius:99px;background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2)">My Dashboard</a>
     <span class="nav-pill">EarthSoul Quiz</span>
