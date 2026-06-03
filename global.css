@@ -53,15 +53,7 @@ nav a, .nav-links a, .nav-cta,
   align-items: center !important;
   justify-content: center !important;
 }
-/* 汉堡按钮不受影响 */
-.nav-hamburger {
-  display: none !important;
-}
-@media (max-width: 768px) {
-  .nav-hamburger {
-    display: flex !important;
-  }
-}
+/* 汉堡按钮由各页面自身CSS控制，global.css不干预 */
 
 /* ── 移动端标题字号 ── */
 @media (max-width: 640px) {
