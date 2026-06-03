@@ -299,7 +299,18 @@
     .related-link-text { font-size: 14px; font-weight: 500; color: var(--text); }
     .related-link-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* ── FOOTER ── */
+    
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .cta-box { padding: 36px 24px; }
+      .article-body h2 { margin-top: 44px; }
+      .type-image-wrap { flex-direction: column; }
+      .type-image-wrap img { width: 100%; height: 280px; }
+      .type-image-content .img-caption { text-align: center; }
+    }
+      /* ── FOOTER (统一简洁版) ── */
     footer {
       background: #0A1628;
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -316,30 +327,15 @@
     }
     .footer-logo-wrap { display: inline-flex; align-items: center; }
     .footer-nav {
-      display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
     }
     .footer-nav a {
       font-size: 13px; color: rgba(255,255,255,0.5);
       text-decoration: none; transition: color 0.2s;
     }
     .footer-nav a:hover { color: white; }
-    .footer-copy {
-      font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.7;
-    }
-    .footer-tm {
-      font-size: 11px; color: rgba(255,255,255,0.22);
-      line-height: 1.7; max-width: 600px;
-    }
-    /* ── MOBILE ── */
-    @media (max-width: 600px) {
-      .nav-links, .nav-cta { display: none; }
-      .nav-hamburger { display: flex; }
-      .cta-box { padding: 36px 24px; }
-      .article-body h2 { margin-top: 44px; }
-      .type-image-wrap { flex-direction: column; }
-      .type-image-wrap img { width: 100%; height: 280px; }
-      .type-image-content .img-caption { text-align: center; }
-    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+    .footer-tm { font-size: 11px; color: rgba(255,255,255,0.22); line-height: 1.7; max-width: 600px; }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/global.css">
