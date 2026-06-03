@@ -1,0 +1,36 @@
+<!-- ██ HEADER LIGHT ██ partials/header-light.html ██ -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="MovingCOST.ai Home">
+      <img src="/assets/logo/movingcost-ai-logo-horizontal-light.webp"
+           alt="MovingCOST.ai"
+           style="height:36px;width:auto;display:block;"
+           loading="eager">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Home</a></li>
+      <li><a href="/planner">AI Planner</a></li>
+      <li><a href="/earthsoul">EarthSoul Quiz</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <a href="/earthsoul" class="nav-cta" id="nav-main-cta">Find Your City Soul →</a>
+    <button class="nav-hamburger" id="menuBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="/" onclick="closeMenu()">Home</a>
+  <a href="/planner" onclick="closeMenu()">AI Planner</a>
+  <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
+  <a href="/blog" onclick="closeMenu()">Blog</a>
+  <a href="/about" onclick="closeMenu()">About</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link"
+     style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;
+            text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" onclick="closeMenu()"
+     style="display:none;font-size:18px;font-weight:600;color:var(--blue);
+            padding:14px 0;border-bottom:1px solid var(--border)">My Dashboard →</a>
+</div>
+<!-- ██ /HEADER LIGHT ██ -->
