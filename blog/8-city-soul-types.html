@@ -303,15 +303,36 @@
     .related-link-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
     /* ── FOOTER ── */
-    footer { background: var(--text); padding: 40px 24px; text-align: center; }
-    .footer-logo {
-      font-family: 'Outfit', sans-serif; font-size: 18px;
-      font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 10px;
+    footer {
+      background: #0A1628;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 48px 24px 32px;
+      text-align: center;
     }
-    .footer-logo span { color: var(--blue); }
-    footer p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
-    footer a { color: var(--blue); text-decoration: none; }
-
+    .footer-inner {
+      max-width: 740px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-logo-wrap { display: inline-flex; align-items: center; }
+    .footer-nav {
+      display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+    }
+    .footer-nav a {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: white; }
+    .footer-copy {
+      font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.7;
+    }
+    .footer-tm {
+      font-size: 11px; color: rgba(255,255,255,0.22);
+      line-height: 1.7; max-width: 600px;
+    }
     /* ── MOBILE ── */
     @media (max-width: 600px) {
       .nav-links, .nav-cta { display: none; }
@@ -332,6 +353,11 @@
   <meta name="theme-color" content="#0B1326">
   <style>
     /* logo mobile */
+    @media (max-width: 768px) {
+      img.site-logo-img { height: 72px !important; width: auto !important; }
+    }
+  </style>
+  <style>
     @media (max-width: 768px) {
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
@@ -677,15 +703,26 @@
 </script>
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Moving<span>COST</span><sup style="font-size:10px;">.ai</sup></div>
-  <p>AI-powered tools for smarter relocation decisions.</p>
-  <p style="margin-top:12px;">
-    <a href="/privacy">Privacy</a> &nbsp;·&nbsp;
-    <a href="/terms">Terms</a> &nbsp;·&nbsp;
-    <a href="/contact">Contact</a> &nbsp;·&nbsp;
-    <a href="/blog">Blog</a>
-  </p>
-  <p style="margin-top:12px;">© 2026 CLASSIC SPREAD INC · <a href="https://movingcost.ai">movingcost.ai</a></p>
+  <div class="footer-inner">
+    <a href="/" class="footer-logo-wrap" aria-label="MovingCOST.ai Home">
+      <img src="/assets/logo/logo-dark-transparent.png"
+           alt="MovingCOST.ai"
+           class="site-logo-img"
+           style="height:66px;width:auto;display:block;">
+    </a>
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/planner">AI Planner</a>
+      <a href="/earthsoul">EarthSoul</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</div>
+    <div class="footer-tm">MovingCOST.ai™, City Soul™, EarthSoul™, and MovingCOST Points™ are brand assets of MovingCOST.ai.</div>
+  </div>
 </footer>
 
 <script>
