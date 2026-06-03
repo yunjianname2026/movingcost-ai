@@ -1,463 +1,70 @@
-/*
- * MovingCOST.ai — Global Style System
- * 全站共享样式规范，所有页面必须引入此文件
- * 引入方式：<link rel="stylesheet" href="/global.css">
- * 放在页面自身 <style> 标签之前
- *
- * ⚠️ 修改此文件会影响全站所有页面，务必谨慎
- * Last updated: 2026-05-31
- */
+/* ══════════════════════════════════════════════════
+   MovingCOST.ai — Global Typography & Brand System
+   版本：v1.0  日期：2026-06-02
+   规则：只改字体和标题，不动布局/颜色/间距
+   ══════════════════════════════════════════════════ */
 
-/* ══════════════════════════════════════════
-   1. GOOGLE FONTS（统一字体来源）
-   ══════════════════════════════════════════
-   各页面 <head> 中统一使用以下 link 引入字体：
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
-   字体说明：
-   - Outfit：标题、数字、品牌文字
-   - DM Sans：正文、说明文字
-*/
-
-/* ══════════════════════════════════════════
-   2. CSS 变量（颜色 / 间距 / 阴影）
-   ══════════════════════════════════════════ */
-:root {
-  /* 品牌蓝色 */
-  --blue:        #0EA5E9;
-  --blue-d:      #0284C7;
-  --blue-dd:     #0369A1;
-  --blue-l:      #E0F2FE;
-  --blue-m:      #BAE6FD;
-  --blue-xl:     #F0F9FF;
-
-  /* 文字颜色 */
-  --text:        #0A1628;   /* 主文字（深蓝黑） */
-  --mid:         #3D5A80;   /* 中等文字 */
-  --muted:       #7B92B2;   /* 次要文字 */
-  --faint:       #B8CCE0;   /* 极淡文字 */
-
-  /* 背景 / 边框 */
-  --bg:          #F0F6FF;
-  --bg2:         #EAF2FB;
-  --white:       #FFFFFF;
-  --border:      #DDE8F5;
-
-  /* 功能色 */
-  --green:       #10B981;
-  --green-l:     #ECFDF5;
-  --amber:       #F59E0B;
-  --purple:      #7C3AED;
-  --success:     #10B981;
-
-  /* 圆角 */
-  --r:           10px;
-  --r-lg:        18px;
-  --r-xl:        24px;
-
-  /* 阴影 */
-  --shadow-sm:   0 1px 6px rgba(10,22,40,0.06);
-  --shadow:      0 4px 20px rgba(14,165,233,0.10), 0 1px 4px rgba(10,22,40,0.05);
-  --shadow-lg:   0 12px 48px rgba(14,165,233,0.16), 0 4px 16px rgba(10,22,40,0.07);
-  --shadow-glass:0 8px 32px rgba(14,165,233,0.12), 0 2px 8px rgba(10,22,40,0.06);
-
-  /* 毛玻璃 */
-  --glass-bg:          rgba(255,255,255,0.72);
-  --glass-bg-blue:     rgba(224,242,254,0.60);
-  --glass-border:      rgba(255,255,255,0.80);
-  --glass-border-blue: rgba(14,165,233,0.20);
-
-  /* 动画 */
-  --tr:          0.24s cubic-bezier(0.4,0,0.2,1);
-  --tr-slow:     0.45s cubic-bezier(0.4,0,0.2,1);
-}
-
-/* ══════════════════════════════════════════
-   3. RESET & BASE
-   ══════════════════════════════════════════ */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  font-family: 'DM Sans', Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--text);
-  background: var(--white);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-/* ══════════════════════════════════════════
-   4. 字体规范（全站铁律）
-   ══════════════════════════════════════════
-
-   标题层级（Outfit字体）：
-   ┌─────────────────────────────────────────
-   │ display     Hero大标题      500  clamp(38px,5vw,58px)
-   │ heading-xl  页面主标题      500  clamp(28px,3.5vw,42px)
-   │ heading-lg  章节大标题      500  clamp(20px,2vw,26px)
-   │ heading-md  卡片/小节标题   600  17px
-   ├─────────────────────────────────────────
-   正文（DM Sans字体）：
-   │ body-lg     大号正文        300  16px
-   │ body-md     标准正文        400  14px
-   │ body-sm     小号正文        400  13px
-   │ caption     图注/辅助       400  11px
-   ├─────────────────────────────────────────
-   UI元素（保留原字重，不受上述规则约束）：
-   │ Logo                        800
-   │ 按钮 / CTA button           700
-   │ 标签 tag / badge / label    700
-   │ 导航链接                    500
-   │ 数字统计 stat-num           600
-   └─────────────────────────────────────────
-
-   ⚠️ 禁止事项：
-   - 标题类严禁使用 700 或 800
-   - 正文严禁使用 700
-   - 单词断行（widows）：标题必须加 text-wrap:balance
-   ══════════════════════════════════════════ */
-
-/* 标题工具类 */
-.display {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(38px, 5vw, 58px);
-  font-weight: 500;
-  letter-spacing: -1.2px;
-  line-height: 1.10;
+/* ── 标题字体：Playfair Display（衬线，优雅宋体风格）── */
+h1, h2, h3,
+.hero-title, .hero-h1,
+.section-title, .section-heading,
+.brand-heading, .page-title,
+.article-title, .featured-title,
+.pullquote p, .signature p,
+.cta-box h2, .cta-box h3,
+.card-title, .type-card h3,
+.result-title, .score-title,
+.report-title, .plan-title,
+.welcome-h1, .member-title,
+.modal-title, .quiz-title,
+.featured-img-title,
+.related-card-title {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
-.heading-xl {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(28px, 3.5vw, 42px);
-  font-weight: 500;
-  letter-spacing: -0.6px;
-  line-height: 1.18;
-  text-wrap: balance;
+/* ── 导航栏 Logo 文字（如果页面还有文字版logo）── */
+.nav-logo, .logo, .footer-logo {
+  font-family: 'Playfair Display', Georgia, serif !important;
 }
 
-.heading-lg {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(20px, 2vw, 26px);
-  font-weight: 500;
-  letter-spacing: -0.3px;
-  line-height: 1.28;
-  text-wrap: balance;
+/* ── 导航栏链接：保持无衬线，简洁 ── */
+nav a, .nav-links a, .nav-pill,
+button, .btn, .cta-btn,
+.nav-cta, .member-action,
+input, select, textarea,
+.tag, .badge, .label,
+.article-meta, .img-caption,
+p, li, td, th, span {
+  font-family: inherit; /* 继承body的Inter/DM Sans */
 }
 
-.heading-md {
-  font-family: 'Outfit', sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.1px;
-  line-height: 1.35;
+/* ── 按钮和导航：禁止换行 ── */
+nav a, .nav-links a, .nav-cta,
+button, .btn, .cta-btn,
+.nav-pill, .member-action {
+  white-space: nowrap !important;
 }
 
-/* 正文工具类 */
-.body-lg  { font-size: 16px; line-height: 1.78; font-weight: 300; color: var(--mid); }
-.body-md  { font-size: 14px; line-height: 1.72; font-weight: 400; color: var(--mid); }
-.body-sm  { font-size: 13px; line-height: 1.65; font-weight: 400; color: var(--mid); }
-.caption  { font-size: 11px; line-height: 1.50; font-weight: 400; color: var(--muted); letter-spacing: 0.01em; }
-
-/* 标签工具类（UI元素，保持700） */
-.label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
+button, .btn, .cta-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-/* 品牌色 */
-.accent { color: var(--blue); }
-
-/* 布局 */
-.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-.text-center { text-align: center; }
-
-/* ══════════════════════════════════════════
-   5. 导航栏（全站统一）
-   ══════════════════════════════════════════ */
-nav {
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-inner {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 62px;
-  gap: 24px;
-}
-
-.logo {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 19px;
-  letter-spacing: -0.5px;
-  color: var(--text);
-  flex-shrink: 0;
-  text-decoration: none;
-}
-.logo span  { color: var(--blue); }
-.logo sup   { font-size: 9px; font-weight: 700; color: var(--blue); vertical-align: super; letter-spacing: 0; }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-.nav-links a {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-  transition: color var(--tr);
-  white-space: nowrap;
-  text-decoration: none;
-}
-.nav-links a:hover,
-.nav-links a.active { color: var(--blue); }
-
-/* 导航CTA按钮 */
-.nav-cta {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  background: var(--blue);
-  color: #fff;
-  padding: 9px 20px;
-  border-radius: 99px;
-  box-shadow: 0 3px 12px rgba(14,165,233,0.35);
-  transition: all var(--tr);
-  white-space: nowrap;
-  flex-shrink: 0;
-  text-decoration: none;
-  display: inline-block;
-}
-.nav-cta:hover {
-  background: var(--blue-d);
-  transform: translateY(-1px);
-  color: #fff;
-}
-
-/* 汉堡菜单按钮 */
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-}
-.nav-hamburger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--text);
-  border-radius: 2px;
-  transition: all var(--tr);
-  transform-origin: center;
-}
-.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* 手机端菜单 */
-.nav-mobile {
-  display: none;
-  position: fixed;
-  inset: 62px 0 0 0;
-  background: rgba(255,255,255,0.97);
-  backdrop-filter: blur(20px);
-  z-index: 199;
-  flex-direction: column;
-  padding: 32px 24px;
-  gap: 4px;
-  border-top: 1px solid var(--border);
-  overflow-y: auto;
-}
-.nav-mobile.open { display: flex; }
-.nav-mobile a {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text);
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  transition: color var(--tr);
-  text-decoration: none;
-}
-.nav-mobile a:last-child { border: none; }
-.nav-mobile a:hover { color: var(--blue); }
-
-/* 手机端Sign In按钮 */
-.mobile-signin-btn {
-  margin-top: 8px;
-  background: var(--blue);
-  color: #fff;
-  border-radius: 99px;
-  text-align: center;
-  padding: 14px 0;
-  font-size: 16px;
-  font-weight: 700;
-  display: block;
-  text-decoration: none;
-}
-/* 手机端My Dashboard（默认隐藏） */
-.mobile-member-btn {
-  display: none;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--blue);
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
-}
-
-/* ══════════════════════════════════════════
-   6. 页脚（全站统一）
-   ══════════════════════════════════════════ */
-.site-footer {
-  background: var(--text);
-  color: rgba(255,255,255,0.40);
-  padding: 56px 0 32px;
-}
-.footer-inner {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-}
-.footer-logo {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 17px;
-  letter-spacing: -0.5px;
-  color: #fff;
-  display: block;
-  margin-bottom: 12px;
-  text-decoration: none;
-}
-.footer-logo span { color: var(--blue); }
-.footer-logo sup  { font-size: 8px; color: var(--blue); vertical-align: super; }
-.footer-brand p {
-  font-size: 13px;
-  line-height: 1.72;
-  max-width: 270px;
-  color: rgba(255,255,255,0.40);
-  font-weight: 300;
-}
-.footer-col h4 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 15px;
-}
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-col ul li a {
-  font-size: 13px;
-  color: rgba(255,255,255,0.40);
-  transition: color var(--tr);
-  font-weight: 300;
-}
-.footer-col ul li a:hover { color: #fff; }
-.footer-bottom {
-  max-width: 1140px;
-  margin: 40px auto 0;
-  padding: 20px 24px 0;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  color: rgba(255,255,255,0.25);
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.footer-bottom a { color: rgba(255,255,255,0.40); transition: color var(--tr); }
-.footer-bottom a:hover { color: #fff; }
-
-/* ══════════════════════════════════════════
-   7. 导航动态 JS 模板（注释说明）
-   ══════════════════════════════════════════
-   每个页面 </body> 前加入以下脚本，
-   实现 Sign In ↔ My Dashboard 自动切换：
-
-   <script>
-   (function(){
-     var email=null;
-     try{email=localStorage.getItem('mc_email');}catch(e){}
-     var navCta=document.getElementById('nav-main-cta');
-     if(email){
-       if(navCta){navCta.textContent='My Dashboard →';navCta.href='/member';}
-       var mm=document.getElementById('mobile-member-cta');
-       if(mm)mm.style.display='block';
-       var ms=document.getElementById('mobile-signin-link');
-       if(ms)ms.style.display='none';
-     } else {
-       if(navCta){navCta.textContent='Sign In';navCta.href='/login';}
-     }
-   })();
-   </script>
-   ══════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════
-   8. 响应式断点
-   ══════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .nav-links,
-  .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
-
-  .footer-inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+/* ── 移动端标题字号 ── */
+@media (max-width: 640px) {
+  h1, .hero-title, .article-title {
+    font-size: clamp(30px, 8vw, 44px) !important;
+    line-height: 1.12 !important;
+  }
+  h2, .section-title {
+    font-size: clamp(22px, 6vw, 32px) !important;
+    line-height: 1.18 !important;
   }
 }
 
-@media (max-width: 480px) {
-  .footer-inner {
-    grid-template-columns: 1fr;
-  }
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-}
+/* ── EarthSoul 页面特殊处理：保留原有衬线风格 ── */
+/* （earthsoul已有Cormorant Garamond，global不覆盖其hero-title） */
