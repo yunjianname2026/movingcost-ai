@@ -288,36 +288,58 @@
     @media (max-width: 600px) {
       .neighborhood-grid { grid-template-columns: 1fr; }
     }
-    /* ── CTA BOX ── */
-    .cta-box {
-      background: linear-gradient(135deg, #0F172A 0%, #0B2545 100%);
-      border-radius: 20px; padding: 52px 48px;
-      text-align: center; margin: 64px 0 0;
+        /* ── CTA v2 (Editorial) ── */
+    .cta-box-1 {
+      border-top: 2px solid var(--blue); padding: 36px 0 0;
+      margin: 72px 0 16px; display: grid;
+      grid-template-columns: 1fr auto; align-items: center; gap: 36px;
     }
-    .cta-tag {
-      display: inline-block; background: rgba(14,165,233,0.2);
-      color: #7DD3FC; font-size: 12px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+    .cta-box-1 .cta-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 10px;
     }
-    .cta-box h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(22px, 4vw, 30px); font-weight: 500;
-      color: #fff; letter-spacing: -0.5px; margin-bottom: 14px; line-height: 1.2;
+    .cta-box-1 h3 {
+      font-family: 'Outfit', sans-serif; font-size: 23px; font-weight: 400;
+      letter-spacing: -0.4px; line-height: 1.2; color: var(--text); margin-bottom: 9px;
     }
-    .cta-box p {
-      font-size: 16px; color: rgba(255,255,255,0.65);
-      margin-bottom: 32px; line-height: 1.65;
-      max-width: 480px; margin-left: auto; margin-right: auto;
+    .cta-box-1 p {
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      font-weight: 300; max-width: 400px; margin: 0;
     }
-    .cta-btn {
-      display: inline-block; background: var(--blue); color: #fff;
-      font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
-      padding: 16px 44px; border-radius: 10px; text-decoration: none;
-      letter-spacing: -0.2px; box-shadow: 0 4px 20px rgba(14,165,233,0.4);
-      transition: background 0.2s, transform 0.15s;
+    .cta-box-1 .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 600; padding: 12px 22px; border-radius: 4px;
+      text-decoration: none; white-space: nowrap; letter-spacing: 0.02em;
+      box-shadow: 0 2px 12px rgba(14,165,233,0.25); transition: background 0.2s, box-shadow 0.2s;
     }
-    .cta-btn:hover { background: var(--blue-dark); transform: translateY(-2px); }
+    .cta-box-1 .cta-btn:hover { background: var(--blue-dark); box-shadow: 0 4px 18px rgba(14,165,233,0.35); }
+    .cta-box-2 {
+      background: #EEF5FD; border-left: 3px solid var(--blue);
+      border-radius: 0 4px 4px 0; padding: 28px 32px; margin: 0 0 72px;
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px;
+    }
+    .cta-box-2 .cta-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--blue-dark); margin-bottom: 8px;
+    }
+    .cta-box-2 h3 {
+      font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 500;
+      letter-spacing: -0.2px; line-height: 1.3; color: var(--text); margin-bottom: 5px;
+    }
+    .cta-box-2 p { font-size: 13px; color: var(--text-mid); line-height: 1.65; font-weight: 300; margin: 0; }
+    .cta-box-2 .cta-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #0F172A; color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 600; padding: 11px 22px; border-radius: 4px;
+      text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; transition: background 0.2s;
+    }
+    .cta-box-2 .cta-btn:hover { background: #1E3A5F; }
+    @media (max-width: 600px) {
+      .cta-box-1, .cta-box-2 { grid-template-columns: 1fr; gap: 20px; }
+      .cta-box-2 { padding: 24px 20px; }
+      .cta-box-1 { padding-top: 28px; }
+    }
 
     /* ── RELATED ── */
     .related-section { max-width: 740px; margin: 64px auto 0; padding: 0 24px 80px; }
@@ -674,20 +696,25 @@
 
   <p style="font-size:13px;color:var(--text-muted);line-height:1.65;margin-top:32px"><em>All cost figures are estimated ranges based on publicly available data as of May 2026. Visa rules, tax regulations, and housing costs change frequently. This article is for informational purposes only and does not constitute legal, tax, or immigration advice. Always verify with qualified professionals.</em></p>
 
-  <!-- CTA -->
-  <div class="cta-box">
-    <div class="cta-tag">AI Report</div>
-    <h3>Where are you thinking of moving?</h3>
+<!-- CTA BLOCK 1 -->
+<div class="cta-box-1">
+  <div>
+    <div class="cta-eyebrow">✦ AI Report</div>
+    <h3>Where Are You Thinking of Moving?</h3>
     <p>Tell us your destination, lifestyle, and household — our AI builds a personalised relocation cost report in under 2 minutes. Free to start.</p>
-    <a href="/planner" class="cta-btn">Generate My Moving Cost Report →</a>
   </div>
+  <a href="/planner" class="cta-btn">Generate My Moving Cost Report →</a>
+</div>
 
-  <div class="cta-box" style="margin-top:20px;background:linear-gradient(135deg,#0c2340 0%,#0e3a5f 100%);">
-    <div class="cta-tag">City Soul Journal</div>
+<!-- CTA BLOCK 2 -->
+<div class="cta-box-2">
+  <div>
+    <div class="cta-eyebrow">✦ City Soul Journal</div>
     <h3>Not Sure Which City Is Right for You?</h3>
     <p>Take the free quiz to discover which cities match your personality, values, and the life you are building.</p>
-    <a href="/earthsoul" class="cta-btn">Take the Free City Soul Quiz →</a>
   </div>
+  <a href="/earthsoul" class="cta-btn">Take the Free City Soul Quiz →</a>
+</div>
 
 </article>
 
