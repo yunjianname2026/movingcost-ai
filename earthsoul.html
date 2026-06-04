@@ -31,14 +31,14 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#060A12;--s1:#0C1422;--s2:#111B2E;
+  --bg:#07111F;--s1:#0D1B2E;--s2:#121E33;
   --border:rgba(255,255,255,0.07);--border-hi:rgba(14,165,233,0.4);
   --text:#EEF2FF;--mid:rgba(238,242,255,0.58);--muted:rgba(238,242,255,0.30);
   --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.1);--blue-glow:rgba(14,165,233,0.22);
   --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.12);--green:#10B981;
 }
 html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 55% at 15% 5%,rgba(14,165,233,0.09) 0%,transparent 55%),radial-gradient(ellipse 55% 45% at 85% 95%,rgba(99,50,200,0.07) 0%,transparent 55%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 16%,rgba(18,174,234,0.18) 0%,transparent 32%),radial-gradient(circle at 82% 70%,rgba(126,87,255,0.12) 0%,transparent 34%),radial-gradient(circle at 18% 80%,rgba(14,165,233,0.07) 0%,transparent 28%),linear-gradient(180deg,#07111F 0%,#0B1D33 46%,#111026 100%);pointer-events:none;z-index:0}
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;z-index:100;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(6,10,18,0.94);border-bottom:1px solid rgba(255,255,255,0.05)}
@@ -51,7 +51,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .screen.active{opacity:1;pointer-events:all}
 
 /* ── INTRO ── */
-#s-intro{text-align:center;position:relative;gap:0;background:var(--bg)}
+#s-intro{text-align:center;position:relative;gap:0;background:var(--bg);justify-content:space-between;padding-top:calc(72px + env(safe-area-inset-top));padding-bottom:calc(28px + env(safe-area-inset-bottom))}
 .orb-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.11;animation:drift 10s ease-in-out infinite}
 .orb-a{width:520px;height:520px;background:var(--blue);top:-160px;left:-150px;animation-delay:0s}
@@ -59,7 +59,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .orb-c{width:260px;height:260px;background:var(--gold);top:42%;right:6%;animation-delay:-7s}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(18px,-22px) scale(1.04)}66%{transform:translate(-12px,18px) scale(0.97)}}
 .particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
-.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(14,165,233,0.55);animation:twinkle 4s ease-in-out infinite}
+.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(14,165,233,0.38);animation:twinkle 4s ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:0.15;transform:scale(1)}50%{opacity:0.7;transform:scale(1.6)}}
 
 .es-kicker{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:20px;display:flex;align-items:center;gap:14px;justify-content:center;animation:fadeUp 0.6s 0.1s both}
@@ -67,7 +67,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .es-wordmark{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,20px);font-weight:300;color:var(--muted);letter-spacing:0.05em;margin-bottom:14px;animation:fadeUp 0.6s 0.15s both}
 .es-wordmark strong{color:var(--mid);font-weight:600}
 
-.intro-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,8vw,90px);font-weight:300;line-height:1.03;letter-spacing:-0.025em;color:var(--text);margin-bottom:12px;animation:fadeUp 0.7s 0.2s both}
+.intro-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7.5vw,86px);font-weight:300;line-height:1.03;letter-spacing:-0.025em;color:var(--text);margin-bottom:12px;animation:fadeUp 0.7s 0.2s both}
 .intro-h1 em{font-style:italic;background:linear-gradient(135deg,var(--blue) 0%,#7DD3FC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
 .intro-sub{font-family:'DM Sans',sans-serif;font-size:clamp(14px,2vw,17px);font-weight:400;color:var(--mid);margin-bottom:44px;max-width:480px;line-height:1.7;animation:fadeUp 0.7s 0.3s both}
@@ -86,8 +86,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .intro-note{margin-top:52px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);letter-spacing:0.02em;line-height:1.7;animation:fadeUp 0.7s 0.7s both}
 
 /* ── QUIZ ── */
-#s-quiz{padding-top:88px;justify-content:flex-start;align-items:center}
-.quiz-wrap{width:100%;max-width:720px;margin:0 auto;padding:20px 0 48px}
+#s-quiz{padding-top:80px;justify-content:flex-start;align-items:center;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+.quiz-wrap{width:100%;max-width:720px;margin:0 auto;padding:16px 0 24px}
 .prog-wrap{margin-bottom:36px}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .prog-lbl{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
@@ -103,7 +103,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:520px){.opts{grid-template-columns:1fr}}
-.opt{background:rgba(255,255,255,0.027);border:1px solid var(--border);border-radius:14px;padding:18px 16px 18px 18px;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:flex-start;gap:13px;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.opt{background:rgba(255,255,255,0.027);border:1px solid var(--border);border-radius:14px;padding:14px 16px 14px 16px;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:flex-start;gap:13px;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
 .opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,165,233,0.07),transparent 60%);opacity:0;transition:opacity 0.2s}
 .opt:hover{border-color:rgba(14,165,233,0.32);background:rgba(14,165,233,0.04);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.25)}
 .opt:hover::before{opacity:1}
@@ -116,7 +116,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .opt-chk{position:absolute;top:11px;right:11px;width:21px;height:21px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.3) rotate(-90deg);transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1)}
 .opt.sel .opt-chk{opacity:1;transform:scale(1) rotate(0)}
 
-.quiz-foot{margin-top:26px;display:flex;align-items:center;justify-content:space-between}
+.quiz-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between}
 .quiz-hint{font-size:12px;color:var(--muted);font-family:'Outfit',sans-serif}
 .btn-next{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;padding:13px 28px;border-radius:99px;border:none;cursor:pointer;transition:all 0.25s ease;letter-spacing:0.02em;opacity:0.3;pointer-events:none}
 .btn-next.go{opacity:1;pointer-events:all}
@@ -264,6 +264,21 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
+
+@media(max-width:768px){
+  /* 首页标题字号手机端 */
+  .intro-h1{font-size:clamp(38px,10.5vw,54px);line-height:1.0;letter-spacing:-0.02em}
+  /* 答题页标题字号手机端 */
+  .q-title{font-size:clamp(22px,6vw,32px);line-height:1.1;letter-spacing:-0.01em}
+  /* 选项更紧凑 */
+  .opt{padding:12px 14px 12px 14px;border-radius:16px}
+  .opts{gap:10px}
+  /* 桌面端题目居中最大宽度 */
+  .quiz-wrap{max-width:640px}
+}
+@media(max-width:480px){
+  .intro-h1{font-size:clamp(36px,10vw,50px)}
+}
 @media(max-width:640px){
   .nav{padding:14px 18px}
   .quiz-wrap,.rw{padding-left:4px;padding-right:4px}
