@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,22 +98,6 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 .cta-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.7;font-weight:300}
 .cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
 .cta-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.52s ease,transform 0.52s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 /* 标题防孤行 */
@@ -268,29 +251,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
   </div>
 </div>
 
-<!-- FEATURED ARTICLE -->
+<!-- FEATURED ARTICLE（动态渲染，由 posts.json 驱动）-->
 <div class="container">
   <section class="featured">
-    <div class="featured-label">✦ Latest · City Soul Journal</div>
-    <a href="/blog/why-people-change-after-moving" class="featured-card reveal">
-      <div class="featured-img" style="background:url('/blog/images/city-change-after-moving-hero.png') center center/cover no-repeat;">
-        <div class="featured-img-eyebrow">🌍 City Soul Journal · 10–12 min read</div>
-        <div class="featured-img-title">Why Do Some People Change Completely After Moving to a New City?</div>
-      </div>
-      <div class="featured-content">
-        <span class="article-tag" style="background:#EFF6FF;color:#0284C7;">City Soul Journal</span>
-        <h2>A city is not just where you live. It is a life system that shapes who you become.</h2>
-        <p>Some people move to a new city and their whole life seems to change — their mood, habits, energy, and identity. Here is the honest reason why that happens, and what it means for your next move.</p>
-        <div class="featured-meta">
-          <span>June 2026</span>
-          <span>·</span>
-          <span>10–12 min read</span>
-          <span>·</span>
-          <span>Relocation Psychology</span>
-        </div>
-        <span class="read-btn">Read the full guide →</span>
-      </div>
-    </a>
+    <div class="featured-label" id="featured-label">✦ Latest</div>
+    <div id="featured-container"></div>
   </section>
 </div>
 
@@ -425,6 +390,56 @@ var observer=new IntersectionObserver(function(entries){
 },{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 </script>
+
+<!-- Featured 动态渲染脚本 -->
+<script>
+(function(){
+  fetch('/blog/posts.json')
+    .then(function(r){return r.json();})
+    .then(function(posts){
+      if(!posts||!posts.length)return;
+      var p=posts[0];
+      var url='/blog/'+p.slug;
+      var dateStr=p.date?p.date.substring(0,7).replace('-',' ').replace('-','/'):'';
+      // 格式化日期：2026-06-04 → June 2026
+      var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var dateParts=p.date?p.date.split('-'):[];
+      var dateLabel=dateParts.length===3?months[parseInt(dateParts[1],10)-1]+' '+dateParts[0]:p.date||'';
+
+      // 更新标签文字（含系列名）
+      var labelEl=document.getElementById('featured-label');
+      if(labelEl)labelEl.textContent='✦ Latest · '+(p.label||'Article');
+
+      var html='<a href="'+url+'" class="featured-card reveal">'
+        +'<div class="featured-img" style="background:url(\''+p.cover+'\') center center/cover no-repeat;">'
+        +'<div class="featured-img-eyebrow">'+(p.icon||'🌍')+' '+(p.label||'Article')+' · '+p.readTime+'</div>'
+        +'<div class="featured-img-title">'+p.title+'</div>'
+        +'</div>'
+        +'<div class="featured-content">'
+        +'<span class="article-tag" style="background:#EFF6FF;color:#0284C7;">'+p.label+'</span>'
+        +'<h2>'+p.title+'</h2>'
+        +'<p>'+p.excerpt+'</p>'
+        +'<div class="featured-meta">'
+        +'<span>'+dateLabel+'</span><span>·</span><span>'+p.readTime+'</span>'
+        +'</div>'
+        +'<span class="read-btn">Read the full guide →</span>'
+        +'</div>'
+        +'</a>';
+
+      var container=document.getElementById('featured-container');
+      if(container){
+        container.innerHTML=html;
+        // 触发 reveal 动画
+        var card=container.querySelector('.reveal');
+        if(card)observer.observe(card);
+      }
+    })
+    .catch(function(){
+      // 静默失败：Featured 区域留空，不影响其他内容
+    });
+})();
+</script>
+
 <script>
 (function(){
   var email=null;
