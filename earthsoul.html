@@ -51,7 +51,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .screen.active{opacity:1;pointer-events:all}
 
 /* ── INTRO ── */
-#s-intro{text-align:center;position:relative;gap:0;background:var(--bg);justify-content:space-between;padding-top:calc(72px + env(safe-area-inset-top));padding-bottom:calc(28px + env(safe-area-inset-bottom))}
+#s-intro{text-align:center;position:relative;gap:0;background:var(--bg);justify-content:space-between;padding-top:calc(76px + env(safe-area-inset-top));padding-bottom:calc(32px + env(safe-area-inset-bottom));min-height:100dvh;box-sizing:border-box}
 .orb-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.11;animation:drift 10s ease-in-out infinite}
 .orb-a{width:520px;height:520px;background:var(--blue);top:-160px;left:-150px;animation-delay:0s}
@@ -67,7 +67,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .es-wordmark{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2.5vw,20px);font-weight:300;color:var(--muted);letter-spacing:0.05em;margin-bottom:14px;animation:fadeUp 0.6s 0.15s both}
 .es-wordmark strong{color:var(--mid);font-weight:600}
 
-.intro-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7.5vw,86px);font-weight:300;line-height:1.03;letter-spacing:-0.025em;color:var(--text);margin-bottom:12px;animation:fadeUp 0.7s 0.2s both}
+.intro-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6.5vw,72px);font-weight:300;line-height:1.04;letter-spacing:-0.02em;color:var(--text);margin-bottom:12px;animation:fadeUp 0.7s 0.2s both}
 .intro-h1 em{font-style:italic;background:linear-gradient(135deg,var(--blue) 0%,#7DD3FC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
 .intro-sub{font-family:'DM Sans',sans-serif;font-size:clamp(14px,2vw,17px);font-weight:400;color:var(--mid);margin-bottom:44px;max-width:480px;line-height:1.7;animation:fadeUp 0.7s 0.3s both}
@@ -86,7 +86,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .intro-note{margin-top:52px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);letter-spacing:0.02em;line-height:1.7;animation:fadeUp 0.7s 0.7s both}
 
 /* ── QUIZ ── */
-#s-quiz{padding-top:80px;justify-content:flex-start;align-items:center;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+#s-quiz{padding-top:96px;justify-content:flex-start;align-items:center;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
 .quiz-wrap{width:100%;max-width:720px;margin:0 auto;padding:16px 0 24px}
 .prog-wrap{margin-bottom:36px}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -266,6 +266,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 
 @media(max-width:768px){
+  /* 手机端首屏充满屏幕，解决导航遮盖和底部空白 */
   /* 首页标题字号手机端 */
   .intro-h1{font-size:clamp(38px,10.5vw,54px);line-height:1.0;letter-spacing:-0.02em}
   /* 答题页标题字号手机端 */
