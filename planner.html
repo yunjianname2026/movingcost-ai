@@ -59,8 +59,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(240,246,255,0.90);backdrop
 .nav-links a:hover{color:var(--blue)}
 .nav-back{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:var(--mid);padding:9px 18px;border-radius:99px;border:1.5px solid var(--border);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
 .nav-back:hover{border-color:var(--blue);color:var(--blue)}
-#planner-desktop-signin,#planner-desktop-member{display:none!important}
-    @media(min-width:601px){#planner-desktop-signin,#planner-desktop-member{display:inline-flex!important}}
+#planner-signin-btn,#planner-member-btn{display:none}@media(min-width:601px){#planner-signin-btn,#planner-member-btn{display:inline!important}}
     .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;transition:background var(--tr);border:none;background:transparent}
 .nav-hamburger:hover{background:rgba(14,165,233,0.08)}
 .nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr);transform-origin:center}
@@ -314,8 +313,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
     <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
 
     <a href="/" class="nav-back">← Back to Home</a>
-    <a href="/login" id="planner-desktop-signin" class="nav-cta" style="font-size:13px;padding:9px 20px">Sign In</a>
-    <a href="/member" id="planner-desktop-member" class="nav-cta is-member" style="display:none;font-size:13px;padding:9px 20px">My Dashboard →</a>
+    <a href="/login" id="planner-signin-btn" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--mid);text-decoration:none;transition:color 0.2s;white-space:nowrap">Sign In</a>
+    <a href="/member" id="planner-member-btn" style="display:none;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--blue);text-decoration:none;transition:color 0.2s;white-space:nowrap">My Dashboard →</a>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -323,7 +322,8 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
 </nav>
 <div class="nav-mobile" id="mobileMenu">
   <a href="/" onclick="closeMenu()">← Back to Home</a>
-  <a href="/member" id="planner-mobile-member" style="display:none;color:var(--blue);font-weight:600" onclick="closeMenu()">My Dashboard</a>
+  <a href="/login" id="planner-mobile-signin" onclick="closeMenu()" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block;text-decoration:none">Sign In →</a>
+  <a href="/member" id="planner-mobile-member" style="display:none;color:var(--blue);font-weight:600" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
 <!-- PAGE -->
@@ -1074,9 +1074,14 @@ function resetAll(){
 (function(){
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  var mobileSignin = document.getElementById('planner-mobile-signin');
+  var mobileMember = document.getElementById('planner-mobile-member');
   if(email){
-    var el = document.getElementById('planner-mobile-member');
-    if(el) el.style.display = 'block';
+    if(mobileSignin) mobileSignin.style.display = 'none';
+    if(mobileMember) mobileMember.style.display = 'block';
+  } else {
+    if(mobileSignin) mobileSignin.style.display = 'block';
+    if(mobileMember) mobileMember.style.display = 'none';
   }
 })();
 </script>
