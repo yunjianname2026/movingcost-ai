@@ -164,7 +164,7 @@ footer a:hover{color:var(--blue)}
   <div class="hero">
     <div class="hero-label">Payment successful</div>
     <h1 class="hero-title" id="hero-title">Your AI report is<br>ready to generate.</h1>
-    <p class="hero-sub" id="hero-sub">Enter your email below — we'll build and send your complete AI Relocation Planning Report in 60–90 seconds.</p>
+    <p class="hero-sub" id="hero-sub">Enter your email below — we'll build and send your complete AI Relocation Planning Report within a few minutes after payment.</p>
   </div>
 
   <div class="main-card">
@@ -178,7 +178,7 @@ footer a:hover{color:var(--blue)}
     <!-- Email section: always visible. City fields only appear if data missing. -->
     <div class="email-section">
       <div class="email-title" id="email-title">📧 Send my report to email</div>
-      <div class="email-desc" id="email-desc">Enter your email — we'll generate and send your complete AI planning report in 60–90 seconds.</div>
+      <div class="email-desc" id="email-desc">Enter your email — we'll generate and send your complete AI planning report within a few minutes after payment.</div>
 
       <!-- City fields: only shown if data was not found anywhere -->
       <div id="city-fields" style="display:none">
@@ -207,7 +207,7 @@ footer a:hover{color:var(--blue)}
     <div class="loading-section" id="loading-section">
       <div class="loading-ring"></div>
       <div class="loading-title">Generating your report…</div>
-      <div class="loading-sub">Claude AI is writing your personalised plan — please keep this tab open</div>
+      <div class="loading-sub">Claude AI is working on your personalised plan — please keep this tab open</div>
       <ul class="load-steps">
         <li class="lstep" id="lp1"><div class="lind">1</div>Analysing your financial profile<span class="lstep-time">~10s</span></li>
         <li class="lstep" id="lp2"><div class="lind">2</div>Building cost comparison tables<span class="lstep-time">~25s</span></li>
@@ -311,7 +311,7 @@ window.addEventListener('DOMContentLoaded', function() {
     // ✅ Normal path — data found
     if (previewReport) renderPreviewReport(previewReport, userData);
     document.getElementById('email-desc').textContent =
-      'Enter your email — we\'ll send your complete 10-section AI planning report in 60–90 seconds.';
+      'Enter your email — we\'ll send your complete 10-section AI planning report within a few minutes after payment.';
   } else {
     // ⚠️ No data — show minimal city fields only, no alarming message
     document.getElementById('city-fields').style.display = 'block';
@@ -320,7 +320,7 @@ window.addEventListener('DOMContentLoaded', function() {
       'Just confirm your cities and email — we\'ll generate your complete AI planning report right away.';
     document.getElementById('hero-title').textContent = 'Almost ready —\njust one more step.';
     document.getElementById('hero-sub').textContent =
-      'Confirm your move details below and we\'ll send your complete AI report in 60–90 seconds.';
+      'Confirm your move details below and we\'ll send your complete AI report within a few minutes after payment.';
   }
 });
 
@@ -445,8 +445,8 @@ async function sendReport() {
     statusEl.textContent = '✅ Report sent to ' + email + '! Check your inbox (and spam folder).';
     btnText.textContent = '✓ Sent!';
     try{localStorage.removeItem('movingData');localStorage.removeItem('movingReport')}catch(e){}
-    document.getElementById('hero-title').textContent = 'Report sent! 🎉';
-    document.getElementById('hero-sub').textContent = 'Your AI planning report is on its way to ' + email + '. Check your inbox in a moment.';
+    document.getElementById('hero-title').textContent = 'Report on its way! 🎉';
+    document.getElementById('hero-sub').textContent = 'Your AI planning report is being generated and will be sent to ' + email + '. Check your inbox — it usually arrives within a few minutes.';
     document.getElementById('city-fields').style.display = 'none';
 
   } catch(err) {
@@ -471,7 +471,7 @@ document.getElementById('email-input').addEventListener('keydown', function(e){ 
 <script>
 (function(){
   var shareTitle = 'Your Report is Ready — MovingCOST.ai';
-  var shareDesc  = 'Your AI mobility planning report is being generated. Check your inbox in 60-90 seconds.';
+  var shareDesc  = 'Your AI mobility planning report is being generated. Check your inbox within a few minutes after payment.';
   var shareImg   = 'https://www.movingcost.ai/og-image.png';
   var pageUrl    = window.location.href.split('#')[0];
   fetch('/api/wx-signature?url=' + encodeURIComponent(pageUrl))
