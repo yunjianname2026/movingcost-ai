@@ -289,6 +289,21 @@
       text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; transition: background 0.2s;
     }
     .cta-box-2 .cta-btn:hover { background: #1E3A5F; }
+    /* nav-cta 文字链接化 */
+    .nav-cta {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: var(--text) !important;
+      font-weight: 500 !important;
+      padding: 0 4px !important;
+      border-radius: 0 !important;
+    }
+    .nav-cta:hover {
+      background: transparent !important;
+      color: var(--blue) !important;
+      transform: none !important;
+    }
     @media (max-width: 600px) {
       .cta-box-1, .cta-box-2 { grid-template-columns: 1fr; gap: 20px; }
       .cta-box-2 { padding: 24px 20px; }
