@@ -338,12 +338,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 <body>
 
 <nav class="nav">
-  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
+  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
   <div style="display:flex;align-items:center;gap:12px">
+    <a href="/" class="nav-back-link" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;white-space:nowrap">← Home</a>
     <a href="/member" id="quiz-member-link" style="display:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;padding:5px 14px;border-radius:99px;background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2)">My Dashboard</a>
-    <span class="nav-pill">EarthSoul Quiz</span>
+    <a href="/login" id="quiz-signin-link" style="font-family:Outfit,sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);text-decoration:none;padding:5px 14px;border-radius:99px;border:1px solid rgba(255,255,255,0.2)">Sign In</a>
+    <button class="nav-hamburger" id="esMenuBtn" aria-label="Menu" style="display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:transparent;border-radius:8px">
+      <span style="display:block;width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.24s;transform-origin:center"></span>
+      <span style="display:block;width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.24s;transform-origin:center"></span>
+      <span style="display:block;width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px;transition:all 0.24s;transform-origin:center"></span>
+    </button>
   </div>
 </nav>
+<div class="es-mobile-menu" id="esMobileMenu" style="display:none;position:fixed;inset:62px 0 0 0;background:rgba(7,17,31,0.97);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:28px 24px;gap:4px;border-top:1px solid rgba(255,255,255,0.08);overflow-y:auto">
+  <a href="/" style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:rgba(255,255,255,0.85);padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08);text-decoration:none">← Back to Home</a>
+  <a href="/planner" style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:rgba(255,255,255,0.85);padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08);text-decoration:none">AI Planner</a>
+  <a href="/blog" style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:rgba(255,255,255,0.85);padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08);text-decoration:none">Blog</a>
+  <a href="/login" id="es-mobile-signin" style="margin-top:12px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block;text-decoration:none">Sign In →</a>
+  <a href="/member" id="es-mobile-member" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08);text-decoration:none">My Dashboard →</a>
+</div>
 
 <!-- ═══ INTRO ═══ -->
 <section class="screen active" id="s-intro">
@@ -991,7 +1004,38 @@ function retake(){
 <script>
 /* ================================================================
    MovingCOST Rewards System v1 — quiz.html 集成代码
-   把这段代码完整粘贴到 quiz.html 最底部，</body> 标签之前
+   把这段代码完整粘贴到 quiz.html 最底部，
+<script>
+(function(){
+  var btn = document.getElementById('esMenuBtn');
+  var menu = document.getElementById('esMobileMenu');
+  if(btn && menu){
+    btn.addEventListener('click', function(){
+      var open = menu.style.display === 'flex';
+      menu.style.display = open ? 'none' : 'flex';
+    });
+    document.addEventListener('click', function(e){
+      if(btn && menu && !btn.contains(e.target) && !menu.contains(e.target)){
+        menu.style.display = 'none';
+      }
+    });
+  }
+  // 会员状态
+  var email = null;
+  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  if(email){
+    var ml = document.getElementById('quiz-member-link');
+    if(ml) ml.style.display = 'inline-block';
+    var sl = document.getElementById('quiz-signin-link');
+    if(sl) sl.style.display = 'none';
+    var esm = document.getElementById('es-mobile-member');
+    if(esm) esm.style.display = 'block';
+    var ess = document.getElementById('es-mobile-signin');
+    if(ess) ess.style.display = 'none';
+  }
+})();
+</script>
+</body> 标签之前
    不修改任何现有代码，只追加
    ================================================================ */
 
@@ -1768,6 +1812,37 @@ function retake(){
 
 <script>
 (function(){var e=null;try{e=localStorage.getItem("mc_email")}catch(x){}if(e){var el=document.getElementById("quiz-member-link");if(el)el.style.display="inline-flex";}})();
+</script>
+
+<script>
+(function(){
+  var btn = document.getElementById('esMenuBtn');
+  var menu = document.getElementById('esMobileMenu');
+  if(btn && menu){
+    btn.addEventListener('click', function(){
+      var open = menu.style.display === 'flex';
+      menu.style.display = open ? 'none' : 'flex';
+    });
+    document.addEventListener('click', function(e){
+      if(btn && menu && !btn.contains(e.target) && !menu.contains(e.target)){
+        menu.style.display = 'none';
+      }
+    });
+  }
+  // 会员状态
+  var email = null;
+  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  if(email){
+    var ml = document.getElementById('quiz-member-link');
+    if(ml) ml.style.display = 'inline-block';
+    var sl = document.getElementById('quiz-signin-link');
+    if(sl) sl.style.display = 'none';
+    var esm = document.getElementById('es-mobile-member');
+    if(esm) esm.style.display = 'block';
+    var ess = document.getElementById('es-mobile-signin');
+    if(ess) ess.style.display = 'none';
+  }
+})();
 </script>
 </body>
 </html>
