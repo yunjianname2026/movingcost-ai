@@ -391,6 +391,33 @@
   #nav-main-cta.is-member:hover {
     opacity: 0.8; transform: none !important;
   }
+
+  /* ── Sign In 统一文字链接样式（全站）── */
+  #nav-main-cta:not(.is-member) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--text-muted, #94A3B8) !important;
+    font-weight: 500 !important;
+    padding: 0 4px !important;
+    border-radius: 0 !important;
+  }
+  #nav-main-cta:not(.is-member):hover {
+    color: var(--blue, #0EA5E9) !important;
+    transform: none !important;
+  }
+  #mobile-signin-link {
+    background: transparent !important;
+    color: var(--blue, #0EA5E9) !important;
+    border-radius: 0 !important;
+    text-align: left !important;
+    padding: 14px 0 !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid var(--border, #E2E8F0) !important;
+    display: block !important;
+    margin-top: 0 !important;
+  }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/global.css">
