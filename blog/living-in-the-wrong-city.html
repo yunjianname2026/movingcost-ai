@@ -81,118 +81,57 @@
 
     /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 200;
       background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px;
     }
     .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+      height: 62px; display: flex; align-items: center;
+      justify-content: space-between; gap: 24px;
     }
-    .nav-logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
-    .nav-logo span { color: var(--blue); }
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 24px; align-items: center; list-style: none; }
     .nav-links a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-mid);
-      text-decoration: none;
-      transition: color 0.2s;
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s; white-space: nowrap;
     }
     .nav-links a:hover { color: var(--blue); }
     .nav-cta {
-      background: var(--blue);
-      color: white !important;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      font-size: 13px !important;
-      transition: background 0.2s !important;
+      background: var(--blue); color: white !important;
+      padding: 9px 20px; border-radius: 99px; font-weight: 700 !important;
+      font-size: 13px !important; font-family: 'Outfit', sans-serif;
+      transition: all 0.2s; white-space: nowrap; text-decoration: none;
+      box-shadow: 0 3px 12px rgba(14,165,233,0.35);
     }
-    .nav-cta:hover { background: var(--blue-dark) !important; color: white !important; }
-
-    /* ── 汉堡菜单按钮 ── */
+    .nav-cta:hover { background: var(--blue-dark) !important; transform: translateY(-1px); }
     .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 6px;
-      border: none;
-      background: transparent;
-      border-radius: 8px;
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; border: none;
+      background: transparent; border-radius: 8px;
     }
     .nav-hamburger span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all 0.24s;
-      transform-origin: center;
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.24s; transform-origin: center;
     }
     .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* ── 手机端展开菜单 ── */
     .nav-mobile {
-      display: none;
-      position: fixed;
-      inset: 60px 0 0 0;
-      background: rgba(255,255,255,0.97);
-      backdrop-filter: blur(20px);
-      z-index: 199;
-      flex-direction: column;
-      padding: 28px 24px;
-      gap: 4px;
-      border-top: 1px solid var(--border);
-      overflow-y: auto;
+      display: none; position: fixed; inset: 62px 0 0 0;
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
+      z-index: 199; flex-direction: column; padding: 28px 24px;
+      gap: 4px; border-top: 1px solid var(--border); overflow-y: auto;
     }
     .nav-mobile.open { display: flex; }
     .nav-mobile a {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
+      font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 500;
+      color: var(--text); padding: 14px 0; border-bottom: 1px solid var(--border);
+      text-decoration: none; transition: color 0.2s;
     }
     .nav-mobile a:last-child { border: none; }
     .nav-mobile a:hover { color: var(--blue); }
-
-    /* ── MOBILE ── */
-    .breadcrumb {
-      max-width: 740px;
-      margin: 32px auto 0;
-      padding: 0 24px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .breadcrumb a { color: var(--blue); text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-    .breadcrumb span { margin: 0 6px; }
 
     /* ── ARTICLE HEADER ── */
     .article-header {
@@ -536,7 +475,9 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
+    <a href="/" style="display:inline-flex;align-items:center;">
+      <img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager">
+    </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/planner">AI Planner</a></li>

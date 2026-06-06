@@ -88,12 +88,6 @@
       height: 62px; display: flex; align-items: center;
       justify-content: space-between; gap: 24px;
     }
-    .nav-logo {
-      font-family: 'Outfit', sans-serif; font-size: 20px;
-      font-weight: 800; color: var(--text); text-decoration: none;
-      letter-spacing: -0.5px; flex-shrink: 0;
-    }
-    .nav-logo span { color: var(--blue); }
     .nav-links { display: flex; gap: 24px; align-items: center; list-style: none; }
     .nav-links a {
       font-size: 13px; font-weight: 500; color: var(--text-muted);
@@ -108,8 +102,6 @@
       box-shadow: 0 3px 12px rgba(14,165,233,0.35);
     }
     .nav-cta:hover { background: var(--blue-dark) !important; transform: translateY(-1px); }
-
-    /* Hamburger */
     .nav-hamburger {
       display: none; flex-direction: column; gap: 5px;
       cursor: pointer; padding: 6px; border: none;
@@ -123,7 +115,6 @@
     .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
     .nav-mobile {
       display: none; position: fixed; inset: 62px 0 0 0;
       background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
@@ -419,7 +410,9 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
+    <a href="/" style="display:inline-flex;align-items:center;">
+      <img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager">
+    </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/planner">AI Planner</a></li>
