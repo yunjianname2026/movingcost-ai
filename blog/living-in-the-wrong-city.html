@@ -488,11 +488,11 @@
   }
   /* ── 桌面端 My Dashboard → 文字链接（已登录状态）── */
   #nav-main-cta.is-member {
-    background: transparent !important;
+    
     border: none !important; box-shadow: none !important;
-    color: var(--blue, #0EA5E9) !important;
+    color: var(--blue) !important;
     font-weight: 600 !important;
-    padding: 0 4px !important; border-radius: 0 !important;
+    
   }
   #nav-main-cta.is-member:hover {
     opacity: 0.8; transform: none !important;
@@ -542,7 +542,7 @@
   <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;color:var(--blue);font-size:16px;font-weight:600;display:block;text-align:center;padding:8px 0">Sign In →</a>
   <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
