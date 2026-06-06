@@ -28,82 +28,25 @@ body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;color:var(
 a{text-decoration:none;color:inherit}
 nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
 .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
-.logo{flex-shrink:0;line-height:1}
-
-.nav-links{display:flex;align-items:center;gap:18px}
-.nav-links a{font-size:13px;font-weight:500;color:var(--muted);transition:color var(--tr);white-space:nowrap}
-.nav-links a:hover,.nav-links a.active{color:var(--blue)}
-.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:var(--blue);color:#fff;padding:9px 20px;border-radius:99px;box-shadow:0 3px 12px rgba(14,165,233,0.35);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
-.nav-cta:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
-.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;border:none;background:transparent}
-.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr);transform-origin:center}
+.nav-logo-wrap{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none}
+.site-logo-img{height:44px;width:auto;display:block}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.nav-links a,#nav-main-cta{font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:400;color:var(--text-muted);text-decoration:none;padding:6px 10px;border-radius:6px;transition:color 0.18s;white-space:nowrap;background:transparent!important;border:none!important;box-shadow:none!important}
+.nav-links a:hover,#nav-main-cta:hover{color:var(--blue)!important;background:transparent!important}
+#nav-main-cta.is-member{color:var(--blue)!important;font-weight:500!important}
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all 0.25s}
 .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .nav-mobile{display:none;position:fixed;inset:62px 0 0 0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:32px 24px;gap:4px;border-top:1px solid var(--border);overflow-y:auto}
 .nav-mobile.open{display:flex}
-.nav-mobile a{font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border);transition:color var(--tr)}
+.nav-mobile a{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:300;color:var(--text);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border);transition:color 0.18s;background:transparent}
 .nav-mobile a:last-child{border:none}
 .nav-mobile a:hover{color:var(--blue)}
-.nav-mobile .mobile-cta{margin-top:20px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:15px;font-size:16px;font-weight:700}
-.hero{background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 45%,#F4F8FE 100%);padding:72px 0 64px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,0.08) 0%,transparent 68%);pointer-events:none}
-.hero-inner{max-width:1140px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-.tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:18px}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(36px,4.5vw,54px);font-weight:500;letter-spacing:-1px;line-height:1.12;color:var(--text);margin-bottom:14px}
-.hero-title em{font-style:normal;color:var(--blue)}
-.hero-sub{font-size:17px;color:var(--mid);line-height:1.75;font-weight:300;max-width:560px}
-.container{max-width:1140px;margin:0 auto;padding:0 24px}
-.filter-row{display:flex;align-items:center;gap:8px;padding:32px 0 8px;flex-wrap:wrap}
-.filter-btn{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;padding:7px 16px;border-radius:99px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all var(--tr)}
-.filter-btn:hover,.filter-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.featured{padding:32px 0 0}
-.featured-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--blue);margin-bottom:20px}
-.featured-card{background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:var(--r-xl);box-shadow:var(--shadow-glass);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transition:transform var(--tr),box-shadow var(--tr);position:relative}
-.featured-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
-.featured-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.14)}
-.featured-img{background:url('/blog/nyc-to-lisbon-cover.jpg') center center/cover no-repeat;padding:48px 44px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;min-height:280px}
-.featured-img::before{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(8,18,38,0.92) 0%, rgba(8,18,38,0.55) 50%, rgba(8,18,38,0.20) 100%);pointer-events:none;z-index:0}
-.featured-img-eyebrow,.featured-img-title{position:relative;z-index:1}
-.featured-img-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-m);margin-bottom:12px}
-.featured-img-title{font-family:'Outfit',sans-serif;font-size:clamp(20px,2.5vw,28px);font-weight:500;letter-spacing:-0.5px;line-height:1.2;color:#fff;text-wrap:balance}
-.featured-content{padding:40px 40px;display:flex;flex-direction:column;justify-content:center}
-.article-tag{display:inline-flex;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:4px 12px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:16px;width:fit-content}
-.featured-content h2{font-family:'Outfit',sans-serif;font-size:clamp(20px,2vw,26px);font-weight:500;letter-spacing:-0.4px;color:var(--text);line-height:1.28;margin-bottom:12px}
-.featured-content p{font-size:15px;color:var(--mid);line-height:1.75;margin-bottom:24px;font-weight:300}
-.featured-meta{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);margin-bottom:24px}
-.read-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--blue);transition:gap var(--tr)}
-.read-btn:hover{gap:10px}
-.articles{padding:48px 0 80px}
-.articles-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:500;letter-spacing:-0.3px;color:var(--text);margin-bottom:28px}
-.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.article-card{background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--r-xl);box-shadow:var(--shadow-glass);padding:28px 24px;display:flex;flex-direction:column;transition:transform var(--tr),box-shadow var(--tr);position:relative;overflow:hidden}
-.article-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0) 55%);pointer-events:none}
-.article-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,0.12)}
-.article-card .article-tag{margin-bottom:14px}
-.article-card h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-0.2px;line-height:1.35;color:var(--text);margin-bottom:10px}
-.article-card p{font-size:13px;color:var(--mid);line-height:1.7;flex:1;margin-bottom:20px;font-weight:300}
-.article-
-.article-meta-small{font-size:12px;color:var(--muted)}
-.article-link{font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:4px;transition:gap var(--tr)}
-.article-link:hover{gap:8px}
-.coming-card{background:rgba(240,246,255,0.60);border:1.5px dashed var(--border);border-radius:var(--r-xl);padding:28px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px}
-.coming-card-icon{font-size:28px;margin-bottom:12px;opacity:0.5}
-.coming-card-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;color:var(--muted);margin-bottom:6px}
-.coming-card-sub{font-size:12px;color:var(--faint)}
-.cta-strip{background:linear-gradient(135deg,#0F172A 0%,#0C2340 55%,#0E3A5F 100%);padding:64px 0;position:relative;overflow:hidden}
-.cta-strip::before{content:'';position:absolute;top:-60px;right:-40px;width:350px;height:350px;background:radial-gradient(circle,rgba(14,165,233,0.14) 0%,transparent 70%);pointer-events:none}
-.cta-inner{max-width:600px;margin:0 auto;padding:0 24px;text-align:center;position:relative;z-index:1}
-.cta-title{font-family:'Outfit',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:500;letter-spacing:-0.5px;color:#fff;line-height:1.18;margin-bottom:12px}
-.cta-sub{font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.7;font-weight:300}
-.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(14,165,233,0.45);transition:all var(--tr)}
-.cta-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
-.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.52s ease,transform 0.52s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-/* 标题防孤行 */
-.hero-title,.article-title,h1,h2{text-wrap:balance;overflow-wrap:break-word}
-@media(max-width:900px){
-  .nav-links,.nav-cta{display:none}.nav-hamburger{display:flex}
+#mobile-signin-link{color:var(--blue);font-weight:400}
+#mobile-member-cta{display:none;color:var(--blue);font-weight:400}
+@media(max-width:768px){.nav-links,#nav-main-cta{display:none}.nav-hamburger{display:flex}}.nav-hamburger{display:flex}
   .featured-card{grid-template-columns:1fr}
   .featured-img{min-height:200px;padding:32px 28px}
   .featured-content{padding:28px 28px}
@@ -212,29 +155,33 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.92);backdrop
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" style="display:inline-flex;align-items:center;">
-      <img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager">
+    <a href="/" class="nav-logo-wrap" aria-label="MovingCOST.ai Home">
+      <img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:44px;width:auto;display:block;" loading="eager">
     </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/planner">AI Planner</a></li>
+      <li><a href="/cities">Cities</a></li>
       <li><a href="/earthsoul">EarthSoul Quiz</a></li>
       <li><a href="/blog">Blog</a></li>
-      <li><a href="/earthsoul" class="nav-cta" id="nav-main-cta">Find Your City Soul →</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/login" id="nav-main-cta">Sign In</a></li>
     </ul>
     <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
+
 <div class="nav-mobile" id="mobileMenu">
   <a href="/" onclick="closeMenu()">Home</a>
   <a href="/planner" onclick="closeMenu()">AI Planner</a>
+  <a href="/cities" onclick="closeMenu()">Cities</a>
   <a href="/earthsoul" onclick="closeMenu()">EarthSoul Quiz</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="background:transparent;color:var(--blue);border-radius:0;text-align:left;padding:14px 0;font-size:18px;font-weight:500;display:block;border-bottom:1px solid var(--border)">Sign In →</a>
-  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
 <!-- HERO -->
