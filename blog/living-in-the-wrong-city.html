@@ -821,14 +821,16 @@ document.addEventListener('click', function(e) {
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   var navCta = document.getElementById('nav-main-cta');
+  var ms = document.getElementById('mobile-signin-link');
+  var mm = document.getElementById('mobile-member-cta');
   if(email){
-    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; navCta.classList.add('is-member'); }
-    var mobileMember = document.getElementById('mobile-member-cta');
-    if(mobileMember) mobileMember.style.display = 'block';
-    var mobileSignIn = document.getElementById('mobile-signin-link');
-    if(mobileSignIn) mobileSignIn.style.display = 'none';
+    if(navCta){ navCta.textContent = 'My Dashboard'; navCta.href = '/member'; }
+    if(ms) ms.style.display = 'none';
+    if(mm) mm.style.display = 'block';
   } else {
-    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; navCta.classList.remove('is-member'); }
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
+    if(ms) ms.style.display = 'block';
+    if(mm) mm.style.display = 'none';
   }
 })();
 </script>

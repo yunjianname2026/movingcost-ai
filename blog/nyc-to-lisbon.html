@@ -99,12 +99,12 @@
     .nav-links a:hover { color: var(--blue); }
     .nav-cta {
       background: none; color: var(--blue) !important;
-      padding: 9px 20px; border-radius: 99px; font-weight: 700 !important;
+      padding: 0; border-radius: 0; font-weight: 600 !important;
       font-size: 13px !important; font-family: 'Outfit', sans-serif;
       transition: all 0.2s; white-space: nowrap; text-decoration: none;
-      box-shadow: 0 3px 12px rgba(14,165,233,0.35);
+      box-shadow: none;
     }
-    .nav-cta:hover { background: var(--blue-dark) !important; transform: translateY(-1px); }
+    .nav-cta:hover { background: none !important; opacity: 0.75; transform: none !important; }
 
     /* Hamburger */
     .nav-hamburger {
@@ -813,14 +813,16 @@ document.addEventListener('click', function(e) {
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   var navCta = document.getElementById('nav-main-cta');
+  var ms = document.getElementById('mobile-signin-link');
+  var mm = document.getElementById('mobile-member-cta');
   if(email){
-    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; navCta.classList.add('is-member'); }
-    var mm = document.getElementById('mobile-member-cta');
-    if(mm) mm.style.display = 'block';
-    var ms = document.getElementById('mobile-signin-link');
+    if(navCta){ navCta.textContent = 'My Dashboard'; navCta.href = '/member'; }
     if(ms) ms.style.display = 'none';
+    if(mm) mm.style.display = 'block';
   } else {
-    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; navCta.classList.remove('is-member'); }
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
+    if(ms) ms.style.display = 'block';
+    if(mm) mm.style.display = 'none';
   }
 })();
 </script>
