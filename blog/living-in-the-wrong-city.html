@@ -488,14 +488,28 @@
   }
   /* ── 桌面端 My Dashboard → 文字链接（已登录状态）── */
   #nav-main-cta.is-member {
-    
+    background: transparent !important;
     border: none !important; box-shadow: none !important;
-    color: var(--blue) !important;
+    color: var(--blue, #0EA5E9) !important;
     font-weight: 600 !important;
-    
+    padding: 0 4px !important; border-radius: 0 !important;
   }
   #nav-main-cta.is-member:hover {
     opacity: 0.8; transform: none !important;
+  }
+  /* Sign In text link style */
+  #nav-main-cta:not(.is-member) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--text-muted, #94A3B8) !important;
+    font-weight: 500 !important;
+    padding: 0 4px !important;
+    border-radius: 0 !important;
+  }
+  #nav-main-cta:not(.is-member):hover {
+    color: var(--blue, #0EA5E9) !important;
+    transform: none !important;
   }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
@@ -542,7 +556,7 @@
   <a href="/earthsoul" onclick="closeMenu()" style="color:var(--blue);font-weight:600">EarthSoul Quiz ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;color:var(--blue);font-size:16px;font-weight:600;display:block;text-align:center;padding:8px 0">Sign In →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="background:transparent;color:var(--blue);border-radius:0;text-align:left;padding:14px 0;font-size:18px;font-weight:500;display:block;border-bottom:1px solid var(--border)">Sign In →</a>
   <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
@@ -821,16 +835,14 @@ document.addEventListener('click', function(e) {
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   var navCta = document.getElementById('nav-main-cta');
-  var ms = document.getElementById('mobile-signin-link');
-  var mm = document.getElementById('mobile-member-cta');
   if(email){
-    if(navCta){ navCta.textContent = 'My Dashboard'; navCta.href = '/member'; }
-    if(ms) ms.style.display = 'none';
-    if(mm) mm.style.display = 'block';
+    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; navCta.classList.add('is-member'); }
+    var mobileMember = document.getElementById('mobile-member-cta');
+    if(mobileMember) mobileMember.style.display = 'block';
+    var mobileSignIn = document.getElementById('mobile-signin-link');
+    if(mobileSignIn) mobileSignIn.style.display = 'none';
   } else {
-    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; }
-    if(ms) ms.style.display = 'block';
-    if(mm) mm.style.display = 'none';
+    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; navCta.classList.remove('is-member'); }
   }
 })();
 </script>
