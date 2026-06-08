@@ -102,6 +102,21 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop
 .cta-btn:hover{background:var(--blue-d);transform:translateY(-2px);color:#fff}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.52s ease,transform 0.52s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
+@media(hover:none),(pointer:coarse){
+.article-card,.featured-card{
+touch-action:manipulation;
+transition:box-shadow var(--tr)!important;
+transform:none!important;
+}
+.article-card::after,.featured-card::after{pointer-events:none}
+.article-card:hover,.featured-card:hover{transform:none!important;box-shadow:var(--shadow-glass)}
+.article-card.reveal,.featured-card.reveal,
+.article-card.reveal.visible,.featured-card.reveal.visible{
+opacity:1;transform:none!important;
+transition:opacity 0.2s ease!important;
+}
+.article-card:active,.featured-card:active{opacity:0.92}
+}
 /* 标题防孤行 */
 .hero-title,.article-title,h1,h2{text-wrap:balance;overflow-wrap:break-word}
 @media(max-width:768px){
