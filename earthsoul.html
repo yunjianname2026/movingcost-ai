@@ -37,7 +37,7 @@
   --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.1);--blue-glow:rgba(14,165,233,0.22);
   --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.12);--green:#10B981;
 }
-html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+html,body{height:100%;min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 16%,rgba(18,174,234,0.18) 0%,transparent 32%),radial-gradient(circle at 82% 70%,rgba(126,87,255,0.12) 0%,transparent 34%),radial-gradient(circle at 18% 80%,rgba(14,165,233,0.07) 0%,transparent 28%),linear-gradient(180deg,#07111F 0%,#0B1D33 46%,#111026 100%);pointer-events:none;z-index:0}
 
 /* NAV */
@@ -47,8 +47,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .nav-pill{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(14,165,233,0.2);padding:5px 14px;border-radius:99px}
 
 /* SCREENS */
-.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1);z-index:1;overflow-y:auto;overflow-x:hidden}
+.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1);z-index:1;overflow-x:hidden}
 .screen.active{opacity:1;pointer-events:all}
+#s-intro,#s-quiz,#s-calc{overflow-y:hidden}
+#s-result{overflow-y:auto}
 
 /* ── INTRO ── */
 #s-intro{text-align:center;position:relative;gap:0;background:var(--bg);justify-content:space-between;padding-top:calc(76px + env(safe-area-inset-top));padding-bottom:calc(32px + env(safe-area-inset-bottom));min-height:100dvh;box-sizing:border-box}
@@ -1002,43 +1004,7 @@ function retake(){
 }
 </script>
 <script>
-/* ================================================================
-   MovingCOST Rewards System v1 — quiz.html 集成代码
-   把这段代码完整粘贴到 quiz.html 最底部，
-<script>
-(function(){
-  var btn = document.getElementById('esMenuBtn');
-  var menu = document.getElementById('esMobileMenu');
-  if(btn && menu){
-    btn.addEventListener('click', function(){
-      var open = menu.style.display === 'flex';
-      menu.style.display = open ? 'none' : 'flex';
-    });
-    document.addEventListener('click', function(e){
-      if(btn && menu && !btn.contains(e.target) && !menu.contains(e.target)){
-        menu.style.display = 'none';
-      }
-    });
-  }
-  // 会员状态
-  var email = null;
-  try{ email = localStorage.getItem('mc_email'); }catch(e){}
-  if(email){
-    var ml = document.getElementById('quiz-member-link');
-    if(ml) ml.style.display = 'inline-block';
-    var sl = document.getElementById('quiz-signin-link');
-    if(sl) sl.style.display = 'none';
-    var esm = document.getElementById('es-mobile-member');
-    if(esm) esm.style.display = 'block';
-    var ess = document.getElementById('es-mobile-signin');
-    if(ess) ess.style.display = 'none';
-  }
-})();
-</script>
-</body> 标签之前
-   不修改任何现有代码，只追加
-   ================================================================ */
-
+/* MovingCOST Rewards System v1 — earthsoul.html */
 (function () {
   'use strict';
 
@@ -1808,13 +1774,7 @@ function retake(){
   }
 
 })();
-</script>
 
-<script>
-(function(){var e=null;try{e=localStorage.getItem("mc_email")}catch(x){}if(e){var el=document.getElementById("quiz-member-link");if(el)el.style.display="inline-flex";}})();
-</script>
-
-<script>
 (function(){
   var btn = document.getElementById('esMenuBtn');
   var menu = document.getElementById('esMobileMenu');
@@ -1829,7 +1789,6 @@ function retake(){
       }
     });
   }
-  // 会员状态
   var email = null;
   try{ email = localStorage.getItem('mc_email'); }catch(e){}
   if(email){
