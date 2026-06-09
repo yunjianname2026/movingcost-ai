@@ -21,21 +21,24 @@
   --shadow-md:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
   --r:12px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
 }
-html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html,body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 10% 5%,rgba(14,165,233,0.08) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 95%,rgba(16,185,129,0.05) 0%,transparent 55%);pointer-events:none;z-index:0}
 a{text-decoration:none;color:inherit}
 
 /* ── NAV ── */
-.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.90);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{flex-shrink:0;line-height:1}
-
-.nav-right{display:flex;align-items:center;gap:10px}
+.nav{position:sticky;top:0;z-index:100;flex-shrink:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 32px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{flex-shrink:0;line-height:1;display:inline-flex;align-items:center}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .nav-badge{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);background:var(--green-l);border:1px solid rgba(16,185,129,0.2);padding:4px 12px;border-radius:99px}
-.nav-home{font-size:13px;font-weight:500;color:var(--muted);padding:6px 14px;border-radius:99px;transition:var(--tr)}
-.nav-home:hover{background:var(--blue-l);color:var(--blue-d)}
+.nav-home{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;padding:6px 0;transition:color var(--tr);white-space:nowrap}
+.nav-home:hover{color:var(--blue);background:transparent;border:none;box-shadow:none}
+.site-footer{text-align:center;padding:22px 24px 28px;font-size:12px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border);background:rgba(255,255,255,0.45);margin-top:auto}
+.site-footer a{color:var(--muted);text-decoration:none;transition:color var(--tr)}
+.site-footer a:hover{color:var(--blue)}
+.site-footer-copy{display:block;font-size:11px;color:var(--faint);margin-top:6px;line-height:1.6}
 
 /* ── LAYOUT ── */
-.page{max-width:720px;margin:0 auto;padding:36px 20px 80px;position:relative;z-index:1}
+.page{flex:1;max-width:720px;width:100%;margin:0 auto;padding:36px 20px 48px;position:relative;z-index:1}
 
 /* ── SECTION LABEL ── */
 .sec-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:24px;display:flex;align-items:center;gap:10px}
@@ -174,43 +177,15 @@ a{text-decoration:none;color:inherit}
 
 /* ── RESPONSIVE ── */
 @media(max-width:560px){
-  nav{padding:0 16px}
-  .page{padding:24px 14px 60px}
+  .nav{padding:0 16px}
+  .page{padding:24px 14px 32px}
+  .site-footer{padding:18px 16px 24px;font-size:11px}
   .card{padding:18px 16px}
   .pts-grid{grid-template-columns:1fr 1fr}
   .pts-earn-row{grid-template-columns:1fr}
   .invite-stats{grid-template-columns:1fr 1fr}
   .pts-big{font-size:30px}
 }
-  
-  /* ── FOOTER LEGAL & DISCLAIMER (v2) ── */
-  .footer-legal {
-    margin-top: 24px; padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    text-align: center; font-size: 12px;
-    line-height: 1.6; color: rgba(255,255,255,0.46);
-  }
-  .footer-legal p { margin: 3px 0; }
-  .footer-disclaimer {
-    max-width: 820px; margin: 10px auto 0;
-    text-align: center; font-size: 11px;
-    line-height: 1.55; color: rgba(255,255,255,0.32);
-  }
-  @media (max-width: 768px) {
-    .footer-legal { font-size: 11px; padding: 0 20px; }
-    .footer-disclaimer { font-size: 10.5px; padding: 0 20px; }
-  }
-  /* ── 桌面端 My Dashboard → 文字链接（已登录状态）── */
-  #nav-main-cta.is-member {
-    background: transparent !important;
-    border: none !important; box-shadow: none !important;
-    color: var(--blue, #0EA5E9) !important;
-    font-weight: 600 !important;
-    padding: 0 4px !important; border-radius: 0 !important;
-  }
-  #nav-main-cta.is-member:hover {
-    opacity: 0.8; transform: none !important;
-  }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
@@ -231,11 +206,10 @@ a{text-decoration:none;color:inherit}
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="/" class="nav-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
+  <a href="/" class="nav-logo"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
   <div class="nav-right">
-    
     <a href="/" class="nav-home">← Home</a>
-      <a href="#" class="nav-home" onclick="signOut()" style="color:var(--text-muted);white-space:nowrap">Sign Out</a>
+    <a href="#" class="nav-home" onclick="signOut()">Sign Out</a>
   </div>
 </nav>
 
@@ -425,6 +399,16 @@ a{text-decoration:none;color:inherit}
   </div>
 
 </div><!-- /page -->
+
+<footer class="site-footer">
+  <a href="/">MovingCOST.ai</a> &nbsp;·&nbsp;
+  <a href="/privacy">Privacy</a> &nbsp;·&nbsp;
+  <a href="/terms">Terms</a> &nbsp;·&nbsp;
+  <a href="/contact">Contact</a> &nbsp;·&nbsp;
+  <a href="mailto:support@movingcost.ai">support@movingcost.ai</a>
+  <span class="site-footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</span>
+  <span class="site-footer-copy">AI-generated planning estimates only · Not legal, tax, or immigration advice</span>
+</footer>
 
 <script>
 // ================================================================

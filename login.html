@@ -19,18 +19,22 @@
   --r:12px;--r-xl:20px;--tr:0.22s cubic-bezier(0.4,0,0.2,1);
 }
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 10%,rgba(14,165,233,0.09) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 90%,rgba(16,185,129,0.06) 0%,transparent 60%);pointer-events:none;z-index:0}
 
 /* ── NAV ── */
-nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px;background:rgba(255,255,255,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.logo{flex-shrink:0;line-height:1}
-.logo span{color:var(--blue)}
-.nav-link{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:99px;transition:var(--tr)}
-.nav-link:hover{background:var(--blue-l);color:var(--blue-d)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px;flex-shrink:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{flex-shrink:0;line-height:1;display:inline-flex;align-items:center}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-link{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;padding:6px 0;transition:color var(--tr);white-space:nowrap}
+.nav-link:hover{color:var(--blue);background:transparent;border:none;box-shadow:none}
+.site-footer{text-align:center;padding:22px 24px 28px;font-size:12px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border);background:rgba(255,255,255,0.45);margin-top:auto}
+.site-footer a{color:var(--muted);text-decoration:none;transition:color var(--tr)}
+.site-footer a:hover{color:var(--blue)}
+.site-footer-copy{display:block;font-size:11px;color:var(--faint);margin-top:6px;line-height:1.6}
 
 /* ── MAIN ── */
-main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px 80px;min-height:calc(100vh - 62px)}
+main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 24px 48px}
 
 /* ── CARD ── */
 .login-wrap{width:100%;max-width:440px;animation:fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both}
@@ -83,47 +87,15 @@ main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:
 .btn-new{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--white);border:1px solid var(--border);color:var(--mid);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:11px;border-radius:99px;cursor:pointer;text-decoration:none;transition:var(--tr);width:100%}
 .btn-new:hover{border-color:var(--blue-m);color:var(--blue-d);background:var(--blue-l)}
 
-/* ── FOOTER ── */
-.login-footer{text-align:center;font-size:12px;color:var(--muted);line-height:1.6}
-.login-footer a{color:var(--blue);text-decoration:none}
-
 /* ── MOBILE ── */
 @media(max-width:480px){
-  nav{padding:0 18px}
-  main{padding:36px 16px 60px}
+  nav{padding:0 16px}
+  main{padding:36px 16px 32px}
+  .site-footer{padding:18px 16px 24px;font-size:11px}
   .form-card{padding:20px 18px}
   .input-row{flex-direction:column}
   .btn-send{width:100%}
 }
-  
-  /* ── FOOTER LEGAL & DISCLAIMER (v2) ── */
-  .footer-legal {
-    margin-top: 24px; padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    text-align: center; font-size: 12px;
-    line-height: 1.6; color: rgba(255,255,255,0.46);
-  }
-  .footer-legal p { margin: 3px 0; }
-  .footer-disclaimer {
-    max-width: 820px; margin: 10px auto 0;
-    text-align: center; font-size: 11px;
-    line-height: 1.55; color: rgba(255,255,255,0.32);
-  }
-  @media (max-width: 768px) {
-    .footer-legal { font-size: 11px; padding: 0 20px; }
-    .footer-disclaimer { font-size: 10.5px; padding: 0 20px; }
-  }
-  /* ── 桌面端 My Dashboard → 文字链接（已登录状态）── */
-  #nav-main-cta.is-member {
-    background: transparent !important;
-    border: none !important; box-shadow: none !important;
-    color: var(--blue, #0EA5E9) !important;
-    font-weight: 600 !important;
-    padding: 0 4px !important; border-radius: 0 !important;
-  }
-  #nav-main-cta.is-member:hover {
-    opacity: 0.8; transform: none !important;
-  }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
@@ -144,8 +116,10 @@ main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
-  <a href="/" class="nav-link">← Home</a>
+  <a href="/" class="logo"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
+  <div class="nav-right">
+    <a href="/" class="nav-link">← Home</a>
+  </div>
 </nav>
 
 <main>
@@ -204,13 +178,18 @@ main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:
       </a>
     </div>
 
-    <div class="login-footer">
-      Questions? <a href="mailto:hello@movingcost.ai">hello@movingcost.ai</a>
-      &nbsp;·&nbsp; <a href="/">movingcost.ai</a>
-    </div>
-
   </div>
 </main>
+
+<footer class="site-footer">
+  <a href="/">MovingCOST.ai</a> &nbsp;·&nbsp;
+  <a href="/privacy">Privacy</a> &nbsp;·&nbsp;
+  <a href="/terms">Terms</a> &nbsp;·&nbsp;
+  <a href="/contact">Contact</a> &nbsp;·&nbsp;
+  <a href="mailto:support@movingcost.ai">support@movingcost.ai</a>
+  <span class="site-footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</span>
+  <span class="site-footer-copy">AI-generated planning estimates only · Not legal, tax, or immigration advice</span>
+</footer>
 
 <script>
 (function(){
