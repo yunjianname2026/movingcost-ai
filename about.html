@@ -36,22 +36,23 @@ nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.88);backdrop
 .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
 .logo{flex-shrink:0;line-height:1}
 .logo span{color:var(--blue)}.logo sup{font-size:9px;font-weight:700;color:var(--blue);vertical-align:super;letter-spacing:0}
-.nav-links{display:flex;align-items:center;gap:18px}
-.nav-links a{font-size:13px;font-weight:500;color:var(--mid);transition:color var(--tr);white-space:nowrap}
+.nav-right{display:flex;align-items:center;gap:24px;margin-left:auto;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0}
+.nav-links a{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;transition:color var(--tr);white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:var(--blue)}
-.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;background:none;color:var(--blue);padding:4px 0;border-radius:0;box-shadow:none;transition:color var(--tr);white-space:nowrap;flex-shrink:0;text-decoration:none;font-weight:700}
-.nav-cta:hover{background:var(--blue-d);transform:translateY(-1px);color:#fff}
+.nav-cta,#nav-main-cta{font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;background:none!important;border:none!important;box-shadow:none!important;border-radius:0!important;padding:0!important;color:var(--blue)!important;transition:opacity var(--tr);white-space:nowrap;flex-shrink:0;text-decoration:none;cursor:pointer}
+.nav-cta:hover,#nav-main-cta:hover{opacity:0.75;transform:none!important;color:var(--blue)!important;background:none!important}
 .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border-radius:8px;transition:background var(--tr);border:none;background:transparent}
 .nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--tr);transform-origin:center}
 .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.nav-mobile{display:none;position:fixed;inset:62px 0 0 0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:32px 24px;gap:4px;border-top:1px solid var(--border);overflow-y:auto}
+.nav-mobile{display:none;position:fixed;top:62px;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:16px 24px 28px;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.06);-webkit-font-smoothing:antialiased}
 .nav-mobile.open{display:flex}
-.nav-mobile a{font-family:'Outfit',sans-serif;font-size:18px;font-weight:500;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border);transition:color var(--tr)}
+.nav-mobile a{font-family:'Outfit',sans-serif;font-size:15px;font-weight:400;color:var(--text);padding:12px 0;border-bottom:1px solid var(--border);text-decoration:none;transition:color 0.2s}
 .nav-mobile a:last-child{border:none}
 .nav-mobile a:hover{color:var(--blue)}
-.nav-mobile .mobile-cta{margin-top:20px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:15px;font-size:16px;font-weight:700}
+.nav-mobile #mobile-signin-link,.nav-mobile #mobile-member-cta{background:none!important;border-radius:0!important;color:var(--blue)!important;font-weight:600!important}
 
 /* HERO */
 .hero{background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 45%,#F4F8FE 100%);padding:88px 0 80px;position:relative;overflow:hidden}
@@ -176,9 +177,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* RESPONSIVE */
+@media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
 @media(max-width:900px){
-  .nav-links,.nav-cta{display:none}
-  .nav-hamburger{display:flex}
   .story-grid,.approach-grid{grid-template-columns:1fr;gap:40px}
   .story-left{position:static}
   .values-grid{grid-template-columns:1fr}
@@ -241,35 +241,33 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="eager"></a>
-    <div class="nav-links">
+    <a href="/" class="logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
+    <div class="nav-right">
+      <div class="nav-links">
         <a href="/">Home</a>
-        <a href="/#tools">AI Tools</a>
+        <a href="/planner">AI Planner</a>
         <a href="/">Cities</a>
-        <a href="/">Routes</a>
-        <a href="/#guides">Guides</a>
-        <a href="/#services">Services</a>
+        <a href="/earthsoul">EarthSoul</a>
         <a href="/blog">Blog</a>
         <a href="/about" class="active">About</a>
+        <a href="/login" class="nav-cta" id="nav-main-cta">Sign In</a>
       </div>
-    <a href="/login" class="nav-cta" id="nav-main-cta">Sign In</a>
-    <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+      <button class="nav-hamburger" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
 <div class="nav-mobile" id="mobileMenu">
   <a href="/" onclick="closeMenu()">Home</a>
-  <a href="/#tools" onclick="closeMenu()">AI Tools</a>
+  <a href="/planner" onclick="closeMenu()">AI Planner</a>
   <a href="/" onclick="closeMenu()">Cities</a>
-  <a href="/" onclick="closeMenu()">Routes</a>
-  <a href="/#guides" onclick="closeMenu()">Guides</a>
-  <a href="/#services" onclick="closeMenu()">Services</a>
+  <a href="/earthsoul" onclick="closeMenu()">EarthSoul ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/login" onclick="closeMenu()" id="mobile-signin-link" style="margin-top:8px;background:var(--blue);color:#fff;border-radius:99px;text-align:center;padding:14px 0;font-size:16px;font-weight:700;display:block">Sign In →</a>
-  <a href="/member" id="mobile-member-cta" style="display:none;font-size:18px;font-weight:600;color:var(--blue);padding:14px 0;border-bottom:1px solid var(--border)" onclick="closeMenu()">My Dashboard →</a>
+  <a href="/login" onclick="closeMenu()" id="mobile-signin-link">Sign In →</a>
+  <a href="/member" id="mobile-member-cta" style="display:none;" onclick="closeMenu()">My Dashboard →</a>
 </div>
 
 <!-- HERO -->
@@ -445,21 +443,21 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="footer-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;;width:auto;display:block;;width:auto;display:block;" loading="lazy"></a>
-        <p>AI-powered cost planning for moving, relocation, and mobile living. Helping people around the world move smarter and live lighter.</p>
+        <a href="/" class="footer-logo" style="display:inline-flex;align-items:center;"><img src="/assets/logo/logo-dark-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="lazy"></a>
+        <p>AI mobility planning platform for relocation, digital nomad life, and city comparison. Helping people plan smarter moves and live lighter.</p>
         <div class="social-row">
           <a href="https://x.com/movingcostai" target="_blank" rel="noopener" class="social-btn">𝕏</a>
           <a href="https://linkedin.com/company/movingcostai" target="_blank" rel="noopener" class="social-btn">in</a>
           <a href="https://youtube.com/@movingcostai" target="_blank" rel="noopener" class="social-btn">▶</a>
         </div>
       </div>
-            <div class="footer-col">
+      <div class="footer-col">
         <h4>AI Tools</h4>
         <ul>
           <li><a href="/planner">Relocation Planner</a></li>
           <li><a href="/planner">Nomad Planner</a></li>
           <li><a href="/planner">City Comparison</a></li>
-          <li><a href="/planner">Cost Calculator</a></li>
+          <li><a href="/planner">Cost Estimator</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -467,6 +465,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <ul>
           <li><a href="/">Cities</a></li>
           <li><a href="/">Routes</a></li>
+          <li><a href="/earthsoul" style="color:var(--blue);font-weight:600">EarthSoul ✦</a></li>
           <li><a href="/blog">Blog</a></li>
           <li><a href="/#guides">Guides</a></li>
         </ul>
@@ -474,20 +473,17 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="mailto:support@movingcost.ai">Contact</a></li>
-          <li><a href="/planner">Pricing</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Use</a></li>
         </ul>
       </div>
     </div>
-    
-    
-      <div class="footer-links">
-        <a href="mailto:support@movingcost.ai">Privacy</a>
-        <a href="mailto:support@movingcost.ai">Terms</a>
-        <a href="mailto:support@movingcost.ai">Contact</a>
-      </div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+      <a href="/contact">Contact</a>
     </div>
   </div>
     <div class="footer-legal">
@@ -500,44 +496,44 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 </footer>
 
 <script>
-// Hamburger
-var menuBtn=document.getElementById('menuBtn');
-var mobileMenu=document.getElementById('mobileMenu');
-menuBtn.addEventListener('click',function(){
-  var open=mobileMenu.classList.toggle('open');
-  menuBtn.classList.toggle('open',open);
-  document.body.style.overflow=open?'hidden':'';
-});
-function closeMenu(){
-  mobileMenu.classList.remove('open');
-  menuBtn.classList.remove('open');
-  document.body.style.overflow='';
-}
-document.addEventListener('click',function(e){
-  if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu();
-});
-
-// Scroll reveal
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var mobileMenu=document.getElementById('mobileMenu');
+  if(menuBtn&&mobileMenu){
+    menuBtn.addEventListener('click',function(){
+      var open=mobileMenu.classList.toggle('open');
+      menuBtn.classList.toggle('open',open);
+      document.body.style.overflow=open?'hidden':'';
+    });
+    document.addEventListener('click',function(e){
+      if(!menuBtn.contains(e.target)&&!mobileMenu.contains(e.target))closeMenu();
+    });
+  }
+  window.closeMenu=function(){
+    if(!mobileMenu||!menuBtn)return;
+    mobileMenu.classList.remove('open');
+    menuBtn.classList.remove('open');
+    document.body.style.overflow='';
+  };
+  var email=null;
+  try{email=localStorage.getItem('mc_email');}catch(e){}
+  var navCta=document.getElementById('nav-main-cta');
+  var ms=document.getElementById('mobile-signin-link');
+  var mm=document.getElementById('mobile-member-cta');
+  if(email){
+    if(navCta){navCta.textContent='My Dashboard';navCta.href='/member';navCta.classList.add('is-member');}
+    if(ms)ms.style.display='none';
+    if(mm)mm.style.display='block';
+  }else{
+    if(navCta){navCta.textContent='Sign In';navCta.href='/login';navCta.classList.remove('is-member');}
+    if(ms)ms.style.display='block';
+    if(mm)mm.style.display='none';
+  }
+})();
 var observer=new IntersectionObserver(function(entries){
   entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')});
 },{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
-</script>
-<script>
-(function(){
-  var email = null;
-  try{ email = localStorage.getItem('mc_email'); }catch(e){}
-  var navCta = document.getElementById('nav-main-cta');
-  if(email){
-    if(navCta){ navCta.textContent = 'My Dashboard →'; navCta.href = '/member'; navCta.classList.add('is-member'); }
-    var mobileMember = document.getElementById('mobile-member-cta');
-    if(mobileMember) mobileMember.style.display = 'block';
-    var mobileSignIn = document.getElementById('mobile-signin-link');
-    if(mobileSignIn) mobileSignIn.style.display = 'none';
-  } else {
-    if(navCta){ navCta.textContent = 'Sign In'; navCta.href = '/login'; navCta.classList.remove('is-member'); }
-  }
-})();
 </script>
 </body>
 </html>
