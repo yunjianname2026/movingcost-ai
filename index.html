@@ -106,39 +106,59 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.88);backdrop
 .nav-mobile a:last-child{border:none}
 .nav-mobile a:hover{color:var(--blue)}
 .nav-mobile #mobile-signin-link,.nav-mobile #mobile-member-cta{background:none!important;border-radius:0!important;color:var(--blue)!important;font-weight:600!important}
-.hero{background:linear-gradient(150deg,#EEF5FD 0%,#E5F2FC 45%,#F4F8FE 100%);padding:80px 0 72px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-160px;right:-120px;width:680px;height:680px;background:radial-gradient(circle,rgba(14,165,233,0.09) 0%,transparent 68%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,0.05) 0%,transparent 70%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:stretch;position:relative;z-index:1}
-.hero-grid>div:first-child{display:flex;flex-direction:column;justify-content:center}
+/* HERO — AI Move Snapshot Final */
+.hero{background:#FAFCFF;padding:84px 0 76px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-18%;right:-6%;width:48%;height:78%;background:radial-gradient(ellipse,rgba(14,165,233,0.042) 0%,transparent 74%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-35%;left:-8%;width:34%;height:50%;background:radial-gradient(ellipse,rgba(14,165,233,0.025) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.04fr 0.96fr;gap:52px;align-items:stretch;position:relative;z-index:1}
+.hero-grid>div:first-child{display:flex;flex-direction:column;justify-content:flex-start}
+.hero-left-bottom{margin-top:auto}
 .hero-eyebrow{margin-bottom:22px}
-.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(38px,5vw,58px);font-weight:500;letter-spacing:-1.2px;line-height:1.00;margin-bottom:18px}
-.hero-desc{font-size:16px;color:var(--mid);line-height:1.78;margin-bottom:30px;max-width:440px;font-weight:300}
-.hero-stats{display:flex;gap:36px;margin-bottom:36px;flex-wrap:wrap}
-.hstat-num{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:500;letter-spacing:-0.5px;color:var(--text)}
-.hstat-label{font-size:12px;color:var(--muted);margin-top:2px;font-weight:400}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-.hero-card{padding:32px 28px 26px;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center}
-.hero-card .hcard-title{font-family:'Outfit',sans-serif;font-size:19px;font-weight:600;letter-spacing:-0.3px;color:var(--text);margin-bottom:16px;line-height:1.25}
-.hcard-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.field-label{display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.field-input{width:100%;height:42px;border:1.5px solid var(--border);border-radius:var(--r);padding:0 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:rgba(255,255,255,0.8);outline:none;transition:border-color var(--tr),box-shadow var(--tr)}
-.field-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.12);background:#fff}
-.field-input::placeholder{color:var(--faint)}
-.path-radio{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-.path-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.path-mini label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1/1;border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all var(--tr);background:rgba(255,255,255,0.7);text-align:center;user-select:none;-webkit-user-select:none}
-.path-mini label:hover{border-color:var(--blue);background:rgba(224,242,254,0.7)}
-.pm-icon{font-size:22px;line-height:1}
-.pm-label{font-size:10px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text);line-height:1.3}
-#path-relocation:checked~.path-mini label[for="path-relocation"],
-#path-nomad:checked~.path-mini label[for="path-nomad"],
-#path-comparing:checked~.path-mini label[for="path-comparing"]{border-color:var(--blue);background:rgba(224,242,254,0.85);box-shadow:0 0 0 3px rgba(14,165,233,0.12)}
-.hcard-btn{display:flex;align-items:center;justify-content:center;width:100%;height:46px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);box-shadow:0 4px 16px rgba(14,165,233,0.38);text-decoration:none}
-.hcard-btn:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 7px 22px rgba(14,165,233,0.48);color:#fff}
-.hcard-trust{display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap}
-.htrust{font-size:10px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:5px}
-.htrust::before{content:'';width:5px;height:5px;background:var(--green);border-radius:50%;flex-shrink:0}
+.hero-title{font-family:'Outfit',sans-serif;font-size:clamp(38px,5vw,58px);font-weight:500;letter-spacing:-1.2px;line-height:1.06;margin-bottom:18px}
+.hero-desc{font-size:15px;color:var(--mid);line-height:1.48;margin-bottom:30px;max-width:548px;font-weight:300;text-wrap:balance}
+.hero-stats{display:flex;gap:32px;margin-bottom:34px;flex-wrap:wrap}
+.hero .hstat-num{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:500;letter-spacing:-0.4px;color:var(--text)}
+.hero .hstat-label{font-size:12px;color:var(--muted);margin-top:2px;font-weight:400}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero .btn-primary{border-radius:99px;padding:0 28px;font-weight:700;font-size:14px;height:44px;box-shadow:0 2px 12px rgba(14,165,233,0.28)}
+.hero .btn-primary:hover{transform:none;background:var(--blue-d);box-shadow:0 4px 16px rgba(14,165,233,0.34)}
+.hero .btn-ghost{border-radius:99px;background:rgba(255,255,255,0.82);border:1.5px solid rgba(14,165,233,0.22);color:var(--mid);font-weight:600;padding:0 24px;font-size:14px;height:44px;box-shadow:none}
+.hero .btn-ghost:hover{border-color:var(--blue);color:var(--blue);background:rgba(255,255,255,0.95);transform:none;box-shadow:none}
+.hero-quiz-nudge{margin-top:10px}
+.hero .quiz-nudge-link{font-size:13px;color:var(--muted);gap:6px}
+.hero .qnl-label{color:var(--muted)}
+.hero .qnl-action{color:var(--blue);font-weight:500}
+.hero .hero-snapshot{position:relative;z-index:1;display:flex;flex-direction:column;gap:0;padding:22px 22px 18px;background:rgba(255,255,255,0.78);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(255,255,255,0.94);border-radius:20px;box-shadow:0 1px 0 rgba(255,255,255,0.92) inset,0 18px 48px rgba(14,165,233,0.06),0 2px 14px rgba(10,22,40,0.04);overflow:hidden}
+.hero .hero-snapshot::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(14,165,233,0.2),transparent);pointer-events:none}
+.hero .hero-snapshot::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,0.36) 0%,transparent 52%);pointer-events:none}
+.hero .snap-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;position:relative;z-index:1}
+.hero .snap-head-text{display:flex;flex-direction:column;gap:4px}
+.hero .snap-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(19px,1.85vw,23px);font-weight:500;letter-spacing:-0.35px;color:var(--text);line-height:1.2}
+.hero .snap-preview-tag{font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--muted)}
+.hero .snap-body{display:flex;flex-direction:column;gap:0;position:relative;z-index:1}
+.hero .snap-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.hero .snap-meta-item{display:flex;flex-direction:column;gap:4px}
+.hero .snap-k{font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted)}
+.hero .snap-v{font-family:'Outfit',sans-serif;font-size:14px;font-weight:400;color:var(--text);letter-spacing:-0.08px;line-height:1.4}
+.hero .snap-v-route{font-size:15px;font-weight:400;letter-spacing:-0.12px}
+.hero .snap-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.hero .snap-metric{background:rgba(255,255,255,0.65);border:1px solid var(--border);border-radius:14px;padding:12px 13px 11px;display:flex;flex-direction:column;gap:5px}
+.hero .snap-metric .snap-k{font-size:10px;color:var(--muted)}
+.hero .snap-metric .snap-v{font-family:'Playfair Display',Georgia,serif;font-size:clamp(18px,1.9vw,21px);font-weight:400;letter-spacing:-0.3px;color:var(--text);line-height:1.15}
+.hero .snap-metric .snap-sample{font-size:9px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);margin-top:1px}
+.hero .snap-secondary{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.hero .snap-complexity{display:flex;align-items:center;gap:8px}
+.hero .snap-complexity .snap-k{margin:0;font-size:10px}
+.hero .snap-pill{font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:var(--blue-d);background:var(--blue-l);border:1px solid rgba(14,165,233,0.18);padding:3px 11px;border-radius:99px}
+.hero .snap-priorities{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero .snap-priorities .snap-k{font-size:10px;flex-shrink:0;margin:0}
+.hero .snap-chips{display:flex;flex-wrap:nowrap;gap:5px;min-width:0}
+.hero .snap-chip{font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;color:var(--mid);background:rgba(255,255,255,0.7);border:1px solid var(--border);padding:4px 10px;border-radius:99px;line-height:1.25;white-space:nowrap}
+.hero .snap-insight{font-size:12px;color:var(--mid);line-height:1;display:flex;align-items:center;width:100%;box-sizing:border-box;height:44px;padding:0 12px;margin-bottom:14px;background:var(--blue-xl);border:1px solid var(--border);border-radius:10px;font-weight:400;font-style:normal;letter-spacing:-0.02em;white-space:nowrap}
+@media(min-width:769px) and (max-width:1080px){.hero .snap-insight{font-size:11.5px;letter-spacing:-0.025em;padding:0 11px}}
+.hero .snap-cta{display:flex;align-items:center;justify-content:center;width:100%;height:44px;margin-top:0;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:background var(--tr),box-shadow var(--tr);box-shadow:0 2px 10px rgba(14,165,233,0.22);position:relative;z-index:1}
+.hero .snap-cta:hover{background:var(--blue-d);box-shadow:0 3px 14px rgba(14,165,233,0.28);color:#fff;transform:none}
+.hero .snap-foot{margin-top:10px;font-size:11px;font-weight:400;color:var(--muted);text-align:center;line-height:1.5;position:relative;z-index:1}
 .paths-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
 .path-card{padding:30px 26px;overflow:hidden}
 .path-card-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
@@ -249,16 +269,14 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 @keyframes shim{0%,100%{opacity:0.45}50%{opacity:1}}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.52s ease,transform 0.52s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:32px}.hero-card{max-width:520px}.footer-grid{grid-template-columns:1fr 1fr}.services-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}.section{padding:64px 0}.paths-grid,.tools-grid,.why-grid{grid-template-columns:1fr}.report-grid{grid-template-columns:1fr;gap:36px}.guides-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.hero{padding:56px 0 52px}.hero-stats{gap:24px}.hero-btns{flex-direction:column;align-items:flex-start}.hcard-row{grid-template-columns:1fr}.cta-btns{flex-direction:column;align-items:stretch}.cta-btns .btn{width:100%;justify-content:center}.cta-title{white-space:normal}}
-@media(max-width:480px){.services-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.hero-stats{flex-direction:column;gap:16px}}
-.hero-quiz-nudge{margin-top:18px}
-.quiz-nudge-link{display:inline-flex;align-items:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text-mid);text-decoration:none;transition:all 0.2s;padding:6px 0;border-bottom:1px solid transparent}
-.quiz-nudge-link:hover{color:var(--text);border-bottom-color:var(--blue)}
-.qnl-label{color:var(--muted)}
-.qnl-action{color:var(--blue);font-weight:600}
-.qnl-arr{font-size:13px;color:var(--blue);transition:transform 0.2s;display:inline-block}
-.quiz-nudge-link:hover .qnl-arr{transform:translateX(4px)}
+@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:40px}.hero-left-bottom{margin-top:0}.hero .hero-snapshot{max-width:520px;width:100%;margin:0 auto}.footer-grid{grid-template-columns:1fr 1fr}.services-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}.section{padding:64px 0}.paths-grid,.tools-grid,.why-grid{grid-template-columns:1fr}.report-grid{grid-template-columns:1fr;gap:36px}.guides-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.hero{padding:64px 0 56px}.hero-grid{gap:36px}.hero-desc{max-width:100%;font-size:15px;line-height:1.5;text-wrap:pretty}.hero-stats{gap:24px;margin-bottom:32px}.hero-btns{flex-direction:column;align-items:stretch}.hero .btn-primary,.hero .btn-ghost{width:100%;justify-content:center}.hero .hero-snapshot{padding:20px 18px 16px;border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,0.9) inset,0 14px 40px rgba(14,165,233,0.05),0 2px 10px rgba(10,22,40,0.03)}.hero .snap-meta{grid-template-columns:1fr}.hero .snap-metrics{grid-template-columns:1fr 1fr}.hero .snap-insight{white-space:normal;text-wrap:pretty;line-height:1.42;font-size:12px;padding:10px 12px;letter-spacing:0;height:auto;display:block}.hero .snap-chips{flex-wrap:wrap}.hero .snap-chip{white-space:normal}.cta-btns{flex-direction:column;align-items:stretch}.cta-btns .btn{width:100%;justify-content:center}.cta-title{white-space:normal}}
+@media(max-width:480px){.services-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.hero-stats{flex-direction:column;gap:14px}.hero .snap-metrics{grid-template-columns:1fr}}
+.hero .quiz-nudge-link{display:inline-flex;align-items:center;flex-wrap:wrap;font-family:'DM Sans',sans-serif;text-decoration:none;transition:color 0.2s;padding:4px 0;background:none;border:none}
+.hero .quiz-nudge-link:hover{color:var(--text)}
+.hero .quiz-nudge-link:hover .qnl-action{color:var(--blue-d)}
+.hero .qnl-arr{font-size:12px;color:var(--blue);transition:transform 0.2s;display:inline-block;opacity:0.8}
+.hero .quiz-nudge-link:hover .qnl-arr{transform:translateX(2px)}
 .es-banner{background:linear-gradient(135deg,#0A1020 0%,#0C1C32 55%,#0A1020 100%);padding:52px 0;position:relative;overflow:hidden}
 .es-banner::before{content:'';position:absolute;top:-40%;left:-5%;width:45%;height:180%;background:radial-gradient(ellipse,rgba(14,165,233,0.09),transparent 60%);pointer-events:none}
 .es-banner::after{content:'';position:absolute;bottom:-30%;right:-5%;width:35%;height:120%;background:radial-gradient(ellipse,rgba(99,50,200,0.07),transparent 65%);pointer-events:none}
@@ -284,64 +302,6 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   .esb-badges{justify-content:flex-start}
 }
 
-/* ================================================================
-   Hero Card 视觉升级补丁 — 仅改右侧AI卡外观，字体/字重/内容全不动
-   ================================================================ */
-.hero-card {
-  justify-content: space-evenly;
-  background: rgba(255, 255, 255, 0.80) !important;
-  backdrop-filter: blur(28px) !important;
-  -webkit-backdrop-filter: blur(28px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.92) !important;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 32px rgba(14,165,233,0.09), 0 32px 80px rgba(14,165,233,0.07), 0 2px 8px rgba(0,0,0,0.05) !important;
-  overflow: hidden;
-  padding-top: 0 !important;
-}
-.hero-card::before {
-  content: "";
-  display: block;
-  height: 2.5px;
-  background: linear-gradient(90deg, transparent 0%, var(--blue) 25%, var(--blue-d) 75%, transparent 100%);
-  opacity: 0.5;
-  margin: 0 -28px 32px -28px;
-  flex-shrink: 0;
-}
-.hero-card .hcard-title { margin-bottom: 14px; }
-.hcard-row { margin-bottom: 14px; }
-.path-mini { margin-bottom: 16px; }
-.path-mini label:hover {
-  background: rgba(224,242,254,0.60);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(14,165,233,0.10);
-  transition: all 0.18s ease;
-}
-#path-relocation:checked ~ .path-mini label[for="path-relocation"],
-#path-nomad:checked ~ .path-mini label[for="path-nomad"],
-#path-comparing:checked ~ .path-mini label[for="path-comparing"] {
-  border-color: var(--blue);
-  background: rgba(224,242,254,0.85);
-  box-shadow: 0 0 0 3px rgba(14,165,233,0.12), 0 2px 8px rgba(14,165,233,0.10);
-  transform: translateY(-1px);
-}
-.hcard-btn {
-  box-shadow: 0 4px 16px rgba(14,165,233,0.35), inset 0 1px 0 rgba(255,255,255,0.15) !important;
-  transition: all 0.22s ease !important;
-}
-.hcard-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 28px rgba(14,165,233,0.45), inset 0 1px 0 rgba(255,255,255,0.15) !important;
-}
-@media (max-width: 768px) {
-  .hero-card {
-    background: rgba(255,255,255,0.92) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    justify-content: center;
-    padding-top: 32px !important;
-  }
-  .hero-card::before { display: none; }
-}
-  
   /* ── FOOTER LEGAL & DISCLAIMER (v2) ── */
   .footer-legal {
     margin-top: 24px; padding-top: 16px;
@@ -427,54 +387,78 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     <div class="hero-grid">
       <div>
         <div class="hero-eyebrow">
-          <span class="tag tag-blue">&#x2736; AI Mobility Planning Platform</span>
+          <span class="tag tag-blue">AI Mobility Planning Platform</span>
         </div>
         <h1 class="hero-title">Move Smarter.<br><span class="accent">Live Lighter.</span></h1>
-        <p class="hero-desc">MovingCOST.ai helps you plan smarter moves by comparing relocation costs, city living expenses, risks, and lifestyle fit &#x2014; before you move. Get cost clarity, not guesswork.</p>
+        <p class="hero-desc">Get an AI snapshot of your move before you commit &#x2014; estimated costs, timeline, and key priorities in one clear view. Then enter the planner for a personalized relocation plan built around your route, budget, and life.</p>
         <div class="hero-stats">
           <div class="hstat"><div class="hstat-num">50K+</div><div class="hstat-label">Plans generated</div></div>
           <div class="hstat"><div class="hstat-num">180+</div><div class="hstat-label">Cities covered</div></div>
           <div class="hstat"><div class="hstat-num">$2,400</div><div class="hstat-label">Avg. savings found</div></div>
         </div>
-        <div class="hero-btns">
-          <a href="/planner" class="btn btn-primary">Start Your AI Plan &#x2192;</a>
-          <a href="#tools" class="btn btn-ghost">Explore Tools</a>
-        </div>
-        <div class="hero-quiz-nudge">
-          <a href="/earthsoul" class="quiz-nudge-link">
-            <span class="qnl-label">Not sure which city fits you?</span>
-            <span class="qnl-action">Try the free EarthSoul Quiz</span>
-            <span class="qnl-arr">→</span>
-          </a>
+        <div class="hero-left-bottom">
+          <div class="hero-btns">
+            <a href="/planner" class="btn btn-primary">Start Your AI Plan &#x2192;</a>
+            <a href="#tools" class="btn btn-ghost">Explore Tools</a>
+          </div>
+          <div class="hero-quiz-nudge">
+            <a href="/earthsoul" class="quiz-nudge-link">
+              <span class="qnl-label">Not sure which city fits you?</span>
+              <span class="qnl-action">Try the free EarthSoul Quiz</span>
+              <span class="qnl-arr">→</span>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="card card-blue hero-card">
-        <input type="radio" name="heroPath" id="path-relocation" class="path-radio" checked>
-        <input type="radio" name="heroPath" id="path-nomad" class="path-radio">
-        <input type="radio" name="heroPath" id="path-comparing" class="path-radio">
-        <div class="hcard-title">What best describes your move?</div>
-        <div class="hcard-row">
-          <div>
-            <label class="field-label" for="heroFrom">&#x1F4CD; Moving From</label>
-            <input class="field-input" type="text" id="heroFrom" placeholder="e.g. New York, NY">
-          </div>
-          <div>
-            <label class="field-label" for="heroTo">&#x1F4CD; Moving To</label>
-            <input class="field-input" type="text" id="heroTo" placeholder="e.g. Lisbon, Portugal">
+      <div class="hero-snapshot" aria-label="Sample AI move snapshot preview">
+        <div class="snap-head">
+          <div class="snap-head-text">
+            <h2 class="snap-title">AI Move Snapshot</h2>
+            <span class="snap-preview-tag">Sample preview</span>
           </div>
         </div>
-        <div class="path-mini">
-          <label for="path-relocation"><div class="pm-icon">&#x1F3E0;</div><div class="pm-label">Relocation</div></label>
-          <label for="path-nomad"><div class="pm-icon">&#x1F30D;</div><div class="pm-label">Digital Nomad</div></label>
-          <label for="path-comparing"><div class="pm-icon">&#x1F50D;</div><div class="pm-label">Comparing Cities</div></label>
+        <div class="snap-body">
+          <div class="snap-meta">
+            <div class="snap-meta-item">
+              <span class="snap-k">Route</span>
+              <span class="snap-v snap-v-route">New York &#x2192; London</span>
+            </div>
+            <div class="snap-meta-item">
+              <span class="snap-k">Move type</span>
+              <span class="snap-v">International relocation</span>
+            </div>
+          </div>
+          <div class="snap-metrics">
+            <div class="snap-metric">
+              <span class="snap-k">Estimated range</span>
+              <span class="snap-v">$11,200 &#x2013; $17,800</span>
+              <span class="snap-sample">Illustrative sample</span>
+            </div>
+            <div class="snap-metric">
+              <span class="snap-k">Timeline</span>
+              <span class="snap-v">8&#x2013;12 weeks</span>
+              <span class="snap-sample">Preview only</span>
+            </div>
+          </div>
+          <div class="snap-secondary">
+            <div class="snap-complexity">
+              <span class="snap-k">Complexity</span>
+              <span class="snap-pill">Medium</span>
+            </div>
+            <div class="snap-priorities">
+              <span class="snap-k">AI priorities</span>
+              <div class="snap-chips">
+                <span class="snap-chip">Housing setup</span>
+                <span class="snap-chip">Visa documents</span>
+                <span class="snap-chip">Shipping sequence</span>
+              </div>
+            </div>
+          </div>
+          <p class="snap-insight">Secure housing and visa paperwork before scheduling transatlantic shipping.</p>
         </div>
-        <a href="/planner" class="hcard-btn">&#x2728; Generate My AI Plan</a>
-        <div class="hcard-trust">
-          <div class="htrust">Free to start</div>
-          <div class="htrust">No signup needed</div>
-          <div class="htrust">2 minutes</div>
-        </div>
+        <a href="/planner" class="snap-cta">Start My AI Plan &#x2192;</a>
+        <p class="snap-foot">Free to start &#xB7; No signup needed &#xB7; About 2 minutes</p>
       </div>
     </div>
   </div>
