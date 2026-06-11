@@ -37,7 +37,7 @@
   --blue:#0EA5E9;--blue-dim:rgba(14,165,233,0.1);--blue-glow:rgba(14,165,233,0.22);
   --gold:#E8B84B;--gold-dim:rgba(232,184,75,0.12);--green:#10B981;
 }
-html,body{height:100%;min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow:hidden}
+html,body{height:100%;min-height:100dvh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow:hidden;overscroll-behavior:none}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 16%,rgba(18,174,234,0.18) 0%,transparent 32%),radial-gradient(circle at 82% 70%,rgba(126,87,255,0.12) 0%,transparent 34%),radial-gradient(circle at 18% 80%,rgba(14,165,233,0.07) 0%,transparent 28%),linear-gradient(180deg,#07111F 0%,#0B1D33 46%,#111026 100%);pointer-events:none;z-index:0}
 
 /* NAV */
@@ -62,13 +62,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 }
 
 /* SCREENS */
-.screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1);z-index:1;overflow-x:hidden}
-.screen.active{opacity:1;pointer-events:all}
-#s-intro,#s-quiz,#s-calc{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-#s-result{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.screen{position:fixed;inset:0;width:100%;height:100dvh;max-height:100dvh;min-height:0;background:var(--bg);opacity:0;pointer-events:none;transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1);z-index:1;overflow-x:hidden;overflow-y:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch;touch-action:pan-y;box-sizing:border-box;padding:0;display:block}
+.screen.active{opacity:1;pointer-events:auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.screen:not(.active){overflow-y:hidden!important}
+.screen-inner{position:relative;z-index:1;width:100%;max-width:100%;min-height:calc(100dvh + 24px);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;padding:20px;padding-bottom:28px}
 
 /* ── INTRO ── */
-#s-intro{text-align:center;position:relative;gap:0;background:var(--bg);justify-content:space-between;padding-top:calc(62px + env(safe-area-inset-top));padding-bottom:calc(32px + env(safe-area-inset-bottom));min-height:100dvh;box-sizing:border-box}
+#s-intro{text-align:center;position:relative;background:var(--bg)}
+#s-intro .screen-inner{padding-top:calc(88px + env(safe-area-inset-top));justify-content:flex-start;gap:0}
 .orb-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.11;animation:drift 10s ease-in-out infinite}
 .orb-a{width:520px;height:520px;background:var(--blue);top:-160px;left:-150px;animation-delay:0s}
@@ -103,8 +104,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .intro-note{margin-top:52px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);letter-spacing:0.02em;line-height:1.7;animation:fadeUp 0.7s 0.7s both}
 
 /* ── QUIZ ── */
-#s-quiz{padding-top:calc(72px + env(safe-area-inset-top));justify-content:flex-start;align-items:center;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
-.quiz-wrap{width:100%;max-width:720px;margin:0 auto;padding:16px 0 24px}
+#s-quiz .screen-inner{padding-top:calc(72px + env(safe-area-inset-top));justify-content:flex-start;align-items:center;padding-bottom:28px}
+.quiz-wrap{width:100%;max-width:720px;margin:0 auto;padding:16px 0 0}
 .prog-wrap{margin-bottom:36px}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .prog-lbl{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
@@ -146,7 +147,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 @keyframes slideIn{from{opacity:0;transform:translateX(24px)}}
 
 /* ── CALC ── */
-#s-calc{text-align:center;gap:32px}
+#s-calc .screen-inner{padding-top:calc(72px + env(safe-area-inset-top));justify-content:center;gap:32px;text-align:center}
 .calc-ring{width:70px;height:70px;border:2px solid rgba(255,255,255,0.06);border-top-color:var(--blue);border-right-color:rgba(14,165,233,0.3);border-radius:50%;animation:spin 0.85s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .calc-lbl{font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
@@ -157,8 +158,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .cs-tick{width:20px;height:20px;border-radius:50%;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
 
 /* ── RESULT ── */
-#s-result{padding-top:calc(62px + env(safe-area-inset-top));justify-content:flex-start;align-items:center;background:var(--bg)}
-.rw{width:100%;max-width:700px;margin:0 auto;padding:20px 0 40px;position:relative;z-index:1}
+#s-result{background:var(--bg)}
+#s-result .screen-inner{padding-top:calc(72px + env(safe-area-inset-top));justify-content:flex-start;align-items:center;padding-left:0;padding-right:0}
+.rw{width:100%;max-width:700px;margin:0 auto;padding:20px 20px 40px;position:relative;z-index:1}
 #s-result .site-footer{text-align:center;padding:28px 16px 32px;margin-top:8px;font-size:12px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border);background:transparent}
 #s-result .site-footer a{color:var(--muted);text-decoration:none;transition:color 0.22s}
 #s-result .site-footer a:hover{color:var(--blue)}
@@ -287,7 +289,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 
 @media(max-width:768px){
-  /* 手机端首屏充满屏幕，解决导航遮盖和底部空白 */
+  /* 手机端 nav 与内容间距 */
+  #s-intro .screen-inner{padding-top:calc(78px + env(safe-area-inset-top));padding-bottom:28px}
+  #s-quiz .screen-inner{padding-top:calc(78px + env(safe-area-inset-top))}
+  #s-calc .screen-inner{padding-top:calc(78px + env(safe-area-inset-top))}
+  #s-result .screen-inner{padding-top:calc(78px + env(safe-area-inset-top))}
   /* 首页标题字号手机端 */
   .intro-h1{font-size:clamp(38px,10.5vw,54px);line-height:1.0;letter-spacing:-0.02em}
   /* 答题页标题字号手机端 */
@@ -349,7 +355,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   <link rel="manifest" href="/favicon/site.webmanifest">
   <meta name="theme-color" content="#0B1326">
   <style>
-    /* logo mobile */
+    /* logo mobile + screen scroll (after global.css) */
+    html,body{overflow:hidden!important;overscroll-behavior:none}
+    .screen.active{overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;overscroll-behavior:contain!important}
+    .screen:not(.active){overflow-y:hidden!important}
     @media (max-width: 768px) {
       .nav .site-logo-img { height: 72px !important; width: auto !important; }
     }
@@ -380,6 +389,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
   </div>
   <div class="particles" id="particles"></div>
+  <div class="screen-inner">
   <div class="es-kicker">EarthSoul &nbsp;·&nbsp; by MovingCOST.ai</div>
   <div class="es-wordmark">A city intelligence quiz by <strong>MovingCOST.ai</strong></div>
   <h1 class="intro-h1">Where Does Your<br><em>Soul Belong?</em></h1>
@@ -392,10 +402,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   </div>
   <button class="btn-start" onclick="startQuiz()">Find My City Soul <span class="arr">→</span></button>
   <p class="intro-note">Designed for movers, nomads, creators & global life planners.<br>Your friends may not guess your type.</p>
+  </div>
 </section>
 
 <!-- ═══ QUIZ ═══ -->
 <section class="screen" id="s-quiz">
+  <div class="screen-inner">
   <div class="quiz-wrap" id="qwrap">
     <div class="prog-wrap">
       <div class="prog-top">
@@ -414,10 +426,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       <button class="btn-next" id="btn-next" onclick="advance()">Continue <span class="arr">→</span></button>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ═══ CALC ═══ -->
 <section class="screen" id="s-calc">
+  <div class="screen-inner">
   <div class="calc-ring"></div>
   <div class="calc-lbl">Building your EarthSoul profile…</div>
   <div class="calc-steps">
@@ -426,10 +440,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <div class="cs"><span class="cs-tick">✓</span>Comparing culture, cost &amp; climate fit…</div>
     <div class="cs"><span class="cs-tick">✓</span>Your city personality is ready.</div>
   </div>
+  </div>
 </section>
 
 <!-- ═══ RESULT ═══ -->
 <section class="screen" id="s-result">
+  <div class="screen-inner">
   <div class="rw">
     <div class="res-kicker">Your EarthSoul Type</div>
     <span class="res-ico" id="res-ico"></span>
@@ -558,6 +574,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       <span class="site-footer-copy">© 2026 MovingCOST.ai · CLASSIC SPREAD INC · All rights reserved</span>
       <span class="site-footer-copy">AI-generated planning estimates only · Not legal, tax, or immigration advice</span>
     </footer>
+  </div>
   </div>
 </section>
 
