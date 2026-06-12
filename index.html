@@ -753,7 +753,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
           <input class="email-input" type="email" placeholder="Enter your email address" id="emailSub">
           <button class="email-btn" onclick="subscribe()">Subscribe</button>
         </div>
-        <p style="font-size:11px;color:rgba(255,255,255,0.28);margin-top:10px">No spam. Unsubscribe anytime. Free forever.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.28);margin-top:10px">Content updates only &nbsp;&#xB7;&nbsp; Not a member account &nbsp;&#xB7;&nbsp; Unsubscribe anytime once email updates begin.</p>
       </div>
     </div>
   </div>
@@ -855,7 +855,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     if(mm)mm.style.display='none';
   }
 })();
-function subscribe(){var email=document.getElementById('emailSub').value;if(!email||email.indexOf('@')<0){alert('Please enter a valid email address.');return;}alert('Thank you! You\'re on the list. \uD83C\uDF89');document.getElementById('emailSub').value='';}
+function subscribe(){var email=document.getElementById('emailSub').value;if(!email||email.indexOf('@')<0){alert('Please enter a valid email address.');return;}alert('Thanks \u2014 you\'re on the early updates list.');document.getElementById('emailSub').value='';}
 var observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible')}})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 </script>
