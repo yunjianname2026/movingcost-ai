@@ -250,13 +250,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .email-perks{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
 .perk{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--mid);line-height:1.4}
 .perk::before{content:'→';color:var(--blue);font-family:'Outfit',sans-serif;font-weight:700;flex-shrink:0;margin-top:1px}
-.email-row{display:flex;gap:10px;flex-wrap:wrap}
-.email-input{flex:1;min-width:190px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:12px 20px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s}
+.email-row{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;width:100%;max-width:100%}
+.email-input{flex:1;min-width:0;max-width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:99px;padding:12px 20px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--text);outline:none;transition:border-color 0.2s;-webkit-text-size-adjust:100%}
 .email-input::placeholder{color:var(--muted)}
 .email-input:focus{border-color:rgba(14,165,233,0.4)}
-.btn-email{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:99px;border:none;cursor:pointer;transition:all 0.25s ease;white-space:nowrap;letter-spacing:0.02em}
+.btn-email{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;padding:12px 22px;border-radius:99px;border:none;cursor:pointer;transition:all 0.25s ease;white-space:nowrap;letter-spacing:0.02em;max-width:100%}
 .btn-email:hover{background:#38BDF8;transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,0.35)}
-.email-note{font-size:11px;color:var(--muted);margin-top:10px}
+.email-note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.55}
+.email-note.is-error{font-size:14px;font-weight:600;color:#FCA5A5;padding:10px 14px;border-radius:12px;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.28)}
+.email-note.is-success{font-size:14px;font-weight:600;color:#6EE7B7;padding:10px 14px;border-radius:12px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.28)}
+.mc-email-prompt{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;flex-direction:column;gap:10px;width:100%;max-width:100%;box-sizing:border-box}
+.mc-email-prompt-label{font-size:13px;color:#94A3B8;line-height:1.5}
+.mc-email-prompt-row{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:100%}
+.mc-email-input{flex:1;min-width:0;max-width:100%;width:100%;background:#0F172A;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;font-size:16px;color:#fff;font-family:'DM Sans',sans-serif;outline:none;-webkit-text-size-adjust:100%}
+.mc-email-input::placeholder{color:rgba(148,163,184,0.75)}
+.mc-email-input:focus{border-color:rgba(14,165,233,0.45)}
+.mc-email-btn{background:#0EA5E9;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;max-width:100%}
+.mc-email-msg{font-size:14px;font-weight:600;line-height:1.5;margin:0}
+.mc-email-msg.is-error{color:#FCA5A5}
+.mc-email-msg.is-success{color:#6EE7B7}
 
 .friends-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;padding:22px 28px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;animation:fadeUp 0.5s 0.6s both}
 .friends-copy{flex:1;min-width:200px}
@@ -320,6 +332,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   .btn-cta,.btn-friends{width:100%;justify-content:center}
   .pts-grid{grid-template-columns:1fr}
   #share-card-visual{max-width:100%;padding:28px 20px}
+  .email-row{flex-direction:column}
+  .email-input,.btn-email{width:100%;min-width:0}
+  .mc-email-prompt-row{flex-direction:column;align-items:stretch}
+  .mc-email-input,.mc-email-btn{width:100%}
 }
   
   /* ── FOOTER LEGAL & DISCLAIMER (v2) ── */
@@ -534,10 +550,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
         <div class="perk">Saved result in your free member account</div>
       </div>
       <div class="email-row">
-        <input class="email-input" type="email" id="email-input" placeholder="your@email.com">
+        <input class="email-input" type="email" id="email-input" placeholder="your@email.com" inputmode="email" autocomplete="email" aria-describedby="email-msg">
         <button class="btn-email" onclick="submitEmail()">Join the List &#x2192;</button>
       </div>
-      <div class="email-note" id="email-msg">No spam. Unsubscribe anytime.</div>
+      <div class="email-note" id="email-msg" role="status" aria-live="polite">No spam. Unsubscribe anytime.</div>
     </div>
 
     <!-- Friends -->
@@ -1031,18 +1047,27 @@ function sendToFriend(){
 }
 
 /* Email */
+function setJoinListFeedback(text, type){
+  const msg=document.getElementById('email-msg');
+  if(!msg)return;
+  msg.textContent=text;
+  msg.classList.remove('is-error','is-success');
+  if(type==='error')msg.classList.add('is-error');
+  else if(type==='success')msg.classList.add('is-success');
+  else msg.classList.remove('is-error','is-success');
+  msg.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
 function submitEmail(){
-  const val = document.getElementById('email-input').value.trim();
-  const msg = document.getElementById('email-msg');
-  if(!val || !val.includes('@')){
-    msg.textContent = '⚠ Please enter a valid email.';
-    msg.style.color = '#F87171'; return;
+  const val=document.getElementById('email-input').value.trim();
+  if(!val||!val.includes('@')){
+    setJoinListFeedback('⚠ Please enter a valid email address.','error');
+    return;
   }
-  document.getElementById('email-input').disabled = true;
-  document.querySelector('.btn-email').disabled = true;
-  document.querySelector('.btn-email').textContent = '\u2705 On the list!';
-  msg.textContent = 'You\u2019re on the list. We saved your EarthSoul result \u2014 check your inbox for next steps.';
-  msg.style.color = 'var(--green)';
+  document.getElementById('email-input').disabled=true;
+  document.querySelector('.btn-email').disabled=true;
+  document.querySelector('.btn-email').textContent='\u2705 On the list!';
+  setJoinListFeedback('You\u2019re on the list. We saved your EarthSoul result \u2014 check your inbox for next steps.','success');
 }
 
 function retake(){
@@ -1076,6 +1101,38 @@ function retake(){
   }
   function lsSet(key, val) {
     try { localStorage.setItem(key, val); } catch {}
+  }
+
+  function setJoinListFeedback(text, type) {
+    const msg = document.getElementById('email-msg');
+    if (!msg) return;
+    msg.textContent = text;
+    msg.classList.remove('is-error', 'is-success');
+    if (type === 'error') msg.classList.add('is-error');
+    else if (type === 'success') msg.classList.add('is-success');
+    msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function setMcEmailFeedback(text, type) {
+    const msg = document.getElementById('mc-email-msg');
+    if (!msg) return;
+    msg.textContent = text;
+    msg.classList.remove('is-error', 'is-success');
+    if (type === 'error') msg.classList.add('is-error');
+    else if (type === 'success') msg.classList.add('is-success');
+    msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function positionToast(toast) {
+    const mobile = window.matchMedia('(max-width: 640px)').matches;
+    const keyboardLikely = window.visualViewport && window.visualViewport.height < window.innerHeight * 0.82;
+    if (mobile || keyboardLikely) {
+      toast.style.top = 'calc(72px + env(safe-area-inset-top, 0px))';
+      toast.style.bottom = 'auto';
+    } else {
+      toast.style.top = 'auto';
+      toast.style.bottom = '24px';
+    }
   }
 
   // API 调用封装
@@ -1145,13 +1202,12 @@ function retake(){
     toast.id = 'rewards-toast';
     toast.style.cssText = `
       position: fixed;
-      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       background: ${type === 'error' ? '#7F1D1D' : type === 'success' ? '#0EA5E9' : '#1E293B'};
       color: #fff;
       font-family: 'Outfit', sans-serif;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       padding: 12px 20px;
       border-radius: 16px;
@@ -1166,6 +1222,7 @@ function retake(){
       pointer-events: none;
     `;
     toast.textContent = message;
+    positionToast(toast);
 
     // 注入动画（只注入一次）
     if (!document.getElementById('rewards-toast-style')) {
@@ -1173,7 +1230,7 @@ function retake(){
       style.id = 'rewards-toast-style';
       style.textContent = `
         @keyframes toastIn {
-          from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+          from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
           to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
       `;
@@ -1492,21 +1549,16 @@ function retake(){
         <div class="pt"><span>Friend completes</span><span class="pt-v">+100 pts</span></div>
       </div>
 
-      <div id="mc-email-prompt" style="background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);
-        border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;
-        align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-size:12px;color:#94A3B8;flex:1;min-width:180px">
+      <div id="mc-email-prompt" class="mc-email-prompt">
+        <div class="mc-email-prompt-label">
           📧 Add email to earn <strong style="color:#F59E0B">+30 pts</strong> &amp; keep points permanently
-        </span>
-        <input id="mc-email-input" type="email" placeholder="your@email.com"
-          style="flex:1;min-width:150px;background:#0F172A;border:1px solid rgba(255,255,255,0.1);
-          border-radius:8px;padding:6px 10px;font-size:12px;color:#fff;font-family:'Outfit',sans-serif;outline:none"/>
-        <button onclick="mcBindEmail(this)"
-          style="background:#0EA5E9;color:#fff;border:none;border-radius:8px;
-          padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;
-          font-family:'Outfit',sans-serif;white-space:nowrap">
-          Save +30
-        </button>
+        </div>
+        <div class="mc-email-prompt-row">
+          <input id="mc-email-input" class="mc-email-input" type="email" placeholder="your@email.com"
+            inputmode="email" autocomplete="email" aria-describedby="mc-email-msg">
+          <button class="mc-email-btn" onclick="mcBindEmail(this)">Save +30</button>
+        </div>
+        <div id="mc-email-msg" class="mc-email-msg" role="status" aria-live="polite"></div>
       </div>
 
       <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;
@@ -1536,16 +1588,18 @@ function retake(){
     const input = document.getElementById('mc-email-input');
     const email = input ? input.value.trim() : '';
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      input.style.borderColor = '#F87171';
-      setTimeout(() => { input.style.borderColor = 'rgba(255,255,255,0.1)'; }, 2000);
+      if (input) input.style.borderColor = '#F87171';
+      setMcEmailFeedback('⚠ Please enter a valid email address.', 'error');
       return;
     }
+    if (input) input.style.borderColor = 'rgba(255,255,255,0.1)';
+    setMcEmailFeedback('', '');
 
     const userId = lsGet('mc_user_id');
     if (!userId) return;
 
     const origText = btn.innerHTML;
-    btn.innerHTML = '...';
+    btn.innerHTML = 'Saving...';
     btn.disabled = true;
 
     const result = await api(`${API_BASE}/user?action=bind-email`, {
@@ -1555,13 +1609,13 @@ function retake(){
 
     if (result && !result.error) {
       lsSet('mc_user_email', email);
-      // 绑定成功：隐藏提示框
+      const successText = result.points_earned > 0
+        ? '✅ Email saved! +30 MovingCOST Points added.'
+        : '✅ Email saved! Your points are linked to this address.';
+      setMcEmailFeedback(successText, 'success');
       const prompt = document.getElementById('mc-email-prompt');
       if (prompt) {
-        prompt.innerHTML = `<span style="font-size:12px;color:#34D399;width:100%;text-align:center">
-          ✅ Email saved! ${result.points_earned > 0 ? '+30 pts added.' : 'Already registered.'}
-        </span>`;
-        setTimeout(() => { if (prompt) prompt.style.display = 'none'; }, 3000);
+        setTimeout(() => { if (prompt) prompt.style.display = 'none'; }, 3500);
       }
       if (result.points_earned > 0) {
         showToast('⭐ +30 Points — Email saved!');
@@ -1571,6 +1625,7 @@ function retake(){
       const msg = result?.error || 'Failed, please try again.';
       btn.innerHTML = origText;
       btn.disabled = false;
+      setMcEmailFeedback(`⚠ ${msg}`, 'error');
       showToast(`⚠ ${msg}`, 'error');
     }
   };
@@ -1691,7 +1746,7 @@ function retake(){
     const msg = document.getElementById('email-msg');
 
     if (!val || !val.includes('@')) {
-      if (msg) { msg.textContent = '⚠ Please enter a valid email.'; msg.style.color = '#F87171'; }
+      setJoinListFeedback('⚠ Please enter a valid email address.', 'error');
       return;
     }
 
@@ -1701,6 +1756,7 @@ function retake(){
     if (input) input.disabled = true;
     if (btn)   btn.disabled   = true;
     if (btn)   btn.textContent = 'Saving...';
+    setJoinListFeedback('Saving your spot…', '');
 
     // 绑定邮箱 + 发积分
     const result = await onEmailSubmitted(val);
@@ -1709,7 +1765,7 @@ function retake(){
       if (input) input.disabled = false;
       if (btn)   btn.disabled   = false;
       if (btn)   btn.textContent = 'Join the List \u2192';
-      if (msg) { msg.textContent = `⚠ ${result.error}`; msg.style.color = '#F87171'; }
+      setJoinListFeedback(`⚠ ${result.error}`, 'error');
       return;
     }
 
@@ -1718,17 +1774,14 @@ function retake(){
     updateSupportLink();
 
     if (btn)   btn.textContent = '\u2705 On the list!';
-    if (msg) {
-      const pts = result?.points_earned > 0 ? ` +${result.points_earned} MovingCOST Points earned.` : '';
-      msg.textContent = `You're on the list. We saved your EarthSoul result \u2014 check your inbox for next steps.${pts}`;
-      msg.style.color = 'var(--green)';
-    }
+    const pts = result?.points_earned > 0 ? ` +${result.points_earned} MovingCOST Points earned.` : '';
+    setJoinListFeedback(`✅ You're on the list. We saved your EarthSoul result — check your inbox for next steps.${pts}`, 'success');
 
     // ── 绑定成功 → 跳转 welcome 页面 ──
     lsSet('mc_email', val);
     setTimeout(() => {
       window.location.href = '/welcome';
-    }, 1500);
+    }, 3500);
   };
 
   // ── 覆盖现有函数：downloadCard ────────────────────────────────
