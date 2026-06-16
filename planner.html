@@ -336,6 +336,7 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
 
@@ -841,6 +842,7 @@ function selectType(type,el){
   toEl.classList.remove('input-err');
   const toErr=toEl.parentNode.querySelector('.fld-err');
   if(toErr)toErr.remove();
+  if(window.trackEvent)window.trackEvent('planner_start',{move_type:type});
 }
 
 function toggleCI(el){el.classList.toggle('checked');el.querySelector('.cbox').textContent=el.classList.contains('checked')?'✓':''}
@@ -919,6 +921,7 @@ function setCookie(name,value,minutes){
 // ── GO TO CHECKOUT ─────────────────────────────────────────────────────────────
 async function goToCheckout(e){
   e.preventDefault();
+  if(window.trackEvent)window.trackEvent('checkout_started',{move_type:userType||'unknown'});
   var btn=document.getElementById('unlock-btn');
   btn.textContent='⏳ Preparing checkout…';
   btn.style.opacity='0.7';
@@ -975,6 +978,7 @@ async function generate(type){
   animateLoadSteps();
   try{
     reportJSON=await callClaude(prompt);
+    if(window.trackEvent)window.trackEvent('planner_preview_generated',{move_type:type});
     await waitForStep(4);
     await delay(600);
     renderReport(reportJSON,data);

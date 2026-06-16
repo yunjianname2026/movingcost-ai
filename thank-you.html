@@ -117,6 +117,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding:52px 2
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
 
@@ -270,6 +271,7 @@ var previewReport = readLocalStorage('movingReport') || readCookie('mcReport');
 
 // ── ON LOAD ────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function() {
+  if (window.trackEvent) window.trackEvent('payment_success_page_view');
   if (userData) {
     // ✅ Normal path — data found
     if (previewReport) renderPreviewReport(previewReport, userData);
@@ -403,6 +405,7 @@ async function sendReport() {
 
     if (!resp.ok) throw new Error(result.error || result.detail || 'Server error');
 
+    if (window.trackEvent) window.trackEvent('report_email_submitted', { move_type: (dataToSend && dataToSend.type) || 'unknown' });
     stopLoading(true);
     statusEl.className = 'send-status ok';
     statusEl.textContent = '✅ Report sent to ' + email + '! Check your inbox (and spam folder).';
