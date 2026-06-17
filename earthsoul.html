@@ -1105,17 +1105,14 @@ function retake(){
   }
 
   async function redirectToMemberAfterBind(userId, email, result) {
-    if (typeof mcPersistSession === 'function') {
-      mcPersistSession({
-        userId,
-        email: (result && result.email) || email,
-        referral_code: lsGet('mc_referral_code'),
-      });
-    } else {
+    const boundId = typeof mcApplyBindSession === 'function'
+      ? mcApplyBindSession(result, email)
+      : userId;
+    if (typeof mcApplyBindSession !== 'function') {
       lsSet('mc_user_email', email);
       lsSet('mc_email', email);
     }
-    await refreshPointsUI(userId);
+    await refreshPointsUI(result?.user_id || boundId || userId);
     const dest = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
     setTimeout(() => { window.location.href = dest; }, 1200);
   }
@@ -1785,14 +1782,11 @@ function retake(){
       return;
     }
 
-    // 保存邮箱到 localStorage + 跳转 Member Dashboard
-    if (typeof mcPersistSession === 'function') {
-      mcPersistSession({
-        userId: lsGet('mc_user_id'),
-        email: val,
-        referral_code: lsGet('mc_referral_code'),
-      });
-    } else {
+    // 保存邮箱到 session + 跳转 Member Dashboard
+    const boundId = typeof mcApplyBindSession === 'function'
+      ? mcApplyBindSession(result, val)
+      : lsGet('mc_user_id');
+    if (typeof mcApplyBindSession !== 'function') {
       lsSet('mc_user_email', val);
       lsSet('mc_email', val);
     }
@@ -1802,7 +1796,7 @@ function retake(){
     const pts = result?.points_earned > 0 ? ` +${result.points_earned} MovingCOST Points earned.` : '';
     setJoinListFeedback(`✅ You're on the list. Opening your member dashboard…${pts}`, 'success');
 
-    const userId = lsGet('mc_user_id');
+    const userId = boundId || lsGet('mc_user_id');
     if (userId) await refreshPointsUI(userId);
     const dest = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
     setTimeout(() => { window.location.href = dest; }, 1500);

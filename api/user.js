@@ -86,6 +86,19 @@ async function recalculate(user_id) {
   }
 }
 
+async function getUserPointsSummary(user_id) {
+  const events = await supabase(
+    `/reward_events?user_id=eq.${user_id}&select=points,status&order=created_at.desc&limit=20`,
+    { method: 'GET', prefer: '' }
+  );
+  let approvedPoints = 0, pendingPoints = 0;
+  (events || []).forEach(e => {
+    if (e.status === 'approved') approvedPoints += e.points;
+    if (e.status === 'pending')  pendingPoints  += e.points;
+  });
+  return { approvedPoints, pendingPoints };
+}
+
 // ================================================================
 // 欢迎邮件（非阻塞，失败不回滚用户）
 // ================================================================
@@ -368,8 +381,21 @@ export default async function handler(req, res) {
         if (!users || users.length === 0) return res.status(404).json({ error: '用户不存在' });
         const user = users[0];
 
-        // 已绑定相同邮箱，直接返回
-        if (user.email === email) return res.status(200).json({ message: '邮箱已绑定', points_earned: 0 });
+        // 已绑定相同邮箱，直接返回（含权威 user_id / 积分快照）
+        if (user.email === email) {
+          const { approvedPoints, pendingPoints } = await getUserPointsSummary(user_id);
+          return res.status(200).json({
+            message:           '邮箱已绑定',
+            points_earned:     0,
+            user_id:           user.id,
+            email:             user.email,
+            points_balance:    approvedPoints,
+            points:            { available: approvedPoints, pending: pendingPoints },
+            referral_code:     user.referral_code,
+            membership_tier:   user.membership_tier || null,
+            is_member:         true,
+          });
+        }
 
         // 安全检查：邮箱是否已属于其他账号
         const emailExists = await supabase(
@@ -450,12 +476,20 @@ export default async function handler(req, res) {
           );
         }
 
-        // ── 返回成功 ───────────────────────────────────────────
+        // ── 返回成功（re-fetch DB，返回权威 user_id / email / 积分）──
+        const freshUsers = await supabase(`/users?id=eq.${user_id}&select=*`, { method: 'GET', prefer: '' });
+        const freshUser  = freshUsers && freshUsers[0] ? freshUsers[0] : user;
+        const { approvedPoints, pendingPoints } = await getUserPointsSummary(user_id);
+
         return res.status(200).json({
           message:           '邮箱绑定成功',
           points_earned:     pointsEarned,
-          email,
-          membership_tier:   membershipUpdate.membership_tier || user.membership_tier,
+          user_id:           freshUser.id,
+          email:             freshUser.email || email,
+          points_balance:    approvedPoints,
+          points:            { available: approvedPoints, pending: pendingPoints },
+          referral_code:     freshUser.referral_code,
+          membership_tier:   freshUser.membership_tier || membershipUpdate.membership_tier || user.membership_tier,
           is_member:         true,
         });
       }

@@ -495,19 +495,61 @@ function signOut(){
   window.location.href = "/";
 }
 
+async function fetchMemberUser(userId){
+  return api(`${API}/user?action=get&user_id=${encodeURIComponent(userId)}`);
+}
+
+async function maybeRetryAfterBind(fallbackUserId){
+  try{
+    const raw = sessionStorage.getItem('mc_bind_ok');
+    if(!raw) return null;
+    const snap = JSON.parse(raw);
+    if(!snap.user_id || !snap.ts || Date.now() - snap.ts > 30000) return null;
+    await new Promise(r => setTimeout(r, 400));
+    const uid = snap.user_id || fallbackUserId;
+    let data = await fetchMemberUser(uid);
+    if(data && data.user?.email) return { userId: uid, data };
+    if(uid !== fallbackUserId){
+      data = await fetchMemberUser(fallbackUserId);
+      if(data && data.user?.email) return { userId: fallbackUserId, data };
+    }
+  }catch(e){}
+  return null;
+}
+
 async function init(){
-  const userId = lsGet('mc_user_id');
+  let userId = lsGet('mc_user_id');
   if(!userId){ showGate(null, false); return; }
 
-  const data = await api(`${API}/user?action=get&user_id=${userId}`);
+  let data = await fetchMemberUser(userId);
+
+  if(!data?.user?.email){
+    const retried = await maybeRetryAfterBind(userId);
+    if(retried){
+      userId = retried.userId;
+      data   = retried.data;
+      if(typeof mcPersistSession === 'function'){
+        mcPersistSession({
+          userId: data.user.id,
+          email: data.user.email,
+          referral_code: data.user.referral_code,
+          points: data.points?.available,
+          membershipTier: data.user.membership_tier,
+          membershipStatus: data.user.membership_status,
+        });
+      }
+    }
+  }
+
   document.getElementById('page-loading').style.display = 'none';
 
   if(!data || data.error){ showGate(null, true); return; }
   if(!data.user?.email){
-    if(typeof mcClearStaleEmailKeys === 'function') mcClearStaleEmailKeys();
     showGate(data.points?.available || 0, false);
     return;
   }
+
+  try{ sessionStorage.removeItem('mc_bind_ok'); }catch(e){}
 
   if(typeof mcPersistSession === 'function'){
     mcPersistSession({
@@ -672,8 +714,10 @@ async function gateSubmit(){
     return;
   }
 
-  if(typeof mcPersistSession === 'function'){
-    mcPersistSession({ userId, email: result.email || email, referral_code: lsGet('mc_referral_code') });
+  if(typeof mcApplyBindSession === 'function'){
+    mcApplyBindSession(result, email);
+  } else if(typeof mcPersistSession === 'function'){
+    mcPersistSession({ userId: result.user_id || userId, email: result.email || email, referral_code: lsGet('mc_referral_code') });
   } else {
     lsSet('mc_email', email);
   }
