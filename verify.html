@@ -167,6 +167,7 @@
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script src="/assets/mc-identity.js"></script>
   <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -283,25 +284,37 @@
           return;
         }
 
-        // 4. 登录成功 — 写入localStorage
+        // 4. 登录成功 — 写入 localStorage（统一 session）
         const user = data.user;
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('mc_email', user.email);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('mc_user_id', user.id);
-        localStorage.setItem('userPoints', String(user.points || 0));
-        localStorage.setItem('referralCode', user.referralCode || '');
-        localStorage.setItem('membershipTier', user.membershipTier || '');
-        localStorage.setItem('membershipStatus', user.membershipStatus || '');
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('loginTimestamp', String(Date.now()));
+        if (typeof mcPersistSession === 'function') {
+          mcPersistSession({
+            userId: user.id,
+            email: user.email,
+            referralCode: user.referralCode,
+            points: user.points,
+            membershipTier: user.membershipTier,
+            membershipStatus: user.membershipStatus,
+          });
+        } else {
+          localStorage.setItem('userEmail', user.email);
+          localStorage.setItem('mc_email', user.email);
+          localStorage.setItem('mc_user_email', user.email);
+          localStorage.setItem('userId', user.id);
+          localStorage.setItem('mc_user_id', user.id);
+          localStorage.setItem('userPoints', String(user.points || 0));
+          localStorage.setItem('referralCode', user.referralCode || '');
+          localStorage.setItem('membershipTier', user.membershipTier || '');
+          localStorage.setItem('membershipStatus', user.membershipStatus || '');
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('loginTimestamp', String(Date.now()));
+        }
 
         // 5. 显示成功状态 + 跳转动画
         showState('state-success');
         animateProgress('progress-redirect', 100, 1800);
 
         setTimeout(() => {
-          window.location.href = '/member';
+          window.location.href = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
         }, 2000);
 
       } catch (err) {

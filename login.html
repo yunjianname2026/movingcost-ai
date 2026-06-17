@@ -111,6 +111,7 @@ main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script src="/assets/mc-identity.js"></script>
   <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -196,15 +197,25 @@ main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align
 (function(){
   'use strict';
 
-  // ── 如果已登录，直接跳 member ──
-  try{
-    var uid   = localStorage.getItem('mc_user_id');
-    var email = localStorage.getItem('mc_email');
-    if(uid && email){
-      window.location.replace('/member');
-      return;
-    }
-  }catch(e){}
+  // ── 若已绑定邮箱（API 确认），直接跳 member ──
+  (async function maybeRedirectLoggedIn(){
+    try{
+      var uid = localStorage.getItem('mc_user_id');
+      if(!uid) return;
+      var res  = await fetch('/api/user?action=get&user_id=' + encodeURIComponent(uid));
+      var data = await res.json();
+      if(data && data.user && data.user.email){
+        if(typeof mcPersistSession === 'function'){
+          mcPersistSession({
+            userId: data.user.id,
+            email: data.user.email,
+            referral_code: data.user.referral_code,
+          });
+        }
+        window.location.replace(typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member');
+      }
+    }catch(e){}
+  })();
 
   // ── 发送 Magic Link ──
   window.sendMagicLink = async function(){

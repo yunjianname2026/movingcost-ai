@@ -384,6 +384,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       .nav .site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script src="/assets/mc-identity.js"></script>
   <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -1103,6 +1104,22 @@ function retake(){
     try { localStorage.setItem(key, val); } catch {}
   }
 
+  async function redirectToMemberAfterBind(userId, email, result) {
+    if (typeof mcPersistSession === 'function') {
+      mcPersistSession({
+        userId,
+        email: (result && result.email) || email,
+        referral_code: lsGet('mc_referral_code'),
+      });
+    } else {
+      lsSet('mc_user_email', email);
+      lsSet('mc_email', email);
+    }
+    await refreshPointsUI(userId);
+    const dest = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
+    setTimeout(() => { window.location.href = dest; }, 1200);
+  }
+
   function setJoinListFeedback(text, type) {
     const msg = document.getElementById('email-msg');
     if (!msg) return;
@@ -1608,7 +1625,6 @@ function retake(){
     });
 
     if (result && !result.error) {
-      lsSet('mc_user_email', email);
       const successText = result.points_earned > 0
         ? '✅ Email saved! +30 MovingCOST Points added.'
         : '✅ Email saved! Your points are linked to this address.';
@@ -1619,8 +1635,8 @@ function retake(){
       }
       if (result.points_earned > 0) {
         showToast('⭐ +30 Points — Email saved!');
-        await refreshPointsUI(userId);
       }
+      await redirectToMemberAfterBind(userId, email, result);
     } else {
       const msg = result?.error || 'Failed, please try again.';
       btn.innerHTML = origText;
@@ -1769,19 +1785,27 @@ function retake(){
       return;
     }
 
-    // 保存邮箱到 localStorage
-    lsSet('mc_user_email', val);
+    // 保存邮箱到 localStorage + 跳转 Member Dashboard
+    if (typeof mcPersistSession === 'function') {
+      mcPersistSession({
+        userId: lsGet('mc_user_id'),
+        email: val,
+        referral_code: lsGet('mc_referral_code'),
+      });
+    } else {
+      lsSet('mc_user_email', val);
+      lsSet('mc_email', val);
+    }
     updateSupportLink();
 
     if (btn)   btn.textContent = '\u2705 On the list!';
     const pts = result?.points_earned > 0 ? ` +${result.points_earned} MovingCOST Points earned.` : '';
-    setJoinListFeedback(`✅ You're on the list. We saved your EarthSoul result — check your inbox for next steps.${pts}`, 'success');
+    setJoinListFeedback(`✅ You're on the list. Opening your member dashboard…${pts}`, 'success');
 
-    // ── 绑定成功 → 跳转 welcome 页面 ──
-    lsSet('mc_email', val);
-    setTimeout(() => {
-      window.location.href = '/welcome';
-    }, 3500);
+    const userId = lsGet('mc_user_id');
+    if (userId) await refreshPointsUI(userId);
+    const dest = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
+    setTimeout(() => { window.location.href = dest; }, 1500);
   };
 
   // ── 覆盖现有函数：downloadCard ────────────────────────────────
@@ -1871,7 +1895,7 @@ function retake(){
     });
   }
   var email = null;
-  try{ email = localStorage.getItem('mc_email'); }catch(e){}
+  try{ email = localStorage.getItem('mc_email') || localStorage.getItem('mc_user_email'); }catch(e){}
   if(email){
     var ml = document.getElementById('quiz-member-link');
     if(ml) ml.style.display = 'inline-block';

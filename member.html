@@ -201,6 +201,7 @@ a{text-decoration:none;color:inherit}
       img.site-logo-img { height: 72px !important; width: auto !important; }
     }
   </style>
+  <script src="/assets/mc-identity.js"></script>
   <script defer src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -502,7 +503,22 @@ async function init(){
   document.getElementById('page-loading').style.display = 'none';
 
   if(!data || data.error){ showGate(null, true); return; }
-  if(!data.user?.email){ showGate(data.points?.available || 0, false); return; }
+  if(!data.user?.email){
+    if(typeof mcClearStaleEmailKeys === 'function') mcClearStaleEmailKeys();
+    showGate(data.points?.available || 0, false);
+    return;
+  }
+
+  if(typeof mcPersistSession === 'function'){
+    mcPersistSession({
+      userId: data.user.id,
+      email: data.user.email,
+      referral_code: data.user.referral_code,
+      points: data.points?.available,
+      membershipTier: data.user.membership_tier,
+      membershipStatus: data.user.membership_status,
+    });
+  }
 
   document.getElementById('dashboard').style.display = 'block';
   renderDashboard(data);
@@ -656,12 +672,18 @@ async function gateSubmit(){
     return;
   }
 
-  lsSet('mc_email', email);
+  if(typeof mcPersistSession === 'function'){
+    mcPersistSession({ userId, email: result.email || email, referral_code: lsGet('mc_referral_code') });
+  } else {
+    lsSet('mc_email', email);
+  }
   showToast(result?.points_earned > 0
     ? `🎉 Welcome! +${result.points_earned} MovingCOST Points earned.`
     : '🎉 Welcome to MovingCOST!'
   );
-  setTimeout(() => window.location.reload(), 1200);
+  setTimeout(() => {
+    window.location.href = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
+  }, 1200);
 }
 
 function copyInviteLink(btn){
