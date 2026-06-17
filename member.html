@@ -481,6 +481,7 @@ function formatDate(iso){
 
 function showGate(pointsAvailable, showError){
   document.getElementById('page-loading').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'none';
   if(showError) document.getElementById('gate-error').style.display = 'block';
   if(pointsAvailable && pointsAvailable > 0){
     document.getElementById('gate-pts-num').textContent = pointsAvailable;
@@ -488,6 +489,17 @@ function showGate(pointsAvailable, showError){
     document.getElementById('gate-perks-list').style.display = 'none';
   }
   document.getElementById('email-gate').style.display = 'block';
+}
+
+function showMemberDashboard(data, userId){
+  document.getElementById('page-loading').style.display = 'none';
+  document.getElementById('email-gate').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  renderDashboard(data);
+  loadEarthSoulProfile(userId);
+  loadReferralStats(userId);
+  updateSupportLink(data.user);
+  window.__mcMemberInitDone = true;
 }
 
 function signOut(){
@@ -540,12 +552,12 @@ function initFromEarthSoulBind(){
 
     sessionStorage.removeItem('mc_bind_payload');
     try{ sessionStorage.removeItem('mc_bind_ok'); }catch(e){}
-    history.replaceState(null, '', '/member');
 
     const available = (p.points && p.points.available != null) ? p.points.available : (p.points_balance || 0);
     const pending   = (p.points && p.points.pending != null) ? p.points.pending : 0;
 
-    return {
+    const payloadData = {
+      __fromEarthSoulBind: true,
       user: {
         id:                p.user_id,
         email:             p.email,
@@ -563,15 +575,38 @@ function initFromEarthSoulBind(){
       },
       recent_events: [],
     };
+
+    // Strip ?bound=1 after payload captured; defer until dashboard render + early return
+    return payloadData;
   }catch(e){
     return null;
   }
 }
 
 async function init(){
+  if(window.__mcMemberInitDone) return;
+
   let data   = initFromEarthSoulBind();
   let userId = data?.user?.id || lsGet('mc_user_id');
   if(!userId){ showGate(null, false); return; }
+
+  if(data && data.__fromEarthSoulBind){
+    window.__mcMemberInitDone = true;
+    try{ sessionStorage.removeItem('mc_bind_ok'); }catch(e){}
+    if(typeof mcPersistSession === 'function'){
+      mcPersistSession({
+        userId: data.user.id,
+        email: data.user.email,
+        referral_code: data.user.referral_code,
+        points: data.points?.available,
+        membershipTier: data.user.membership_tier,
+        membershipStatus: data.user.membership_status,
+      });
+    }
+    showMemberDashboard(data, userId);
+    history.replaceState(null, '', '/member');
+    return;
+  }
 
   if(!data){
     data = await fetchMemberUser(userId);
@@ -616,11 +651,7 @@ async function init(){
     });
   }
 
-  document.getElementById('dashboard').style.display = 'block';
-  renderDashboard(data);
-  loadEarthSoulProfile(userId);
-  loadReferralStats(userId);
-  updateSupportLink(data.user);
+  showMemberDashboard(data, userId);
 }
 
 function renderDashboard(data){
