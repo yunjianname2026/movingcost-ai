@@ -1105,16 +1105,18 @@ function retake(){
   }
 
   async function redirectToMemberAfterBind(userId, email, result) {
-    const boundId = typeof mcApplyBindSession === 'function'
-      ? mcApplyBindSession(result, email)
-      : userId;
-    if (typeof mcApplyBindSession !== 'function') {
+    if (typeof mcApplyBindSession === 'function') {
+      mcApplyBindSession(result, email);
+    } else {
+      lsSet('mc_user_id', userId);
       lsSet('mc_user_email', email);
       lsSet('mc_email', email);
     }
-    await refreshPointsUI(result?.user_id || boundId || userId);
-    const dest = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
-    setTimeout(() => { window.location.href = dest; }, 1200);
+    try {
+      sessionStorage.setItem('mc_bind_payload', JSON.stringify(result || { user_id: userId, email }));
+    } catch (e) {}
+    const base = typeof mcMemberUrl === 'function' ? mcMemberUrl() : '/member';
+    window.location.replace(base + (base.indexOf('?') >= 0 ? '&' : '?') + 'bound=1');
   }
 
   function setJoinListFeedback(text, type) {

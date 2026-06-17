@@ -517,26 +517,80 @@ async function maybeRetryAfterBind(fallbackUserId){
   return null;
 }
 
+/** EarthSoul Save +30 → /member?bound=1: render from bind-email payload, not first GET. */
+function initFromEarthSoulBind(){
+  if(new URLSearchParams(location.search).get('bound') !== '1') return null;
+  try{
+    const raw = sessionStorage.getItem('mc_bind_payload');
+    if(!raw) return null;
+    const p = JSON.parse(raw);
+    if(!p.user_id || !p.email) return null;
+
+    if(typeof mcApplyBindSession === 'function'){
+      mcApplyBindSession(p, p.email);
+    } else if(typeof mcPersistSession === 'function'){
+      mcPersistSession({
+        userId: p.user_id,
+        email: p.email,
+        referral_code: p.referral_code,
+        points: p.points?.available ?? p.points_balance,
+        membershipTier: p.membership_tier,
+      });
+    }
+
+    sessionStorage.removeItem('mc_bind_payload');
+    try{ sessionStorage.removeItem('mc_bind_ok'); }catch(e){}
+    history.replaceState(null, '', '/member');
+
+    const available = (p.points && p.points.available != null) ? p.points.available : (p.points_balance || 0);
+    const pending   = (p.points && p.points.pending != null) ? p.points.pending : 0;
+
+    return {
+      user: {
+        id:                p.user_id,
+        email:             p.email,
+        referral_code:     p.referral_code || lsGet('mc_referral_code'),
+        membership_tier:   p.membership_tier || 'free',
+        membership_status: 'active',
+        member_since:      null,
+      },
+      points: {
+        available,
+        pending,
+        level:          '',
+        level_num:      0,
+        next_level_pts: null,
+      },
+      recent_events: [],
+    };
+  }catch(e){
+    return null;
+  }
+}
+
 async function init(){
-  let userId = lsGet('mc_user_id');
+  let data   = initFromEarthSoulBind();
+  let userId = data?.user?.id || lsGet('mc_user_id');
   if(!userId){ showGate(null, false); return; }
 
-  let data = await fetchMemberUser(userId);
+  if(!data){
+    data = await fetchMemberUser(userId);
 
-  if(!data?.user?.email){
-    const retried = await maybeRetryAfterBind(userId);
-    if(retried){
-      userId = retried.userId;
-      data   = retried.data;
-      if(typeof mcPersistSession === 'function'){
-        mcPersistSession({
-          userId: data.user.id,
-          email: data.user.email,
-          referral_code: data.user.referral_code,
-          points: data.points?.available,
-          membershipTier: data.user.membership_tier,
-          membershipStatus: data.user.membership_status,
-        });
+    if(!data?.user?.email){
+      const retried = await maybeRetryAfterBind(userId);
+      if(retried){
+        userId = retried.userId;
+        data   = retried.data;
+        if(typeof mcPersistSession === 'function'){
+          mcPersistSession({
+            userId: data.user.id,
+            email: data.user.email,
+            referral_code: data.user.referral_code,
+            points: data.points?.available,
+            membershipTier: data.user.membership_tier,
+            membershipStatus: data.user.membership_status,
+          });
+        }
       }
     }
   }
