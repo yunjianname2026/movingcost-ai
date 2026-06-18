@@ -210,7 +210,7 @@ a{text-decoration:none;color:inherit}
   <a href="/" class="nav-logo"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
   <div class="nav-right">
     <a href="/" class="nav-home">← Home</a>
-    <a href="#" class="nav-home" onclick="signOut()">Sign Out</a>
+    <a href="#" id="nav-sign-out" class="nav-home" onclick="signOut()" style="display:none">Sign Out</a>
   </div>
 </nav>
 
@@ -239,13 +239,27 @@ a{text-decoration:none;color:inherit}
       <div class="gate-perk">Earn +30 MovingCOST Points just for signing up</div>
     </div>
 
+    <div id="gate-login-cta" style="display:none;text-align:center">
+      <p class="gate-sub" style="margin-bottom:16px">
+        Sign in with your email to open your member dashboard on this device.
+      </p>
+      <a href="/login" class="gate-btn" style="display:inline-block;text-decoration:none;text-align:center">
+        Sign in with email →
+      </a>
+      <div class="gate-note" style="margin-top:12px">
+        We'll send a secure magic link to your inbox. Links expire in 30 minutes — you can resend anytime.
+      </div>
+    </div>
+
+    <div id="gate-bind-section">
     <div class="gate-input-row">
       <input class="gate-input" type="email" id="gate-email" placeholder="your@email.com">
       <button class="gate-btn" onclick="gateSubmit()">Save My Points →</button>
     </div>
     <div class="gate-note" id="gate-msg">No spam. Unsubscribe anytime. Free forever.</div>
+    </div>
 
-    <div class="gate-recovery">
+    <div class="gate-recovery" id="gate-recovery">
       <strong>Already saved your points on another device?</strong><br>
       Account recovery by email is coming soon. For now, <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
     </div>
@@ -479,13 +493,17 @@ function formatDate(iso){
 }
 
 function showGate(pointsAvailable, showError){
+  document.getElementById('nav-sign-out').style.display = 'none';
   document.getElementById('page-loading').style.display = 'none';
   if(showError) document.getElementById('gate-error').style.display = 'block';
-  if(pointsAvailable && pointsAvailable > 0){
-    document.getElementById('gate-pts-num').textContent = pointsAvailable;
-    document.getElementById('gate-pts-card').style.display = 'block';
-    document.getElementById('gate-perks-list').style.display = 'none';
-  }
+
+  document.getElementById('gate-sub').textContent =
+    'Sign in with your email to access your MovingCOST Points and member benefits.';
+  document.getElementById('gate-perks-list').style.display = 'none';
+  document.getElementById('gate-pts-card').style.display = 'none';
+  document.getElementById('gate-bind-section').style.display = 'none';
+  document.getElementById('gate-recovery').style.display = 'none';
+  document.getElementById('gate-login-cta').style.display = 'block';
   document.getElementById('email-gate').style.display = 'block';
 }
 
@@ -504,6 +522,7 @@ async function init(){
   if(!data || data.error){ showGate(null, true); return; }
   if(!data.user?.email){ showGate(data.points?.available || 0, false); return; }
 
+  document.getElementById('nav-sign-out').style.display = '';
   document.getElementById('dashboard').style.display = 'block';
   renderDashboard(data);
   loadEarthSoulProfile(userId);
