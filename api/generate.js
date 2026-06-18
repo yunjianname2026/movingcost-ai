@@ -3,6 +3,8 @@
 // 规则：每个 IP 每小时最多调用 10 次
 // ================================================================
 
+const MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
+
 // 内存速率表（Vercel 单实例内有效，足够防止普通滥用）
 const rateMap = new Map();
 const LIMIT  = 10;               // 每小时最多 10 次
@@ -60,7 +62,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: MODEL,
         max_tokens: 2000,
         temperature: 0.2,
         messages: [{ role: 'user', content: prompt }]

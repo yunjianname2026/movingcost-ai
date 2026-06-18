@@ -1,6 +1,8 @@
 // api/send-report.js
 const { Resend } = require('resend');
 
+const MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. SYSTEM RULES
 // ─────────────────────────────────────────────────────────────────────────────
@@ -234,7 +236,7 @@ async function callClaude(prompt) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: MODEL,
       max_tokens: 24000,
       system: SYSTEM_RULES,
       messages: [{ role: 'user', content: prompt }],
