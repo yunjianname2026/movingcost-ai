@@ -5,14 +5,6 @@
       "maxDuration": 300
     }
   },
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "movingcost.ai" }],
-      "destination": "https://www.movingcost.ai/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     { "source": "/blog/nyc-to-lisbon", "destination": "/blog/nyc-to-lisbon.html" },
     { "source": "/planner", "destination": "/planner.html" },
