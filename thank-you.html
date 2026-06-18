@@ -356,6 +356,16 @@ function stopLoading(success) {
 }
 
 // ── SEND REPORT ────────────────────────────────────────────────────────────
+var REPORT_DELAY_MSG = 'Your payment is confirmed. The report is still being generated or delayed. Please check your email in a few minutes, or contact support@movingcost.ai.';
+
+function isReportDelayResponse(resp, raw) {
+  if (!raw || !String(raw).trim()) return true;
+  if (resp.status === 502 || resp.status === 503 || resp.status === 504) return true;
+  var ct = resp.headers.get('content-type') || '';
+  if (ct.indexOf('application/json') === -1) return true;
+  return false;
+}
+
 async function sendReport() {
   var email = document.getElementById('email-input').value.trim();
   var statusEl = document.getElementById('send-status');
@@ -393,17 +403,21 @@ async function sendReport() {
       body: JSON.stringify({ email:email, name:'', userData:dataToSend, previewReport:previewReport })
     });
 
-    // 安全解析：先读text再JSON.parse，防止后端返回非JSON时崩溃
     var raw = await resp.text();
+    if (isReportDelayResponse(resp, raw)) {
+      console.warn('send-report delay/non-JSON response:', resp.status, raw.slice(0, 200));
+      throw new Error(REPORT_DELAY_MSG);
+    }
+
     var result;
     try {
       result = JSON.parse(raw);
     } catch(parseErr) {
-      console.error('Non-JSON response from /api/send-report:', raw.slice(0, 300));
-      throw new Error('Server returned an unexpected response. Your payment is confirmed — please contact support@movingcost.ai and we will send your report manually.');
+      console.warn('send-report JSON parse failed:', raw.slice(0, 200));
+      throw new Error(REPORT_DELAY_MSG);
     }
 
-    if (!resp.ok) throw new Error(result.error || result.detail || 'Server error');
+    if (!resp.ok) throw new Error(result.error || REPORT_DELAY_MSG);
 
     if (window.trackEvent) window.trackEvent('report_email_submitted', { move_type: (dataToSend && dataToSend.type) || 'unknown' });
     stopLoading(true);
@@ -418,7 +432,10 @@ async function sendReport() {
   } catch(err) {
     stopLoading(false);
     statusEl.className = 'send-status err';
-    statusEl.textContent = '❌ ' + err.message + '. Please try again or contact support@movingcost.ai';
+    var msg = err.message || REPORT_DELAY_MSG;
+    statusEl.textContent = msg.indexOf('payment is confirmed') >= 0
+      ? msg
+      : ('❌ ' + msg + ' Please try again or contact support@movingcost.ai.');
     btn.disabled = false;
     btnText.textContent = 'Generate & Send →';
   }

@@ -1,5 +1,10 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/send-report.js": {
+      "maxDuration": 300
+    }
+  },
   "redirects": [
     {
       "source": "/:path*",

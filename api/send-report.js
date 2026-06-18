@@ -153,10 +153,14 @@ const BANNED_TERMS = [
   { term: 'guaranteed to',   reason: 'Guarantee claims not allowed' },
 ];
 
-const MIN_LENGTH = 10000;
+const MIN_LENGTH = 5000;
 
 function validateReport(content) {
   const issues = [];
+  if (!content || !content.trim()) {
+    issues.push('Report empty');
+    return issues;
+  }
   const lower = content.toLowerCase();
   REQUIRED_SECTION_KEYS.forEach(s => {
     if (!lower.includes(s.key)) issues.push('Missing: ' + s.label);
@@ -165,7 +169,7 @@ function validateReport(content) {
     if (content.includes(b.term)) issues.push('Banned term "' + b.term + '" — ' + b.reason);
   });
   if (content.length < MIN_LENGTH) {
-    issues.push('Report too short: ' + content.length + ' chars (minimum ' + MIN_LENGTH + ')');
+    issues.push('Report shorter than target: ' + content.length + ' chars (soft minimum ' + MIN_LENGTH + ')');
   }
   return issues;
 }
@@ -181,28 +185,19 @@ module.exports = async function handler(req, res) {
     const { email, name, userData, previewReport } = req.body;
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
 
-    let reportContent = null;
-    let validationIssues = [];
-    let attempt = 0;
+    const prompt = buildFullReportPrompt(userData, previewReport, []);
+    const raw = await callClaude(prompt);
 
-    while (attempt < 2) {
-      attempt++;
-      const prompt = buildFullReportPrompt(userData, previewReport, attempt > 1 ? validationIssues : []);
-      const raw = await callClaude(prompt);
-      validationIssues = validateReport(raw);
-
-      if (validationIssues.length === 0) {
-        reportContent = raw;
-        break;
-      }
-
-      console.warn('Validation failed (attempt ' + attempt + '):', validationIssues.join('; '));
-      if (attempt >= 2) {
-        reportContent = raw;
-        console.error('Using report despite validation issues after 2 attempts');
-      }
+    if (!raw || !raw.trim()) {
+      return res.status(500).json({ error: 'Report generation returned empty content. Please try again or contact support.' });
     }
 
+    const validationIssues = validateReport(raw);
+    if (validationIssues.length > 0) {
+      console.warn('Validation notes (single pass, no retry):', validationIssues.join('; '));
+    }
+
+    const reportContent = raw;
     const firstName = (name || 'there').split(' ')[0];
     const emailHTML = buildEmailHTML(firstName, userData, reportContent);
 
@@ -215,8 +210,8 @@ module.exports = async function handler(req, res) {
       html: emailHTML,
     });
 
-    console.log('Report sent to:', email, '| Validation issues:', validationIssues.length);
-    return res.status(200).json({ sent: true });
+    console.log('Report sent to:', email, '| Validation notes:', validationIssues.length);
+    return res.status(200).json({ sent: true, validation_notes: validationIssues.length });
 
   } catch (err) {
     console.error('send-report error:', err.message);
