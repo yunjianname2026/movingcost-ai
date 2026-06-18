@@ -1123,47 +1123,6 @@ function retake(){
     msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  function showMcSavedNextStepsBanner() {
-    if (document.getElementById('mc-saved-next-banner')) return;
-
-    const prompt = document.getElementById('mc-email-prompt');
-    if (prompt) {
-      const label = prompt.querySelector('.mc-email-prompt-label');
-      const row = prompt.querySelector('.mc-email-prompt-row');
-      if (label) label.style.display = 'none';
-      if (row) row.style.display = 'none';
-    }
-
-    const banner = document.createElement('div');
-    banner.id = 'mc-saved-next-banner';
-    banner.style.cssText = `
-      background: rgba(16,185,129,0.12);
-      border: 1px solid rgba(16,185,129,0.35);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      font-size: 13px;
-      color: #D1FAE5;
-      line-height: 1.6;
-    `;
-    banner.innerHTML = `
-      <div style="font-weight:700;color:#6EE7B7;margin-bottom:6px;">Your points are saved.</div>
-      <div style="color:#A7F3D0;margin-bottom:10px;">
-        Please check your email for your Welcome message, or open your member welcome page.
-      </div>
-      <a href="/welcome"
-        style="display:inline-flex;align-items:center;gap:6px;background:#0EA5E9;color:#fff;
-        font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;padding:8px 16px;
-        border-radius:99px;text-decoration:none;">
-        Go to Welcome →
-      </a>
-    `;
-
-    if (prompt && prompt.parentNode) {
-      prompt.parentNode.insertBefore(banner, prompt);
-    }
-  }
-
   function positionToast(toast) {
     const mobile = window.matchMedia('(max-width: 640px)').matches;
     const keyboardLikely = window.visualViewport && window.visualViewport.height < window.innerHeight * 0.82;
@@ -1650,12 +1609,14 @@ function retake(){
 
     if (result && !result.error) {
       lsSet('mc_user_email', email);
-      lsSet('mc_email', email);
       const successText = result.points_earned > 0
         ? '✅ Email saved! +30 MovingCOST Points added.'
         : '✅ Email saved! Your points are linked to this address.';
       setMcEmailFeedback(successText, 'success');
-      showMcSavedNextStepsBanner();
+      const prompt = document.getElementById('mc-email-prompt');
+      if (prompt) {
+        setTimeout(() => { if (prompt) prompt.style.display = 'none'; }, 3500);
+      }
       if (result.points_earned > 0) {
         showToast('⭐ +30 Points — Email saved!');
         await refreshPointsUI(userId);

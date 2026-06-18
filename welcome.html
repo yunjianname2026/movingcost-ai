@@ -341,7 +341,7 @@ main{
 
     <!-- 行动按钮 -->
     <div class="cta-stack">
-      <a href="/member" class="btn-primary" id="enter-member-cta">
+      <a href="/member" class="btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         Enter Member Center
       </a>
@@ -390,7 +390,7 @@ main{
   // ── 读取 localStorage ──
   var email = '', userId = '', referralLink = '', quizType = '';
   try {
-    email        = localStorage.getItem('mc_email') || localStorage.getItem('mc_user_email') || '';
+    email        = localStorage.getItem('mc_email') || '';
     userId       = localStorage.getItem('mc_user_id') || '';
     referralLink = localStorage.getItem('mc_referral_link') || '';
     var quizRaw  = localStorage.getItem('mc_quiz_result');
@@ -495,14 +495,8 @@ main{
     });
   };
 
-  // ── Enter Member Center：有本机会话 → /member，否则 → /login ──
-  var memberCta = document.getElementById('enter-member-cta');
-  if (memberCta) {
-    memberCta.href = userId ? '/member' : '/login';
-  }
-
-  // ── 如果没有邮箱，调整 welcome 文案 ──
-  if(!email && !userId){
+  // ── 如果没有邮箱，跳转到 member 绑定 ──
+  if(!email){
     document.getElementById('pts-earned-banner').style.display = 'none';
     var kicker = document.querySelector('.welcome-kicker');
     if(kicker) kicker.textContent = 'Join MovingCOST.ai';
