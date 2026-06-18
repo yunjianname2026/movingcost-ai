@@ -7,6 +7,8 @@
 //        sendWelcomeEmail：Resend 发送，失败只记录错误，不回滚用户
 // ================================================================
 
+import crypto from 'crypto';
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const RESEND_KEY   = process.env.RESEND_API_KEY;
@@ -102,15 +104,50 @@ async function getUserPointsSummary(user_id) {
 // ================================================================
 // 欢迎邮件（非阻塞，失败不回滚用户）
 // ================================================================
+const SITE_BASE = 'https://www.movingcost.ai';
+
+async function createWelcomeDashboardLink(email) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const token = crypto.randomBytes(32).toString('hex');
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/magic_tokens?email=eq.${encodeURIComponent(normalizedEmail)}`, {
+      method: 'DELETE',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+    });
+
+    const insRes = await fetch(`${SUPABASE_URL}/rest/v1/magic_tokens`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: normalizedEmail, token, expires_at: expiresAt, used: false }),
+    });
+
+    if (insRes.status !== 201) {
+      console.warn('[welcome-email] magic token insert failed, fallback to /login');
+      return `${SITE_BASE}/login`;
+    }
+
+    return `${SITE_BASE}/verify?token=${token}`;
+  } catch (e) {
+    console.warn('[welcome-email] magic token error, fallback to /login:', e.message);
+    return `${SITE_BASE}/login`;
+  }
+}
+
 async function sendWelcomeEmail(email, referralCode, pointsEarned) {
   if (!RESEND_KEY) {
     console.warn('[welcome-email] RESEND_API_KEY 未配置，跳过');
     return;
   }
 
-  const inviteLink    = `https://movingcost.ai/earthsoul?ref=${referralCode || ''}`;
-  const dashboardLink = 'https://movingcost.ai/member';
-  const quizLink      = 'https://movingcost.ai/earthsoul';
+  const inviteLink    = `${SITE_BASE}/earthsoul?ref=${referralCode || ''}`;
+  const dashboardLink = await createWelcomeDashboardLink(email);
+  const quizLink      = `${SITE_BASE}/earthsoul`;
 
   const pointsLine = pointsEarned > 0
     ? `<p style="margin:0 0 8px;font-size:14px;color:#475569;">
@@ -207,6 +244,11 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
               </td>
             </tr>
           </table>
+
+          <p style="margin:12px 0 0;font-size:12px;color:#94A3B8;line-height:1.6;">
+            Your dashboard link is secure and expires in 30 minutes. You can always request a new link at
+            <a href="${SITE_BASE}/login" style="color:#0EA5E9;">${SITE_BASE}/login</a>.
+          </p>
 
           <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
 
