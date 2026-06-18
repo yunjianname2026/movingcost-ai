@@ -409,7 +409,7 @@ export default async function handler(req, res) {
 
         // ── 积分奖励 ───────────────────────────────────────────
         const emailRewarded = await supabase(
-          `/reward_events?event_type=eq.email_submitted&status=neq.rejected&metadata->>email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
+          `/reward_events?event_type=eq.email_submitted&status=neq.rejected&user_id=eq.${user_id}&select=id&limit=1`,
           { method: 'GET', prefer: '' }
         );
 
