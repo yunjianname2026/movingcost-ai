@@ -210,7 +210,7 @@ a{text-decoration:none;color:inherit}
   <a href="/" class="nav-logo"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" style="height:66px;width:auto;display:block;" loading="eager"></a>
   <div class="nav-right">
     <a href="/" class="nav-home">← Home</a>
-    <a href="#" id="nav-sign-out" class="nav-home" onclick="signOut()" style="display:none">Sign Out</a>
+    <a href="#" class="nav-home" onclick="signOut()">Sign Out</a>
   </div>
 </nav>
 
@@ -220,7 +220,7 @@ a{text-decoration:none;color:inherit}
   <div id="email-gate" style="display:none">
     <div class="gate-ico">🌍</div>
     <div class="gate-title">Your MovingCOST Dashboard</div>
-    <div id="gate-sub" class="gate-sub">Save your MovingCOST Points permanently and access your full member benefits.</div>
+    <div class="gate-sub">Save your MovingCOST Points permanently and access your full member benefits.</div>
 
     <div id="gate-error" class="gate-error-card" style="display:none">
       Unable to load your data. Please refresh or <a href="mailto:support@movingcost.ai" style="color:#B91C1C;text-decoration:underline">contact support</a>.
@@ -239,27 +239,13 @@ a{text-decoration:none;color:inherit}
       <div class="gate-perk">Earn +30 MovingCOST Points just for signing up</div>
     </div>
 
-    <div id="gate-login-cta" style="display:none;text-align:center">
-      <p class="gate-sub" style="margin-bottom:16px">
-        Sign in with your email to open your member dashboard on this device.
-      </p>
-      <a href="/login" class="gate-btn" style="display:inline-block;text-decoration:none;text-align:center">
-        Sign in with email →
-      </a>
-      <div class="gate-note" style="margin-top:12px">
-        We'll send a secure magic link to your inbox. Links expire in 30 minutes — you can resend anytime.
-      </div>
-    </div>
-
-    <div id="gate-bind-section">
     <div class="gate-input-row">
       <input class="gate-input" type="email" id="gate-email" placeholder="your@email.com">
       <button class="gate-btn" onclick="gateSubmit()">Save My Points →</button>
     </div>
     <div class="gate-note" id="gate-msg">No spam. Unsubscribe anytime. Free forever.</div>
-    </div>
 
-    <div class="gate-recovery" id="gate-recovery">
+    <div class="gate-recovery">
       <strong>Already saved your points on another device?</strong><br>
       Account recovery by email is coming soon. For now, <a href="mailto:support@movingcost.ai" style="color:var(--blue)">contact support</a>.
     </div>
@@ -493,29 +479,14 @@ function formatDate(iso){
 }
 
 function showGate(pointsAvailable, showError){
-  const navOut = document.getElementById('nav-sign-out');
-  const loading = document.getElementById('page-loading');
-  const gate = document.getElementById('email-gate');
-  const gateSub = document.getElementById('gate-sub');
-  const gateError = document.getElementById('gate-error');
-  const gatePerks = document.getElementById('gate-perks-list');
-  const gatePts = document.getElementById('gate-pts-card');
-  const gateBind = document.getElementById('gate-bind-section');
-  const gateRecovery = document.getElementById('gate-recovery');
-  const gateLogin = document.getElementById('gate-login-cta');
-
-  if(navOut) navOut.style.display = 'none';
-  if(loading) loading.style.display = 'none';
-  if(gateError) gateError.style.display = showError ? 'block' : 'none';
-
-  if(gateSub) gateSub.textContent =
-    'Sign in with your email to access your MovingCOST Points and member benefits.';
-  if(gatePerks) gatePerks.style.display = 'none';
-  if(gatePts) gatePts.style.display = 'none';
-  if(gateBind) gateBind.style.display = 'none';
-  if(gateRecovery) gateRecovery.style.display = 'none';
-  if(gateLogin) gateLogin.style.display = 'block';
-  if(gate) gate.style.display = 'block';
+  document.getElementById('page-loading').style.display = 'none';
+  if(showError) document.getElementById('gate-error').style.display = 'block';
+  if(pointsAvailable && pointsAvailable > 0){
+    document.getElementById('gate-pts-num').textContent = pointsAvailable;
+    document.getElementById('gate-pts-card').style.display = 'block';
+    document.getElementById('gate-perks-list').style.display = 'none';
+  }
+  document.getElementById('email-gate').style.display = 'block';
 }
 
 function signOut(){
@@ -524,29 +495,20 @@ function signOut(){
 }
 
 async function init(){
-  try {
-    const userId = lsGet('mc_user_id');
-    if(!userId){ showGate(null, false); return; }
+  const userId = lsGet('mc_user_id');
+  if(!userId){ showGate(null, false); return; }
 
-    const data = await api(`${API}/user?action=get&user_id=${userId}`);
-    const loading = document.getElementById('page-loading');
-    if(loading) loading.style.display = 'none';
+  const data = await api(`${API}/user?action=get&user_id=${userId}`);
+  document.getElementById('page-loading').style.display = 'none';
 
-    if(!data || data.error){ showGate(null, true); return; }
-    if(!data.user?.email){ showGate(data.points?.available || 0, false); return; }
+  if(!data || data.error){ showGate(null, true); return; }
+  if(!data.user?.email){ showGate(data.points?.available || 0, false); return; }
 
-    const navOut = document.getElementById('nav-sign-out');
-    const dash = document.getElementById('dashboard');
-    if(navOut) navOut.style.display = '';
-    if(dash) dash.style.display = 'block';
-    renderDashboard(data);
-    loadEarthSoulProfile(userId);
-    loadReferralStats(userId);
-    updateSupportLink(data.user);
-  } catch (err) {
-    console.error('[member] init failed:', err);
-    showGate(null, true);
-  }
+  document.getElementById('dashboard').style.display = 'block';
+  renderDashboard(data);
+  loadEarthSoulProfile(userId);
+  loadReferralStats(userId);
+  updateSupportLink(data.user);
 }
 
 function renderDashboard(data){
