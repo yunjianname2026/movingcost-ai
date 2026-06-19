@@ -369,7 +369,7 @@ export default async function handler(req, res) {
         const user = users[0];
 
         // 已绑定相同邮箱，直接返回
-        if (user.email === email) return res.status(200).json({ message: '邮箱已绑定', points_earned: 0 });
+        if (user.email === email) return res.status(200).json({ message: '邮箱已绑定', points_earned: 0, user_id, email, is_member: true });
 
         // 安全检查：邮箱是否已属于其他账号
         const emailExists = await supabase(
@@ -455,6 +455,7 @@ export default async function handler(req, res) {
           message:           '邮箱绑定成功',
           points_earned:     pointsEarned,
           email,
+          user_id,
           membership_tier:   membershipUpdate.membership_tier || user.membership_tier,
           is_member:         true,
         });

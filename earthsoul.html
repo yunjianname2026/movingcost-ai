@@ -1434,11 +1434,13 @@ function retake(){
       body:   JSON.stringify({ user_id: userId, email }),
     });
 
+    if (result?.user_id) lsSet('mc_user_id', result.user_id);
+
     if (result?.points_earned > 0) {
       showToast(`⭐ +${result.points_earned} EarthSoul Points — You're on the list!`);
     }
 
-    await refreshPointsUI(userId);
+    await refreshPointsUI(result?.user_id || userId);
     return result;
   }
 
@@ -1608,6 +1610,7 @@ function retake(){
     });
 
     if (result && !result.error) {
+      if (result.user_id) lsSet('mc_user_id', result.user_id);
       lsSet('mc_user_email', email);
       const successText = result.points_earned > 0
         ? '✅ Email saved! +30 MovingCOST Points added.'
@@ -1619,7 +1622,7 @@ function retake(){
       }
       if (result.points_earned > 0) {
         showToast('⭐ +30 Points — Email saved!');
-        await refreshPointsUI(userId);
+        await refreshPointsUI(result.user_id || userId);
       }
     } else {
       const msg = result?.error || 'Failed, please try again.';
