@@ -182,35 +182,56 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
+    console.log('send-report start');
+
     const { email, name, userData, previewReport } = req.body;
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
+    console.log('after parse request');
 
+    console.log('before buildFullReportPrompt');
     const prompt = buildFullReportPrompt(userData, previewReport, []);
+    console.log('after buildFullReportPrompt');
+
+    console.log('before callClaude');
     const raw = await callClaude(prompt);
+    console.log('after callClaude, raw length:', raw ? raw.length : 0);
 
     if (!raw || !raw.trim()) {
       return res.status(500).json({ error: 'Report generation returned empty content. Please try again or contact support.' });
     }
 
+    console.log('before validateReport');
     const validationIssues = validateReport(raw);
+    console.log('after validateReport, issues:', validationIssues.length);
     if (validationIssues.length > 0) {
       console.warn('Validation notes (single pass, no retry):', validationIssues.join('; '));
     }
 
     const reportContent = raw;
     const firstName = (name || 'there').split(' ')[0];
+
+    console.log('before buildEmailHTML');
     const emailHTML = buildEmailHTML(firstName, userData, reportContent);
+    console.log('after buildEmailHTML, html length:', emailHTML ? emailHTML.length : 0);
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
+    console.log('before resend.emails.send');
+    const { data, error } = await resend.emails.send({
       from: 'MovingCOST.ai <reports@movingcost.ai>',
       to: email,
       replyTo: 'support@movingcost.ai',
       subject: 'Your MovingCOST.ai Report — ' + getSubjectLine(userData),
       html: emailHTML,
     });
+    console.log('after resend.emails.send');
 
-    console.log('Report sent to:', email, '| Validation notes:', validationIssues.length);
+    if (error) {
+      console.error('Resend send error:', error);
+      throw new Error('Failed to send report email: ' + (error.message || JSON.stringify(error)));
+    }
+
+    console.log('Report sent to:', email, '| resend id:', data?.id || 'n/a', '| Validation notes:', validationIssues.length);
+    console.log('before res.status(200).json');
     return res.status(200).json({ sent: true, validation_notes: validationIssues.length });
 
   } catch (err) {
