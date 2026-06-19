@@ -179,7 +179,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding:52px 2
     <div class="loading-section" id="loading-section">
       <div class="loading-ring"></div>
       <div class="loading-title">Generating your report…</div>
-      <div class="loading-sub">Claude AI is working on your personalised plan — please keep this tab open</div>
+      <div class="loading-sub" id="loading-sub">Your full AI relocation report is being generated — you may leave this page and check your email in 5–15 minutes.</div>
       <ul class="load-steps">
         <li class="lstep" id="lp1"><div class="lind">1</div>Analysing your financial profile<span class="lstep-time">~10s</span></li>
         <li class="lstep" id="lp2"><div class="lind">2</div>Building cost comparison tables<span class="lstep-time">~25s</span></li>
@@ -356,7 +356,8 @@ function stopLoading(success) {
 }
 
 // ── SEND REPORT ────────────────────────────────────────────────────────────
-var REPORT_DELAY_MSG = 'Your payment is confirmed. The report is still being generated or delayed. Please check your email in a few minutes, or contact support@movingcost.ai.';
+var REPORT_GENERATING_MSG = 'Your payment is confirmed. Your full AI relocation report is being generated. You may leave this page and check your email in 5–15 minutes.';
+var REPORT_DELAY_MSG = 'Your report may still be generating. Please check your email in 5–15 minutes, or contact support@movingcost.ai.';
 
 function isReportDelayResponse(resp, raw) {
   if (!raw || !String(raw).trim()) return true;
@@ -394,6 +395,7 @@ async function sendReport() {
   btn.disabled = true;
   btnText.textContent = 'Generating…';
   statusEl.textContent = '';
+  document.getElementById('hero-sub').textContent = REPORT_GENERATING_MSG;
   startLoading();
 
   try {
@@ -426,14 +428,15 @@ async function sendReport() {
     btnText.textContent = '✓ Sent!';
     try{localStorage.removeItem('movingData');localStorage.removeItem('movingReport')}catch(e){}
     document.getElementById('hero-title').textContent = 'Report on its way! 🎉';
-    document.getElementById('hero-sub').textContent = 'Your AI planning report is being generated and will be sent to ' + email + '. Check your inbox — it usually arrives within a few minutes.';
+    document.getElementById('hero-sub').textContent = REPORT_GENERATING_MSG;
     document.getElementById('city-fields').style.display = 'none';
 
   } catch(err) {
     stopLoading(false);
     statusEl.className = 'send-status err';
+    document.getElementById('hero-sub').textContent = REPORT_DELAY_MSG;
     var msg = err.message || REPORT_DELAY_MSG;
-    statusEl.textContent = msg.indexOf('payment is confirmed') >= 0
+    statusEl.textContent = (msg === REPORT_DELAY_MSG || msg.indexOf('may still be generating') >= 0)
       ? msg
       : ('❌ ' + msg + ' Please try again or contact support@movingcost.ai.');
     btn.disabled = false;

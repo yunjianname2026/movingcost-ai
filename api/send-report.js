@@ -459,5 +459,5 @@ function buildEmailHTML(firstName, userData, reportContent) {
     '</div></body></html>';
 }
 
-// Vercel: allow up to 5 minutes for AI report generation
-module.exports.config = { maxDuration: 300 };
+// Vercel: extended duration for full AI report generation + email send
+module.exports.config = { maxDuration: 800 };

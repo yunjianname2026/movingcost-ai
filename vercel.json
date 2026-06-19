@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "functions": {
     "api/send-report.js": {
-      "maxDuration": 300
+      "maxDuration": 800
     }
   },
   "rewrites": [
