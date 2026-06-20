@@ -205,7 +205,7 @@ module.exports = async function handler(req, res) {
     console.log('after buildReportPromptPart2');
 
     console.log('before callClaude part2');
-    const raw2 = await callClaude(prompt2, 8000);
+    const raw2 = await callClaude(prompt2, 10000);
     console.log('after callClaude part2, length:', raw2 ? raw2.length : 0);
 
     if (!raw2 || !raw2.trim()) {
