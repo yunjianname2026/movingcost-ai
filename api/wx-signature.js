@@ -70,6 +70,11 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing url parameter' });
   }
 
+  if (!process.env.WX_APP_ID || !process.env.WX_APP_SECRET) {
+    console.warn('wx-signature: WX_APP_ID/WX_APP_SECRET not configured (share disabled)');
+    return res.status(503).json({ error: 'wechat_share_unavailable', shareDisabled: true });
+  }
+
   try {
     const ticket     = await getJsapiTicket();
     const nonceStr   = Math.random().toString(36).slice(2, 18);
@@ -86,7 +91,21 @@ module.exports = async function handler(req, res) {
       signature,
     });
   } catch (err) {
-    console.error('wx-signature error:', err.message);
-    return res.status(500).json({ error: err.message });
+    const msg = err.message || String(err);
+    const isIpWhitelist =
+      msg.includes('40164') ||
+      msg.includes('not in whitelist') ||
+      msg.includes('invalid ip');
+
+    if (isIpWhitelist) {
+      console.warn('wx-signature: WeChat share unavailable (IP whitelist):', msg.slice(0, 160));
+    } else {
+      console.error('wx-signature error:', msg);
+    }
+
+    return res.status(503).json({
+      error: isIpWhitelist ? 'wechat_share_unavailable' : 'wechat_signature_failed',
+      shareDisabled: true,
+    });
   }
 };
