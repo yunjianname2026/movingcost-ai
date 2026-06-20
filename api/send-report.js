@@ -188,17 +188,31 @@ module.exports = async function handler(req, res) {
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
     console.log('after parse request');
 
-    console.log('before buildFullReportPrompt');
-    const prompt = buildFullReportPrompt(userData, previewReport, []);
-    console.log('after buildFullReportPrompt');
+    console.log('before buildReportPromptPart1');
+    const prompt1 = buildReportPromptPart1(userData, previewReport);
+    console.log('after buildReportPromptPart1');
 
-    console.log('before callClaude');
-    const raw = await callClaude(prompt);
-    console.log('after callClaude, raw length:', raw ? raw.length : 0);
+    console.log('before callClaude part1');
+    const raw1 = await callClaude(prompt1, 10000);
+    console.log('after callClaude part1, length:', raw1 ? raw1.length : 0);
 
-    if (!raw || !raw.trim()) {
-      return res.status(500).json({ error: 'Report generation returned empty content. Please try again or contact support.' });
+    if (!raw1 || !raw1.trim()) {
+      return res.status(500).json({ error: 'Report generation (part 1) returned empty content. Please try again or contact support.' });
     }
+
+    console.log('before buildReportPromptPart2');
+    const prompt2 = buildReportPromptPart2(userData, raw1);
+    console.log('after buildReportPromptPart2');
+
+    console.log('before callClaude part2');
+    const raw2 = await callClaude(prompt2, 8000);
+    console.log('after callClaude part2, length:', raw2 ? raw2.length : 0);
+
+    if (!raw2 || !raw2.trim()) {
+      return res.status(500).json({ error: 'Report generation (part 2) returned empty content. Please try again or contact support.' });
+    }
+
+    const raw = raw1 + '\n' + raw2;
 
     console.log('before validateReport');
     const validationIssues = validateReport(raw);
@@ -243,7 +257,7 @@ module.exports = async function handler(req, res) {
 // ─────────────────────────────────────────────────────────────────────────────
 // 5. CLAUDE API CALL
 // ─────────────────────────────────────────────────────────────────────────────
-async function callClaude(prompt) {
+async function callClaude(prompt, maxTokens) {
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -253,7 +267,7 @@ async function callClaude(prompt) {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 12000,
+      max_tokens: maxTokens,
       system: SYSTEM_RULES,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -269,7 +283,7 @@ async function callClaude(prompt) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 6. PROMPT BUILDER
+// 6. PROMPT BUILDERS (split into Part 1: Sections 0–5, Part 2: Sections 6–10)
 // ─────────────────────────────────────────────────────────────────────────────
 function getSubjectLine(d) {
   if (d.type === 'relocation') return (d.from || 'Your City') + ' → ' + (d.to || 'Destination') + ' Relocation Report';
@@ -277,23 +291,20 @@ function getSubjectLine(d) {
   return 'Your City Comparison Report';
 }
 
-function buildFullReportPrompt(d, preview, retryIssues) {
-  const type     = d.type || 'relocation';
-  const from     = d.from || 'current city';
-  const to       = d.to   || 'destination';
-  const who      = d.who  || 'individual';
-  const income   = d.income   || 'not specified';
-  const lifestyle= d.lifestyle|| 'not specified';
-  const notes    = d.notes    || 'none';
-  const destNotes= getDestinationNotes(d);
+function buildReportPromptPart1(d, preview) {
+  const type      = d.type || 'relocation';
+  const from      = d.from || 'current city';
+  const to        = d.to   || 'destination';
+  const who       = d.who  || 'individual';
+  const income    = d.income    || 'not specified';
+  const lifestyle = d.lifestyle || 'not specified';
+  const notes     = d.notes     || 'none';
+  const destNotes = getDestinationNotes(d);
   const previewCtx = preview
     ? '\nPreview report shown to user — headline: "' + preview.headline + '" / summary: "' + preview.summary + '"'
     : '';
-  const retryCtx = retryIssues && retryIssues.length > 0
-    ? '\n\nPREVIOUS ATTEMPT FAILED VALIDATION. Fix these issues in this attempt:\n- ' + retryIssues.join('\n- ')
-    : '';
 
-  return `Generate a comprehensive AI-powered relocation planning report for a paying customer. Follow all system rules strictly.
+  return `Generate PART 1 of a comprehensive AI-powered relocation planning report for a paying customer. Follow all system rules strictly.
 
 USER PROFILE:
 - Move type: ${type}
@@ -303,15 +314,15 @@ USER PROFILE:
 - Lifestyle: ${lifestyle}
 - Additional notes: ${notes}
 - Full data: ${JSON.stringify(d)}
-${previewCtx}${destNotes}${retryCtx}
+${previewCtx}${destNotes}
 
-OUTPUT REQUIREMENTS:
-- Write approximately 3,000–4,500 words of substantive content
-- Use RANGES for all cost estimates (e.g. "$1,800–$2,400/month")
+OUTPUT REQUIREMENTS FOR PART 1:
+- Write Sections 0 through 5 ONLY
+- Do NOT write Sections 6–10 (they will be generated separately)
+- Write approximately 2,000–2,500 words of substantive content
+- Use RANGES for all cost estimates
 - Use cautious, hedged language for visa, tax, and immigration sections
 - Format in email-safe HTML with inline styles only
-- Include the disclaimer block verbatim as shown in Section 0
-- All 10 sections must be present and substantial
 
 ---
 
@@ -350,8 +361,41 @@ Planning notes (not legal advice) on: 2–3 visa options for this person with ca
 SECTION 5 — TAX & FINANCIAL PLANNING NOTES
 Planning notes (not tax advice) on: when tax residency may shift; double taxation treaty context; approximate tax rate ranges in ${to}; banking setup strategy; currency management; pension and investment account implications; what to set up before vs after departure; type of advisor to engage. Use cautious language — never guarantee outcomes.
 
+---
+HTML FORMAT:
+- Section h2: <h2 style="font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#0F172A;margin:32px 0 12px;padding-top:24px;border-top:2px solid #E2E8F0;">Title</h2>
+- Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
+- Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
+- Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
+- Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
+- Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows
+
+Write Sections 0–5 now. Stop after Section 5. Do not write Section 6 or beyond.`;
+}
+
+function buildReportPromptPart2(d, part1Content) {
+  const from = d.from || 'current city';
+  const to   = d.to   || 'destination';
+
+  return `You are continuing a relocation planning report. Part 1 (Sections 0–5) has already been written. Now write PART 2: Sections 6–10 only.
+
+USER PROFILE SUMMARY:
+- From: ${from} → To: ${to}
+- Household: ${d.who || 'individual'}
+- Income: ${d.income || 'not specified'}
+- Lifestyle: ${d.lifestyle || 'not specified'}
+
+OUTPUT REQUIREMENTS FOR PART 2:
+- Write Sections 6 through 10 ONLY
+- Do NOT repeat or summarise Part 1 content
+- Write approximately 1,800–2,200 words of substantive content
+- Use RANGES for all cost estimates
+- Format in email-safe HTML with inline styles only
+
+---
+
 SECTION 6 — ONE-TIME MOVING COSTS
-Estimated ranges for: international shipping options (air / sea / container); what to ship vs sell; pet relocation if applicable; vehicle decisions; transit insurance; storage if needed; flights and temporary accommodation; total moving budget: budget / mid / premium scenario.
+Estimated ranges for: shipping options (air / sea / container); what to ship vs sell; pet relocation if applicable; vehicle decisions; transit insurance; storage if needed; flights and temporary accommodation; total moving budget: budget / mid / premium scenario.
 
 SECTION 7 — PRE-DEPARTURE FINANCIAL CHECKLIST
 Itemised tasks with timeline:
@@ -382,12 +426,9 @@ HTML FORMAT:
 - Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
 - Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
 - Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
-- Info callout: <div style="background:#F0F9FF;border-left:4px solid #0EA5E9;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;"><p style="font-size:14px;color:#0C4A6E;margin:0;line-height:1.7;">text</p></div>
-- Warning callout: <div style="background:#FFF7ED;border-left:4px solid #F59E0B;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;"><p style="font-size:14px;color:#92400E;margin:0;line-height:1.7;">text</p></div>
 - Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
-- Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows
 
-Write all 10 sections now. Do not skip or abbreviate any section. Do not stop early. Complete the entire report including all sections through Section 10.`;
+Write Sections 6–10 now. Do not stop early. Complete through Section 10.`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
