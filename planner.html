@@ -395,10 +395,12 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
             <div>
               <label class="flabel">📍 Moving From <span style="color:var(--danger)">*</span></label>
               <input class="finput" id="fromCity" type="text" placeholder="e.g. New York, NY" autocomplete="off">
+              <div id="fromCity-hint" style="display:none;font-size:12px;margin-top:4px;"></div>
             </div>
             <div>
               <label class="flabel" id="toCity-label">📍 Moving To <span style="color:var(--danger)">*</span></label>
               <input class="finput" id="toCity" type="text" placeholder="e.g. Lisbon, Portugal" autocomplete="off">
+              <div id="toCity-hint" style="display:none;font-size:12px;margin-top:4px;"></div>
             </div>
           </div>
           <div class="frow">
@@ -600,8 +602,11 @@ textarea.finput{height:72px;padding:10px 12px;resize:none;line-height:1.55}
             <label class="flabel">🏙️ Cities on your shortlist <span style="color:var(--danger)">*</span> (City A &amp; B required)</label>
             <div style="display:flex;flex-direction:column;gap:7px">
               <input class="finput" id="c-city1" type="text" placeholder="City A — e.g. Dubai, UAE" autocomplete="off">
+              <div id="c-city1-hint" style="display:none;font-size:12px;margin-top:4px;"></div>
               <input class="finput" id="c-city2" type="text" placeholder="City B — e.g. Lisbon, Portugal" autocomplete="off">
+              <div id="c-city2-hint" style="display:none;font-size:12px;margin-top:4px;"></div>
               <input class="finput" id="c-city3" type="text" placeholder="City C — optional (e.g. Chiang Mai, Thailand)">
+              <div id="c-city3-hint" style="display:none;font-size:12px;margin-top:4px;"></div>
             </div>
           </div>
           <div class="field">
@@ -927,6 +932,21 @@ async function goToCheckout(e){
   btn.style.opacity='0.7';
   btn.style.pointerEvents='none';
   var data=collectData();
+  // ── 付款前城市校验 ──
+  var fromVal = (data.from || '').trim();
+  var toVal   = (data.to   || '').trim();
+  if (!fromVal || fromVal.length < 2) {
+    btn.textContent = 'Unlock Full Report $9.90';
+    btn.style.opacity = ''; btn.style.pointerEvents = '';
+    alert('Please enter your origin city before continuing.');
+    return;
+  }
+  if (!toVal || toVal.length < 2) {
+    btn.textContent = 'Unlock Full Report $9.90';
+    btn.style.opacity = ''; btn.style.pointerEvents = '';
+    alert('Please enter your destination city before continuing.');
+    return;
+  }
   try{localStorage.setItem('movingData',JSON.stringify(data));}catch(ex){}
   try{localStorage.setItem('movingReport',JSON.stringify(reportJSON));}catch(ex){}
   try{setCookie('mcData',JSON.stringify(data),120);}catch(ex){}
@@ -1052,6 +1072,144 @@ function resetAll(){
   ['rpt-cost-section','rpt-insights-section','rpt-action-section'].forEach(id=>{document.getElementById(id).innerHTML=''});
   showS('s1',true);
 }
+
+// ── CITY NORMALIZER (Commit 2) ────────────────────────────────────────────
+var CITY_ALIASES = {
+  // 拼写错误别名（自动修正）
+  'maiami':'Miami, FL','miame':'Miami, FL','miaimi':'Miami, FL','mimai':'Miami, FL',
+  'newyork':'New York, NY','new york city':'New York, NY','nyc':'New York, NY','new yok':'New York, NY',
+  'los angelos':'Los Angeles, CA','los angeles':'Los Angeles, CA',
+  'san fransisco':'San Francisco, CA','san francisco':'San Francisco, CA',
+  // 常见缩写（自动展开）
+  'la':'Los Angeles, CA','l.a.':'Los Angeles, CA','lax':'Los Angeles, CA',
+  'sf':'San Francisco, CA','san fran':'San Francisco, CA',
+  'dc':'Washington, DC','washington dc':'Washington, DC','d.c.':'Washington, DC',
+  'chi':'Chicago, IL',
+  'sin':'Singapore','sg':'Singapore',
+  'hk':'Hong Kong','h.k.':'Hong Kong',
+  'uae':'Dubai, UAE','dxb':'Dubai, UAE',
+  'lon':'London, UK',
+  'par':'Paris, France',
+  'ams':'Amsterdam, Netherlands',
+  'bkk':'Bangkok, Thailand',
+  'syd':'Sydney, Australia',
+  'mel':'Melbourne, Australia',
+};
+
+// 已知城市列表（用于模糊匹配建议）
+var KNOWN_CITIES = [
+  'Miami, FL','New York, NY','Los Angeles, CA','San Francisco, CA','Chicago, IL',
+  'Washington, DC','Boston, MA','Seattle, WA','Austin, TX','Dallas, TX',
+  'Houston, TX','Atlanta, GA','Nashville, TN','Denver, CO','Las Vegas, NV',
+  'Phoenix, AZ','San Diego, CA','Orlando, FL','Tampa, FL','Portland, OR',
+  'London, UK','Paris, France','Amsterdam, Netherlands','Berlin, Germany',
+  'Barcelona, Spain','Madrid, Spain','Rome, Italy','Lisbon, Portugal',
+  'Zurich, Switzerland','Vienna, Austria','Copenhagen, Denmark',
+  'Stockholm, Sweden','Dublin, Ireland','Tokyo, Japan','Singapore',
+  'Hong Kong','Shanghai, China','Dubai, UAE','Bangkok, Thailand',
+  'Bali, Indonesia','Sydney, Australia','Melbourne, Australia',
+  'Auckland, New Zealand','Mexico City, Mexico','Cancun, Mexico',
+  'Buenos Aires, Argentina',
+];
+
+function levenshtein(a, b) {
+  if (Math.abs(a.length - b.length) > 3) return 99;
+  var m = a.length, n = b.length;
+  var dp = [];
+  for (var i = 0; i <= m; i++) {
+    dp[i] = [];
+    for (var j = 0; j <= n; j++) {
+      dp[i][j] = i === 0 ? j : j === 0 ? i : 0;
+    }
+  }
+  for (var i = 1; i <= m; i++) {
+    for (var j = 1; j <= n; j++) {
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[m][n];
+}
+
+function normalizeCity(raw) {
+  if (!raw || !raw.trim()) return { value: raw, corrected: false, suggestion: null };
+  var v = raw.trim();
+  var key = v.toLowerCase().replace(/\s+/g, ' ');
+
+  // 1. 精确别名匹配 → 自动修正
+  if (CITY_ALIASES[key]) {
+    return { value: CITY_ALIASES[key], corrected: true, suggestion: CITY_ALIASES[key] };
+  }
+
+  // 2. Title Case 标准化
+  var titled = v.replace(/\w\S*/g, function(w) {
+    return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+  });
+
+  // 3. 模糊匹配 → 建议（不自动改，让用户确认）
+  if (v.length > 3) {
+    var lower = v.toLowerCase();
+    var best = null, bestDist = 99;
+    for (var i = 0; i < KNOWN_CITIES.length; i++) {
+      var cityCore = KNOWN_CITIES[i].toLowerCase().split(',')[0];
+      var dist = levenshtein(lower, cityCore);
+      if (dist < bestDist && dist <= 2) {
+        bestDist = dist;
+        best = KNOWN_CITIES[i];
+      }
+    }
+    if (best && best.toLowerCase().split(',')[0] !== lower) {
+      return { value: titled, corrected: false, suggestion: best };
+    }
+  }
+
+  return { value: titled, corrected: false, suggestion: null };
+}
+
+function attachCityNormalizer(inputId, hintId) {
+  var el = document.getElementById(inputId);
+  var hint = document.getElementById(hintId);
+  if (!el) return;
+
+  el.addEventListener('blur', function() {
+    if (!el.value.trim()) return;
+    var result = normalizeCity(el.value);
+
+    if (result.corrected) {
+      // 拼写错误：自动修正，绿色提示
+      el.value = result.value;
+      if (hint) {
+        hint.innerHTML = '&#10003; Corrected to: <strong>' + result.value + '</strong>';
+        hint.style.color = '#059669';
+        hint.style.display = 'block';
+      }
+    } else if (result.suggestion) {
+      // 模糊匹配：显示建议，用户确认
+      el.value = result.value; // Title Case
+      if (hint) {
+        var suggEsc = result.suggestion.replace(/'/g, "\\'");
+        hint.innerHTML = 'Did you mean <strong>' + result.suggestion + '</strong>? ' +
+          '<a href="#" style="color:#0EA5E9;text-decoration:underline;" ' +
+          'onclick="document.getElementById(\'' + inputId + '\').value=\'' + suggEsc + '\';' +
+          'this.parentElement.style.display=\'none\';return false;">Use this</a>';
+        hint.style.color = '#B45309';
+        hint.style.display = 'block';
+      }
+    } else {
+      // 普通 Title Case，隐藏 hint
+      el.value = result.value;
+      if (hint) hint.style.display = 'none';
+    }
+  });
+}
+
+// 初始化所有城市输入框
+attachCityNormalizer('fromCity',  'fromCity-hint');
+attachCityNormalizer('toCity',    'toCity-hint');
+attachCityNormalizer('c-city1',   'c-city1-hint');
+attachCityNormalizer('c-city2',   'c-city2-hint');
+attachCityNormalizer('c-city3',   'c-city3-hint');
 </script>
 
 <script>
