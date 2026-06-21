@@ -285,8 +285,118 @@ async function callClaude(prompt, maxTokens) {
 // ─────────────────────────────────────────────────────────────────────────────
 // 6. PROMPT BUILDERS (split into Part 1: Sections 0–5, Part 2: Sections 6–10)
 // ─────────────────────────────────────────────────────────────────────────────
+// ── 城市名标准化 ──────────────────────────────────────────────────────────
+function toTitleCase(str) {
+  if (!str) return '';
+  const abbr = { nyc:'NYC', la:'LA', sf:'SF', dc:'DC', uae:'UAE', uk:'UK', us:'US' };
+  return str.trim().replace(/\w\S*/g, w => {
+    const low = w.toLowerCase();
+    return abbr[low] || (w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  });
+}
+
+// ── 城市→渐变色映射 ───────────────────────────────────────────────────────
+function getCityColors(cityName) {
+  const city = (cityName || '').toLowerCase().trim();
+  const map = {
+    'new york':['#0f1f3d','#1a3460','#1e4080'],'nyc':['#0f1f3d','#1a3460','#1e4080'],
+    'boston':['#0d1f3c','#163258','#1c4070'],'philadelphia':['#101e38','#172f56','#1d3d6e'],
+    'washington':['#0e1e3a','#162e54','#1b3c6c'],'chicago':['#0f2040','#17305e','#1c3e76'],
+    'miami':['#064e6e','#0d7fa5','#2bafd4'],'orlando':['#065a6e','#0d8aaa','#24b8d8'],
+    'tampa':['#065570','#0c86ab','#22b5d6'],'austin':['#1a4a2e','#22683f','#2a8850'],
+    'dallas':['#2a3a1a','#3d5524','#507030'],'houston':['#1e3820','#2a5030','#356840'],
+    'atlanta':['#1a2e3a','#264456','#306070'],'nashville':['#2a2018','#40301e','#584026'],
+    'los angeles':['#6e3a06','#a55c0d','#d47e28'],'la':['#6e3a06','#a55c0d','#d47e28'],
+    'san francisco':['#1a2e50','#254468','#305880'],'sf':['#1a2e50','#254468','#305880'],
+    'seattle':['#1a2a40','#26405e','#305678'],'portland':['#1e2e1a','#2c4426','#386032'],
+    'las vegas':['#4a2010','#703018','#984020'],'phoenix':['#6e2a06','#a8420e','#d46020'],
+    'denver':['#1a3040','#264a5e','#306276'],'san diego':['#065870','#0d8aaa','#20b8d8'],
+    'london':['#1a1e2a','#28303e','#364454'],'paris':['#1e1a2e','#2e2844','#3e365c'],
+    'amsterdam':['#0e2230','#163448','#1c4460'],'berlin':['#1a1e24','#28303a','#364250'],
+    'barcelona':['#4a1a10','#702818','#983822'],'madrid':['#4e1a0e','#782a16','#a04020'],
+    'rome':['#4a2010','#70300e','#984818'],'lisbon':['#2e1a10','#482818','#643820'],
+    'zurich':['#1a2030','#283244','#344456'],'vienna':['#1e1a28','#2c2840','#3c3858'],
+    'copenhagen':['#0e2434','#163a50','#1c4e6a'],'stockholm':['#0e2030','#163048','#1c4060'],
+    'dublin':['#0e2418','#163a28','#1c4e38'],'tokyo':['#1a0e2e','#281644','#36205c'],
+    'singapore':['#0e3020','#163e2c','#1c5038'],'hong kong':['#0e1e38','#163054','#1c406e'],
+    'shanghai':['#1e0e38','#2c1650','#3a1e68'],'dubai':['#3a2a0a','#584010','#786020'],
+    'bangkok':['#2a1a0e','#402818','#583820'],'bali':['#1a3a0e','#286018','#369030'],
+    'mexico city':['#2e1a0e','#482818','#643820'],'cancun':['#065a6e','#0d88a8','#24b4d4'],
+    'buenos aires':['#0e1e3a','#163254','#1c426e'],'sydney':['#064e70','#0d7aaa','#22a8d4'],
+    'melbourne':['#0e2040','#163460','#1c4880'],'auckland':['#065068','#0d7e9e','#22accc'],
+  };
+  for (const key of Object.keys(map)) {
+    if (city.includes(key) || key.includes(city)) return map[key];
+  }
+  return ['#1a2744','#253a60','#2e4e7a'];
+}
+
+// ── 天际线 SVG（按城市类型：热带 / 欧式 / 现代高层）─────────────────────
+function getSkylineSVG(cityName, side) {
+  const city = (cityName || '').toLowerCase();
+  const align = side === 'left' ? 'xMinYMax' : 'xMaxYMax';
+  const isTropical = ['miami','orlando','tampa','cancun','bali','singapore','bangkok'].some(c => city.includes(c));
+  const isEuropean = ['london','paris','amsterdam','berlin','barcelona','rome','lisbon','dublin','vienna','copenhagen','stockholm','zurich','madrid'].some(c => city.includes(c));
+
+  if (isTropical) {
+    return '<svg style="position:absolute;bottom:0;left:0;right:0;width:100%;" viewBox="0 0 320 90"' +
+      ' preserveAspectRatio="' + align + ' meet" xmlns="http://www.w3.org/2000/svg">' +
+      '<g fill="rgba(255,255,255,0.17)">' +
+      '<rect x="10" y="55" width="14" height="35"/><rect x="26" y="45" width="16" height="45"/>' +
+      '<rect x="44" y="38" width="12" height="52"/><rect x="58" y="52" width="14" height="38"/>' +
+      '<rect x="74" y="34" width="20" height="56"/><rect x="96" y="50" width="10" height="40"/>' +
+      '<rect x="108" y="36" width="18" height="54"/><rect x="128" y="54" width="8" height="36"/>' +
+      '<rect x="138" y="38" width="16" height="52"/><rect x="156" y="30" width="22" height="60"/>' +
+      '<rect x="180" y="52" width="8" height="38"/><rect x="190" y="36" width="16" height="54"/>' +
+      '<rect x="208" y="52" width="10" height="38"/><rect x="220" y="38" width="14" height="52"/>' +
+      '<rect x="236" y="28" width="24" height="62"/><rect x="262" y="50" width="10" height="40"/>' +
+      '<rect x="274" y="36" width="18" height="54"/><rect x="294" y="52" width="10" height="38"/>' +
+      '</g>' +
+      '<g fill="rgba(255,255,255,0.28)">' +
+      '<rect x="20" y="48" width="3" height="42"/><ellipse cx="21.5" cy="48" rx="12" ry="6"/>' +
+      '<rect x="285" y="44" width="3" height="46"/><ellipse cx="286.5" cy="44" rx="14" ry="7"/>' +
+      '</g></svg>';
+  }
+  if (isEuropean) {
+    return '<svg style="position:absolute;bottom:0;left:0;right:0;width:100%;" viewBox="0 0 320 90"' +
+      ' preserveAspectRatio="' + align + ' meet" xmlns="http://www.w3.org/2000/svg">' +
+      '<g fill="rgba(255,255,255,0.16)">' +
+      '<rect x="0" y="46" width="20" height="44"/><polygon points="0,46 10,32 20,46"/>' +
+      '<rect x="22" y="38" width="16" height="52"/><polygon points="22,38 30,22 38,38"/>' +
+      '<rect x="40" y="50" width="14" height="40"/><rect x="56" y="40" width="18" height="50"/>' +
+      '<polygon points="56,40 65,26 74,40"/><rect x="76" y="52" width="12" height="38"/>' +
+      '<rect x="90" y="36" width="20" height="54"/><polygon points="90,36 100,20 110,36"/>' +
+      '<rect x="112" y="48" width="14" height="42"/><rect x="128" y="38" width="18" height="52"/>' +
+      '<rect x="162" y="36" width="22" height="54"/><polygon points="162,36 173,20 184,36"/>' +
+      '<rect x="186" y="48" width="14" height="42"/><rect x="202" y="38" width="18" height="52"/>' +
+      '<rect x="236" y="34" width="22" height="56"/><polygon points="236,34 247,18 258,34"/>' +
+      '<rect x="260" y="46" width="16" height="44"/><rect x="278" y="38" width="20" height="52"/>' +
+      '</g></svg>';
+  }
+  return '<svg style="position:absolute;bottom:0;left:0;right:0;width:100%;" viewBox="0 0 320 90"' +
+    ' preserveAspectRatio="' + align + ' meet" xmlns="http://www.w3.org/2000/svg">' +
+    '<g fill="rgba(255,255,255,0.16)">' +
+    '<rect x="0" y="50" width="16" height="40"/><rect x="18" y="32" width="14" height="58"/>' +
+    '<rect x="34" y="14" width="20" height="76"/><rect x="36" y="4" width="4" height="10"/>' +
+    '<rect x="56" y="36" width="12" height="54"/><rect x="70" y="20" width="18" height="70"/>' +
+    '<rect x="90" y="40" width="10" height="50"/><rect x="102" y="6" width="24" height="84"/>' +
+    '<rect x="111" y="0" width="3" height="6"/><rect x="128" y="26" width="16" height="64"/>' +
+    '<rect x="146" y="42" width="10" height="48"/><rect x="158" y="18" width="20" height="72"/>' +
+    '<rect x="180" y="44" width="10" height="46"/><rect x="192" y="30" width="14" height="60"/>' +
+    '<rect x="218" y="34" width="14" height="56"/><rect x="246" y="28" width="18" height="62"/>' +
+    '<rect x="276" y="38" width="14" height="52"/><rect x="292" y="50" width="28" height="40"/>' +
+    '</g></svg>';
+}
+
+// ── 报告日期 ──────────────────────────────────────────────────────────────
+function getReportDate() {
+  return new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+}
+
 function getSubjectLine(d) {
-  if (d.type === 'relocation') return (d.from || 'Your City') + ' → ' + (d.to || 'Destination') + ' Relocation Report';
+  const from = toTitleCase(d.from);
+  const to   = toTitleCase(d.to);
+  if (d.type === 'relocation') return from + ' → ' + to + ' Relocation Report';
   if (d.type === 'nomad') return 'Your Digital Nomad Life Plan';
   return 'Your City Comparison Report';
 }
@@ -435,33 +545,121 @@ Write Sections 6–10 now. Do not stop early. Complete through Section 10.`;
 // 7. EMAIL HTML BUILDER — upgraded footer with regeneration guarantee
 // ─────────────────────────────────────────────────────────────────────────────
 function buildEmailHTML(firstName, userData, reportContent) {
-  const subject = getSubjectLine(userData);
+  const fromCity   = toTitleCase(userData.from || 'Your City');
+  const toCity     = toTitleCase(userData.to   || 'Destination');
+  const reportType = userData.type || 'relocation';
+  const fromColors = getCityColors(userData.from);
+  const toColors   = getCityColors(userData.to);
+  const fromSVG    = getSkylineSVG(userData.from, 'left');
+  const toSVG      = getSkylineSVG(userData.to,   'right');
+  const reportDate = getReportDate();
 
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>MovingCOST.ai Report</title></head>' +
-    '<body style="margin:0;padding:0;background:#F1F5F9;font-family:Arial,Helvetica,sans-serif;color:#0F172A;">' +
-    '<div style="max-width:680px;margin:0 auto;padding:32px 16px 60px;">' +
+  let routeHTML = '';
+  if (reportType === 'relocation') {
+    routeHTML =
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:28px;font-weight:normal;' +
+      'color:#0F172A;letter-spacing:-0.3px;line-height:1.12;margin:0 0 4px;">' +
+      fromCity + '<span style="color:#0EA5E9;margin:0 6px;">&#8594;</span>' + toCity +
+      '</div>';
+  } else if (reportType === 'nomad') {
+    routeHTML =
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:normal;' +
+      'color:#0F172A;line-height:1.12;margin:0 0 4px;">Digital Nomad Life Plan</div>';
+  } else {
+    const cities = [userData.city1, userData.city2, userData.city3]
+      .filter(Boolean).map(toTitleCase);
+    routeHTML =
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:24px;font-weight:normal;' +
+      'color:#0F172A;line-height:1.15;margin:0 0 4px;">' + cities.join(' vs ') + '</div>';
+  }
 
-    // ── Header ──
-    '<div style="background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 50%,#0E3D5C 100%);border-radius:20px;padding:48px 44px;text-align:center;margin-bottom:20px;">' +
-    '<div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#BAE6FD;margin-bottom:14px;">AI Planning Report · Full Access</div>' +
-    '<h1 style="margin:0 0 8px;font-size:36px;font-weight:900;color:#ffffff;letter-spacing:-1.5px;">Moving<span style="color:#0EA5E9;">COST</span>.ai</h1>' +
-    '<p style="margin:14px 0 0;color:rgba(255,255,255,0.7);font-size:16px;line-height:1.5;">' + subject + '</p>' +
+  const subLabel = reportType === 'relocation'
+    ? 'AI Relocation Intelligence Report'
+    : reportType === 'nomad' ? 'AI Nomad Planning Report' : 'AI City Comparison Report';
+
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1.0">' +
+    '<title>MovingCOST.ai Report</title></head>' +
+    '<body style="margin:0;padding:0;background:#EEF4FB;font-family:Arial,Helvetica,sans-serif;color:#0F172A;">' +
+    '<div style="max-width:640px;margin:0 auto;padding:24px 12px 48px;">' +
+
+    // ── COVER CARD ──
+    '<div style="background:#ffffff;border-radius:18px;border:1px solid #DDE6F0;overflow:hidden;margin-bottom:10px;">' +
+
+    // City band
+    '<div style="height:140px;display:flex;position:relative;overflow:hidden;">' +
+    '<div style="flex:1;position:relative;background:linear-gradient(160deg,' +
+      fromColors[0] + ' 0%,' + fromColors[1] + ' 55%,' + fromColors[2] + ' 100%);">' +
+    fromSVG +
+    '<span style="position:absolute;bottom:10px;left:14px;font-size:9px;font-weight:600;' +
+      'letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);' +
+      'font-family:Arial,sans-serif;">' + fromCity + '</span>' +
     '</div>' +
+    '<div style="flex:1;position:relative;background:linear-gradient(160deg,' +
+      toColors[0] + ' 0%,' + toColors[1] + ' 55%,' + toColors[2] + ' 100%);">' +
+    toSVG +
+    '<span style="position:absolute;bottom:10px;right:14px;font-size:9px;font-weight:600;' +
+      'letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);' +
+      'font-family:Arial,sans-serif;text-align:right;">' + toCity + '</span>' +
+    '</div>' +
+    '<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;">' +
+    '<div style="background:#fff;border:1.5px solid #DDE6F0;border-radius:99px;padding:7px 11px;' +
+      'font-size:15px;box-shadow:0 2px 14px rgba(0,0,0,0.18);line-height:1;">&#9992;</div>' +
+    '</div></div>' +
+
+    // Logo bar
+    '<div style="display:flex;align-items:center;justify-content:space-between;' +
+      'padding:14px 24px 12px;border-bottom:1px solid #F0F5FA;">' +
+    '<img src="https://www.movingcost.ai/assets/logo/movingcost-ai-logo-horizontal-light.png"' +
+      ' alt="MovingCOST.ai" style="height:28px;width:auto;display:block;" />' +
+    '<span style="font-size:9px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;' +
+      'color:#0284C7;background:#E0F2FE;padding:4px 10px;border-radius:99px;">Full Access Report</span>' +
+    '</div>' +
+
+    // Route + meta
+    '<div style="padding:18px 24px 20px;">' +
+    '<div style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;' +
+      'color:#0EA5E9;margin:0 0 7px;">Your next chapter</div>' +
+    routeHTML +
+    '<div style="font-size:11px;color:#64748B;margin:0 0 15px;letter-spacing:0.04em;' +
+      'text-transform:uppercase;">' + subLabel + '</div>' +
+    '<div style="height:1px;background:#F0F5FA;margin:0 0 14px;"></div>' +
+    '<table style="width:100%;border-collapse:collapse;"><tr>' +
+    '<td style="padding:0 18px 0 0;border-right:1px solid #E8EFF7;vertical-align:top;">' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Report Date</div>' +
+    '<div style="font-size:12px;font-weight:500;color:#334155;">' + reportDate + '</div></td>' +
+    '<td style="padding:0 18px;border-right:1px solid #E8EFF7;vertical-align:top;">' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Prepared For</div>' +
+    '<div style="font-size:12px;font-weight:500;color:#334155;">' + firstName + '</div></td>' +
+    '<td style="padding:0 0 0 18px;vertical-align:top;">' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Powered By</div>' +
+    '<div style="font-size:12px;font-weight:500;color:#334155;">MovingCOST.ai</div></td>' +
+    '</tr></table></div>' +
+
+    // Stats bar
+    '<table style="width:100%;border-collapse:collapse;border-top:1px solid #F0F5FA;"><tr>' +
+    '<td style="text-align:center;padding:11px 0;border-right:1px solid #F0F5FA;">' +
+    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">10</div>' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Sections</div></td>' +
+    '<td style="text-align:center;padding:11px 0;border-right:1px solid #F0F5FA;">' +
+    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">3,000+</div>' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Words</div></td>' +
+    '<td style="text-align:center;padding:11px 0;">' +
+    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">AI</div>' +
+    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Powered</div></td>' +
+    '</tr></table></div>' +
 
     // ── Greeting ──
-    '<div style="background:#ffffff;border-radius:16px;padding:36px 40px;border:1px solid #E2E8F0;margin-bottom:16px;">' +
-    '<h2 style="margin:0 0 14px;font-size:22px;font-weight:700;color:#0F172A;">Hi ' + firstName + '! 👋</h2>' +
-    '<p style="margin:0 0 12px;color:#475569;font-size:15px;line-height:1.75;">Thank you for your purchase. Below is your <strong style="color:#0F172A;">AI-generated relocation planning report</strong> — built using your specific inputs to help you plan smarter.</p>' +
-    '<p style="margin:0;color:#475569;font-size:15px;line-height:1.75;">This report covers 10 planning sections: cost estimates, housing guide, visa notes, tax planning, moving costs, checklists, and a 90-day action plan. <strong style="color:#0F172A;">Bookmark this email</strong> as your moving reference.</p>' +
-    '</div>' +
-
-    // ── Stats bar ──
-    '<div style="background:#0EA5E9;border-radius:12px;padding:20px 28px;margin-bottom:20px;">' +
-    '<table style="width:100%;border-collapse:collapse;"><tr>' +
-    '<td style="text-align:center;padding:0 8px;"><div style="font-size:22px;font-weight:800;color:#fff;">10</div><div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px;">Sections</div></td>' +
-    '<td style="border-left:1px solid rgba(255,255,255,0.3);text-align:center;padding:0 8px;"><div style="font-size:22px;font-weight:800;color:#fff;">3,000+</div><div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px;">Words</div></td>' +
-    '<td style="border-left:1px solid rgba(255,255,255,0.3);text-align:center;padding:0 8px;"><div style="font-size:22px;font-weight:800;color:#fff;">AI</div><div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px;">Powered</div></td>' +
-    '</tr></table>' +
+    '<div style="background:#ffffff;border-radius:14px;border:1px solid #DDE6F0;' +
+      'padding:20px 24px;margin-bottom:14px;">' +
+    '<h2 style="margin:0 0 10px;font-size:18px;font-weight:600;color:#0F172A;' +
+      'font-family:Georgia,serif;">Hi ' + firstName + '! &#128075;</h2>' +
+    '<p style="margin:0 0 10px;color:#475569;font-size:14px;line-height:1.75;">Thank you for your purchase. Below is your ' +
+      '<strong style="color:#0F172A;">AI-generated relocation planning report</strong>' +
+      ' &#8212; built using your specific inputs to help you plan smarter.</p>' +
+    '<p style="margin:0;color:#475569;font-size:14px;line-height:1.75;">This report covers 10 planning sections: ' +
+      'cost estimates, housing guide, visa notes, tax planning, moving costs, checklists, and a 90-day action plan. ' +
+      '<strong style="color:#0F172A;">Bookmark this email</strong> as your moving reference.</p>' +
     '</div>' +
 
     // ── Report content ──
@@ -469,19 +667,27 @@ function buildEmailHTML(firstName, userData, reportContent) {
     reportContent +
     '</div>' +
 
-    // ── NEW: Regeneration Guarantee Banner ──
-    '<div style="background:#FFF7ED;border:2px solid #FCD34D;border-radius:16px;padding:28px 32px;margin-bottom:16px;text-align:center;">' +
-    '<p style="margin:0 0 6px;font-size:18px;">📋</p>' +
+    // ── Regeneration banner（Commit 3 将升级为带 token 的按钮）──
+    '<div style="background:#FFF7ED;border:2px solid #FCD34D;border-radius:16px;' +
+      'padding:28px 32px;margin-bottom:16px;text-align:center;">' +
+    '<p style="margin:0 0 6px;font-size:18px;">&#128203;</p>' +
     '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#92400E;">Not happy with your report?</p>' +
-    '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">If your report looks incomplete or misses key details, reply to this email within <strong>7 days</strong> and we\'ll regenerate one updated version for you — completely free.</p>' +
-    '<a href="mailto:support@movingcost.ai" style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">Reply to Request Regeneration →</a>' +
+    '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">' +
+      'If your report looks incomplete or misses key details, reply to this email within ' +
+      '<strong>7 days</strong> and we\'ll regenerate one updated version for you &#8212; completely free.</p>' +
+    '<a href="mailto:support@movingcost.ai" style="display:inline-block;background:#F59E0B;color:#fff;' +
+      'padding:12px 28px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
+      'Reply to Request Regeneration &#8594;</a>' +
     '</div>' +
 
     // ── New plan CTA ──
-    '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;padding:32px 40px;text-align:center;margin-bottom:20px;">' +
+    '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;' +
+      'padding:32px 40px;text-align:center;margin-bottom:20px;">' +
     '<p style="margin:0 0 8px;font-size:18px;font-weight:700;color:#0F172A;">Need a new plan?</p>' +
-    '<p style="margin:0 0 20px;font-size:14px;color:#64748B;">Run another analysis — new city, new scenario, updated numbers.</p>' +
-    '<a href="https://movingcost.ai/planner" style="display:inline-block;background:#0EA5E9;color:#fff;padding:14px 36px;border-radius:99px;text-decoration:none;font-weight:700;font-size:15px;">Start Another Plan →</a>' +
+    '<p style="margin:0 0 20px;font-size:14px;color:#64748B;">Run another analysis &#8212; new city, new scenario, updated numbers.</p>' +
+    '<a href="https://movingcost.ai/planner" style="display:inline-block;background:#0EA5E9;color:#fff;' +
+      'padding:14px 36px;border-radius:99px;text-decoration:none;font-weight:700;font-size:15px;">' +
+      'Start Another Plan &#8594;</a>' +
     '</div>' +
 
     // ── Footer ──
@@ -489,12 +695,10 @@ function buildEmailHTML(firstName, userData, reportContent) {
     '<p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#0F172A;">MovingCOST.ai</p>' +
     '<p style="margin:0 0 8px;font-size:12px;color:#94A3B8;line-height:1.8;">' +
     'Questions or issues? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;font-weight:600;">support@movingcost.ai</a>' +
-    ' &nbsp;·&nbsp; <a href="https://movingcost.ai" style="color:#0EA5E9;">movingcost.ai</a>' +
-    '</p>' +
+    ' &nbsp;&#183;&nbsp; <a href="https://movingcost.ai" style="color:#0EA5E9;">movingcost.ai</a></p>' +
     '<p style="margin:6px 0 0;font-size:11px;color:#CBD5E1;line-height:1.7;">' +
     'This report is AI-generated for planning purposes only and does not constitute legal, tax, immigration, or financial advice.<br>' +
-    'Verify all important decisions with qualified professionals before acting. Generated May 2026 · CLASSIC SPREAD INC' +
-    '</p>' +
+    'Verify all important decisions with qualified professionals before acting. &#169; 2026 CLASSIC SPREAD INC</p>' +
     '</div>' +
 
     '</div></body></html>';
