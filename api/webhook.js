@@ -2,6 +2,32 @@
 // Stripe Webhook → receives payment → sends confirmation email via Resend
 
 const { Resend } = require('resend');
+
+// ── Supabase 写入工具（Report Recovery v2.1）─────────────────────────────
+const SUPABASE_URL_WH = process.env.SUPABASE_URL;
+const SUPABASE_KEY_WH = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+async function wh_supabaseInsert(body) {
+  if (!SUPABASE_URL_WH || !SUPABASE_KEY_WH) {
+    console.warn('[webhook] Supabase env missing — skipping report_orders insert');
+    return;
+  }
+  const res = await fetch(`${SUPABASE_URL_WH}/rest/v1/report_orders`, {
+    method:  'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'apikey':        SUPABASE_KEY_WH,
+      'Authorization': `Bearer ${SUPABASE_KEY_WH}`,
+      'Prefer':        'return=minimal',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    console.warn('[webhook] report_orders insert failed:', res.status, txt.slice(0, 200));
+  }
+}
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Read raw body stream (required for Stripe signature verification)
@@ -62,6 +88,21 @@ async function handler(req, res) {
         // Log but DO NOT fail — Stripe must get 200
         console.error('Email send error (non-fatal):', emailErr.message);
       }
+    }
+
+    // ── [新增 v2.1] 创建 report_orders pending 记录（非阻断）────────────
+    try {
+      await wh_supabaseInsert({
+        stripe_session_id: sessionId,
+        email:             customerEmail || '',
+        customer_name:     customerName  || '',
+        payment_amount:    parseFloat(amountPaid),
+        currency:          (session.currency || 'usd').toLowerCase(),
+        status:            'pending',
+      });
+      console.log('[webhook] report_orders pending created:', sessionId);
+    } catch (dbErr) {
+      console.error('[webhook] report_orders insert error (non-fatal):', dbErr.message);
     }
   } else {
     // Log other event types but ignore them

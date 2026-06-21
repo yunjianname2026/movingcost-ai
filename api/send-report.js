@@ -1,6 +1,43 @@
 // api/send-report.js
 const { Resend } = require('resend');
 
+// ── Supabase 工具（Report Recovery v2.1）─────────────────────────────────
+const SUPABASE_URL_SR = process.env.SUPABASE_URL;
+const SUPABASE_KEY_SR = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+async function sr_supabasePatch(filter, body) {
+  if (!SUPABASE_URL_SR || !SUPABASE_KEY_SR) return;
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL_SR}/rest/v1/report_orders?${filter}`,
+      {
+        method:  'PATCH',
+        headers: {
+          'Content-Type':  'application/json',
+          'apikey':        SUPABASE_KEY_SR,
+          'Authorization': `Bearer ${SUPABASE_KEY_SR}`,
+          'Prefer':        'return=minimal',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    if (!res.ok) {
+      const txt = await res.text();
+      console.warn('[send-report] supabase PATCH failed:', res.status, txt.slice(0, 200));
+    }
+  } catch (err) {
+    console.warn('[send-report] supabase PATCH error (non-fatal):', err.message);
+  }
+}
+
+// 生成安全 resend_token（UUID v4）
+function sr_generateToken() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
 const MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -224,8 +261,12 @@ module.exports = async function handler(req, res) {
     const reportContent = raw;
     const firstName = (name || 'there').split(' ')[0];
 
+    // [v2.1] 先生成 token，再传入 buildEmailHTML 生成含按钮的 HTML
+    const resendToken   = sr_generateToken();
+    const resendExpDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
     console.log('before buildEmailHTML');
-    const emailHTML = buildEmailHTML(firstName, userData, reportContent);
+    const emailHTML = buildEmailHTML(firstName, userData, reportContent, resendToken);
     console.log('after buildEmailHTML, html length:', emailHTML ? emailHTML.length : 0);
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -245,6 +286,25 @@ module.exports = async function handler(req, res) {
     }
 
     console.log('Report sent to:', email, '| resend id:', data?.id || 'n/a', '| Validation notes:', validationIssues.length);
+
+    // ── [新增 v2.1] 更新 report_orders（非阻断）──────────────────────────
+    try {
+      await sr_supabasePatch(
+        `email=eq.${encodeURIComponent(email)}&status=eq.pending&order=created_at.desc&limit=1`,
+        {
+          status:           'sent',
+          report_html:      emailHTML,
+          report_version:   1,
+          report_sent_at:   new Date().toISOString(),
+          resend_token:     resendToken,
+          resend_token_exp: resendExpDate.toISOString(),
+        }
+      );
+      console.log('[send-report] report_orders updated, resend_token issued');
+    } catch (dbErr) {
+      console.error('[send-report] report_orders update error (non-fatal):', dbErr.message);
+    }
+
     console.log('before res.status(200).json');
     return res.status(200).json({ sent: true, validation_notes: validationIssues.length });
 
@@ -544,7 +604,8 @@ Write Sections 6–10 now. Do not stop early. Complete through Section 10.`;
 // ─────────────────────────────────────────────────────────────────────────────
 // 7. EMAIL HTML BUILDER — upgraded footer with regeneration guarantee
 // ─────────────────────────────────────────────────────────────────────────────
-function buildEmailHTML(firstName, userData, reportContent) {
+function buildEmailHTML(firstName, userData, reportContent, resendToken) {
+  resendToken = resendToken || '';
   const fromCity   = toTitleCase(userData.from || 'Your City');
   const toCity     = toTitleCase(userData.to   || 'Destination');
   const reportType = userData.type || 'relocation';
@@ -675,9 +736,18 @@ function buildEmailHTML(firstName, userData, reportContent) {
     '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">' +
       'If your report looks incomplete or misses key details, reply to this email within ' +
       '<strong>7 days</strong> and we\'ll regenerate one updated version for you &#8212; completely free.</p>' +
-    '<a href="mailto:support@movingcost.ai" style="display:inline-block;background:#F59E0B;color:#fff;' +
-      'padding:12px 28px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
-      'Reply to Request Regeneration &#8594;</a>' +
+    (resendToken
+      ? '<a href="https://movingcost.ai/api/resend-report?token=' + resendToken + '" ' +
+          'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
+          'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
+          'Resend My Report &#8594;</a>' +
+          '<p style="margin:10px 0 0;font-size:11px;color:#B45309;">' +
+          'Valid for 7 days &nbsp;&#183;&nbsp; One-click resend to your inbox</p>'
+      : '<a href="mailto:support@movingcost.ai" ' +
+          'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
+          'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
+          'Contact Support &#8594;</a>'
+    ) +
     '</div>' +
 
     // ── New plan CTA ──
