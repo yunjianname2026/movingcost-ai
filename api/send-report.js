@@ -609,10 +609,6 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
   const fromCity   = toTitleCase(userData.from || 'Your City');
   const toCity     = toTitleCase(userData.to   || 'Destination');
   const reportType = userData.type || 'relocation';
-  const fromColors = getCityColors(userData.from);
-  const toColors   = getCityColors(userData.to);
-  const fromSVG    = getSkylineSVG(userData.from, 'left');
-  const toSVG      = getSkylineSVG(userData.to,   'right');
   const reportDate = getReportDate();
 
   let routeHTML = '';
@@ -644,38 +640,22 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
     '<body style="margin:0;padding:0;background:#EEF4FB;font-family:Arial,Helvetica,sans-serif;color:#0F172A;">' +
     '<div style="max-width:640px;margin:0 auto;padding:24px 12px 48px;">' +
 
-    // ── COVER CARD ──
+    // ── FLOATING BAR（独立色条，四边圆角，与卡片分离）──
+    '<div style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);border-radius:13px;padding:11px 20px 10px;margin-bottom:8px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">' +
+    '<div style="display:flex;align-items:baseline;line-height:1;">' +
+    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span>' +
+    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span>' +
+    '<span style="font-family:Arial,sans-serif;font-size:11.5px;font-weight:300;color:rgba(255,255,255,0.4);margin-left:1px;">.ai</span>' +
+    '</div>' +
+    '<span style="font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;border:1px solid rgba(125,211,252,0.22);padding:3px 8px;border-radius:99px;">Full Access</span>' +
+    '</div>' +
+    '<div style="height:1px;background:rgba(255,255,255,0.09);margin-bottom:7px;"></div>' +
+    '<div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:14.5px;font-weight:400;color:rgba(255,255,255,0.90);letter-spacing:0.03em;">Move Smarter. Live Lighter.</div>' +
+    '</div>' +
+
+    // ── COVER CARD（主内容卡片）──
     '<div style="background:#ffffff;border-radius:18px;border:1px solid #DDE6F0;overflow:hidden;margin-bottom:10px;">' +
-
-    // City band
-    '<div style="height:140px;display:flex;position:relative;overflow:hidden;">' +
-    '<div style="flex:1;position:relative;background:linear-gradient(160deg,' +
-      fromColors[0] + ' 0%,' + fromColors[1] + ' 55%,' + fromColors[2] + ' 100%);">' +
-    fromSVG +
-    '<span style="position:absolute;bottom:10px;left:14px;font-size:9px;font-weight:600;' +
-      'letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);' +
-      'font-family:Arial,sans-serif;">' + fromCity + '</span>' +
-    '</div>' +
-    '<div style="flex:1;position:relative;background:linear-gradient(160deg,' +
-      toColors[0] + ' 0%,' + toColors[1] + ' 55%,' + toColors[2] + ' 100%);">' +
-    toSVG +
-    '<span style="position:absolute;bottom:10px;right:14px;font-size:9px;font-weight:600;' +
-      'letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.75);' +
-      'font-family:Arial,sans-serif;text-align:right;">' + toCity + '</span>' +
-    '</div>' +
-    '<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;">' +
-    '<div style="background:#fff;border:1.5px solid #DDE6F0;border-radius:99px;padding:7px 11px;' +
-      'font-size:15px;box-shadow:0 2px 14px rgba(0,0,0,0.18);line-height:1;">&#9992;</div>' +
-    '</div></div>' +
-
-    // Logo bar
-    '<div style="display:flex;align-items:center;justify-content:space-between;' +
-      'padding:14px 24px 12px;border-bottom:1px solid #F0F5FA;">' +
-    '<img src="https://www.movingcost.ai/assets/logo/movingcost-ai-logo-horizontal-light.png"' +
-      ' alt="MovingCOST.ai" style="height:28px;width:auto;display:block;" />' +
-    '<span style="font-size:9px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;' +
-      'color:#0284C7;background:#E0F2FE;padding:4px 10px;border-radius:99px;">Full Access Report</span>' +
-    '</div>' +
 
     // Route + meta
     '<div style="padding:18px 24px 20px;">' +
