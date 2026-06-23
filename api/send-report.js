@@ -714,17 +714,17 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
     '<div style="background:#FFF7ED;border:2px solid #FCD34D;border-radius:16px;' +
       'padding:28px 32px;margin-bottom:16px;text-align:center;">' +
     '<p style="margin:0 0 6px;font-size:18px;">&#128203;</p>' +
-    '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#92400E;">Not happy with your report?</p>' +
+    '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#92400E;">Didn\'t receive your report?</p>' +
     '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">' +
-      'If your report looks incomplete or misses key details, reply to this email within ' +
-      '<strong>7 days</strong> and we\'ll regenerate one updated version for you &#8212; completely free.</p>' +
+      'If your report didn\'t arrive or appears incomplete, we\'ll resend the same report to your inbox &#8212; ' +
+      'completely free. Valid within <strong>7 days</strong> of purchase. One resend per order.</p>' +
     (resendToken
       ? '<a href="https://movingcost.ai/api/resend-report?token=' + resendToken + '" ' +
           'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
           'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
           'Resend My Report &#8594;</a>' +
           '<p style="margin:10px 0 0;font-size:11px;color:#B45309;">' +
-          'Valid for 7 days &nbsp;&#183;&nbsp; One-click resend to your inbox</p>'
+          'Valid for 7 days from delivery &nbsp;&#183;&nbsp; One resend per order</p>'
       : '<a href="mailto:support@movingcost.ai" ' +
           'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
           'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +

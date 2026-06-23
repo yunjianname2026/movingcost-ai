@@ -105,6 +105,15 @@ module.exports = async function handler(req, res) {
     ));
   }
 
+  // ── 4. 次数限制检查（7天内最多1次）────────────────────────────────────
+  if ((order.resend_count || 0) >= 1) {
+    return res.status(429).send(errorPage(
+      'You have already used your free resend for this order. ' +
+      'If you still need help, please contact ' +
+      '<a href="mailto:support@movingcost.ai">support@movingcost.ai</a>.'
+    ));
+  }
+
   // ── 4. 检查 report_html 是否存在 ─────────────────────────────────────
   if (!order.report_html || order.report_html.length < 100) {
     console.warn('[resend-report] No report_html found for order:', order.id);
