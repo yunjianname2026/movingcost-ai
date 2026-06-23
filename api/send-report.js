@@ -642,14 +642,16 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
 
     // ── FLOATING BAR（独立色条，四边圆角，与卡片分离）──
     '<div style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);border-radius:13px;padding:11px 20px 10px;margin-bottom:8px;">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">' +
-    '<div style="display:flex;align-items:baseline;line-height:1;">' +
+    '<table style="width:100%;border-collapse:collapse;margin-bottom:7px;"><tr>' +
+    '<td style="vertical-align:middle;">' +
     '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span>' +
     '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span>' +
     '<span style="font-family:Arial,sans-serif;font-size:11.5px;font-weight:300;color:rgba(255,255,255,0.4);margin-left:1px;">.ai</span>' +
-    '</div>' +
+    '</td>' +
+    '<td style="text-align:right;vertical-align:middle;white-space:nowrap;">' +
     '<span style="font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;border:1px solid rgba(125,211,252,0.22);padding:3px 8px;border-radius:99px;">Full Access</span>' +
-    '</div>' +
+    '</td>' +
+    '</tr></table>' +
     '<div style="height:1px;background:rgba(255,255,255,0.09);margin-bottom:7px;"></div>' +
     '<div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:14.5px;font-weight:400;color:rgba(255,255,255,0.90);letter-spacing:0.03em;">Move Smarter. Live Lighter.</div>' +
     '</div>' +
