@@ -1623,6 +1623,10 @@ function retake(){
       if (result.points_earned > 0) {
         showToast('⭐ +30 Points — Email saved!');
         await refreshPointsUI(result.user_id || userId);
+        // 绑定成功 → 跳转会员后台
+        setTimeout(() => {
+          window.location.href = '/member';
+        }, 2000);
       }
     } else {
       const msg = result?.error || 'Failed, please try again.';
