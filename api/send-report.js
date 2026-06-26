@@ -212,6 +212,183 @@ function validateReport(content) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 3b. SECTION INTEGRITY — missing / duplicate / order + Part boundary checks
+// ─────────────────────────────────────────────────────────────────────────────
+function buildRetryPrompt(originalPrompt, label) {
+  return originalPrompt +
+    '\n\n---\nREGENERATION INSTRUCTION (this is a retry attempt):\n' +
+    '- Regenerate this entire ' + label + ' from the beginning.\n' +
+    '- Do NOT continue or patch the previous incomplete output.\n' +
+    '- All required Sections must be present and complete.\n' +
+    '- Reduce total length by approximately 30% — write more concisely.\n' +
+    '- Every Section heading must appear. Do not skip or merge any Section.\n' +
+    '- You MUST output the completion marker at the very end.\n' +
+    '- Stop immediately after the completion marker.';
+}
+
+function stripHtmlForValidation(content) {
+  return content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ');
+}
+
+const SECTION_REGEXES = [
+  { n: 1,  re: /section\s+1\b.{0,80}executive\s+summary/i },
+  { n: 2,  re: /section\s+2\b.{0,80}monthly\s+cost/i },
+  { n: 3,  re: /section\s+3\b.{0,80}housing/i },
+  { n: 4,  re: /section\s+4\b.{0,80}(visa|immigration)/i },
+  { n: 5,  re: /section\s+5\b.{0,80}tax/i },
+  { n: 6,  re: /section\s+6\b.{0,80}(moving\s+cost|one.time)/i },
+  { n: 7,  re: /section\s+7\b.{0,80}(pre.departure|checklist)/i },
+  { n: 8,  re: /section\s+8\b.{0,80}(hidden\s+cost|risk)/i },
+  { n: 9,  re: /section\s+9\b.{0,80}(90.day|action\s+plan)/i },
+  { n: 10, re: /section\s+10\b.{0,80}(final|recommendation)/i },
+];
+
+const PART1_REGEXES = SECTION_REGEXES.slice(0, 5);
+const PART2_REGEXES = SECTION_REGEXES.slice(5);
+
+function validateSectionIntegrity(content) {
+  const text = stripHtmlForValidation(content);
+  const missing    = [];
+  const duplicates = [];
+  const positions  = [];
+
+  SECTION_REGEXES.forEach(({ n, re }) => {
+    const globalRe = new RegExp(
+      re.source,
+      re.flags.includes('g') ? re.flags : re.flags + 'g'
+    );
+    const matches = [...text.matchAll(globalRe)];
+
+    if (matches.length === 0) {
+      missing.push('Section ' + n);
+      positions.push(null);
+    } else if (matches.length > 1) {
+      duplicates.push('Section ' + n + ' (x' + matches.length + ')');
+      positions.push(matches[0].index);
+    } else {
+      positions.push(matches[0].index);
+    }
+  });
+
+  const found = positions.filter(p => p !== null);
+  let orderOk = true;
+  for (let i = 1; i < found.length; i++) {
+    if (found[i] <= found[i - 1]) { orderOk = false; break; }
+  }
+
+  return {
+    missing,
+    duplicates,
+    orderOk,
+    valid: missing.length === 0 && duplicates.length === 0 && orderOk,
+  };
+}
+
+function validatePartContent(text, partLabel) {
+  const validationText = stripHtmlForValidation(text);
+  const missing    = [];
+  const unexpected = [];
+
+  if (partLabel === 'Part1') {
+    PART1_REGEXES.forEach(({ n, re }) => {
+      if (!re.exec(validationText)) missing.push('Section ' + n);
+    });
+    PART2_REGEXES.forEach(({ n, re }) => {
+      if (re.exec(validationText)) unexpected.push('Section ' + n);
+    });
+  } else {
+    PART2_REGEXES.forEach(({ n, re }) => {
+      if (!re.exec(validationText)) missing.push('Section ' + n);
+    });
+    PART1_REGEXES.forEach(({ n, re }) => {
+      if (re.exec(validationText)) unexpected.push('Section ' + n);
+    });
+  }
+
+  const hasDisclaimer = partLabel !== 'Part1' || (
+    /important\s+notice|informational\s+purposes\s+only|does\s+not\s+provide\s+legal/i
+      .test(validationText)
+  );
+
+  return {
+    valid:      missing.length === 0 && unexpected.length === 0 && hasDisclaimer,
+    missing,
+    unexpected,
+    hasDisclaimer,
+  };
+}
+
+function logGenerationFailure(email, label, stop_reason, output_tokens, issues) {
+  console.error(
+    '[send-report] generation_failed' +
+    ' email_domain=' + (email ? (email.split('@')[1] || 'unknown') : 'unknown') +
+    ' failed_part=' + label +
+    ' stop_reason=' + stop_reason +
+    ' output_tokens=' + output_tokens +
+    ' issues=' + (issues.join(',') || 'none')
+  );
+}
+
+async function generateWithRetry(promptFn, marker, maxTokens, label, email) {
+  const originalPrompt = promptFn();
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const prompt = attempt === 1
+      ? originalPrompt
+      : buildRetryPrompt(originalPrompt, label);
+
+    const result = await callClaude(prompt, maxTokens);
+    const { text, stop_reason, output_tokens } = result;
+
+    const hasMarker    = text.includes(marker);
+    const notTruncated = stop_reason !== 'max_tokens';
+    const notEmpty     = text.trim().length > 0;
+    const partCheck    = validatePartContent(text, label);
+
+    console.log(
+      `[${label}] attempt=${attempt}` +
+      ` stop_reason=${stop_reason}` +
+      ` output_tokens=${output_tokens}` +
+      ` hasMarker=${hasMarker}` +
+      ` notTruncated=${notTruncated}` +
+      ` disclaimer=${partCheck.hasDisclaimer}` +
+      ` sections=${partCheck.valid
+          ? 'ok'
+          : 'missing:' + partCheck.missing.join(',') +
+            (partCheck.unexpected.length > 0
+              ? ' unexpected:' + partCheck.unexpected.join(',')
+              : '') +
+            (!partCheck.hasDisclaimer ? ' no_disclaimer' : '')}`
+    );
+
+    if (hasMarker && notTruncated && notEmpty && partCheck.valid) {
+      return text;
+    }
+
+    if (attempt === 2) {
+      const issues = [
+        ...partCheck.missing,
+        ...partCheck.unexpected.map(s => 'unexpected:' + s),
+        !hasMarker         ? 'no_marker'     : '',
+        !notTruncated      ? 'truncated'     : '',
+        !notEmpty          ? 'empty'         : '',
+        !partCheck.hasDisclaimer ? 'no_disclaimer' : '',
+      ].filter(Boolean);
+      logGenerationFailure(email, label, stop_reason, output_tokens, issues);
+      return null;
+    }
+
+    console.warn(`[${label}] attempt 1 incomplete, retrying with compressed prompt`);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // 4. MAIN HANDLER
 // ─────────────────────────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
@@ -225,31 +402,63 @@ module.exports = async function handler(req, res) {
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
     console.log('after parse request');
 
-    console.log('before buildReportPromptPart1');
-    const prompt1 = buildReportPromptPart1(userData, previewReport);
-    console.log('after buildReportPromptPart1');
+    console.log('before generateWithRetry part1');
+    const raw1 = await generateWithRetry(
+      () => buildReportPromptPart1(userData, previewReport),
+      '<!-- PART_1_COMPLETE -->',
+      10000,
+      'Part1',
+      email
+    );
+    console.log('after generateWithRetry part1, length:', raw1 ? raw1.length : 0);
 
-    console.log('before callClaude part1');
-    const raw1 = await callClaude(prompt1, 10000);
-    console.log('after callClaude part1, length:', raw1 ? raw1.length : 0);
-
-    if (!raw1 || !raw1.trim()) {
-      return res.status(500).json({ error: 'Report generation (part 1) returned empty content. Please try again or contact support.' });
+    if (!raw1) {
+      return res.status(500).json({
+        error: 'Report generation could not be completed (Part 1). ' +
+               'Please try again — no additional charge.',
+      });
     }
 
-    console.log('before buildReportPromptPart2');
-    const prompt2 = buildReportPromptPart2(userData, raw1);
-    console.log('after buildReportPromptPart2');
+    console.log('before generateWithRetry part2');
+    const raw2 = await generateWithRetry(
+      () => buildReportPromptPart2(userData, raw1),
+      '<!-- PART_2_COMPLETE -->',
+      10000,
+      'Part2',
+      email
+    );
+    console.log('after generateWithRetry part2, length:', raw2 ? raw2.length : 0);
 
-    console.log('before callClaude part2');
-    const raw2 = await callClaude(prompt2, 10000);
-    console.log('after callClaude part2, length:', raw2 ? raw2.length : 0);
-
-    if (!raw2 || !raw2.trim()) {
-      return res.status(500).json({ error: 'Report generation (part 2) returned empty content. Please try again or contact support.' });
+    if (!raw2) {
+      return res.status(500).json({
+        error: 'Report generation could not be completed (Part 2). ' +
+               'Please try again — no additional charge.',
+      });
     }
 
-    const raw = raw1 + '\n' + raw2;
+    const cleanRaw1 = raw1.replace('<!-- PART_1_COMPLETE -->', '').trimEnd();
+    const cleanRaw2 = raw2.replace('<!-- PART_2_COMPLETE -->', '').trimEnd();
+    const raw = cleanRaw1 + '\n' + cleanRaw2;
+
+    const sectionCheck = validateSectionIntegrity(raw);
+    if (!sectionCheck.valid) {
+      const detail = [
+        sectionCheck.missing.length > 0
+          ? 'Missing: ' + sectionCheck.missing.join(', ') : '',
+        sectionCheck.duplicates.length > 0
+          ? 'Duplicates: ' + sectionCheck.duplicates.join(', ') : '',
+        !sectionCheck.orderOk ? 'Order incorrect' : '',
+      ].filter(Boolean).join('; ');
+      console.error(
+        '[send-report] final_validation_failed' +
+        ' email_domain=' + (email ? (email.split('@')[1] || 'unknown') : 'unknown') +
+        ' detail=' + detail
+      );
+      return res.status(500).json({
+        error: 'Report is incomplete (' + detail + '). ' +
+               'Please try again — no additional charge.',
+      });
+    }
 
     console.log('before validateReport');
     const validationIssues = validateReport(raw);
@@ -339,7 +548,11 @@ async function callClaude(prompt, maxTokens) {
   }
 
   const data = await resp.json();
-  return data.content?.[0]?.text || '';
+  return {
+    text:          data.content?.[0]?.text  || '',
+    stop_reason:   data.stop_reason         || 'unknown',
+    output_tokens: data.usage?.output_tokens || 0,
+  };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -540,7 +753,9 @@ HTML FORMAT:
 - Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
 - Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows
 
-Write Sections 0–5 now. Stop after Section 5. Do not write Section 6 or beyond.`;
+Write Sections 0–5 now. Stop after Section 5. Do not write Section 6 or beyond.
+After completing Section 5, output exactly this line and nothing after it:
+<!-- PART_1_COMPLETE -->`;
 }
 
 function buildReportPromptPart2(d, part1Content) {
@@ -598,7 +813,9 @@ HTML FORMAT:
 - Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
 - Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
 
-Write Sections 6–10 now. Do not stop early. Complete through Section 10.`;
+Write Sections 6–10 now. Do not stop early. Complete through Section 10.
+After completing Section 10, output exactly this line and nothing after it:
+<!-- PART_2_COMPLETE -->`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
