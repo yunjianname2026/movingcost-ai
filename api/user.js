@@ -96,7 +96,7 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
   }
 
   const inviteLink    = `https://movingcost.ai/earthsoul?ref=${referralCode || ''}`;
-  const dashboardLink = 'https://movingcost.ai/member';
+  const dashboardLink = 'https://movingcost.ai/login';
   const quizLink      = 'https://movingcost.ai/earthsoul';
 
   const pointsLine = pointsEarned > 0
@@ -183,7 +183,7 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
               <td style="padding-right:12px;padding-bottom:10px;">
                 <a href="${dashboardLink}"
                    style="display:inline-block;background:#0EA5E9;color:#ffffff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;letter-spacing:0.01em;">
-                  Open My Dashboard →
+                  Sign In to My Dashboard →
                 </a>
               </td>
               <td style="padding-bottom:10px;">
