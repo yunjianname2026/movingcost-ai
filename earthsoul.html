@@ -1449,7 +1449,7 @@ function retake(){
   async function refreshPointsUI(userId) {
     if (!userId) return;
 
-    const data = await api(`${API_BASE}/user?action=get&user_id=${userId}`);
+    const data = await api(`${API_BASE}/user?action=get&user_id=${userId}`, { cache: 'no-store' });
     if (!data?.points) return;
 
     // 更新积分卡片（如果存在）

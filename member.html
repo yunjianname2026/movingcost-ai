@@ -498,7 +498,7 @@ async function init(){
   const userId = lsGet('mc_user_id');
   if(!userId){ showGate(null, false); return; }
 
-  const data = await api(`${API}/user?action=get&user_id=${userId}`);
+  const data = await api(`${API}/user?action=get&user_id=${userId}`, { cache: 'no-store' });
   document.getElementById('page-loading').style.display = 'none';
 
   if(!data || data.error){ showGate(null, true); return; }

@@ -256,6 +256,7 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
 // ================================================================
 export default async function handler(req, res) {
   setCORS(req, res);
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { action } = req.query;
