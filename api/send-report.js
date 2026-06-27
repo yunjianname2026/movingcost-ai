@@ -690,6 +690,8 @@ function ensureSafeReportHtmlEnd(content) {
     .replace(/<\/html\s*>/gi, '')
   html = html.replace(/(^|[\n\r])\s*-\s*\[\s*\]\s*/g, '$1&#8226; ')
              .replace(/(^|[\n\r])\s*-\s*\[x\]\s*/gi, '$1&#8226; ')
+             .replace(/(^|[\n\r])\s*\[\s*\]\s*(?=[\n\r]|$)/g, '$1')
+             .replace(/(^|[\n\r])\s*\[x\]\s*(?=[\n\r]|$)/gi, '$1')
              .trim();
 
   html = html.replace(/<([a-zA-Z][a-zA-Z0-9]*)\b[^>]*$/s, '');
@@ -1026,10 +1028,7 @@ Week-by-week plan for first 90 days with 4–6 specific actionable tasks per wee
 - Week 1 / Week 2 / Weeks 3–4 / Month 2 / Month 3
 
 SECTION 10 — FINAL RECOMMENDATIONS & NEXT STEPS
-2–3 paragraph conclusion with honest readiness assessment and single most important first step. Close with:
-<div style="background:#F0F9FF;border:1.5px solid #BAE6FD;border-radius:12px;padding:16px 20px;margin-top:20px;font-family:Arial,sans-serif;">
-<p style="font-size:13px;color:#0C4A6E;margin:0;line-height:1.75;"><strong>Not satisfied with this report?</strong> Contact us within 7 days at <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;">support@movingcost.ai</a> and we will regenerate your report with updated preferences at no extra charge.</p>
-</div>
+2–3 paragraph conclusion with honest readiness assessment and single most important first step. End after the conclusion paragraphs. Do not add any satisfaction block, CTA, contact information, resend message, support message, or footer. These are handled separately by the email template.
 
 ---
 HTML FORMAT:
