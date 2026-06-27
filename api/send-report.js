@@ -620,6 +620,8 @@ function sanitizeReportHtml(content) {
     .replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, '')
     .trim();
 
+  html = html.replace(/(^|[\n\r])\s*(?:-{3,}|\*{3,}|_{3,})\s*(?=[\n\r]|$)/g, '$1');
+
   html = html.replace(/<([a-zA-Z][a-zA-Z0-9]*)\b[^>]*$/s, '');
 
   const selfClosing = new Set(['br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr']);
@@ -1244,9 +1246,9 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
       'Your full AI relocation report is ready below.</p>' +
     '<p style="margin:0;color:' + S.body + ';font-size:14px;line-height:1.7;">' +
       'Use it as a planning guide, then verify important legal, tax, immigration, and financial decisions with qualified professionals.</p>' +
-    '<p style="margin:14px 0 0;padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;' +
-      'font-size:12px;line-height:1.6;color:' + S.muted + ';">' +
-      '<strong style="color:' + S.ink + ';font-weight:600;">Tip:</strong> This is a long report. ' +
+    '<p style="margin:8px 0 0;padding:6px 8px;background:#FAFBFC;border-radius:4px;' +
+      'font-size:10px;line-height:1.4;color:' + S.muted + ';">' +
+      '<strong style="color:' + S.muted + ';font-weight:600;">Tip:</strong> This is a long report. ' +
       'If your email app collapses part of the message, tap &#8220;...&#8221; or &#8220;View entire message&#8221; ' +
       'to see the full report and action buttons.</p>' +
     '</div>' +
