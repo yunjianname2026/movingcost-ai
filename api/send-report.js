@@ -69,7 +69,7 @@ const DESTINATION_KB = {
     immigration_body: 'AIMA (Agência para a Integração, Migrações e Asilo) — replaced SEF in late 2023',
     visas: [
       'D7 Passive Income Visa: requires approximately €920/month stable income for a single applicant (2026 guidance — verify with Portuguese consulate as requirements change annually)',
-      'D8 Digital Nomad Visa: for remote workers employed by foreign companies; income threshold commonly cited around €3,280/month (verify officially)',
+      'D8 Digital Nomad Visa: for remote workers employed by foreign companies; income threshold commonly reported as approximately 4x the Portuguese minimum wage (many sources cite ~€3,680/month for 2026, but verify current thresholds with the Portuguese consulate or AIMA before applying)',
       'D2 Entrepreneur Visa: for those starting or investing in a business in Portugal; requires a business plan and investment',
       'Golden Visa: property or fund investment routes available; minimum thresholds have changed multiple times — verify current requirements',
     ],
@@ -468,7 +468,8 @@ module.exports = async function handler(req, res) {
     }
 
     const reportContent = raw;
-    const firstName = (name || 'there').split(' ')[0];
+    const rawName = (name || '').trim();
+    const firstName = rawName ? rawName.split(' ')[0] : 'MovingCOST.ai Customer';
 
     // [v2.1] 先生成 token，再传入 buildEmailHTML 生成含按钮的 HTML
     const resendToken   = sr_generateToken();
@@ -559,6 +560,17 @@ async function callClaude(prompt, maxTokens) {
 // 6. PROMPT BUILDERS (split into Part 1: Sections 0–5, Part 2: Sections 6–10)
 // ─────────────────────────────────────────────────────────────────────────────
 // ── 城市名标准化 ──────────────────────────────────────────────────────────
+function canonicalizeCity(str) {
+  if (!str) return str;
+  const map = {
+    'lisben': 'Lisbon',
+    'lison':  'Lisbon',
+    'lisboa': 'Lisbon',
+  };
+  const key = str.trim().toLowerCase();
+  return map[key] || str;
+}
+
 function toTitleCase(str) {
   if (!str) return '';
   const abbr = { nyc:'NYC', la:'LA', sf:'SF', dc:'DC', uae:'UAE', uk:'UK', us:'US' };
@@ -667,8 +679,8 @@ function getReportDate() {
 }
 
 function getSubjectLine(d) {
-  const from = toTitleCase(d.from);
-  const to   = toTitleCase(d.to);
+  const from = toTitleCase(canonicalizeCity(d.from));
+  const to   = toTitleCase(canonicalizeCity(d.to));
   if (d.type === 'relocation') return from + ' → ' + to + ' Relocation Report';
   if (d.type === 'nomad') return 'Your Digital Nomad Life Plan';
   return 'Your City Comparison Report';
@@ -676,8 +688,8 @@ function getSubjectLine(d) {
 
 function buildReportPromptPart1(d, preview) {
   const type      = d.type || 'relocation';
-  const from      = d.from || 'current city';
-  const to        = d.to   || 'destination';
+  const from      = toTitleCase(canonicalizeCity(d.from || '')) || 'current city';
+  const to        = toTitleCase(canonicalizeCity(d.to   || '')) || 'destination';
   const who       = d.who  || 'individual';
   const income    = d.income    || 'not specified';
   const lifestyle = d.lifestyle || 'not specified';
@@ -714,7 +726,7 @@ SECTION 0 — DISCLAIMER (output this HTML block exactly, before anything else):
 <p style="font-size:13px;color:#92400E;margin:0 0 8px;line-height:1.75;"><strong style="color:#78350F;">⚠️ Planning Report — Important Notice</strong></p>
 <p style="font-size:13px;color:#92400E;margin:0 0 6px;line-height:1.75;">This is an AI-generated planning report for informational purposes only. All cost figures are estimated ranges based on publicly available data as of 2026. Visa rules, tax regulations, immigration procedures, and housing costs change frequently and vary by individual circumstance.</p>
 <p style="font-size:13px;color:#92400E;margin:0;line-height:1.75;"><strong style="color:#78350F;">Please verify all legal, tax, immigration, and financial decisions with qualified professionals before acting.</strong> MovingCOST.ai does not provide legal, tax, immigration, or financial advice. This report does not constitute professional advice of any kind.</p>
-<p style="font-size:11px;color:#B45309;margin:10px 0 0;"><em>Generated: May 2026 · Based on user-submitted inputs · Data confidence: Medium · For planning purposes only</em></p>
+<p style="font-size:11px;color:#B45309;margin:10px 0 0;"><em>Generated: ${new Date().toLocaleDateString('en-US', { month:'long', year:'numeric' })} · Based on user-submitted inputs · Data confidence: Medium · For planning purposes only</em></p>
 </div>
 
 SECTION 1 — EXECUTIVE SUMMARY
@@ -823,8 +835,8 @@ After completing Section 10, output exactly this line and nothing after it:
 // ─────────────────────────────────────────────────────────────────────────────
 function buildEmailHTML(firstName, userData, reportContent, resendToken) {
   resendToken = resendToken || '';
-  const fromCity   = toTitleCase(userData.from || 'Your City');
-  const toCity     = toTitleCase(userData.to   || 'Destination');
+  const fromCity   = toTitleCase(canonicalizeCity(userData.from) || 'Your City');
+  const toCity     = toTitleCase(canonicalizeCity(userData.to)   || 'Destination');
   const reportType = userData.type || 'relocation';
   const reportDate = getReportDate();
 
