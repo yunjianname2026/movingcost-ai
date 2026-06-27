@@ -484,7 +484,9 @@ module.exports = async function handler(req, res) {
       console.warn('Validation notes (single pass, no retry):', validationIssues.join('; '));
     }
 
-    const reportContent = ensureSafeReportHtmlEnd(sanitizeReportHtml(raw));
+    const reportContent = styleReportBodyHtml(
+      ensureSafeReportHtmlEnd(sanitizeReportHtml(raw))
+    );
     const rawName = (name || '').trim();
     const firstName = rawName ? rawName.split(' ')[0] : 'MovingCOST.ai Customer';
 
@@ -707,6 +709,74 @@ function ensureSafeReportHtmlEnd(content) {
   }
 
   return html;
+}
+
+function parseInlineStyle(styleStr) {
+  const out = {};
+  if (!styleStr) return out;
+  styleStr.split(';').forEach(function(part) {
+    const idx = part.indexOf(':');
+    if (idx === -1) return;
+    const key = part.slice(0, idx).trim().toLowerCase();
+    const val = part.slice(idx + 1).trim();
+    if (key) out[key] = val;
+  });
+  return out;
+}
+
+function serializeInlineStyle(obj) {
+  const keys = Object.keys(obj);
+  if (!keys.length) return '';
+  return keys.map(function(k) { return k + ':' + obj[k]; }).join(';') + ';';
+}
+
+function mergeInlineStyles(existing, defaults) {
+  const merged = parseInlineStyle(existing);
+  const defs   = parseInlineStyle(defaults);
+  Object.keys(defs).forEach(function(k) {
+    if (!(k in merged)) merged[k] = defs[k];
+  });
+  return serializeInlineStyle(merged);
+}
+
+function injectOpeningTagStyle(html, tagName, defaultStyle) {
+  const re = new RegExp('<' + tagName + '(\\s[^>]*)>', 'gi');
+  return html.replace(re, function(_full, attrs) {
+    attrs = attrs || '';
+    const styleRe = /\sstyle\s*=\s*(["'])([\s\S]*?)\1/i;
+    const m = attrs.match(styleRe);
+    if (m) {
+      const merged   = mergeInlineStyles(m[2], defaultStyle);
+      const newAttrs = attrs.replace(styleRe, ' style="' + merged + '"');
+      return '<' + tagName + newAttrs + '>';
+    }
+    return '<' + tagName + attrs + ' style="' + defaultStyle + '">';
+  });
+}
+
+const REPORT_BODY_STYLES = {
+  table:     'width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:14px;line-height:1.55;background:#ffffff;',
+  th:        'padding:10px 12px;border:1px solid #DDE6F0;background:#F8FAFC;font-weight:700;color:#0F172A;text-align:left;vertical-align:top;',
+  td:        'padding:10px 12px;border:1px solid #E2E8F0;color:#334155;vertical-align:top;',
+  h2:        'margin:30px 0 14px;padding-top:18px;border-top:1px solid #E2E8F0;font-size:22px;line-height:1.3;color:#0F172A;',
+  h3:        'margin:22px 0 10px;font-size:17px;line-height:1.35;color:#0F172A;',
+  h4:        'margin:18px 0 8px;font-size:15px;line-height:1.35;color:#1E293B;',
+  p:         'margin:0 0 14px;font-size:15px;line-height:1.72;color:#334155;',
+  ul:        'margin:8px 0 18px 20px;padding:0;',
+  ol:        'margin:8px 0 18px 20px;padding:0;',
+  li:        'margin:0 0 8px;font-size:15px;line-height:1.65;color:#334155;',
+  strong:    'color:#0F172A;font-weight:700;',
+  blockquote:'margin:12px 0 18px;padding:12px 16px;border-left:3px solid #E2E8F0;color:#475569;font-size:14px;line-height:1.65;',
+};
+
+function styleReportBodyHtml(html) {
+  if (!html) return '';
+  let out = html;
+  const tags = ['table', 'th', 'td', 'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'blockquote'];
+  tags.forEach(function(tag) {
+    out = injectOpeningTagStyle(out, tag, REPORT_BODY_STYLES[tag]);
+  });
+  return out;
 }
 
 // ── 城市→渐变色映射 ───────────────────────────────────────────────────────
