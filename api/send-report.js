@@ -986,155 +986,170 @@ After completing Section 10, output exactly this line and nothing after it:
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 7. EMAIL HTML BUILDER — upgraded footer with regeneration guarantee
+// 7. EMAIL HTML BUILDER — shell tokens + assembly (Round 2B-1)
 // ─────────────────────────────────────────────────────────────────────────────
+const EMAIL_SHELL = {
+  bg:          '#EEF4FB',
+  border:      '#DDE6F0',
+  ink:         '#0F172A',
+  body:        '#475569',
+  muted:       '#64748B',
+  label:       '#94A3B8',
+  meta:        '#334155',
+  sky:         '#0EA5E9',
+  amber:       '#D97706',
+  amberBg:     '#FFFBEB',
+  slateBg:     '#F8FAFC',
+  radiusMain:  '18px',
+  radiusCard:  '16px',
+  gap:         '18px',
+  reportPad:   '36px 32px',
+};
+
+function emailShellBtn(href, label, bg) {
+  return '<a href="' + href + '" style="display:inline-block;background:' + bg + ';color:#ffffff;' +
+    'padding:13px 32px;border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;' +
+    'letter-spacing:-0.1px;">' + label + ' &#8594;</a>';
+}
+
 function buildEmailHTML(firstName, userData, reportContent, resendToken) {
   resendToken = resendToken || '';
   const fromCity   = formatLocationDisplay(userData.from) || 'Your City';
   const toCity     = formatLocationDisplay(userData.to)   || 'Destination';
   const reportType = userData.type || 'relocation';
   const reportDate = getReportDate();
+  const S = EMAIL_SHELL;
 
   let routeHTML = '';
   if (reportType === 'relocation') {
     routeHTML =
-      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:28px;font-weight:normal;' +
-      'color:#0F172A;letter-spacing:-0.3px;line-height:1.12;margin:0 0 4px;">' +
-      fromCity + '<span style="color:#0EA5E9;margin:0 6px;">&#8594;</span>' + toCity +
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:normal;' +
+      'color:' + S.ink + ';letter-spacing:-0.3px;line-height:1.15;margin:0 0 4px;">' +
+      fromCity + '<span style="color:' + S.sky + ';margin:0 5px;">&#8594;</span>' + toCity +
       '</div>';
   } else if (reportType === 'nomad') {
     routeHTML =
-      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:26px;font-weight:normal;' +
-      'color:#0F172A;line-height:1.12;margin:0 0 4px;">Digital Nomad Life Plan</div>';
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:24px;font-weight:normal;' +
+      'color:' + S.ink + ';line-height:1.15;margin:0 0 4px;">Digital Nomad Life Plan</div>';
   } else {
     const cities = [userData.city1, userData.city2, userData.city3]
       .filter(Boolean).map(toTitleCase);
     routeHTML =
-      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:24px;font-weight:normal;' +
-      'color:#0F172A;line-height:1.15;margin:0 0 4px;">' + cities.join(' vs ') + '</div>';
+      '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;font-weight:normal;' +
+      'color:' + S.ink + ';line-height:1.2;margin:0 0 4px;">' + cities.join(' vs ') + '</div>';
   }
 
   const subLabel = reportType === 'relocation'
-    ? 'AI Relocation Intelligence Report'
-    : reportType === 'nomad' ? 'AI Nomad Planning Report' : 'AI City Comparison Report';
+    ? 'Relocation Intelligence Report'
+    : reportType === 'nomad' ? 'Nomad Planning Report' : 'City Comparison Report';
+
+  const resendBtn = resendToken
+    ? emailShellBtn('https://movingcost.ai/api/resend-report?token=' + resendToken, 'Resend My Report', S.amber)
+    : emailShellBtn('mailto:support@movingcost.ai', 'Contact Support', S.amber);
+
+  const ctaCard = 'background:#ffffff;border-radius:' + S.radiusCard + ';border:1px solid ' + S.border +
+    ';padding:28px 32px;margin-bottom:' + S.gap + ';text-align:center;';
 
   return '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
     '<meta name="viewport" content="width=device-width,initial-scale=1.0">' +
     '<title>MovingCOST.ai Report</title></head>' +
-    '<body style="margin:0;padding:0;background:#EEF4FB;font-family:Arial,Helvetica,sans-serif;color:#0F172A;">' +
-    '<div style="max-width:640px;margin:0 auto;padding:24px 12px 48px;">' +
+    '<body style="margin:0;padding:0;background:' + S.bg + ';font-family:Arial,Helvetica,sans-serif;color:' + S.ink + ';">' +
+    '<div style="max-width:640px;margin:0 auto;padding:20px 14px 40px;">' +
 
-    // ── FLOATING BAR（独立色条，四边圆角，与卡片分离）──
-    '<div style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);border-radius:13px;padding:11px 20px 10px;margin-bottom:8px;">' +
-    '<table style="width:100%;border-collapse:collapse;margin-bottom:7px;"><tr>' +
+    // ── Brand bar ──
+    '<div style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);' +
+      'border-radius:' + S.radiusMain + ';padding:12px 20px 11px;margin-bottom:' + S.gap + ';">' +
+    '<table style="width:100%;border-collapse:collapse;margin-bottom:6px;"><tr>' +
     '<td style="vertical-align:middle;">' +
-    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span>' +
-    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19.5px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span>' +
-    '<span style="font-family:Arial,sans-serif;font-size:11.5px;font-weight:300;color:rgba(255,255,255,0.4);margin-left:1px;">.ai</span>' +
+    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span>' +
+    '<span style="font-family:Georgia,\'Times New Roman\',serif;font-size:19px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span>' +
+    '<span style="font-family:Arial,sans-serif;font-size:11px;font-weight:300;color:rgba(255,255,255,0.45);margin-left:1px;">.ai</span>' +
     '</td>' +
     '<td style="text-align:right;vertical-align:middle;white-space:nowrap;">' +
-    '<span style="font-size:8.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;border:1px solid rgba(125,211,252,0.22);padding:3px 8px;border-radius:99px;">Full Access</span>' +
-    '</td>' +
-    '</tr></table>' +
-    '<div style="height:1px;background:rgba(255,255,255,0.09);margin-bottom:7px;"></div>' +
-    '<div style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:14.5px;font-weight:400;color:rgba(255,255,255,0.90);letter-spacing:0.03em;">Move Smarter. Live Lighter.</div>' +
-    '</div>' +
+    '<span style="font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;' +
+      'border:1px solid rgba(125,211,252,0.25);padding:3px 7px;border-radius:99px;">Full Access</span>' +
+    '</td></tr></table>' +
+    '<div style="height:1px;background:rgba(255,255,255,0.10);margin-bottom:6px;"></div>' +
+    '<div style="text-align:center;font-size:13px;font-weight:400;color:rgba(255,255,255,0.88);letter-spacing:0.02em;">' +
+      'Move Smarter. Live Lighter.</div></div>' +
 
-    // ── COVER CARD（主内容卡片）──
-    '<div style="background:#ffffff;border-radius:18px;border:1px solid #DDE6F0;overflow:hidden;margin-bottom:10px;">' +
-
-    // Route + meta
-    '<div style="padding:18px 24px 20px;">' +
-    '<div style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;' +
-      'color:#0EA5E9;margin:0 0 7px;">Your next chapter</div>' +
+    // ── Cover card ──
+    '<div style="background:#ffffff;border-radius:' + S.radiusMain + ';border:1px solid ' + S.border +
+      ';overflow:hidden;margin-bottom:' + S.gap + ';">' +
+    '<div style="padding:20px 22px 18px;">' +
+    '<div style="font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;' +
+      'color:' + S.sky + ';margin:0 0 6px;">Your next chapter</div>' +
     routeHTML +
-    '<div style="font-size:11px;color:#64748B;margin:0 0 15px;letter-spacing:0.04em;' +
-      'text-transform:uppercase;">' + subLabel + '</div>' +
-    '<div style="height:1px;background:#F0F5FA;margin:0 0 14px;"></div>' +
+    '<div style="font-size:10px;color:' + S.muted + ';margin:0 0 14px;letter-spacing:0.06em;text-transform:uppercase;">' +
+      subLabel + '</div>' +
+    '<div style="height:1px;background:#F0F5FA;margin:0 0 12px;"></div>' +
     '<table style="width:100%;border-collapse:collapse;"><tr>' +
-    '<td style="padding:0 18px 0 0;border-right:1px solid #E8EFF7;vertical-align:top;">' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Report Date</div>' +
-    '<div style="font-size:12px;font-weight:500;color:#334155;">' + reportDate + '</div></td>' +
-    '<td style="padding:0 18px;border-right:1px solid #E8EFF7;vertical-align:top;">' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Prepared For</div>' +
-    '<div style="font-size:12px;font-weight:500;color:#334155;">' + firstName + '</div></td>' +
-    '<td style="padding:0 0 0 18px;vertical-align:top;">' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#94A3B8;margin-bottom:2px;">Powered By</div>' +
-    '<div style="font-size:12px;font-weight:500;color:#334155;">MovingCOST.ai</div></td>' +
+    '<td style="padding:0 10px 0 0;border-right:1px solid #E8EFF7;vertical-align:top;width:33%;">' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-bottom:2px;">Date</div>' +
+    '<div style="font-size:11px;font-weight:500;color:' + S.meta + ';line-height:1.35;">' + reportDate + '</div></td>' +
+    '<td style="padding:0 10px;border-right:1px solid #E8EFF7;vertical-align:top;width:34%;">' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-bottom:2px;">Prepared</div>' +
+    '<div style="font-size:11px;font-weight:500;color:' + S.meta + ';line-height:1.35;">' + firstName + '</div></td>' +
+    '<td style="padding:0 0 0 10px;vertical-align:top;width:33%;">' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-bottom:2px;">Powered</div>' +
+    '<div style="font-size:11px;font-weight:500;color:' + S.meta + ';line-height:1.35;">MovingCOST.ai</div></td>' +
     '</tr></table></div>' +
-
-    // Stats bar
     '<table style="width:100%;border-collapse:collapse;border-top:1px solid #F0F5FA;"><tr>' +
-    '<td style="text-align:center;padding:11px 0;border-right:1px solid #F0F5FA;">' +
-    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">10</div>' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Sections</div></td>' +
-    '<td style="text-align:center;padding:11px 0;border-right:1px solid #F0F5FA;">' +
-    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">3,000+</div>' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Words</div></td>' +
-    '<td style="text-align:center;padding:11px 0;">' +
-    '<div style="font-size:17px;font-weight:600;color:#0EA5E9;">AI</div>' +
-    '<div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:#94A3B8;margin-top:2px;">Powered</div></td>' +
+    '<td style="text-align:center;padding:10px 0;border-right:1px solid #F0F5FA;width:33%;">' +
+    '<div style="font-size:16px;font-weight:600;color:' + S.sky + ';">10</div>' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-top:2px;">Sections</div></td>' +
+    '<td style="text-align:center;padding:10px 0;border-right:1px solid #F0F5FA;width:34%;">' +
+    '<div style="font-size:16px;font-weight:600;color:' + S.sky + ';">3,000+</div>' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-top:2px;">Words</div></td>' +
+    '<td style="text-align:center;padding:10px 0;width:33%;">' +
+    '<div style="font-size:16px;font-weight:600;color:' + S.sky + ';">AI</div>' +
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:' + S.label + ';margin-top:2px;">Powered</div></td>' +
     '</tr></table></div>' +
 
     // ── Greeting ──
-    '<div style="background:#ffffff;border-radius:14px;border:1px solid #DDE6F0;' +
-      'padding:20px 24px;margin-bottom:14px;">' +
-    '<h2 style="margin:0 0 10px;font-size:18px;font-weight:600;color:#0F172A;' +
-      'font-family:Georgia,serif;">Hi ' + firstName + '! &#128075;</h2>' +
-    '<p style="margin:0 0 10px;color:#475569;font-size:14px;line-height:1.75;">Thank you for your purchase. Below is your ' +
-      '<strong style="color:#0F172A;">AI-generated relocation planning report</strong>' +
-      ' &#8212; built using your specific inputs to help you plan smarter.</p>' +
-    '<p style="margin:0;color:#475569;font-size:14px;line-height:1.75;">This report covers 10 planning sections: ' +
-      'cost estimates, housing guide, visa notes, tax planning, moving costs, checklists, and a 90-day action plan. ' +
-      '<strong style="color:#0F172A;">Bookmark this email</strong> as your moving reference.</p>' +
+    '<div style="background:#ffffff;border-radius:' + S.radiusCard + ';border:1px solid ' + S.border +
+      ';padding:22px 24px;margin-bottom:' + S.gap + ';">' +
+    '<h2 style="margin:0 0 12px;font-size:17px;font-weight:600;color:' + S.ink + ';font-family:Georgia,serif;">' +
+      'Hi ' + firstName + ',</h2>' +
+    '<p style="margin:0 0 10px;color:' + S.body + ';font-size:14px;line-height:1.7;">Thank you for your purchase.</p>' +
+    '<p style="margin:0 0 10px;color:' + S.body + ';font-size:14px;line-height:1.7;">' +
+      'Your full AI relocation report is ready below.</p>' +
+    '<p style="margin:0;color:' + S.body + ';font-size:14px;line-height:1.7;">' +
+      'Use it as a planning guide, then verify important legal, tax, immigration, and financial decisions with qualified professionals.</p>' +
     '</div>' +
 
-    // ── Report content ──
-    '<div style="background:#ffffff;border-radius:16px;padding:44px 44px;border:1px solid #E2E8F0;margin-bottom:20px;">' +
+    // ── Report body (AI content) ──
+    '<div style="background:#ffffff;border-radius:' + S.radiusCard + ';padding:' + S.reportPad +
+      ';border:1px solid ' + S.border + ';margin-bottom:' + S.gap + ';">' +
     reportContent +
     '</div>' +
 
-    // ── Regeneration banner（Commit 3 将升级为带 token 的按钮）──
-    '<div style="background:#FFF7ED;border:2px solid #FCD34D;border-radius:16px;' +
-      'padding:28px 32px;margin-bottom:16px;text-align:center;">' +
-    '<p style="margin:0 0 6px;font-size:18px;">&#128203;</p>' +
+    // ── Resend CTA ──
+    '<div style="' + ctaCard + 'background:' + S.amberBg + ';">' +
     '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#92400E;">Didn\'t receive your report?</p>' +
-    '<p style="margin:0 0 16px;font-size:14px;color:#B45309;line-height:1.75;">' +
-      'If your report didn\'t arrive or appears incomplete, we\'ll resend the same report to your inbox &#8212; ' +
-      'completely free. Valid within <strong>7 days</strong> of purchase. One resend per order.</p>' +
-    (resendToken
-      ? '<a href="https://movingcost.ai/api/resend-report?token=' + resendToken + '" ' +
-          'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
-          'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
-          'Resend My Report &#8594;</a>' +
-          '<p style="margin:10px 0 0;font-size:11px;color:#B45309;">' +
-          'Valid for 7 days from delivery &nbsp;&#183;&nbsp; One resend per order</p>'
-      : '<a href="mailto:support@movingcost.ai" ' +
-          'style="display:inline-block;background:#F59E0B;color:#fff;padding:12px 28px;' +
-          'border-radius:99px;text-decoration:none;font-weight:700;font-size:14px;">' +
-          'Contact Support &#8594;</a>'
-    ) +
+    '<p style="margin:0 0 18px;font-size:13px;color:#B45309;line-height:1.65;">' +
+      'We\'ll resend the same report to your inbox &#8212; free within <strong>7 days</strong>. One resend per order.</p>' +
+    resendBtn +
+    '<p style="margin:12px 0 0;font-size:10px;color:#B45309;">Valid 7 days &nbsp;&#183;&nbsp; One resend per order</p>' +
     '</div>' +
 
     // ── New plan CTA ──
-    '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;' +
-      'padding:32px 40px;text-align:center;margin-bottom:20px;">' +
-    '<p style="margin:0 0 8px;font-size:18px;font-weight:700;color:#0F172A;">Need a new plan?</p>' +
-    '<p style="margin:0 0 20px;font-size:14px;color:#64748B;">Run another analysis &#8212; new city, new scenario, updated numbers.</p>' +
-    '<a href="https://movingcost.ai/planner" style="display:inline-block;background:#0EA5E9;color:#fff;' +
-      'padding:14px 36px;border-radius:99px;text-decoration:none;font-weight:700;font-size:15px;">' +
-      'Start Another Plan &#8594;</a>' +
+    '<div style="' + ctaCard + 'background:' + S.slateBg + ';">' +
+    '<p style="margin:0 0 8px;font-size:16px;font-weight:700;color:' + S.ink + ';">Need a new plan?</p>' +
+    '<p style="margin:0 0 18px;font-size:13px;color:' + S.muted + ';line-height:1.65;">' +
+      'Run another analysis &#8212; new city, new scenario, updated numbers.</p>' +
+    emailShellBtn('https://movingcost.ai/planner', 'Start Another Plan', S.sky) +
     '</div>' +
 
     // ── Footer ──
-    '<div style="text-align:center;padding:20px 0;">' +
-    '<p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#0F172A;">MovingCOST.ai</p>' +
-    '<p style="margin:0 0 8px;font-size:12px;color:#94A3B8;line-height:1.8;">' +
-    'Questions or issues? <a href="mailto:support@movingcost.ai" style="color:#0EA5E9;font-weight:600;">support@movingcost.ai</a>' +
-    ' &nbsp;&#183;&nbsp; <a href="https://movingcost.ai" style="color:#0EA5E9;">movingcost.ai</a></p>' +
-    '<p style="margin:6px 0 0;font-size:11px;color:#CBD5E1;line-height:1.7;">' +
-    'This report is AI-generated for planning purposes only and does not constitute legal, tax, immigration, or financial advice.<br>' +
-    'Verify all important decisions with qualified professionals before acting. &#169; 2026 CLASSIC SPREAD INC</p>' +
+    '<div style="text-align:center;padding:16px 0 4px;">' +
+    '<p style="margin:0 0 6px;font-size:13px;font-weight:700;color:' + S.ink + ';">MovingCOST.ai</p>' +
+    '<p style="margin:0 0 8px;font-size:12px;color:' + S.label + ';line-height:1.75;">' +
+    '<a href="mailto:support@movingcost.ai" style="color:' + S.sky + ';font-weight:600;text-decoration:none;">support@movingcost.ai</a>' +
+    ' &nbsp;&#183;&nbsp; <a href="https://movingcost.ai" style="color:' + S.sky + ';text-decoration:none;">movingcost.ai</a></p>' +
+    '<p style="margin:0;font-size:11px;color:#CBD5E1;line-height:1.65;">' +
+    'AI-generated for planning purposes only. Not legal, tax, immigration, or financial advice.<br>' +
+    'Verify important decisions with qualified professionals. &#169; 2026 CLASSIC SPREAD INC</p>' +
     '</div>' +
 
     '</div></body></html>';
