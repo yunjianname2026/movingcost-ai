@@ -159,7 +159,7 @@ function buildEmailHTML(name, sessionId, amount) {
       Hi ${firstName}! 👋<br>Your report is ready
     </h1>
     <p style="margin:0 0 36px;font-size:15px;color:#475569;line-height:1.65;">
-      Thank you for your purchase. Head to your report page, enter your email, and your complete AI planning report will be generated and sent to you within 60 seconds.
+      Thank you for your purchase. Head to your report page, enter your email, and your full AI planning report will begin generating. Most reports are ready within 5–10 minutes, depending on route complexity. We'll email it to you as soon as it's complete.
     </p>
 
     <!-- CTA Button -->
