@@ -1174,6 +1174,11 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
       'Your full AI relocation report is ready below.</p>' +
     '<p style="margin:0;color:' + S.body + ';font-size:14px;line-height:1.7;">' +
       'Use it as a planning guide, then verify important legal, tax, immigration, and financial decisions with qualified professionals.</p>' +
+    '<p style="margin:14px 0 0;padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;' +
+      'font-size:12px;line-height:1.6;color:' + S.muted + ';">' +
+      '<strong style="color:' + S.ink + ';font-weight:600;">Tip:</strong> This is a long report. ' +
+      'If your email app collapses part of the message, tap &#8220;...&#8221; or &#8220;View entire message&#8221; ' +
+      'to see the full report and action buttons.</p>' +
     '</div>' +
 
     // ── Report body (AI content) — table-isolated cell ──
