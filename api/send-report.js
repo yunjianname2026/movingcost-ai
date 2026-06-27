@@ -406,7 +406,7 @@ module.exports = async function handler(req, res) {
     const raw1 = await generateWithRetry(
       () => buildReportPromptPart1(userData, previewReport),
       '<!-- PART_1_COMPLETE -->',
-      10000,
+      12000,
       'Part1',
       email
     );
