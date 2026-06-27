@@ -484,7 +484,7 @@ module.exports = async function handler(req, res) {
       console.warn('Validation notes (single pass, no retry):', validationIssues.join('; '));
     }
 
-    const reportContent = sanitizeReportHtml(raw);
+    const reportContent = ensureSafeReportHtmlEnd(sanitizeReportHtml(raw));
     const rawName = (name || '').trim();
     const firstName = rawName ? rawName.split(' ')[0] : 'MovingCOST.ai Customer';
 
@@ -646,6 +646,65 @@ function sanitizeReportHtml(content) {
   }
 
   return html + closers;
+}
+
+const EMAIL_SAFE_TAGS = new Set([
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th',
+  'div', 'p', 'ul', 'ol', 'li', 'h2', 'h3', 'h4', 'a', 'strong', 'em', 'span',
+]);
+
+const EMAIL_VOID_TAGS = new Set([
+  'br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr',
+]);
+
+function collectOpenTagStack(html) {
+  const stack = [];
+  const tagRe = /<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*\/?>/g;
+  let match;
+  while ((match = tagRe.exec(html)) !== null) {
+    const full = match[0];
+    const name = match[1].toLowerCase();
+    if (!EMAIL_SAFE_TAGS.has(name)) continue;
+    if (EMAIL_VOID_TAGS.has(name) || full.endsWith('/>')) continue;
+    if (full.startsWith('</')) {
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (stack[i] === name) {
+          stack.splice(i, 1);
+          break;
+        }
+      }
+    } else {
+      stack.push(name);
+    }
+  }
+  return stack;
+}
+
+function ensureSafeReportHtmlEnd(content) {
+  if (!content) return '';
+
+  let html = content
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<\/body\s*>/gi, '')
+    .replace(/<\/html\s*>/gi, '')
+  html = html.replace(/(^|[\n\r])\s*-\s*\[\s*\]\s*/g, '$1&#8226; ')
+             .replace(/(^|[\n\r])\s*-\s*\[x\]\s*/gi, '$1&#8226; ')
+             .trim();
+
+  html = html.replace(/<([a-zA-Z][a-zA-Z0-9]*)\b[^>]*$/s, '');
+
+  const stack = collectOpenTagStack(html);
+  if (stack.length > 0) {
+    console.warn('[send-report] report_html_repair', { openTags: stack.length });
+    let closers = '';
+    for (let i = stack.length - 1; i >= 0; i--) {
+      closers += '</' + stack[i] + '>';
+    }
+    html += closers;
+  }
+
+  return html;
 }
 
 // ── 城市→渐变色映射 ───────────────────────────────────────────────────────
@@ -1118,11 +1177,15 @@ function buildEmailHTML(firstName, userData, reportContent, resendToken) {
       'Use it as a planning guide, then verify important legal, tax, immigration, and financial decisions with qualified professionals.</p>' +
     '</div>' +
 
-    // ── Report body (AI content) ──
-    '<div style="background:#ffffff;border-radius:' + S.radiusCard + ';padding:' + S.reportPad +
-      ';border:1px solid ' + S.border + ';margin-bottom:' + S.gap + ';">' +
+    // ── Report body (AI content) — table-isolated cell ──
+    '<!-- MC_REPORT_START -->' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" ' +
+      'style="width:100%;border-collapse:collapse;margin-bottom:' + S.gap + ';">' +
+    '<tr><td style="background:#ffffff;border-radius:' + S.radiusCard + ';border:1px solid ' + S.border +
+      ';padding:' + S.reportPad + ';vertical-align:top;">' +
     reportContent +
-    '</div>' +
+    '</td></tr></table>' +
+    '<!-- MC_REPORT_END -->' +
 
     // ── Resend CTA ──
     '<div style="' + ctaCard + 'background:' + S.amberBg + ';">' +
