@@ -758,42 +758,13 @@ function getHtmlFormatRules() {
   return `HTML FORMAT:
 - Output section body HTML only — raw inline-styled fragments, not a full document
 - Do NOT wrap output in markdown code fences (no \`\`\`html, no \`\`\`, no backtick blocks)
-- Do NOT output <!DOCTYPE>, <html>, <head>, <body>, <style>, <script>, or closing document tags
-- Keep HTML tags balanced and simple; never leave unclosed tags
-
-PARAGRAPH READABILITY:
-- Keep paragraphs short and scannable
-- Prefer 2–4 sentences per paragraph
-- Avoid dense walls of text
-- Do not add new sections or change required section order
-
-SECTION HEADINGS:
+- Do NOT output <!DOCTYPE>, <html>, <head>, or <body> tags
 - Section h2: <h2 style="font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#0F172A;margin:32px 0 12px;padding-top:24px;border-top:2px solid #E2E8F0;">Title</h2>
 - Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
 - Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
-- Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
-
-TABLES (use consistently for cost comparisons):
-- table: <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;">
-- th: <th style="background:#F1F5F9;color:#0F172A;font-weight:700;padding:10px;border:1px solid #DDE6F0;text-align:left;">
-- td: <td style="padding:10px;border:1px solid #DDE6F0;vertical-align:top;">
-- Alternate row backgrounds with #F8FAFC and #ffffff where helpful
-- Avoid overly wide tables with too many columns
-- Do not use nested tables inside reportContent
-
-LISTS AND TIMELINES:
 - Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
-- Use clean <ul> lists with concise bullet points
-- Avoid long bullet paragraphs
-- For timeline-style sections (e.g. Section 7, Section 9), use clear time headings such as:
-  <p style="font-size:14px;color:#334155;margin:16px 0 8px;"><strong>6 Months Before Departure</strong></p>
-  followed by a short <ul>
-- Do not use checkbox symbols unless they are simple and safe
-
-CALLOUTS (use sparingly):
-- Only use simple inline-styled <div> callouts for truly important notes (disclaimer, visa note, tax note, risk alert)
-- Example: <div style="background:#F0F9FF;border:1.5px solid #BAE6FD;border-radius:12px;padding:16px 20px;margin:16px 0;font-family:Arial,sans-serif;">
-- Do not overuse colored boxes; do not require a callout in every section`;
+- Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
+- Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows`;
 }
 
 function buildReportPromptPart1(d, preview) {
@@ -1002,7 +973,12 @@ SECTION 10 — FINAL RECOMMENDATIONS & NEXT STEPS
 </div>
 
 ---
-${getHtmlFormatRules()}
+HTML FORMAT:
+- Section h2: <h2 style="font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#0F172A;margin:32px 0 12px;padding-top:24px;border-top:2px solid #E2E8F0;">Title</h2>
+- Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
+- Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
+- Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
+- Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
 
 Write Sections 6–10 now. Do not stop early. Complete through Section 10.
 After completing Section 10, output exactly this line and nothing after it:
