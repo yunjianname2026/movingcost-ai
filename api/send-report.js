@@ -249,8 +249,9 @@ const SECTION_REGEXES = [
   { n: 10, re: /section\s+10\b.{0,80}(final|recommendation)/i },
 ];
 
-const PART1_REGEXES = SECTION_REGEXES.slice(0, 5);
-const PART2_REGEXES = SECTION_REGEXES.slice(5);
+const PART1A_REGEXES = SECTION_REGEXES.slice(0, 3);  // Section 1–3
+const PART1B_REGEXES = SECTION_REGEXES.slice(3, 5);  // Section 4–5
+const PART2_REGEXES  = SECTION_REGEXES.slice(5);     // Section 6–10
 
 function validateSectionIntegrity(content) {
   const text = stripHtmlForValidation(content);
@@ -295,32 +296,33 @@ function validatePartContent(text, partLabel) {
   const missing    = [];
   const unexpected = [];
 
-  if (partLabel === 'Part1') {
-    PART1_REGEXES.forEach(({ n, re }) => {
+  if (partLabel === 'Part1A') {
+    PART1A_REGEXES.forEach(({ n, re }) => {
       if (!re.exec(validationText)) missing.push('Section ' + n);
     });
-    PART2_REGEXES.forEach(({ n, re }) => {
+    [...PART1B_REGEXES, ...PART2_REGEXES].forEach(({ n, re }) => {
+      if (re.exec(validationText)) unexpected.push('Section ' + n);
+    });
+  } else if (partLabel === 'Part1B') {
+    PART1B_REGEXES.forEach(({ n, re }) => {
+      if (!re.exec(validationText)) missing.push('Section ' + n);
+    });
+    [...PART1A_REGEXES, ...PART2_REGEXES].forEach(({ n, re }) => {
       if (re.exec(validationText)) unexpected.push('Section ' + n);
     });
   } else {
     PART2_REGEXES.forEach(({ n, re }) => {
       if (!re.exec(validationText)) missing.push('Section ' + n);
     });
-    PART1_REGEXES.forEach(({ n, re }) => {
+    [...PART1A_REGEXES, ...PART1B_REGEXES].forEach(({ n, re }) => {
       if (re.exec(validationText)) unexpected.push('Section ' + n);
     });
   }
 
-  const hasDisclaimer = partLabel !== 'Part1' || (
-    /important\s+notice|informational\s+purposes\s+only|does\s+not\s+provide\s+legal/i
-      .test(validationText)
-  );
-
   return {
-    valid:      missing.length === 0 && unexpected.length === 0 && hasDisclaimer,
+    valid:      missing.length === 0 && unexpected.length === 0,
     missing,
     unexpected,
-    hasDisclaimer,
   };
 }
 
@@ -357,14 +359,12 @@ async function generateWithRetry(promptFn, marker, maxTokens, label, email) {
       ` output_tokens=${output_tokens}` +
       ` hasMarker=${hasMarker}` +
       ` notTruncated=${notTruncated}` +
-      ` disclaimer=${partCheck.hasDisclaimer}` +
       ` sections=${partCheck.valid
           ? 'ok'
           : 'missing:' + partCheck.missing.join(',') +
             (partCheck.unexpected.length > 0
               ? ' unexpected:' + partCheck.unexpected.join(',')
-              : '') +
-            (!partCheck.hasDisclaimer ? ' no_disclaimer' : '')}`
+              : '')}`
     );
 
     if (hasMarker && notTruncated && notEmpty && partCheck.valid) {
@@ -378,7 +378,6 @@ async function generateWithRetry(promptFn, marker, maxTokens, label, email) {
         !hasMarker         ? 'no_marker'     : '',
         !notTruncated      ? 'truncated'     : '',
         !notEmpty          ? 'empty'         : '',
-        !partCheck.hasDisclaimer ? 'no_disclaimer' : '',
       ].filter(Boolean);
       logGenerationFailure(email, label, stop_reason, output_tokens, issues);
       return null;
@@ -402,24 +401,44 @@ module.exports = async function handler(req, res) {
     if (!email || !userData) return res.status(400).json({ error: 'Missing email or userData' });
     console.log('after parse request');
 
-    console.log('before generateWithRetry part1');
-    const raw1 = await generateWithRetry(
-      () => buildReportPromptPart1(userData, previewReport),
-      '<!-- PART_1_COMPLETE -->',
-      12000,
-      'Part1',
+    // ── Part 1A：Section 0–3 ──
+    const raw1a = await generateWithRetry(
+      () => buildReportPromptPart1A(userData, previewReport),
+      '<!-- PART_1A_COMPLETE -->',
+      10000,
+      'Part1A',
       email
     );
-    console.log('after generateWithRetry part1, length:', raw1 ? raw1.length : 0);
 
-    if (!raw1) {
+    if (!raw1a) {
       return res.status(500).json({
-        error: 'Report generation could not be completed (Part 1). ' +
+        error: 'Report generation could not be completed (Part 1A). ' +
                'Please try again — no additional charge.',
       });
     }
 
-    console.log('before generateWithRetry part2');
+    // ── Part 1B：Section 4–5 ──
+    const raw1b = await generateWithRetry(
+      () => buildReportPromptPart1B(userData),
+      '<!-- PART_1B_COMPLETE -->',
+      8000,
+      'Part1B',
+      email
+    );
+
+    if (!raw1b) {
+      return res.status(500).json({
+        error: 'Report generation could not be completed (Part 1B). ' +
+               'Please try again — no additional charge.',
+      });
+    }
+
+    // ── Part 1 合并 ──
+    const raw1 = raw1a.replace('<!-- PART_1A_COMPLETE -->', '').trimEnd()
+               + '\n'
+               + raw1b.replace('<!-- PART_1B_COMPLETE -->', '').trimEnd();
+
+    // ── Part 2：Section 6–10 ──
     const raw2 = await generateWithRetry(
       () => buildReportPromptPart2(userData, raw1),
       '<!-- PART_2_COMPLETE -->',
@@ -427,7 +446,6 @@ module.exports = async function handler(req, res) {
       'Part2',
       email
     );
-    console.log('after generateWithRetry part2, length:', raw2 ? raw2.length : 0);
 
     if (!raw2) {
       return res.status(500).json({
@@ -436,9 +454,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const cleanRaw1 = raw1.replace('<!-- PART_1_COMPLETE -->', '').trimEnd();
     const cleanRaw2 = raw2.replace('<!-- PART_2_COMPLETE -->', '').trimEnd();
-    const raw = cleanRaw1 + '\n' + cleanRaw2;
+    const raw = raw1 + '\n' + cleanRaw2;
 
     const sectionCheck = validateSectionIntegrity(raw);
     if (!sectionCheck.valid) {
@@ -686,6 +703,16 @@ function getSubjectLine(d) {
   return 'Your City Comparison Report';
 }
 
+function getHtmlFormatRules() {
+  return `HTML FORMAT:
+- Section h2: <h2 style="font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#0F172A;margin:32px 0 12px;padding-top:24px;border-top:2px solid #E2E8F0;">Title</h2>
+- Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
+- Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
+- Lists: <ul style="padding-left:20px;margin:0 0 16px;"><li style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:6px;">item</li></ul>
+- Key ranges: <strong style="color:#0F172A;">$X,XXX–$Y,YYY</strong>
+- Cost tables: simple HTML table with border-collapse:collapse, alternating #F8FAFC / #fff rows`;
+}
+
 function buildReportPromptPart1(d, preview) {
   const type      = d.type || 'relocation';
   const from      = toTitleCase(canonicalizeCity(d.from || '')) || 'current city';
@@ -768,6 +795,80 @@ HTML FORMAT:
 Write Sections 0–5 now. Stop after Section 5. Do not write Section 6 or beyond.
 After completing Section 5, output exactly this line and nothing after it:
 <!-- PART_1_COMPLETE -->`;
+}
+
+function buildReportPromptPart1A(d, preview) {
+  const from      = toTitleCase(canonicalizeCity(d.from) || 'current city');
+  const to        = toTitleCase(canonicalizeCity(d.to)   || 'destination');
+  const type      = d.type      || 'relocation';
+  const who       = d.who       || 'individual';
+  const income    = d.income    || 'not specified';
+  const lifestyle = d.lifestyle || 'not specified';
+  const notes     = d.notes     || 'none';
+  const destNotes = getDestinationNotes(d);
+  const previewCtx = preview
+    ? '\nPreview report shown to user — headline: "' + preview.headline + '" / summary: "' + preview.summary + '"'
+    : '';
+
+  return `You are writing Part 1A of a professional AI relocation planning report (HTML format).
+${SYSTEM_RULES}
+
+Move profile:
+- Type: ${type}
+- From: ${from}
+- To: ${to}
+- Household: ${who}
+- Monthly income: ${income}
+- Lifestyle: ${lifestyle}
+- Notes: ${notes}
+${destNotes}${previewCtx}
+
+Write ONLY the following sections:
+- Section 0: Disclaimer block
+- Section 1: Executive Summary
+- Section 2: Monthly Cost Breakdown
+- Section 3: Housing Market Guide
+
+Do NOT write Section 4, Section 5, or any later sections.
+
+${getHtmlFormatRules()}
+
+Write Sections 0–3 now. Stop after Section 3. Do not write Section 4 or beyond.
+After completing Section 3, output exactly this line and nothing after it:
+<!-- PART_1A_COMPLETE -->`;
+}
+
+function buildReportPromptPart1B(d) {
+  const from      = toTitleCase(canonicalizeCity(d.from) || 'current city');
+  const to        = toTitleCase(canonicalizeCity(d.to)   || 'destination');
+  const who       = d.who       || 'individual';
+  const income    = d.income    || 'not specified';
+  const lifestyle = d.lifestyle || 'not specified';
+  const notes     = d.notes     || 'none';
+  const destNotes = getDestinationNotes(d);
+
+  return `You are writing Part 1B of a professional AI relocation planning report (HTML format).
+${SYSTEM_RULES}
+
+Move profile:
+- From: ${from}
+- To: ${to}
+- Household: ${who}
+- Monthly income: ${income}
+- Lifestyle: ${lifestyle}
+- Notes: ${notes}
+${destNotes}
+
+Sections 0–3 (Disclaimer, Executive Summary, Monthly Cost Breakdown, Housing Market Guide) have already been written in a previous generation step.
+Do NOT repeat, summarise, or reference Sections 0–3 in any way.
+Generate ONLY Section 4 (Visa & Immigration Notes) and Section 5 (Tax & Financial Planning Notes).
+Do NOT write Section 1, 2, 3, 6, 7, 8, 9, or 10.
+
+${getHtmlFormatRules()}
+
+Write Section 4 and Section 5 now. Do not write any other section.
+After completing Section 5, output exactly this line and nothing after it:
+<!-- PART_1B_COMPLETE -->`;
 }
 
 function buildReportPromptPart2(d, part1Content) {
