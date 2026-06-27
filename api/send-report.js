@@ -484,7 +484,7 @@ module.exports = async function handler(req, res) {
       console.warn('Validation notes (single pass, no retry):', validationIssues.join('; '));
     }
 
-    const reportContent = raw;
+    const reportContent = sanitizeReportHtml(raw);
     const rawName = (name || '').trim();
     const firstName = rawName ? rawName.split(' ')[0] : 'MovingCOST.ai Customer';
 
@@ -597,6 +597,57 @@ function toTitleCase(str) {
   });
 }
 
+function formatLocationDisplay(str) {
+  if (!str) return '';
+  const s = canonicalizeCity(str).trim();
+  const m = s.match(/^(.+?),\s*([A-Za-z]{2})$/);
+  if (m) return toTitleCase(m[1].trim()) + ', ' + m[2].toUpperCase();
+  return toTitleCase(s);
+}
+
+function sanitizeReportHtml(content) {
+  if (!content) return '';
+
+  let html = content
+    .replace(/```html\s*/gi, '')
+    .replace(/```\s*/g, '')
+    .replace(/<!--\s*PART_\d+[AB]?_COMPLETE\s*-->/gi, '')
+    .replace(/<!DOCTYPE[^>]*>/gi, '')
+    .replace(/<\/?html[^>]*>/gi, '')
+    .replace(/<\/?body[^>]*>/gi, '')
+    .replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, '')
+    .trim();
+
+  html = html.replace(/<([a-zA-Z][a-zA-Z0-9]*)\b[^>]*$/s, '');
+
+  const selfClosing = new Set(['br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr']);
+  const stack = [];
+  const tagRe = /<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*\/?>/g;
+  let match;
+  while ((match = tagRe.exec(html)) !== null) {
+    const full = match[0];
+    const name = match[1].toLowerCase();
+    if (selfClosing.has(name) || full.endsWith('/>')) continue;
+    if (full.startsWith('</')) {
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (stack[i] === name) {
+          stack.splice(i, 1);
+          break;
+        }
+      }
+    } else {
+      stack.push(name);
+    }
+  }
+
+  let closers = '';
+  for (let i = stack.length - 1; i >= 0; i--) {
+    closers += '</' + stack[i] + '>';
+  }
+
+  return html + closers;
+}
+
 // ── 城市→渐变色映射 ───────────────────────────────────────────────────────
 function getCityColors(cityName) {
   const city = (cityName || '').toLowerCase().trim();
@@ -696,8 +747,8 @@ function getReportDate() {
 }
 
 function getSubjectLine(d) {
-  const from = toTitleCase(canonicalizeCity(d.from));
-  const to   = toTitleCase(canonicalizeCity(d.to));
+  const from = formatLocationDisplay(d.from);
+  const to   = formatLocationDisplay(d.to);
   if (d.type === 'relocation') return from + ' → ' + to + ' Relocation Report';
   if (d.type === 'nomad') return 'Your Digital Nomad Life Plan';
   return 'Your City Comparison Report';
@@ -705,6 +756,9 @@ function getSubjectLine(d) {
 
 function getHtmlFormatRules() {
   return `HTML FORMAT:
+- Output section body HTML only — raw inline-styled fragments, not a full document
+- Do NOT wrap output in markdown code fences (no \`\`\`html, no \`\`\`, no backtick blocks)
+- Do NOT output <!DOCTYPE>, <html>, <head>, or <body> tags
 - Section h2: <h2 style="font-family:Arial,sans-serif;font-size:20px;font-weight:700;color:#0F172A;margin:32px 0 12px;padding-top:24px;border-top:2px solid #E2E8F0;">Title</h2>
 - Sub-headers: <h3 style="font-family:Arial,sans-serif;font-size:16px;font-weight:600;color:#0284C7;margin:20px 0 8px;">Sub-header</h3>
 - Body text: <p style="font-size:14px;color:#334155;line-height:1.8;margin:0 0 12px;">text</p>
@@ -715,8 +769,8 @@ function getHtmlFormatRules() {
 
 function buildReportPromptPart1(d, preview) {
   const type      = d.type || 'relocation';
-  const from      = toTitleCase(canonicalizeCity(d.from || '')) || 'current city';
-  const to        = toTitleCase(canonicalizeCity(d.to   || '')) || 'destination';
+  const from      = formatLocationDisplay(d.from || '') || 'current city';
+  const to        = formatLocationDisplay(d.to   || '') || 'destination';
   const who       = d.who  || 'individual';
   const income    = d.income    || 'not specified';
   const lifestyle = d.lifestyle || 'not specified';
@@ -798,8 +852,8 @@ After completing Section 5, output exactly this line and nothing after it:
 }
 
 function buildReportPromptPart1A(d, preview) {
-  const from      = toTitleCase(canonicalizeCity(d.from) || 'current city');
-  const to        = toTitleCase(canonicalizeCity(d.to)   || 'destination');
+  const from      = formatLocationDisplay(d.from) || 'current city';
+  const to        = formatLocationDisplay(d.to)   || 'destination';
   const type      = d.type      || 'relocation';
   const who       = d.who       || 'individual';
   const income    = d.income    || 'not specified';
@@ -839,8 +893,8 @@ After completing Section 3, output exactly this line and nothing after it:
 }
 
 function buildReportPromptPart1B(d) {
-  const from      = toTitleCase(canonicalizeCity(d.from) || 'current city');
-  const to        = toTitleCase(canonicalizeCity(d.to)   || 'destination');
+  const from      = formatLocationDisplay(d.from) || 'current city';
+  const to        = formatLocationDisplay(d.to)   || 'destination';
   const who       = d.who       || 'individual';
   const income    = d.income    || 'not specified';
   const lifestyle = d.lifestyle || 'not specified';
@@ -872,8 +926,8 @@ After completing Section 5, output exactly this line and nothing after it:
 }
 
 function buildReportPromptPart2(d, part1Content) {
-  const from = d.from || 'current city';
-  const to   = d.to   || 'destination';
+  const from = formatLocationDisplay(d.from) || 'current city';
+  const to   = formatLocationDisplay(d.to)   || 'destination';
 
   return `You are continuing a relocation planning report. Part 1 (Sections 0–5) has already been written. Now write PART 2: Sections 6–10 only.
 
@@ -936,8 +990,8 @@ After completing Section 10, output exactly this line and nothing after it:
 // ─────────────────────────────────────────────────────────────────────────────
 function buildEmailHTML(firstName, userData, reportContent, resendToken) {
   resendToken = resendToken || '';
-  const fromCity   = toTitleCase(canonicalizeCity(userData.from) || 'Your City');
-  const toCity     = toTitleCase(canonicalizeCity(userData.to)   || 'Destination');
+  const fromCity   = formatLocationDisplay(userData.from) || 'Your City';
+  const toCity     = formatLocationDisplay(userData.to)   || 'Destination';
   const reportType = userData.type || 'relocation';
   const reportDate = getReportDate();
 
