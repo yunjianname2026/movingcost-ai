@@ -13,14 +13,14 @@ html,body{min-height:100vh;background:#F0F6FF;color:#0F172A;
 a{color:#0EA5E9;text-decoration:none}
 a:hover{text-decoration:underline}
 
-/* ── Site nav ── */
-.site-nav{height:58px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);border-bottom:1px solid #DDE6F0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 max(16px,4vw);position:sticky;top:0;z-index:100}
-.site-nav a.nav-logo{display:flex;align-items:center;text-decoration:none}
-.site-nav a.nav-logo img{height:48px;width:auto;display:block}
-.site-nav a.nav-back{font-size:13px;font-weight:500;color:#64748B;text-decoration:none}
+/* ── Site nav (aligned with planner / main site) ── */
+.site-nav{position:sticky;top:0;z-index:200;background:rgba(240,246,255,0.90);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,232,245,0.8);width:100%}
+.site-nav .nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:62px;gap:24px}
+.site-nav a.nav-logo{display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0;line-height:1}
+.site-nav a.nav-logo img{height:66px;width:auto;display:block}
+.site-nav a.nav-back{font-size:13px;font-weight:500;color:#3D5A80;text-decoration:none;white-space:nowrap;flex-shrink:0}
 .site-nav a.nav-back:hover{color:#0EA5E9;text-decoration:none}
 
 /* ── Intro (compact, single column) ── */
@@ -64,8 +64,10 @@ a:hover{text-decoration:underline}
   .sample-cta-grid{grid-template-columns:1fr}
   .sample-cta-card{padding:22px 20px}
 }
+@media(max-width:768px){
+  .site-nav a.nav-logo img{height:72px}
+}
 @media(max-width:600px){
-  .site-nav a.nav-logo img{height:40px}
   .report-body-cell{padding:24px 18px !important}
   .cover-pad{padding:16px 16px 14px !important}
   .greeting-pad{padding:16px 18px !important}
@@ -75,10 +77,12 @@ a:hover{text-decoration:underline}
 <body>
 
 <nav class="site-nav">
-  <a href="/" class="nav-logo">
-    <img src="/assets/logo/logo-light-transparent.png" alt="MovingCOST.ai">
-  </a>
-  <a href="/planner" class="nav-back">← Back to Planner</a>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" loading="eager">
+    </a>
+    <a href="/planner" class="nav-back">← Back to Planner</a>
+  </div>
 </nav>
 
 <div class="page-intro">
