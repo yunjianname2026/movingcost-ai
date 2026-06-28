@@ -2,296 +2,565 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sample Full Report — MovingCOST.ai</title>
-<meta name="description" content="Preview a sample MovingCOST.ai relocation report. See what's included in your full AI-powered report before you start.">
-<link rel="canonical" href="https://www.movingcost.ai/sample-report">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#0EA5E9;--blue-d:#0284C7;--blue-l:#E0F2FE;--blue-m:#BAE6FD;
-  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#B8CCE0;
-  --bg:#F0F6FF;--white:#FFFFFF;--border:#DDE8F5;
-  --r:12px;--r-xl:20px;
-  --shadow:0 2px 16px rgba(14,165,233,0.08);
-  --tr:0.22s cubic-bezier(0.4,0,0.2,1);
+  --text:#0A1628;--mid:#3D5A80;--muted:#7B92B2;--faint:#C8D9EE;
+  --bg:#F0F6FF;--bg2:#F8FBFF;--white:#FFFFFF;--border:#DDE8F5;
+  --shadow:0 4px 20px rgba(14,165,233,0.08),0 1px 6px rgba(10,22,40,0.05);
+  --shadow-md:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);
+  --shadow-lg:0 16px 48px rgba(14,165,233,0.12),0 4px 12px rgba(10,22,40,0.07);
+  --r:12px;--r-xl:20px;--r-xxl:24px;--tr:0.2s ease;
 }
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100dvh}
-a{text-decoration:none;color:inherit}
+html,body{min-height:100vh;background:#FAFCFF;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+img,svg,video{max-width:100%;height:auto}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);width:100%}
-.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px}
-.site-logo-img{height:52px;width:auto;display:block}
-.nav-back{font-size:13px;font-weight:500;color:var(--mid);transition:color var(--tr)}
+/* Serif heading stack — aligned with index snap-title / cover-route */
+.serif-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-weight:500;letter-spacing:-0.35px}
+
+/* ── NAV ── */
+nav{height:62px;background:rgba(255,255,255,0.90);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 max(20px,4vw);position:sticky;top:0;z-index:100;width:100%;max-width:100%}
+.nav-logo{display:flex;align-items:center;text-decoration:none}
+.nav-logo img{height:52px;width:auto;display:block;max-width:100%}
+.nav-back{font-size:13px;font-weight:500;color:var(--mid);text-decoration:none;
+  display:flex;align-items:center;gap:5px;transition:color var(--tr)}
 .nav-back:hover{color:var(--blue)}
 
-/* PAGE */
-.page{flex:1;max-width:1140px;margin:0 auto;padding:40px 24px 60px;width:100%}
+/* ── HERO ── */
+.hero{padding:52px max(20px,4vw) 56px;max-width:1160px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:48% 44%;gap:8%;align-items:start;
+  position:relative;box-sizing:border-box}
+.hero::before{content:'';position:absolute;top:0;right:4%;width:42%;height:72%;
+  background:radial-gradient(ellipse,rgba(14,165,233,0.05) 0%,transparent 72%);
+  pointer-events:none}
 
-/* HERO */
-.hero{text-align:center;margin-bottom:40px}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:99px;background:var(--blue-l);color:var(--blue-d);margin-bottom:18px}
-.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:-0.6px;line-height:1.15;color:var(--text);margin-bottom:12px}
-.hero-sub{font-size:15px;color:var(--mid);font-weight:300;max-width:480px;margin:0 auto 24px;line-height:1.7}
-.route-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);padding:20px 24px;max-width:520px;margin:0 auto 16px;box-shadow:var(--shadow);text-align:left}
-.route-label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-d);margin-bottom:8px}
-.route-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.3px;color:var(--text);margin-bottom:4px}
-.route-sub{font-size:13px;color:var(--muted);line-height:1.5}
-.sample-notice{font-size:12px;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.65}
+.hero-left{display:flex;flex-direction:column;justify-content:flex-start;padding-top:4px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue-l);color:var(--blue-d);
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 14px;border-radius:99px;border:1px solid var(--blue-m);
+  margin-bottom:18px;width:fit-content}
+.hero-badge::before{content:'✦';font-size:9px}
 
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
-.content-col{min-width:0}
+.hero-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:clamp(34px,3.6vw,48px);font-weight:500;
+  letter-spacing:-0.6px;line-height:1.12;color:var(--text);margin-bottom:14px}
+.hero-title em{font-style:normal;color:var(--blue)}
+.hero-sub{font-size:15px;color:var(--mid);line-height:1.62;font-weight:300;
+  max-width:100%;margin-bottom:20px}
 
-/* SECTION CARDS */
-.section-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px 26px;margin-bottom:20px;box-shadow:var(--shadow)}
-.section-card.accent{border-left:3px solid var(--blue)}
-.section-card h2{font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:14px;letter-spacing:-0.2px}
-.section-card p{font-size:14px;color:var(--mid);line-height:1.72;margin-bottom:12px}
-.section-card p:last-child{margin-bottom:0}
-.section-card ul{margin:10px 0 0 18px;padding:0}
-.section-card li{font-size:14px;color:var(--mid);line-height:1.65;margin-bottom:8px}
+.route-card{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:14px 18px;
+  box-shadow:var(--shadow);margin-bottom:12px;max-width:100%}
+.route-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.route-cities{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:18px;font-weight:500;
+  color:var(--text);letter-spacing:-0.25px;margin-bottom:3px;line-height:1.25}
+.route-cities span{color:var(--blue);font-family:'DM Sans',sans-serif;font-weight:400}
+.route-sub{font-size:12px;color:var(--muted)}
+.hero-notice{font-size:12px;color:var(--muted);line-height:1.6;
+  padding:9px 12px;background:rgba(14,165,233,0.04);
+  border-radius:8px;max-width:100%}
 
-/* TABLE */
-.cost-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
-.cost-table th,.cost-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
-.cost-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);background:#F8FBFF}
-.cost-table tr:nth-child(even) td{background:#F8FBFF}
-.cost-table tr.total-row td{background:var(--blue-l);font-weight:600;color:var(--text);border-bottom:none}
-.savings-note{margin-top:14px;padding:10px 14px;background:var(--blue-l);border-radius:var(--r);font-size:13px;font-weight:600;color:var(--blue-d);text-align:center}
+/* hero right — preview stack aligned with left column */
+.hero-right{display:flex;flex-direction:column;gap:8px;justify-content:flex-start;width:100%;max-width:100%}
 
-/* LOCK OVERLAY (Section 3) */
-.lock-wrap{position:relative;margin-top:4px}
-.lock-content{max-height:200px;overflow:hidden}
-.lock-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:40px 20px 24px;background:linear-gradient(transparent 40%,var(--bg) 85%);text-align:center}
-.lock-icon{font-size:22px;margin-bottom:8px}
-.lock-overlay p{font-size:13px;color:var(--mid);max-width:320px;line-height:1.55;margin-bottom:12px}
-.unlock-inline-btn{display:inline-flex;align-items:center;gap:4px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--blue-d);padding:8px 18px;background:var(--white);border:1.5px solid var(--blue-m);border-radius:99px;transition:all var(--tr)}
-.unlock-inline-btn:hover{background:var(--blue-l);border-color:var(--blue)}
+.glass-brand{background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);
+  border-radius:16px;padding:12px 20px 11px;box-shadow:var(--shadow-md)}
+.glass-brand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.glass-logo{font-family:Georgia,'Times New Roman',serif;font-size:17px;
+  color:rgba(255,255,255,0.90);letter-spacing:-0.2px;font-weight:400}
+.glass-logo em{font-style:normal;color:#7DD3FC}
+.glass-badge-pill{font-size:8px;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:#7DD3FC;
+  border:1px solid rgba(125,211,252,0.25);padding:3px 9px;border-radius:99px}
+.glass-divider{height:1px;background:rgba(255,255,255,0.10);margin-bottom:7px}
+.glass-tagline{text-align:center;font-size:12px;color:rgba(255,255,255,0.75);letter-spacing:0.02em}
 
-/* LOCKED LIST */
-.locked-list{background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);padding:8px;margin-bottom:20px;box-shadow:var(--shadow)}
-.locked-section-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:var(--r);border:1.5px solid transparent;transition:border-color var(--tr)}
-.locked-section-item:hover{border-color:var(--blue-m)}
-.lock-badge{font-size:16px;flex-shrink:0;margin-top:1px;opacity:0.7}
-.locked-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
-.locked-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.cover-card{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.96);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 1px 0 rgba(255,255,255,0.94) inset,var(--shadow-lg)}
+.cover-top{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
+.cover-eyebrow{font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+.cover-route{font-family:Georgia,'Times New Roman',serif;font-size:20px;
+  font-weight:normal;color:var(--text);letter-spacing:-0.2px;margin-bottom:2px}
+.cover-route span{color:var(--blue)}
+.cover-type{font-size:9px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:0.08em;margin-bottom:12px}
+.cover-sep{height:1px;background:#F0F5FA;margin-bottom:10px}
+.cover-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.cover-meta-col{padding:0 10px 0 0;border-right:1px solid #E8EFF7;font-size:11px}
+.cover-meta-col:last-child{border-right:none;padding:0 0 0 10px}
+.cover-meta-col:nth-child(2){padding:0 10px;border-right:1px solid #E8EFF7}
+.cover-meta-label{font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px}
+.cover-meta-val{font-weight:500;color:var(--mid);font-size:11px}
 
-/* CTA CARD */
-.cta-card{background:linear-gradient(135deg,rgba(239,246,255,0.95),rgba(224,242,254,0.95));border:1.5px solid var(--blue-m);border-radius:var(--r-xl);padding:24px 22px;text-align:center;box-shadow:var(--shadow)}
-.cta-sidebar{position:sticky;top:80px}
-.cta-price{display:inline-block;background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;padding:5px 18px;border-radius:99px;margin-bottom:12px}
-.cta-title{font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;margin-bottom:6px;letter-spacing:-0.2px}
-.cta-desc{font-size:12px;color:var(--mid);line-height:1.6;margin-bottom:14px}
-.cta-features{list-style:none;margin:0 0 16px;padding:0;text-align:left}
-.cta-features li{font-size:12px;color:var(--blue-d);font-weight:600;padding:4px 0}
-.cta-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:46px;background:var(--blue);color:#fff;border:none;border-radius:99px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(14,165,233,0.35);transition:all var(--tr);margin-bottom:10px}
-.cta-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
-.cta-back{display:inline-block;font-size:12px;color:var(--muted);transition:color var(--tr)}
+.cover-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+.cover-stat{text-align:center;padding:10px 0;border-right:1px solid var(--border)}
+.cover-stat:last-child{border-right:none}
+.cover-stat-val{font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;color:var(--blue)}
+.cover-stat-lbl{font-size:8px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:2px}
+
+.cover-preview{padding:12px 20px 0;border-top:1px solid var(--border)}
+.preview-label{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.preview-label::before{content:'';display:inline-block;width:3px;height:10px;
+  background:var(--blue);border-radius:2px;flex-shrink:0}
+.preview-row{display:flex;justify-content:space-between;align-items:center;
+  padding:5px 0;border-bottom:1px solid rgba(221,232,245,0.5);font-size:11px}
+.preview-row:last-child{border-bottom:none}
+.pr-label{color:var(--mid)}
+.pr-nyc{color:var(--muted);font-size:10px}
+.pr-lisbon{color:var(--blue-d);font-weight:600}
+
+.saving-strip{margin:0 20px 14px;padding:9px 14px;
+  background:linear-gradient(135deg,#EFF9FF,#E0F2FE);
+  border-radius:10px;border:1px solid var(--blue-m);
+  display:flex;justify-content:space-between;align-items:center}
+.saving-lbl{font-size:10px;color:var(--blue-d);font-weight:600}
+.saving-num{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--blue)}
+
+.locked-pills{padding:10px 20px 14px;display:flex;flex-direction:column;gap:4px;
+  border-top:1px solid var(--border)}
+.locked-pill{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
+
+/* ── VALUE STRIP ── */
+.value-strip{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px 40px}
+.value-inner{max-width:1160px;margin:0 auto}
+.section-eyebrow{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);
+  text-align:center;margin-bottom:10px}
+.section-heading{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:clamp(22px,2.5vw,30px);
+  font-weight:500;letter-spacing:-0.4px;color:var(--text);
+  text-align:center;margin-bottom:28px;line-height:1.2}
+.value-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.value-card{padding:22px;border:1px solid var(--border);border-radius:var(--r-xl);
+  background:var(--bg2);transition:border-color var(--tr),box-shadow var(--tr);max-width:100%}
+.value-card:hover{border-color:var(--blue-m);box-shadow:var(--shadow)}
+.value-icon{font-size:26px;margin-bottom:10px}
+.value-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:16px;font-weight:500;
+  color:var(--text);margin-bottom:6px;letter-spacing:-0.2px}
+.value-desc{font-size:13px;color:var(--mid);line-height:1.65;font-weight:300}
+
+/* ── BODY — single max-width column with sticky sidebar ── */
+.body-wrap{max-width:1160px;margin:0 auto;padding:56px 40px;width:100%;
+  display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;box-sizing:border-box}
+.report-area{min-width:0;max-width:100%}
+
+/* ── SECTION CARDS ── */
+.section-card{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-xxl);overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px;max-width:100%}
+.section-hd{padding:18px 26px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px}
+.section-num{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);
+  background:var(--bg);border:1px solid var(--border);border-radius:6px;
+  padding:3px 9px;flex-shrink:0}
+.section-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-size:17px;font-weight:500;color:var(--text);letter-spacing:-0.2px;line-height:1.25}
+.section-bd{padding:18px 26px 22px}
+
+.exec-p{font-size:14px;color:var(--mid);line-height:1.8;margin-bottom:14px;font-weight:300}
+.exec-bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exec-bullets li{display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--mid);line-height:1.65;font-weight:300}
+.exec-bullets li::before{content:'';display:block;width:3px;height:14px;
+  background:var(--blue);border-radius:2px;flex-shrink:0;margin-top:3px}
+.exec-bullets li strong{color:var(--text);font-weight:600}
+
+/* table */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin:0}
+.cost-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.cost-table th{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);
+  padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);background:var(--bg2)}
+.cost-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--mid);font-weight:300}
+.cost-table tr:nth-child(even) td{background:var(--bg2)}
+.cost-table tr:last-child td{border-bottom:none}
+.td-label{color:var(--text);font-weight:500}
+.td-nyc{color:var(--muted);font-size:12px}
+.td-lisbon{color:var(--blue-d);font-weight:600}
+.tr-total td{background:var(--blue-l)!important;font-family:'Outfit',sans-serif;
+  font-weight:700;color:var(--text);border-top:2px solid var(--blue-m)}
+.saving-bar{margin-top:14px;padding:11px 16px;
+  background:linear-gradient(135deg,#EFF9FF,#E0F2FE);
+  border-radius:10px;border:1px solid var(--blue-m);
+  display:flex;align-items:center;justify-content:space-between}
+.saving-bar-lbl{font-size:12px;color:var(--blue-d);font-weight:600}
+.saving-bar-val{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--blue)}
+
+/* housing */
+.housing-p{font-size:14px;color:var(--mid);line-height:1.8;margin-bottom:14px;font-weight:300}
+.hood{padding:13px 16px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);margin-bottom:8px}
+.hood-name{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:14px;font-weight:500;
+  color:var(--text);margin-bottom:2px}
+.hood-desc{font-size:12px;color:var(--mid);line-height:1.6;font-weight:300}
+.hood-price{font-size:12px;color:var(--blue-d);font-weight:600;margin-top:3px}
+.lock-panel{background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:18px 20px;text-align:center;margin-top:4px}
+.lock-icon{font-size:20px;margin-bottom:6px}
+.lock-desc{font-size:12px;color:var(--mid);line-height:1.6;margin-bottom:12px;font-weight:300}
+.lock-btn{display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:700;padding:9px 20px;border-radius:99px;
+  text-decoration:none;transition:background var(--tr),transform var(--tr);
+  box-shadow:0 4px 14px rgba(14,165,233,0.28)}
+.lock-btn:hover{background:var(--blue-d);transform:translateY(-1px)}
+
+/* locked list */
+.locked-list{background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-xxl);overflow:hidden;box-shadow:var(--shadow)}
+.locked-list-hd{padding:16px 26px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.locked-list-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:15px;font-weight:500;
+  color:var(--text);letter-spacing:-0.15px}
+.locked-list-sub{font-size:12px;color:var(--muted);margin-top:2px;font-weight:300}
+.locked-item{display:flex;align-items:flex-start;gap:14px;padding:14px 26px;
+  border-bottom:1px solid var(--border);transition:background var(--tr)}
+.locked-item:last-child{border-bottom:none}
+.locked-item:hover{background:var(--bg2)}
+.li-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.li-title{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:13px;font-weight:500;
+  color:var(--text);margin-bottom:2px;line-height:1.35}
+.li-lock{font-size:10px;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;margin-left:4px}
+.li-desc{font-size:12px;color:var(--muted);line-height:1.55;font-weight:300}
+
+/* ── CTA SIDEBAR — unified product card ── */
+.cta-col{position:sticky;top:80px;align-self:flex-start;max-width:100%}
+
+.cta-unified{background:var(--white);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;box-shadow:var(--shadow-md);max-width:100%}
+.cta-unified-top{background:linear-gradient(135deg,rgba(8,38,72,0.96) 0%,rgba(10,58,96,0.92) 55%,rgba(12,90,135,0.88) 100%);
+  padding:14px 18px 12px;text-align:center}
+.cta-price-row{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-bottom:6px}
+.cta-price-num{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:500;
+  color:#fff;letter-spacing:-0.3px;line-height:1}
+.cta-price-label{font-size:11px;color:rgba(255,255,255,0.55);font-weight:400}
+.cta-headline{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-size:16px;font-weight:500;
+  color:#fff;letter-spacing:-0.2px;margin-bottom:4px;line-height:1.25}
+.cta-sub{font-size:11px;color:rgba(255,255,255,0.58);line-height:1.5;font-weight:300;max-width:260px;margin:0 auto}
+
+.cta-unified-body{padding:16px 18px 14px}
+.cta-features{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-bottom:14px}
+.cta-features li{display:flex;align-items:flex-start;gap:6px;
+  font-size:11px;color:var(--mid);font-weight:400;line-height:1.45}
+.cta-features li::before{content:'✓';color:var(--blue);font-weight:700;font-size:10px;flex-shrink:0;margin-top:1px}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:44px;
+  background:var(--blue);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  border:none;border-radius:99px;cursor:pointer;text-decoration:none;
+  transition:all var(--tr);box-shadow:0 2px 12px rgba(14,165,233,0.28);margin-bottom:8px}
+.cta-btn:hover{background:var(--blue-d);transform:translateY(-1px);box-shadow:0 4px 16px rgba(14,165,233,0.34)}
+.cta-back{display:block;text-align:center;font-size:11px;color:var(--muted);
+  text-decoration:none;transition:color var(--tr);margin-bottom:10px}
 .cta-back:hover{color:var(--blue)}
+.cta-sep{height:1px;background:var(--border);margin-bottom:10px}
+.cta-guarantee{font-size:10px;color:var(--muted);text-align:center;line-height:1.55;font-weight:300}
+.cta-guarantee strong{color:var(--mid);font-weight:600}
 
-/* MOBILE / DESKTOP CTA */
-.cta-mobile{display:none;margin-bottom:20px}
-.cta-sidebar-wrap{display:block}
+/* mobile CTA */
+.cta-mobile{display:none;margin-bottom:20px;max-width:100%}
 
-/* DISCLAIMER */
-.disclaimer{text-align:center;font-size:12px;color:var(--muted);line-height:1.65;max-width:640px;margin:8px auto 0;padding:0 12px}
-
-/* FOOTER */
-.site-footer{text-align:center;padding:22px 24px 28px;font-size:12px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border);background:rgba(255,255,255,0.45);margin-top:auto;flex-shrink:0;width:100%}
+/* ── DISCLAIMER + FOOTER ── */
+.disclaimer{text-align:center;padding:0 40px 40px;font-size:12px;color:var(--muted);
+  max-width:600px;margin:0 auto;line-height:1.7;font-weight:300}
+.site-footer{text-align:center;padding:22px 24px 28px;font-size:12px;
+  color:var(--muted);line-height:1.75;border-top:1px solid var(--border);
+  background:rgba(255,255,255,0.45);margin-top:auto}
 .site-footer a{color:var(--muted);text-decoration:none;transition:color var(--tr)}
 .site-footer a:hover{color:var(--blue)}
 .site-footer-copy{display:block;font-size:11px;color:var(--faint);margin-top:6px;line-height:1.6}
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .layout{grid-template-columns:1fr}
-  .cta-sidebar-wrap{display:none}
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;gap:24px;padding:40px max(20px,4vw) 36px}
+  .hero-left{padding-top:0}
+  .hero-sub,.hero-notice{max-width:100%}
+  .hero-title{font-size:clamp(28px,6.5vw,38px)}
+  .value-strip{padding:32px max(20px,4vw)}
+  .value-cards{grid-template-columns:1fr;gap:12px}
+  .body-wrap{grid-template-columns:1fr;padding:32px max(20px,4vw);gap:20px}
+  .cta-col{display:none}
   .cta-mobile{display:block}
-  .page{padding:28px 20px 48px}
-  .section-card{padding:20px 18px}
+  .cta-features{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  nav{padding:0 16px}
+  .hero{padding:28px 16px 24px;gap:20px}
+  .hero-title{font-size:clamp(26px,7vw,32px);letter-spacing:-0.4px}
+  .hero-sub{font-size:14px;margin-bottom:16px}
+  .route-card{padding:12px 14px}
+  .route-cities{font-size:16px}
+  .value-strip{padding:24px 16px}
+  .body-wrap{padding:24px 16px}
+  .section-hd{padding:14px 16px 12px}
+  .section-bd{padding:14px 16px 16px}
+  .locked-item{padding:12px 16px}
+  .locked-list-hd{padding:14px 16px}
+  .disclaimer{padding:0 16px 24px}
+  .glass-brand{padding:10px 14px 9px}
+  .cover-top{padding:14px 16px 12px}
+  .cover-preview{padding:10px 16px 0}
+  .saving-strip{margin:0 16px 12px;padding:8px 12px}
+  .locked-pills{padding:8px 16px 12px}
+  .preview-row{font-size:10px;gap:4px}
+  .pr-nyc,.pr-lisbon{font-size:9px}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-inner">
-    <a href="/"><img src="/assets/logo/logo-light-transparent.png" class="site-logo-img" alt="MovingCOST.ai" loading="eager"></a>
-    <a href="/planner" class="nav-back">← Back to Planner</a>
-  </div>
+  <a href="/" class="nav-logo">
+    <img src="/assets/logo-light-transparent.png" alt="MovingCOST.ai"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span style="display:none">Moving<span>.ai</span></span>
+  </a>
+  <a href="/planner" class="nav-back">← Back to Planner</a>
 </nav>
 
-<main class="page">
-
-  <header class="hero">
-    <span class="hero-badge">✦ SAMPLE REPORT PREVIEW</span>
-    <h1>See exactly what's in<br>your full report.</h1>
-    <p class="hero-sub">Real content. Real depth. Built for someone making a real move.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Sample Report Preview</div>
+    <h1 class="hero-title">See the full report<br>before you <em>unlock yours.</em></h1>
+    <p class="hero-sub">A real sample of the structured relocation report generated for your move — cost breakdowns, housing guidance, visa notes, tax reminders, hidden risks, and a 90-day action plan.</p>
     <div class="route-card">
-      <div class="route-label">📍 SAMPLE ROUTE</div>
-      <div class="route-title">New York, NY → Lisbon, Portugal</div>
+      <div class="route-label">📍 Sample Route</div>
+      <div class="route-cities">New York, NY <span>→</span> Lisbon, Portugal</div>
       <div class="route-sub">Single professional · Moderate urban lifestyle · ~$8,000/mo income</div>
     </div>
-    <p class="sample-notice">This is a sample report for demonstration purposes only. Your report will be generated from your own cities, budget, lifestyle, and timeline.</p>
-  </header>
+    <p class="hero-notice">This is a sample for demonstration only. Your report is generated from your own cities, budget, lifestyle, and timeline.</p>
+  </div>
 
-  <div class="layout">
-
-    <div class="content-col">
-
-      <!-- Section 1 -->
-      <article class="section-card accent">
-        <h2>Section 1 — Executive Summary</h2>
-        <p>Relocating from New York, NY to Lisbon, Portugal represents one of the most compelling cost-of-living transitions available to Americans in 2026. Monthly living costs in Lisbon for a single professional typically range from €2,200–€3,400/month (~$2,400–$3,750 USD), compared to $5,500–$8,000+/month for a comparable lifestyle in New York — an estimated potential saving of $1,800–$4,500/month.</p>
-        <p>Three factors will determine your success:</p>
-        <ul>
-          <li><strong>Visa pathway</strong> — apply at the Portuguese Consulate in New York at least 3–6 months before your intended move date.</li>
-          <li><strong>Housing selection</strong> — Lisbon's rental market has tightened; budget 1–3 months in temporary accommodation before signing a long-term lease.</li>
-          <li><strong>Cross-border tax planning</strong> — US citizens are taxed on worldwide income regardless of residence. Engage a cross-border CPA before you move.</li>
-        </ul>
-      </article>
-
-      <!-- Section 2 -->
-      <article class="section-card">
-        <h2>Section 2 — Monthly Cost Breakdown</h2>
-        <table class="cost-table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>New York, NY (USD)</th>
-              <th>Lisbon, Portugal (EUR)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Housing (1BR, mid)</td><td>$2,800–$4,500</td><td>€1,100–€1,800</td></tr>
-            <tr><td>Groceries</td><td>$500–$800</td><td>€250–€400</td></tr>
-            <tr><td>Dining out</td><td>$500–$1,000</td><td>€200–€400</td></tr>
-            <tr><td>Healthcare (private)</td><td>$300–$700</td><td>€60–€150</td></tr>
-            <tr><td>Transport</td><td>$130–$200</td><td>€40–€100</td></tr>
-            <tr><td>Utilities + Internet</td><td>$150–$250</td><td>€80–€160</td></tr>
-            <tr><td>Gym &amp; leisure</td><td>$100–$250</td><td>€50–€120</td></tr>
-            <tr class="total-row"><td>Est. Total / month</td><td>$5,200–$8,000+</td><td>€2,060–€3,780</td></tr>
-          </tbody>
-        </table>
-        <div class="savings-note">Estimated annual saving: $24,000–$66,000 USD</div>
-      </article>
-
-      <!-- Section 3 (locked) -->
-      <article class="section-card">
-        <h2>Section 3 — Housing Market Guide</h2>
-        <div class="lock-wrap">
-          <div class="lock-content">
-            <p>Lisbon's rental market has tightened considerably since 2022. Demand from remote workers and international professionals has pushed rents upward, particularly in central neighbourhoods. Budget 1–3 months in temporary accommodation before committing to a long-term lease.</p>
-            <p><strong>Top Neighbourhoods</strong></p>
-            <p><strong>Príncipe Real / Chiado</strong> — Central, walkable, cosmopolitan. 1BR typically €1,400–€2,200/month. Strong expat community; English widely spoken.</p>
-            <p><strong>Mouraria / Intendente</strong> — More affordable, authentic neighbourhood. 1BR typically €1,000–€1,600/month. Good transport links.</p>
-          </div>
-          <div class="lock-overlay">
-            <span class="lock-icon">🔒</span>
-            <p>Full housing guide — 5 neighbourhoods, rental tips, red flags &amp; platforms</p>
-            <a href="/planner" class="unlock-inline-btn">Unlock to read →</a>
-          </div>
+  <div class="hero-right">
+    <!-- 品牌横条：独立玻璃卡 -->
+    <div class="glass-brand">
+      <div class="glass-brand-row">
+        <div class="glass-logo">Moving<em>COST</em><span style="font-family:Arial,sans-serif;font-size:10px;font-weight:300;color:rgba(255,255,255,0.38);margin-left:1px">.ai</span></div>
+        <div class="glass-badge-pill">Full Access</div>
+      </div>
+      <div class="glass-divider"></div>
+      <div class="glass-tagline">Move Smarter. Live Lighter.</div>
+    </div>
+    <!-- Cover 白色玻璃卡：独立 -->
+    <div class="cover-card">
+      <div class="cover-top">
+        <div class="cover-eyebrow">Your next chapter</div>
+        <div class="cover-route">New York, NY <span>→</span> Lisbon</div>
+        <div class="cover-type">Relocation Intelligence Report</div>
+        <div class="cover-sep"></div>
+        <div class="cover-meta">
+          <div class="cover-meta-col"><div class="cover-meta-label">Date</div><div class="cover-meta-val">June 2026</div></div>
+          <div class="cover-meta-col"><div class="cover-meta-label">Prepared for</div><div class="cover-meta-val">You</div></div>
+          <div class="cover-meta-col"><div class="cover-meta-label">Powered by</div><div class="cover-meta-val">MovingCOST.ai</div></div>
         </div>
-      </article>
+      </div>
+      <div class="cover-stats">
+        <div class="cover-stat"><div class="cover-stat-val">10</div><div class="cover-stat-lbl">Sections</div></div>
+        <div class="cover-stat"><div class="cover-stat-val">3,000+</div><div class="cover-stat-lbl">Words</div></div>
+        <div class="cover-stat"><div class="cover-stat-val">AI</div><div class="cover-stat-lbl">Powered</div></div>
+      </div>
+      <div class="cover-preview">
+        <div class="preview-label">Monthly Cost Comparison</div>
+        <div class="preview-row"><span class="pr-label">Housing (1BR)</span><span class="pr-nyc">$2,800–$4,500</span><span class="pr-lisbon">€1,100–€1,800</span></div>
+        <div class="preview-row"><span class="pr-label">Healthcare</span><span class="pr-nyc">$300–$700</span><span class="pr-lisbon">€60–€150</span></div>
+        <div class="preview-row"><span class="pr-label">Total / month</span><span class="pr-nyc">$5,200–$8,000+</span><span class="pr-lisbon">€2,060–€3,780</span></div>
+      </div>
+      <div class="saving-strip">
+        <span class="saving-lbl">Estimated annual saving</span>
+        <span class="saving-num">$24,000–$66,000</span>
+      </div>
+      <div class="locked-pills">
+        <div class="locked-pill">🔒 Section 4 — Visa &amp; Immigration Pathway</div>
+        <div class="locked-pill">🔒 Section 5 — Tax &amp; Financial Planning</div>
+        <div class="locked-pill">🔒 Section 6 — One-Time Moving Costs</div>
+        <div class="locked-pill">🔒 + 4 more sections</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Mobile CTA -->
-      <div class="cta-mobile">
-        <div class="cta-card">
-          <div class="cta-price">$9.90</div>
-          <div class="cta-title">Unlock Your Full Report</div>
-          <div class="cta-desc">Full AI-powered breakdown — housing details, visa steps, tax strategy, 90-day action checklist, and personalised savings tips.</div>
+<!-- VALUE STRIP -->
+<div class="value-strip">
+  <div class="value-inner">
+    <div class="section-eyebrow">What your report covers</div>
+    <div class="section-heading">Structure, depth, and real data —<br>not a template</div>
+    <div class="value-cards">
+      <div class="value-card">
+        <div class="value-icon">📊</div>
+        <div class="value-title">Cost clarity</div>
+        <div class="value-desc">Side-by-side monthly cost comparison, estimated annual savings, and one-time moving budget scenarios for your route.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚠️</div>
+        <div class="value-title">Risk awareness</div>
+        <div class="value-desc">Six hidden costs that catch people off guard, plus visa and tax flags specific to your destination country.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📅</div>
+        <div class="value-title">Action plan</div>
+        <div class="value-desc">Week-by-week 90-day plan from landing to settled — banking, housing, admin, healthcare, community.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+  <div class="report-area">
+
+    <!-- S1 -->
+    <div class="section-card">
+      <div class="section-hd">
+        <span class="section-num">Section 1</span>
+        <span class="section-title">Executive Summary</span>
+      </div>
+      <div class="section-bd">
+        <p class="exec-p">Relocating from New York, NY to Lisbon represents one of the most compelling cost-of-living transitions available to Americans in 2026. Monthly living costs for a single professional in Lisbon typically range from €2,200–€3,400/month (~$2,400–$3,750 USD), compared to $5,500–$8,000+/month for a comparable lifestyle in New York — an estimated potential saving of $1,800–$4,500/month.</p>
+        <ul class="exec-bullets">
+          <li><strong>Visa pathway</strong> — apply at the Portuguese Consulate in New York at least 3–6 months before your intended move date. The D7 Passive Income Visa is the most common route for remote professionals.</li>
+          <li><strong>Housing selection</strong> — Lisbon's rental market has tightened; budget 1–3 months in temporary accommodation before signing a long-term lease.</li>
+          <li><strong>Cross-border tax planning</strong> — US citizens are taxed on worldwide income regardless of residence. Engage a cross-border CPA before you move, not after.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="section-card">
+      <div class="section-hd">
+        <span class="section-num">Section 2</span>
+        <span class="section-title">Monthly Cost Breakdown</span>
+      </div>
+      <div class="section-bd">
+        <div class="table-wrap">
+          <table class="cost-table">
+            <thead>
+              <tr><th>Category</th><th>New York, NY (USD)</th><th>Lisbon, Portugal (EUR)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="td-label">Housing (1BR, mid)</td><td class="td-nyc">$2,800–$4,500</td><td class="td-lisbon">€1,100–€1,800</td></tr>
+              <tr><td class="td-label">Groceries</td><td class="td-nyc">$500–$800</td><td class="td-lisbon">€250–€400</td></tr>
+              <tr><td class="td-label">Dining out</td><td class="td-nyc">$500–$1,000</td><td class="td-lisbon">€200–€400</td></tr>
+              <tr><td class="td-label">Healthcare (private)</td><td class="td-nyc">$300–$700</td><td class="td-lisbon">€60–€150</td></tr>
+              <tr><td class="td-label">Transport</td><td class="td-nyc">$130–$200</td><td class="td-lisbon">€40–€100</td></tr>
+              <tr><td class="td-label">Utilities + Internet</td><td class="td-nyc">$150–$250</td><td class="td-lisbon">€80–€160</td></tr>
+              <tr><td class="td-label">Gym &amp; leisure</td><td class="td-nyc">$100–$250</td><td class="td-lisbon">€50–€120</td></tr>
+              <tr class="tr-total"><td>Est. Total / month</td><td>$5,200–$8,000+</td><td>€2,060–€3,780</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="saving-bar">
+          <span class="saving-bar-lbl">Estimated annual saving</span>
+          <span class="saving-bar-val">$24,000–$66,000 USD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="section-card">
+      <div class="section-hd">
+        <span class="section-num">Section 3</span>
+        <span class="section-title">Housing Market Guide</span>
+      </div>
+      <div class="section-bd">
+        <p class="housing-p">Lisbon's rental market has tightened considerably since 2022. Demand from remote workers and international professionals has pushed rents upward, particularly in central neighbourhoods. Budget 1–3 months in temporary accommodation before committing to a long-term lease.</p>
+        <div class="hood">
+          <div class="hood-name">Príncipe Real / Chiado</div>
+          <div class="hood-desc">Central, walkable, cosmopolitan. Strong expat community; English widely spoken.</div>
+          <div class="hood-price">1BR typically €1,400–€2,200/month</div>
+        </div>
+        <div class="hood">
+          <div class="hood-name">Mouraria / Intendente</div>
+          <div class="hood-desc">More affordable, authentic neighbourhood with improving amenities and good transport links.</div>
+          <div class="hood-price">1BR typically €1,000–€1,600/month</div>
+        </div>
+        <div class="lock-panel">
+          <div class="lock-icon">🔒</div>
+          <div class="lock-desc">Full housing guide — 5 neighbourhoods, rental process, deposit requirements, red flags, and top platforms for remote house hunting.</div>
+          <a href="/planner" class="lock-btn">Unlock to read →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- mobile CTA -->
+    <div class="cta-mobile">
+      <div class="cta-unified">
+        <div class="cta-unified-top">
+          <div class="cta-price-row"><span class="cta-price-num">$9.90</span><span class="cta-price-label">one-time</span></div>
+          <div class="cta-headline">Unlock Your Full Report</div>
+          <div class="cta-sub">Generated from your actual cities, budget, lifestyle, and timeline.</div>
+        </div>
+        <div class="cta-unified-body">
           <ul class="cta-features">
-            <li>✓ Full cost breakdown</li>
-            <li>✓ Visa pathway</li>
-            <li>✓ Tax strategy</li>
-            <li>✓ 90-day checklist</li>
+            <li>Full cost breakdown</li>
+            <li>Visa pathway</li>
+            <li>Tax strategy</li>
+            <li>90-day checklist</li>
           </ul>
           <a href="/planner" class="cta-btn">Start My Full Report →</a>
           <a href="/planner" class="cta-back">← Start a new plan</a>
         </div>
       </div>
+    </div>
 
-      <!-- Sections 4–10 locked list -->
-      <div class="locked-list">
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 4 — Visa &amp; Immigration Pathway</div>
-            <div class="locked-desc">D7, D8, and other visa options with a step-by-step application timeline and cost estimates.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 5 — Tax &amp; Financial Planning</div>
-            <div class="locked-desc">Tax residency triggers, US–Portugal treaty context, banking setup, and cross-border CPA guidance.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 6 — One-Time Moving Costs</div>
-            <div class="locked-desc">Shipping options, what to sell vs ship, flights, temporary housing, and total moving budget scenarios.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 7 — Pre-Departure Financial Checklist</div>
-            <div class="locked-desc">Timeline from 6 months before departure through your first month in Lisbon.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 8 — Hidden Costs &amp; Risk Alerts</div>
-            <div class="locked-desc">Six specific hidden costs and risks that catch expats off guard in Lisbon.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 9 — 90-Day Action Plan</div>
-            <div class="locked-desc">Week-by-week plan for your first 90 days with 4–6 actionable tasks per period.</div>
-          </div>
-        </div>
-        <div class="locked-section-item">
-          <span class="lock-badge">🔒</span>
-          <div>
-            <div class="locked-title">Section 10 — Final Recommendations &amp; Next Steps</div>
-            <div class="locked-desc">Honest readiness assessment and the single most important first step for your move.</div>
-          </div>
-        </div>
+    <!-- Sections 4–10 -->
+    <div class="locked-list">
+      <div class="locked-list-hd">
+        <div class="locked-list-title">7 more sections in the full report</div>
+        <div class="locked-list-sub">Unlock for $9.90 — generated from your specific inputs</div>
       </div>
+      <div class="locked-item"><div class="li-icon">🗺️</div><div><div class="li-title">Section 4 — Visa &amp; Immigration Pathway <span class="li-lock">🔒</span></div><div class="li-desc">D7, D8, and other visa options with step-by-step application timeline, consulate fees, and AIMA process.</div></div></div>
+      <div class="locked-item"><div class="li-icon">💰</div><div><div class="li-title">Section 5 — Tax &amp; Financial Planning <span class="li-lock">🔒</span></div><div class="li-desc">US expat tax obligations, NHR 2.0/IFICI notes, cross-border banking, and currency strategy.</div></div></div>
+      <div class="locked-item"><div class="li-icon">📦</div><div><div class="li-title">Section 6 — One-Time Moving Costs <span class="li-lock">🔒</span></div><div class="li-desc">Shipping scenarios, what to sell vs ship, flights, temporary housing, and total moving budget.</div></div></div>
+      <div class="locked-item"><div class="li-icon">✅</div><div><div class="li-title">Section 7 — Pre-Departure Financial Checklist <span class="li-lock">🔒</span></div><div class="li-desc">Timeline from 6 months before departure through your first month in Lisbon.</div></div></div>
+      <div class="locked-item"><div class="li-icon">⚠️</div><div><div class="li-title">Section 8 — Hidden Costs &amp; Risk Alerts <span class="li-lock">🔒</span></div><div class="li-desc">Six specific hidden costs and risks that consistently catch expats off guard in Lisbon.</div></div></div>
+      <div class="locked-item"><div class="li-icon">📅</div><div><div class="li-title">Section 9 — 90-Day Action Plan <span class="li-lock">🔒</span></div><div class="li-desc">Week-by-week plan for your first 90 days with 4–6 actionable tasks per period.</div></div></div>
+      <div class="locked-item"><div class="li-icon">🏁</div><div><div class="li-title">Section 10 — Final Recommendations &amp; Next Steps <span class="li-lock">🔒</span></div><div class="li-desc">Honest readiness assessment and the single most important first step for your move.</div></div></div>
+    </div>
 
-      <p class="disclaimer">⚠️ AI-generated planning report for informational purposes only. Always verify visa, tax, and immigration details with qualified professionals.</p>
+  </div><!-- /.report-area -->
 
-    </div><!-- /.content-col -->
-
-    <!-- Desktop sticky CTA -->
-    <aside class="cta-sidebar-wrap">
-      <div class="cta-card cta-sidebar">
-        <div class="cta-price">$9.90</div>
-        <div class="cta-title">Unlock Your Full Report</div>
-        <div class="cta-desc">Full AI-powered breakdown — housing details, visa steps, tax strategy, 90-day action checklist, and personalised savings tips.</div>
+  <!-- STICKY CTA desktop -->
+  <div class="cta-col">
+    <div class="cta-unified">
+      <div class="cta-unified-top">
+        <div class="cta-price-row"><span class="cta-price-num">$9.90</span><span class="cta-price-label">one-time</span></div>
+        <div class="cta-headline">Unlock Your Full Report</div>
+        <div class="cta-sub">Generated from your actual cities, budget, lifestyle, and timeline — not a template.</div>
+      </div>
+      <div class="cta-unified-body">
         <ul class="cta-features">
-          <li>✓ Full cost breakdown</li>
-          <li>✓ Visa pathway</li>
-          <li>✓ Tax strategy</li>
-          <li>✓ 90-day checklist</li>
+          <li>Full cost breakdown</li>
+          <li>Visa pathway</li>
+          <li>Tax strategy</li>
+          <li>90-day checklist</li>
+          <li>Hidden costs</li>
+          <li>Risk alerts</li>
         </ul>
         <a href="/planner" class="cta-btn">Start My Full Report →</a>
         <a href="/planner" class="cta-back">← Start a new plan</a>
+        <div class="cta-sep"></div>
+        <div class="cta-guarantee"><strong>Not satisfied?</strong> Contact us within 7 days and we'll regenerate your report at no extra charge.</div>
       </div>
-    </aside>
+    </div>
+  </div>
 
-  </div><!-- /.layout -->
+</div><!-- /.body-wrap -->
 
-</main>
+<div class="disclaimer">⚠️ AI-generated planning report for informational purposes only. Always verify visa, tax, and immigration details with qualified professionals before acting.</div>
 
 <footer class="site-footer">
   <a href="/">MovingCOST.ai</a> &nbsp;·&nbsp;
