@@ -59,7 +59,9 @@ MANDATORY RULES — every rule applies without exception:
 10. Do NOT promise exact savings — use "estimated potential savings of X–Y range".
 11. The report MUST include all 10 required sections — never skip or abbreviate any section.
 12. Tone must be professional, clear, warm, and practical.
-13. NEVER say "100% guaranteed", "perfectly aligns", or present AI-generated estimates as official data.`;
+13. NEVER say "100% guaranteed", "perfectly aligns", or present AI-generated estimates as official data.
+14. Do NOT state that the United States and Portugal lack a comprehensive bilateral income tax treaty — a U.S.–Portugal income tax treaty is in force; explain complexity, worldwide U.S. taxation, and FTC/FEIE/treaty-specific relief instead.
+15. In Section 2, if referencing one-time relocation or moving costs, direct readers to Section 6 — never Section 5.`;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. DESTINATION KNOWLEDGE BASE
@@ -78,6 +80,7 @@ const DESTINATION_KB = {
       'IFICI / NHR 2.0 has stricter eligibility — primarily for qualifying professions in tech, science, research — consult a Portugal-qualified tax advisor',
       'Standard IRS income tax: approximately 14.5% to 48% depending on income bracket',
       'Portugal has double taxation treaties with many countries — check your home country treaty status',
+      'U.S.–Portugal income tax treaty: The United States and Portugal have an income tax treaty in force, but treaty application is complex and does not automatically eliminate double taxation for U.S. citizens living abroad. U.S. citizens generally remain subject to U.S. worldwide income taxation, and relief may depend on mechanisms such as the Foreign Tax Credit, Foreign Earned Income Exclusion, and treaty-specific provisions. Consult a qualified cross-border tax advisor before relying on any treaty position. Do NOT claim the U.S. and Portugal lack a comprehensive bilateral income tax treaty.',
     ],
     cost_context: 'Lisbon 2026 rental market: 2BR apartments in central areas typically €1,600–2,500/month; outer districts €900–1,400/month.',
   },
@@ -1030,6 +1033,8 @@ Write ONLY the following sections:
 - Section 2: Monthly Cost Breakdown
 - Section 3: Housing Market Guide
 
+Section 2 covers recurring monthly costs only. If you mention one-time relocation or moving costs, state they are covered separately in Section 6 — not Section 5.
+
 Do NOT write Section 4, Section 5, or any later sections.
 
 ${getHtmlFormatRules()}
@@ -1064,6 +1069,9 @@ Sections 0–3 (Disclaimer, Executive Summary, Monthly Cost Breakdown, Housing M
 Do NOT repeat, summarise, or reference Sections 0–3 in any way.
 Generate ONLY Section 4 (Visa & Immigration Notes) and Section 5 (Tax & Financial Planning Notes).
 Do NOT write Section 1, 2, 3, 6, 7, 8, 9, or 10.
+
+Section 5 must include subsection 5.4 on U.S.–Portugal tax treaty context when the move involves the United States and Portugal. Do NOT claim the U.S. and Portugal lack an income tax treaty. For 5.4, use this accurate framing (you may adapt wording slightly, but preserve the core facts):
+"The United States and Portugal have an income tax treaty in force, but treaty application is complex and does not automatically eliminate double taxation for U.S. citizens living abroad. U.S. citizens generally remain subject to U.S. worldwide income taxation, and relief may depend on mechanisms such as the Foreign Tax Credit, Foreign Earned Income Exclusion, and treaty-specific provisions. Consult a qualified cross-border tax advisor before relying on any treaty position."
 
 ${getHtmlFormatRules()}
 
