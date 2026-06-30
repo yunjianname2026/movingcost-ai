@@ -71,18 +71,19 @@ export default async function handler(req, res) {
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
   <!-- HEADER -->
-  <tr><td style="background:linear-gradient(135deg,#0F172A 0%,#0B2545 100%);border-radius:16px 16px 0 0;padding:36px 44px;">
-    <table width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td>
-        <div style="font-family:Outfit,Arial,sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:-0.5px;">
-          Moving<span style="color:#0EA5E9;">COST</span><span style="font-size:13px;color:#7DD3FC;font-weight:500;vertical-align:super;margin-left:1px;">.ai</span>
-        </div>
-        <div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;">Secure Login</div>
-      </td>
-      <td align="right">
-        <div style="width:40px;height:40px;background:rgba(14,165,233,0.15);border-radius:10px;text-align:center;line-height:40px;font-size:20px;display:inline-block;">✨</div>
-      </td>
-    </tr></table>
+  <tr><td style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);border-radius:16px 16px 0 0;padding:16px 24px 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:6px;">
+      <tr>
+        <td style="vertical-align:middle;">
+          <span style="font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span><span style="font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span><span style="font-family:Arial,sans-serif;font-size:11px;font-weight:300;color:rgba(255,255,255,0.45);margin-left:1px;">.ai</span>
+        </td>
+        <td style="text-align:right;vertical-align:middle;white-space:nowrap;">
+          <span style="font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;border:1px solid rgba(125,211,252,0.25);padding:3px 7px;border-radius:99px;">Secure Login</span>
+        </td>
+      </tr>
+    </table>
+    <div style="height:1px;background:rgba(255,255,255,0.10);margin-bottom:6px;"></div>
+    <div style="text-align:center;font-size:13px;font-weight:400;color:rgba(255,255,255,0.88);letter-spacing:0.02em;">Move Smarter. Live Lighter.</div>
   </td></tr>
 
   <!-- BODY -->
