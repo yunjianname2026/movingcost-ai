@@ -101,7 +101,7 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
 
   const pointsLine = pointsEarned > 0
     ? `<p style="margin:0 0 8px;font-size:14px;color:#475569;">
-         You also earned <strong style="color:#E8B84B;">+${pointsEarned} MovingCOST Points</strong> for joining.
+         Your <strong style="color:#E8B84B;">+${pointsEarned} welcome points</strong> have been added to your account.
        </p>`
     : '';
 
@@ -180,11 +180,14 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
           <!-- CTAs -->
           <table cellpadding="0" cellspacing="0">
             <tr>
-              <td style="padding-right:12px;padding-bottom:10px;">
+              <td style="padding-right:12px;padding-bottom:10px;vertical-align:top;">
                 <a href="${dashboardLink}"
                    style="display:inline-block;background:#0EA5E9;color:#ffffff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;letter-spacing:0.01em;">
-                  Sign In to My Dashboard →
+                  Open Member Access →
                 </a>
+                <p style="margin:8px 0 0;font-size:11px;line-height:1.5;color:#94A3B8;max-width:260px;">
+                  If you're not signed in on this device, we'll ask you to verify your email first.
+                </p>
               </td>
               <td style="padding-bottom:10px;">
                 <a href="${quizLink}"
