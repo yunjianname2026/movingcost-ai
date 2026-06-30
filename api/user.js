@@ -117,12 +117,21 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
   <tr><td align="center">
     <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,0.08);">
 
-      <!-- Header -->
+      <!-- Header (paid report email brand bar) -->
       <tr>
-        <td style="background:#060A12;padding:28px 36px;text-align:left;">
-          <span style="font-size:18px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">
-            Moving<span style="color:#0EA5E9;">COST</span><sup style="font-size:10px;color:#0EA5E9;">.ai</sup>
-          </span>
+        <td style="background:linear-gradient(135deg,rgba(8,38,72,0.93) 0%,rgba(10,58,96,0.88) 50%,rgba(12,90,135,0.82) 100%);padding:16px 24px 14px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:6px;">
+            <tr>
+              <td style="vertical-align:middle;">
+                <span style="font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:400;color:#7DD3FC;letter-spacing:-0.2px;">Moving</span><span style="font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:500;color:#ffffff;letter-spacing:-0.2px;">COST</span><span style="font-family:Arial,sans-serif;font-size:11px;font-weight:300;color:rgba(255,255,255,0.45);margin-left:1px;">.ai</span>
+              </td>
+              <td style="text-align:right;vertical-align:middle;white-space:nowrap;">
+                <span style="font-size:8px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#7DD3FC;border:1px solid rgba(125,211,252,0.25);padding:3px 7px;border-radius:99px;">Full Access</span>
+              </td>
+            </tr>
+          </table>
+          <div style="height:1px;background:rgba(255,255,255,0.10);margin-bottom:6px;"></div>
+          <div style="text-align:center;font-size:13px;font-weight:400;color:rgba(255,255,255,0.88);letter-spacing:0.02em;">Move Smarter. Live Lighter.</div>
         </td>
       </tr>
 
@@ -178,23 +187,28 @@ async function sendWelcomeEmail(email, referralCode, pointsEarned) {
           <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
 
           <!-- CTAs -->
-          <table cellpadding="0" cellspacing="0">
+          <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
-              <td style="padding-right:12px;padding-bottom:10px;vertical-align:top;">
+              <td style="padding:0 12px 0 0;vertical-align:bottom;">
                 <a href="${dashboardLink}"
-                   style="display:inline-block;background:#0EA5E9;color:#ffffff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;letter-spacing:0.01em;">
+                   style="display:inline-block;background:#0EA5E9;color:#ffffff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;letter-spacing:0.01em;white-space:nowrap;">
                   Open Member Access →
                 </a>
-                <p style="margin:8px 0 0;font-size:11px;line-height:1.5;color:#94A3B8;max-width:260px;">
-                  If you're not signed in on this device, we'll ask you to verify your email first.
-                </p>
               </td>
-              <td style="padding-bottom:10px;">
+              <td style="padding:0;vertical-align:bottom;">
                 <a href="${quizLink}"
-                   style="display:inline-block;background:#F0F6FF;color:#0EA5E9;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;border:1.5px solid #0EA5E9;">
+                   style="display:inline-block;background:#F0F6FF;color:#0EA5E9;font-size:14px;font-weight:700;padding:13px 24px;border-radius:99px;text-decoration:none;border:1.5px solid #0EA5E9;white-space:nowrap;">
                   Take EarthSoul Quiz
                 </a>
               </td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px 0 0;vertical-align:top;">
+                <p style="margin:0;font-size:11px;line-height:1.5;color:#94A3B8;max-width:280px;">
+                  If you're not signed in on this device, we'll ask you to verify your email first.
+                </p>
+              </td>
+              <td style="padding:0;">&nbsp;</td>
             </tr>
           </table>
 
