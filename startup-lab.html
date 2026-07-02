@@ -189,6 +189,16 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
 .value-desc{font-size:13.5px;color:var(--mid);line-height:1.68;font-weight:300}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.lab-subnav{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:8px}
+.lab-subnav a{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--blue-d);transition:opacity var(--tr)}
+.lab-subnav a:hover{opacity:0.75;color:var(--blue)}
+.lab-subnav span{color:var(--faint);font-size:12px}
+.handbook-promo{max-width:780px;margin:0 auto;background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px 28px 26px;box-shadow:var(--shadow-glass);display:flex;align-items:flex-start;gap:20px}
+.handbook-promo-icon{font-size:32px;line-height:1;flex-shrink:0}
+.handbook-promo-body{flex:1;min-width:0}
+.handbook-promo-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;letter-spacing:-0.15px}
+.handbook-promo-desc{font-size:14px;color:var(--mid);line-height:1.65;font-weight:300;margin-bottom:16px}
+@media(max-width:640px){.handbook-promo{flex-direction:column;align-items:stretch}}
 @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}img.site-logo-img{height:72px!important;width:auto!important}}
 @media(max-width:1024px){.cat-grid{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}.how-grid{grid-template-columns:1fr;gap:32px}.footer-grid{grid-template-columns:1fr 1fr}.partner-trust-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.partner-slots{grid-template-columns:1fr}.cat-grid{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}.partner-card{padding:28px 22px 22px}.partner-perks{grid-template-columns:1fr;gap:16px}.trust-card{padding:24px 22px 20px}.partner-zone-header{margin-bottom:32px}.cta-btns{flex-direction:column;align-items:stretch}.cta-btns a{text-align:center}.footer-grid{grid-template-columns:1fr}}
@@ -242,8 +252,13 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     <p class="hero-lead" style="font-weight:500;color:var(--text);margin-bottom:14px">Build real projects. Learn AI. Grow with founders.</p>
     <p class="hero-lead">Join a real AI startup project under MovingCOST.ai. Work on practical tasks in product, data, content, SEO, growth marketing, and business development while building a portfolio that shows what you can actually do.</p>
     <div class="hero-btns">
-      <a href="mailto:contact@movingcost.ai?subject=AI Startup Career Lab Application" class="btn-primary">Apply for Beta Cohort →</a>
-      <a href="#program" class="btn-ghost">View program details</a>
+      <a href="/startup-lab-apply" class="btn-primary">Apply for Beta Cohort →</a>
+      <a href="/startup-lab-handbook" class="btn-ghost">Read the Handbook</a>
+    </div>
+    <div class="lab-subnav">
+      <a href="/startup-lab-handbook">Handbook</a>
+      <span>·</span>
+      <a href="/startup-lab-apply">Apply</a>
     </div>
   </div>
 </section>
@@ -357,6 +372,14 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <li class="trust-item"><span class="trust-check" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 2.5 2.5L16 9"/></svg></span><span>Recommendation Letter may be available for outstanding participants, based on actual participation and performance</span></li>
       </ul>
     </div>
+    <div class="handbook-promo" style="margin-top:48px">
+      <div class="handbook-promo-icon" aria-hidden="true">📘</div>
+      <div class="handbook-promo-body">
+        <div class="handbook-promo-title">Program Handbook</div>
+        <div class="handbook-promo-desc">Read the full structure, expectations, weekly journey, deliverables, evaluation, and completion policy.</div>
+        <a href="/startup-lab-handbook" class="btn-ghost" style="display:inline-flex">Open Handbook →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -448,7 +471,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
       <p class="partner-zone-lead">We are accepting a small number of motivated students for the first beta cohort. Tell us about your background, interests, and what you hope to build.</p>
     </div>
     <div style="text-align:center">
-      <a href="mailto:contact@movingcost.ai?subject=AI Startup Career Lab Application" class="btn-primary">Apply Now →</a>
+      <a href="/startup-lab-apply" class="btn-primary">Apply Now →</a>
     </div>
   </div>
 </section>
@@ -457,7 +480,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     <h2 class="cta-title">Build something real this summer.</h2>
     <p class="cta-sub">Join MovingCOST.ai's AI Startup Career Lab and turn your summer into a real project experience.</p>
     <div class="cta-btns">
-      <a href="mailto:contact@movingcost.ai?subject=AI Startup Career Lab Application" class="btn-white">Apply for Beta Cohort →</a>
+      <a href="/startup-lab-apply" class="btn-white">Apply for Beta Cohort →</a>
     </div>
   </div>
 </section>
