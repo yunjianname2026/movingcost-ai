@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Premium SEO blog template: copy from blog/spacex-ipo-brownsville-housing-relocation-costs.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -268,6 +269,8 @@
     }
     .article-body strong { color: var(--text); font-weight: 600; }
     .article-body em { font-style: italic; color: var(--text); }
+    .article-body a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    .article-body a:hover { text-decoration: underline; }
 
     /* H2 — 编辑感升级 */
     .article-body h2 {
@@ -293,10 +296,10 @@
     }
     .article-body h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(17px, 2.4vw, 20px);
+      font-size: 17px;
       font-weight: 500;
       color: var(--text);
-      margin: 36px 0 14px;
+      margin: 36px 0 12px;
       letter-spacing: -0.1px;
       line-height: 1.35;
     }
@@ -327,30 +330,35 @@
       box-shadow: 0 6px 28px rgba(10,22,40,0.08);
     }
 
-    /* ── CTA v2 (Editorial) ── */
-    .cta-box-1 {
-      border-top: 2px solid var(--blue); padding: 36px 0 0;
-      margin: 72px 0 16px; display: grid;
-      grid-template-columns: 1fr auto; align-items: center; gap: 36px;
+    /* Bottom smart CTA cards (standard site template — do not modify) */
+    .bottom-cta-section {
+      max-width: 740px; margin: 0 auto; padding: 0 24px 80px;
     }
-    .cta-box-1 .cta-eyebrow {
+    .cta-box-1 {
+      border-top: 2px solid var(--blue); padding: 32px 0 0;
+      margin: 0 0 16px; display: grid;
+      grid-template-columns: 1fr auto; align-items: center; gap: 28px;
+    }
+    .cta-box-1 .cta-eyebrow,
+    .cta-box-2 .cta-eyebrow {
       font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--blue); margin-bottom: 10px;
     }
     .cta-box-1 h3 {
-      font-family: 'Outfit', sans-serif; font-size: 23px; font-weight: 400;
-      letter-spacing: -0.4px; line-height: 1.2; color: var(--text); margin-bottom: 9px;
+      font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 400;
+      letter-spacing: -0.3px; line-height: 1.25; color: var(--text); margin-bottom: 8px;
     }
     .cta-box-1 p {
-      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      font-size: 14px; color: var(--text-muted); line-height: 1.65;
       font-weight: 300; max-width: 400px; margin: 0;
     }
     .cta-box-1 .cta-btn {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--blue); color: #fff; font-family: 'Outfit', sans-serif;
+      background: var(--blue); color: #fff !important; font-family: 'Outfit', sans-serif;
       font-size: 13px; font-weight: 600; padding: 12px 22px; border-radius: 4px;
       text-decoration: none; white-space: nowrap; letter-spacing: 0.02em;
       box-shadow: 0 2px 12px rgba(14,165,233,0.25); transition: background 0.2s, box-shadow 0.2s;
+      -webkit-text-fill-color: #fff !important; opacity: 1 !important;
     }
     .cta-box-1 .cta-btn:hover { background: var(--blue-dark); box-shadow: 0 4px 18px rgba(14,165,233,0.35); }
     .cta-box-2 {
@@ -358,10 +366,7 @@
       border-radius: 0 4px 4px 0; padding: 28px 32px; margin: 0;
       display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px;
     }
-    .cta-box-2 .cta-eyebrow {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--blue-dark); margin-bottom: 8px;
-    }
+    .cta-box-2 .cta-eyebrow { color: var(--blue-dark); margin-bottom: 8px; }
     .cta-box-2 h3 {
       font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 500;
       letter-spacing: -0.2px; line-height: 1.3; color: var(--text); margin-bottom: 5px;
@@ -369,9 +374,10 @@
     .cta-box-2 p { font-size: 13px; color: var(--text-mid); line-height: 1.65; font-weight: 300; margin: 0; }
     .cta-box-2 .cta-btn {
       display: inline-flex; align-items: center; gap: 6px;
-      background: #0F172A; color: #fff; font-family: 'Outfit', sans-serif;
+      background: #0F172A; color: #fff !important; font-family: 'Outfit', sans-serif;
       font-size: 13px; font-weight: 600; padding: 11px 22px; border-radius: 4px;
       text-decoration: none; white-space: nowrap; letter-spacing: 0.02em; transition: background 0.2s;
+      -webkit-text-fill-color: #fff !important; opacity: 1 !important;
     }
     .cta-box-2 .cta-btn:hover { background: #1E3A5F; }
     /* nav-cta 文字链接化 */
@@ -390,44 +396,14 @@
       transform: none !important;
     }
     @media (max-width: 600px) {
-      .cta-box-1, .cta-box-2 { grid-template-columns: 1fr; gap: 20px; }
+      .bottom-cta-section { padding: 0 20px 64px; }
+      .cta-box-1, .cta-box-2 { grid-template-columns: 1fr; gap: 18px; }
       .cta-box-2 { padding: 24px 20px; }
-      .cta-box-1 { padding-top: 28px; }
+      .cta-box-1 { padding-top: 24px; }
     }
-
-    /* ── CTA BOX ── */
-    .cta-box {
-      background: linear-gradient(135deg, #0F172A 0%, #0B2545 100%);
-      border-radius: 16px; padding: 52px 48px;
-      text-align: center; margin: 72px 0 0;
-    }
-    .cta-tag {
-      display: inline-block; background: rgba(14,165,233,0.2);
-      color: #7DD3FC; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 20px; margin-bottom: 22px;
-    }
-    .cta-box h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(20px, 3.5vw, 28px); font-weight: 400;
-      color: #fff; letter-spacing: -0.3px; margin-bottom: 14px; line-height: 1.25;
-    }
-    .cta-box p {
-      font-size: 15px; color: rgba(255,255,255,0.55);
-      margin-bottom: 32px; line-height: 1.7; font-weight: 300;
-      max-width: 440px; margin-left: auto; margin-right: auto;
-    }
-    .cta-btn {
-      display: inline-block; background: var(--blue); color: #fff;
-      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600;
-      padding: 14px 40px; border-radius: 8px; text-decoration: none;
-      letter-spacing: -0.1px; box-shadow: 0 4px 20px rgba(14,165,233,0.35);
-      transition: background 0.2s, transform 0.15s;
-    }
-    .cta-btn:hover { background: var(--blue-dark); transform: translateY(-2px); }
 
     /* ── RELATED ── */
-    .related-section { max-width: 740px; margin: 24px auto 0; padding: 0 24px 80px; }
+    .related-section { max-width: 740px; margin: 24px auto 0; padding: 0 24px 32px; }
     .related-section h4 {
       font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--text-muted); margin-bottom: 22px;
@@ -482,7 +458,6 @@
     @media (max-width: 600px) {
       .nav-links, .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
-      .cta-box { padding: 36px 24px; }
       .article-body { padding: 40px 20px 64px; }
       .article-body p { font-size: 16px; line-height: 1.9; }
       .article-body h2 { margin-top: 52px; }
@@ -608,7 +583,9 @@
 
 <p>So the better question is not: “How much does it cost to move?”</p>
 
-<p>The better question is: “How much does it cost to start over in a new city?”</p>
+<div class="pullquote">
+  <p>The better question is: “How much does it cost to start over in a new city?”</p>
+</div>
 
 <h2>The Moving Truck Is Only the First Line Item</h2>
 
@@ -627,16 +604,6 @@
 <p>A city can be cheaper in one category and more expensive in your actual life.</p>
 
 <p>That is why a realistic relocation budget should not only measure the cost of moving your belongings. It should measure the cost of rebuilding your daily system.</p>
-
-<!-- MID-ARTICLE CTA -->
-<div class="cta-box-1">
-  <div>
-    <div class="cta-eyebrow">✦ AI Report</div>
-    <h3>Compare the Life You Are About to Build</h3>
-    <p>Before you compare moving quotes, compare the life you are about to build. MovingCOST.ai helps you estimate the real cost of relocating — beyond the truck, the boxes, and the first month’s rent.</p>
-  </div>
-  <a href="/planner" class="cta-btn">Calculate My Real Moving Cost →</a>
-</div>
 
 <h2>1. Housing Overlap and Temporary Living</h2>
 
@@ -759,7 +726,7 @@
 
 <p>The same income can produce very different levels of freedom in different places. The same rent can buy very different levels of safety, convenience, connection, and opportunity. The same phrase — “lower cost of living” — can mean relief for one person and stagnation for another.</p>
 
-<p>This is why moving decisions should not stop at affordability. It helps to understand <a href="/blog/living-in-the-wrong-city" style="color:var(--blue);text-decoration:none;font-weight:500">why living in the wrong city can quietly drain your life</a> — and to <a href="/earthsoul" style="color:var(--blue);text-decoration:none;font-weight:500">find a city that fits your personality and life rhythm</a> before you commit.</p>
+<p>This is why moving decisions should not stop at affordability. It helps to understand <a href="/blog/living-in-the-wrong-city">why living in the wrong city can quietly drain your life</a> — and to <a href="/earthsoul">find a city that fits your personality and life rhythm</a> before you commit.</p>
 
 <p>The better question is: Can I build a life there that still feels like mine?</p>
 
@@ -835,9 +802,11 @@ What will it cost to settle there?<br>
 What will it cost to adapt there?<br>
 And if the city is wrong for you, what will it cost to change course again?</p>
 
-<p>The best relocation decision is not about finding the cheapest place on the map. It is about finding a place that is financially realistic, practically livable, and personally sustainable.</p>
+<div class="pullquote">
+  <p>The best relocation decision is not about finding the cheapest place on the map. It is about finding a place that is financially realistic, practically livable, and personally sustainable.</p>
+</div>
 
-<p>MovingCOST.ai can help you <a href="/planner" style="color:var(--blue);text-decoration:none;font-weight:500">estimate the real cost of starting over</a> — including housing, transportation, lifestyle, and city-fit factors most moving calculators miss.</p>
+<p>MovingCOST.ai can help you <a href="/planner">estimate the real cost of starting over</a> — including housing, transportation, lifestyle, and city-fit factors most moving calculators miss.</p>
 
 <p>Moving is not the end of an old life.</p>
 
@@ -862,15 +831,27 @@ And if the city is wrong for you, what will it cost to change course again?</p>
   <p>Before moving, calculate direct moving costs, housing startup costs, transportation, insurance, healthcare, family or school needs, income stability, and whether the city fits your lifestyle, work, and long-term goals.</p>
 </div>
 
-<!-- BOTTOM CTA -->
-<div class="cta-box">
-  <div class="cta-tag">✦ Relocation Planning</div>
-  <h3>Planning a move in 2026?</h3>
-  <p>Use MovingCOST.ai to estimate the real cost of starting over in a new city — including housing, transportation, lifestyle, and city-fit factors most moving calculators miss.</p>
-  <a href="/planner" class="cta-btn">Start My Relocation Plan →</a>
-</div>
-
 </article>
+
+<!-- Bottom smart CTA cards (standard template) -->
+<section class="bottom-cta-section">
+  <div class="cta-box-1" style="margin-top:0;">
+    <div>
+      <div class="cta-eyebrow">✦ AI Planner</div>
+      <h3>Estimate and structure your relocation costs</h3>
+      <p>Generate a personalized moving plan that compares housing, services, transportation, and hidden costs before you commit.</p>
+    </div>
+    <a href="/planner" class="cta-btn" data-track-location="article_bottom_cta" data-track-label="start_ai_plan">Start Your AI Plan →</a>
+  </div>
+  <div class="cta-box-2">
+    <div>
+      <div class="cta-eyebrow">✦ Mobility Services</div>
+      <h3>Explore practical relocation support</h3>
+      <p>Browse moving, housing, insurance, and setup services that can help you execute a smarter relocation plan.</p>
+    </div>
+    <a href="/services" class="cta-btn" data-track-location="article_bottom_cta" data-track-label="explore_services">Explore Services →</a>
+  </div>
+</section>
 
 <!-- RELATED -->
 <section class="related-section">
