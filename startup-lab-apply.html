@@ -308,8 +308,8 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <div class="form-section-title">Profile Links</div>
         <div class="form-grid">
           <div class="field full">
-            <label class="flabel" for="linkedin_url">LinkedIn URL</label>
-            <input class="finput" type="url" id="linkedin_url" name="linkedin_url" maxlength="500" placeholder="https://linkedin.com/in/…">
+            <label class="flabel" for="linkedin_url">LinkedIn URL <span class="req">*</span></label>
+            <input class="finput" type="url" id="linkedin_url" name="linkedin_url" maxlength="500" required placeholder="https://linkedin.com/in/…">
             <div class="field-error" id="err-linkedin_url"></div>
           </div>
           <div class="field">
@@ -333,14 +333,19 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
           <div class="field-error" id="err-why_join"></div>
         </div>
         <div class="field">
-          <label class="flabel" for="learning_goal">What do you hope to build or learn in 6 weeks? <span class="req">*</span></label>
+          <label class="flabel" for="learning_goal">What would you like to accomplish during the next six weeks? <span class="req">*</span></label>
           <textarea class="finput" id="learning_goal" name="learning_goal" maxlength="2000" required placeholder="Describe your goals for the cohort…"></textarea>
           <div class="field-error" id="err-learning_goal"></div>
         </div>
         <div class="field">
-          <label class="flabel" for="proud_experience">Tell us about one project, class, internship, or experience you are proud of.</label>
+          <label class="flabel" for="proud_experience">Describe one project that best represents your abilities.</label>
           <textarea class="finput" id="proud_experience" name="proud_experience" maxlength="2000" placeholder="Optional — a brief example of work you have done"></textarea>
           <div class="field-error" id="err-proud_experience"></div>
+        </div>
+        <div class="field">
+          <label class="flabel" for="favorite_ai_tools">Favorite AI Tools</label>
+          <textarea class="finput" id="favorite_ai_tools" name="favorite_ai_tools" maxlength="2000" placeholder="List up to three AI tools or workflows you use most often, and briefly explain how you have applied them to solve a real problem."></textarea>
+          <div class="field-error" id="err-favorite_ai_tools"></div>
         </div>
       </div>
 
@@ -356,6 +361,11 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
           <label class="consent-label" for="consent_letters">I agree that any Completion Letter or Recommendation Letter is based on actual participation, submitted work, and performance. <span class="req">*</span></label>
         </div>
         <div class="field-error" id="err-consent_letters"></div>
+        <div class="consent-field">
+          <input type="checkbox" id="consent_tuition" name="consent_tuition" value="1">
+          <label class="consent-label" for="consent_tuition">I understand that tuition is paid for an educational training and project practicum program. Tuition becomes non-refundable after the cohort officially begins. I acknowledge that participation does not establish an employer-employee relationship. <span class="req">*</span></label>
+        </div>
+        <div class="field-error" id="err-consent_tuition"></div>
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
@@ -566,8 +576,12 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     if(!english)fail('english_level','Please select your English comfort level.');
     else if(ENGLISH.indexOf(english)===-1)fail('english_level','Please select a valid English level.');
 
-    var linkedinErr=validateUrl(trim($('linkedin_url').value),'LinkedIn URL');
-    if(linkedinErr)fail('linkedin_url',linkedinErr);
+    var linkedin=trim($('linkedin_url').value);
+    if(!linkedin)fail('linkedin_url','LinkedIn URL is required.');
+    else{
+      var linkedinErr=validateUrl(linkedin,'LinkedIn URL');
+      if(linkedinErr)fail('linkedin_url',linkedinErr);
+    }
     var resumeErr=validateUrl(trim($('resume_url').value),'resume URL');
     if(resumeErr)fail('resume_url',resumeErr);
     var portfolioErr=validateUrl(trim($('portfolio_url').value),'portfolio URL');
@@ -579,12 +593,15 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     else if(whyJoin.length>2000)fail('why_join','Response must be 2,000 characters or fewer.');
 
     var learningGoal=trim($('learning_goal').value);
-    if(!learningGoal)fail('learning_goal','Please describe what you hope to build or learn.');
+    if(!learningGoal)fail('learning_goal','Please describe what you would like to accomplish during the next six weeks.');
     else if(learningGoal.length<20)fail('learning_goal','Please write at least 20 characters.');
     else if(learningGoal.length>2000)fail('learning_goal','Response must be 2,000 characters or fewer.');
 
     var proud=trim($('proud_experience').value);
     if(proud.length>2000)fail('proud_experience','Response must be 2,000 characters or fewer.');
+
+    var favoriteAi=trim($('favorite_ai_tools').value);
+    if(favoriteAi.length>2000)fail('favorite_ai_tools','Response must be 2,000 characters or fewer.');
 
     if(!$('consent_program').checked){
       $('err-consent_program').textContent='You must acknowledge the program terms.';
@@ -594,6 +611,11 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
     if(!$('consent_letters').checked){
       $('err-consent_letters').textContent='You must acknowledge the letter policy.';
       $('err-consent_letters').classList.add('show');
+      ok=false;
+    }
+    if(!$('consent_tuition').checked){
+      $('err-consent_tuition').textContent='You must acknowledge the tuition and participation terms.';
+      $('err-consent_tuition').classList.add('show');
       ok=false;
     }
 
@@ -625,8 +647,10 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
       why_join: trim($('why_join').value),
       learning_goal: trim($('learning_goal').value),
       proud_experience: trim($('proud_experience').value),
+      favorite_ai_tools: trim($('favorite_ai_tools').value),
       consent_program: $('consent_program').checked,
       consent_letters: $('consent_letters').checked,
+      consent_tuition: $('consent_tuition').checked,
       source_page: '/startup-lab-apply',
       referrer: document.referrer || ''
     };
@@ -708,7 +732,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
       if(el.id)setFieldError(el.id,'');
     });
   });
-  ['consent_program','consent_letters'].forEach(function(id){
+  ['consent_program','consent_letters','consent_tuition'].forEach(function(id){
     $(id).addEventListener('change',function(){
       $('err-'+id).textContent='';
       $('err-'+id).classList.remove('show');
