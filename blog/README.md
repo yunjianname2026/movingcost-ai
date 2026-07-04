@@ -26,7 +26,9 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 |-------|------|
 | Styles | `blog/article-smart-card.css` |
 | Copy-paste reference | `blog/article-smart-card-snippets.html` |
-| Visual backup assets | `blog/images/article-smart-cards/` |
+| Visual backup assets | `blog/images/article-smart-cards/` (design mockups only — **do not use in production HTML**) |
+
+**ArticleSmartCard visual assets must be text-free decorative assets only.** Do not use full card mockup images as visual assets, because the component renders real HTML copy and buttons. Production cards use **CSS-only visual panels** in `article-smart-card.css` until text-free crops exist (e.g. `ai-planner-visual-only.png`).
 
 ### ArticleSmartCard variants
 
@@ -39,7 +41,8 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 **Implementation rules:**
 
 - Use real HTML text and real `<a class="article-smart-card__btn">` buttons — never bake CTA copy into images.
-- Reference PNGs are **decorative visuals only** (right panel, cropped to avoid duplicating baked-in text).
+- Reference PNGs in `blog/images/article-smart-cards/` are **legacy design mockups only** — never embed them in `.article-smart-card__visual`.
+- Production visual panels are **CSS gradients and pseudo-elements** (or future text-free decorative PNGs cropped to illustration-only).
 - All three cards share layout, border-radius (24px), shadow, spacing, and button size (52px × min 220px).
 - Do **not** auto-insert smart cards on every article. Add only when the brief requests Template v2.
 - Keep the approved **two-card bottom CTA** in addition to in-article smart cards.

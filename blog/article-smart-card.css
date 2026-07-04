@@ -98,20 +98,99 @@
 .article-smart-card__visual {
   position: relative;
   overflow: hidden;
-  min-height: 240px;
+  min-height: 260px;
+  border-radius: 0 28px 28px 0;
   background: var(--asc-visual-bg, #ece8e0);
 }
 
+/* Full mockup PNGs must not render — they contain baked-in copy/buttons. Use CSS visuals until text-free assets exist. */
 .article-smart-card__visual img {
+  display: none;
+}
+
+.article-smart-card__visual::before,
+.article-smart-card__visual::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  width: 195%;
-  max-width: none;
-  height: 100%;
-  object-fit: cover;
-  object-position: right center;
   pointer-events: none;
-  user-select: none;
+}
+
+.article-smart-card--ai-planner .article-smart-card__visual {
+  background:
+    radial-gradient(circle at 70% 42%, rgba(18, 48, 76, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(250, 247, 239, 0.95), rgba(239, 232, 216, 0.72));
+}
+
+.article-smart-card--ai-planner .article-smart-card__visual::before {
+  width: 58%;
+  height: 54%;
+  right: 9%;
+  top: 22%;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(24, 42, 58, 0.12);
+  box-shadow: 0 24px 60px rgba(17, 32, 45, 0.12);
+}
+
+.article-smart-card--ai-planner .article-smart-card__visual::after {
+  width: 38%;
+  height: 38%;
+  right: 18%;
+  top: 30%;
+  border-radius: 50%;
+  border: 10px solid rgba(30, 58, 95, 0.08);
+  border-top-color: rgba(30, 58, 95, 0.35);
+  transform: rotate(-18deg);
+}
+
+.article-smart-card--earthsoul .article-smart-card__visual {
+  background:
+    radial-gradient(circle at 70% 42%, rgba(92, 68, 128, 0.14), transparent 34%),
+    linear-gradient(135deg, rgba(250, 245, 239, 0.95), rgba(230, 218, 236, 0.58));
+}
+
+.article-smart-card--earthsoul .article-smart-card__visual::before {
+  width: 70%;
+  height: 58%;
+  right: 0;
+  bottom: 0;
+  border-radius: 45% 0 28px 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(181, 155, 196, 0.2));
+  border-top: 1px solid rgba(92, 68, 128, 0.1);
+}
+
+.article-smart-card--earthsoul .article-smart-card__visual::after {
+  width: 44%;
+  height: 44%;
+  right: 12%;
+  top: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 220, 180, 0.45), rgba(181, 155, 196, 0.15) 55%, transparent 70%);
+}
+
+.article-smart-card--relocation-readiness .article-smart-card__visual {
+  background:
+    radial-gradient(circle at 72% 38%, rgba(31, 85, 58, 0.13), transparent 34%),
+    linear-gradient(135deg, rgba(249, 247, 239, 0.95), rgba(225, 235, 224, 0.68));
+}
+
+.article-smart-card--relocation-readiness .article-smart-card__visual::before {
+  width: 62%;
+  height: 3px;
+  right: 10%;
+  top: 46%;
+  background: linear-gradient(90deg, rgba(33, 92, 60, 0.12), rgba(33, 92, 60, 0.42), rgba(33, 92, 60, 0.12));
+}
+
+.article-smart-card--relocation-readiness .article-smart-card__visual::after {
+  width: 52%;
+  height: 42%;
+  right: 12%;
+  top: 24%;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(45, 74, 62, 0.12);
+  box-shadow: 0 16px 40px rgba(31, 52, 43, 0.08);
 }
 
 /* Variant: AI Planner */
@@ -167,6 +246,7 @@
   .article-smart-card__visual {
     order: 2;
     min-height: 200px;
+    border-radius: 0 0 20px 20px;
   }
 
   .article-smart-card__btn {
