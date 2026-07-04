@@ -1,0 +1,187 @@
+/**
+ * ArticleSmartCard — in-article premium editorial modules for blog articles.
+ * Canonical reference: blog/article-smart-card-snippets.html
+ * Do not bake CTA text into images; always use real HTML + <a> buttons.
+ */
+
+.article-smart-card {
+  margin: 52px 0;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.07);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: var(--asc-bg, #f8f6f2);
+}
+
+.article-smart-card__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: stretch;
+  min-height: 300px;
+}
+
+.article-smart-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 32px 32px 36px;
+  min-height: 100%;
+}
+
+.article-smart-card__eyebrow {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--asc-accent, #0f172a);
+  margin-bottom: 14px;
+}
+
+.article-smart-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: var(--asc-title, #0f172a);
+  margin: 0 0 14px;
+}
+
+/* Override article-body h3 cascade inside smart cards */
+.article-smart-card .article-smart-card__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.article-smart-card__copy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 300;
+  color: var(--asc-copy, #475569);
+  margin: 0 0 28px;
+  flex: 1;
+}
+
+.article-smart-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-width: 220px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #fff !important;
+  background: var(--asc-btn-bg, #0f172a);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.14);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.article-smart-card__btn:hover {
+  background: var(--asc-btn-bg-hover, #1e293b);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
+  color: #fff !important;
+}
+
+.article-smart-card__visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  background: var(--asc-visual-bg, #ece8e0);
+}
+
+.article-smart-card__visual img {
+  position: absolute;
+  inset: 0;
+  width: 195%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Variant: AI Planner */
+.article-smart-card--ai-planner {
+  --asc-bg: linear-gradient(135deg, #faf8f4 0%, #f0ebe3 100%);
+  --asc-accent: #1e3a5f;
+  --asc-title: #0f172a;
+  --asc-copy: #475569;
+  --asc-btn-bg: #0f172a;
+  --asc-btn-bg-hover: #1e293b;
+  --asc-visual-bg: #e8e4dc;
+  background: linear-gradient(135deg, #faf8f4 0%, #f0ebe3 100%);
+}
+
+/* Variant: EarthSoul */
+.article-smart-card--earthsoul {
+  --asc-accent: #5b4b6a;
+  --asc-title: #3d2f4a;
+  --asc-copy: #5c5168;
+  --asc-btn-bg: #4a3d58;
+  --asc-btn-bg-hover: #5b4b6a;
+  --asc-visual-bg: #ebe6ef;
+  background: linear-gradient(135deg, #faf7fc 0%, #f1ebf5 100%);
+}
+
+/* Variant: Relocation Readiness */
+.article-smart-card--relocation-readiness {
+  --asc-accent: #2d4a3e;
+  --asc-title: #1f342b;
+  --asc-copy: #4a5c52;
+  --asc-btn-bg: #2d4a3e;
+  --asc-btn-bg-hover: #3a5c4d;
+  --asc-visual-bg: #e8ede9;
+  background: linear-gradient(135deg, #f7faf8 0%, #eef3ef 100%);
+}
+
+@media (max-width: 720px) {
+  .article-smart-card {
+    margin: 40px 0;
+    border-radius: 20px;
+  }
+
+  .article-smart-card__body {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .article-smart-card__content {
+    padding: 28px 24px 24px;
+    order: 1;
+  }
+
+  .article-smart-card__visual {
+    order: 2;
+    min-height: 200px;
+  }
+
+  .article-smart-card__btn {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .article-smart-card__title {
+    font-size: 22px;
+  }
+
+  .article-smart-card__copy {
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+}
