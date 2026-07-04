@@ -28,7 +28,7 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 | Copy-paste reference | `blog/article-smart-card-snippets.html` |
 | Visual backup assets | `blog/images/article-smart-cards/` (design mockups only — **do not use in production HTML**) |
 
-**ArticleSmartCard visual assets must be text-free decorative assets only.** Do not use full card mockup images as visual assets, because the component renders real HTML copy and buttons. Production cards use **CSS-only visual panels** in `article-smart-card.css` until text-free crops exist (e.g. `ai-planner-visual-only.png`).
+**ArticleSmartCard visual assets must be text-free decorative assets only.** Do not use full card mockup images as visual assets, because the component renders real HTML copy and buttons. Production visuals use **CSS/HTML decorative scenes** (`.asc-scene` inside `.article-smart-card__visual`) — never baked-in eyebrow, title, copy, or button graphics.
 
 ### ArticleSmartCard variants
 
@@ -42,10 +42,26 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 
 - Use real HTML text and real `<a class="article-smart-card__btn">` buttons — never bake CTA copy into images.
 - Reference PNGs in `blog/images/article-smart-cards/` are **legacy design mockups only** — never embed them in `.article-smart-card__visual`.
-- Production visual panels are **CSS gradients and pseudo-elements** (or future text-free decorative PNGs cropped to illustration-only).
-- All three cards share layout, border-radius (24px), shadow, spacing, and button size (52px × min 220px).
+- Production visual panels use structured HTML (`.asc-scene`, `.asc-tablet`, `.asc-skyline`, `.asc-path`, etc.) styled in `article-smart-card.css`. Optional future text-free PNGs must contain zero readable text and zero button graphics.
+- Desktop layout: ~46% content / ~54% visual, min-height ~320px, 28px radius, soft shadow.
+- Buttons: 52px height, min-width 220px, 14px radius — bottom-aligned in the left column; full-width on mobile.
+- Distribute smart cards evenly through the article. **Avoid placing a smart card immediately after an image/caption block** unless the brief explicitly requests it.
+- Default placement for Card 3 (`relocation-readiness`): **after a checklist/framework section**, not directly after an editorial image.
 - Do **not** auto-insert smart cards on every article. Add only when the brief requests Template v2.
 - Keep the approved **two-card bottom CTA** in addition to in-article smart cards.
+
+### Template v2 article rhythm (recommended)
+
+1. Hero image + opening argument  
+2. Smart Card 1 (`ai-planner`) — after early cost-framing section  
+3. Body sections + editorial image(s) with captions/pullquotes  
+4. Smart Card 2 (`earthsoul`) — mid-article, after mobility/lifestyle section  
+5. More body sections + editorial image + caption  
+6. Checklist / framework section  
+7. Smart Card 3 (`relocation-readiness`) — after checklist, before “questions to ask”  
+8. Closing sections → FAQ → bottom two-card CTA → Continue Reading  
+
+**Reference implementation:** `blog/moving-to-a-new-city-real-cost-checklist-2026.html`
 
 ### Template v2 checklist
 

@@ -1,14 +1,12 @@
 <!--
-  ArticleSmartCard — copy-paste reference for premium SEO blog articles.
+  ArticleSmartCard — copy-paste reference for Premium SEO Article Template v2.
   Styles: /blog/article-smart-card.css
-  Visual panels: CSS-only (see article-smart-card.css). Do not use full mockup PNGs in production.
-  Legacy mockup refs (design only): /blog/images/article-smart-cards/
 
-  Standard SEO blog articles should use the premium article template pattern
-  established by spacex-ipo-brownsville-housing-relocation-costs. In-article
-  ArticleSmartCard modules are optional for long-form premium articles (v2).
-  Do not insert in-body smart cards by default unless the brief requests them.
-  Use the approved two-card bottom CTA unless the article brief specifies otherwise.
+  Rules:
+  - All copy and buttons are real HTML (left column).
+  - Visual scenes (right column) are CSS/HTML decorative modules only — no baked-in text.
+  - Do not use full-card mockup PNGs in production.
+  - Distribute cards through the article; avoid placing directly after image/caption blocks.
 -->
 
 <!-- ArticleSmartCard: ai-planner -->
@@ -22,7 +20,27 @@
       </div>
       <a href="/planner" class="article-smart-card__btn cta-btn" data-track-location="article_smart_card" data-track-label="ai_planner">Start Your AI Plan →</a>
     </div>
-    <div class="article-smart-card__visual" aria-hidden="true"></div>
+    <div class="article-smart-card__visual" aria-hidden="true">
+      <div class="asc-scene asc-scene--ai-planner">
+        <div class="asc-tablet">
+          <div class="asc-tablet__header"><span class="asc-dot"></span><span class="asc-dot"></span><span class="asc-dot"></span></div>
+          <div class="asc-tablet__body">
+            <div class="asc-donut"></div>
+            <div class="asc-bars">
+              <div class="asc-bar"></div>
+              <div class="asc-bar"></div>
+              <div class="asc-bar"></div>
+              <div class="asc-bar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="asc-map-deco">
+          <div class="asc-map-deco__route asc-map-deco__route--1"></div>
+          <div class="asc-map-deco__route asc-map-deco__route--2"></div>
+          <div class="asc-map-deco__pin"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </aside>
 
@@ -37,11 +55,23 @@
       </div>
       <a href="/earthsoul" class="article-smart-card__btn cta-btn" data-track-location="article_smart_card" data-track-label="earthsoul">Take the EarthSoul Test →</a>
     </div>
-    <div class="article-smart-card__visual" aria-hidden="true"></div>
+    <div class="article-smart-card__visual" aria-hidden="true">
+      <div class="asc-scene asc-scene--earthsoul">
+        <div class="asc-sun"></div>
+        <div class="asc-figure"></div>
+        <div class="asc-skyline"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="asc-features">
+          <div class="asc-feature"><span class="asc-feature__glyph"></span></div>
+          <div class="asc-feature"><span class="asc-feature__glyph"></span></div>
+          <div class="asc-feature"><span class="asc-feature__glyph"></span></div>
+          <div class="asc-feature"><span class="asc-feature__glyph"></span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </aside>
 
-<!-- ArticleSmartCard: relocation-readiness -->
+<!-- ArticleSmartCard: relocation-readiness (default placement: after checklist/framework section) -->
 <aside class="article-smart-card article-smart-card--relocation-readiness" aria-label="Relocation readiness planning">
   <div class="article-smart-card__body">
     <div class="article-smart-card__content">
@@ -52,6 +82,21 @@
       </div>
       <a href="/planner" class="article-smart-card__btn cta-btn" data-track-location="article_smart_card" data-track-label="relocation_readiness">Build My Relocation Plan →</a>
     </div>
-    <div class="article-smart-card__visual" aria-hidden="true"></div>
+    <div class="article-smart-card__visual" aria-hidden="true">
+      <div class="asc-scene asc-scene--readiness">
+        <div class="asc-path">
+          <span class="asc-node"></span>
+          <span class="asc-node"></span>
+          <span class="asc-node"></span>
+          <span class="asc-node"></span>
+        </div>
+        <div class="asc-checklist">
+          <div class="asc-check"><span class="asc-check__box"></span><span class="asc-check__line"></span></div>
+          <div class="asc-check"><span class="asc-check__box"></span><span class="asc-check__line"></span></div>
+          <div class="asc-check"><span class="asc-check__box"></span><span class="asc-check__line"></span></div>
+          <div class="asc-check"><span class="asc-check__box"></span><span class="asc-check__line"></span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </aside>
