@@ -26,9 +26,9 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 |-------|------|
 | Styles | `blog/article-smart-card.css` |
 | Copy-paste reference | `blog/article-smart-card-snippets.html` |
-| Visual-only assets | `blog/images/article-smart-cards/*-visual-only.webp` (+ `.png` fallback) |
+| Design reference assets | `blog/images/article-smart-cards/` (optional; not used in production HTML by default) |
 
-**ArticleSmartCard uses real HTML text/buttons on the left and text-free visual-only assets on the right.** Do not use full mockup card images. Do not rely on rough CSS diagrams for final production visuals unless they are design-polished.
+**ArticleSmartCard is a premium full-width editorial CTA module** — real HTML eyebrow, title, copy, and button with subtle CSS background/watermark only. It is not a left-text / right-image card. Visual images are optional and should only be used if they are specifically designed for the card container and improve quality.
 
 ### ArticleSmartCard variants
 
@@ -41,10 +41,11 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 **Implementation rules:**
 
 - Use real HTML text and real `<a class="article-smart-card__btn">` buttons — never bake CTA copy into images.
-- Right-side visuals use text-free illustration assets inside `.article-smart-card__visual` (`ai-planner-visual-only`, `earthsoul-visual-only`, `relocation-readiness-visual-only`). Assets must contain zero readable text and zero button graphics.
-- Legacy full-card mockup PNGs in `blog/images/article-smart-cards/` must not be used in production HTML.
-- Desktop layout: ~44% content / ~56% visual, min-height ~320px, 28px radius, soft shadow.
-- Buttons: 52px height, min-width 220px, 14px radius — bottom-aligned in the left column; full-width on mobile.
+- Structure: `.article-smart-card__inner` > `.article-smart-card__content` + optional `.article-smart-card__watermark` (CSS-only, low opacity).
+- No large right-side image panel, no cropped illustrations, no rough CSS diagrams in production.
+- Desktop: full-width card, content max-width ~780px, padding ~48px, 30px radius, soft shadow.
+- Buttons: 52px height, min-width 220px, 14px radius; full-width on mobile.
+- Files in `blog/images/article-smart-cards/` are design reference only unless a brief explicitly approves container-fit visuals.
 - Distribute smart cards evenly through the article. **Avoid placing a smart card immediately after an image/caption block** unless the brief explicitly requests it.
 - Default placement for Card 3 (`relocation-readiness`): **after a checklist/framework section**, not directly after an editorial image.
 - Do **not** auto-insert smart cards on every article. Add only when the brief requests Template v2.

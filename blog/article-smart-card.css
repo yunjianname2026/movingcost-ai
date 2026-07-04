@@ -1,31 +1,29 @@
 /**
- * ArticleSmartCard — premium in-article editorial modules.
+ * ArticleSmartCard — premium full-width editorial CTA modules.
  * Reference: blog/article-smart-card-snippets.html
- * Right-side visuals use text-free illustration assets only.
+ * Real HTML copy/buttons only; subtle CSS watermarks for decoration.
  */
 
 .article-smart-card {
   margin: 52px 0;
-  border-radius: 28px;
+  border-radius: 30px;
   overflow: hidden;
-  box-shadow: 0 12px 44px rgba(15, 23, 42, 0.08);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.07);
+  border: 1px solid rgba(15, 23, 42, 0.07);
   background: var(--asc-bg, #f8f6f2);
 }
 
-.article-smart-card__body {
-  display: grid;
-  grid-template-columns: minmax(0, 44%) minmax(0, 56%);
-  align-items: stretch;
-  min-height: 320px;
+.article-smart-card__inner {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 52px;
 }
 
 .article-smart-card__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 38px 34px 34px 38px;
-  min-height: 100%;
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
 }
 
 .article-smart-card__eyebrow {
@@ -40,36 +38,35 @@
 
 .article-smart-card__title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(22px, 2.6vw, 28px);
+  font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.3px;
   color: var(--asc-title, #0f172a);
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 
 .article-smart-card .article-smart-card__title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(22px, 2.6vw, 28px);
+  font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 500;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 
 .article-smart-card__copy {
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  line-height: 1.65;
+  line-height: 1.68;
   font-weight: 300;
   color: var(--asc-copy, #475569);
-  margin: 0 0 28px;
-  flex: 1;
+  margin: 0 0 32px;
+  max-width: 52ch;
 }
 
 .article-smart-card__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-start;
   min-width: 220px;
   height: 52px;
   padding: 0 28px;
@@ -85,7 +82,6 @@
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.14);
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   -webkit-text-fill-color: #fff !important;
-  flex-shrink: 0;
 }
 
 .article-smart-card__btn:hover {
@@ -95,26 +91,22 @@
   color: #fff !important;
 }
 
-/* ── Visual panel ── */
-.article-smart-card__visual {
-  position: relative;
-  overflow: hidden;
-  min-height: 320px;
-  border-radius: 0 28px 28px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 22px 24px 14px;
+/* ── Subtle watermark (decorative only) ── */
+.article-smart-card__watermark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(46%, 340px);
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.11;
 }
 
-.article-smart-card__visual img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 260px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 14px;
+.article-smart-card__watermark::before,
+.article-smart-card__watermark::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
 }
 
 /* ── Variant: AI Planner ── */
@@ -124,18 +116,29 @@
   --asc-copy: #475569;
   --asc-btn-bg: #0f172a;
   --asc-btn-bg-hover: #1e293b;
-  background: linear-gradient(135deg, #faf8f4 0%, #f0ebe3 100%);
+  background: linear-gradient(135deg, #faf8f4 0%, #f3efe8 100%);
 }
 
-.article-smart-card--ai-planner .article-smart-card__visual {
-  background:
-    radial-gradient(circle at 78% 38%, rgba(14, 165, 233, 0.1), transparent 38%),
-    linear-gradient(145deg, #f5f0e8 0%, #e8e0d4 100%);
+.article-smart-card--ai-planner .article-smart-card__watermark::before {
+  top: 14%;
+  right: 8%;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(30, 58, 95, 0.45);
+  box-shadow:
+    0 0 0 22px rgba(30, 58, 95, 0.12),
+    0 0 0 44px rgba(30, 58, 95, 0.07);
 }
 
-.article-smart-card--ai-planner .article-smart-card__visual img {
-  object-fit: cover;
-  object-position: center right;
+.article-smart-card--ai-planner .article-smart-card__watermark::after {
+  inset: 8% 0 8% 18%;
+  background-image:
+    linear-gradient(rgba(30, 58, 95, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 58, 95, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at 85% 50%, #000 15%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at 85% 50%, #000 15%, transparent 72%);
 }
 
 /* ── Variant: EarthSoul ── */
@@ -145,18 +148,30 @@
   --asc-copy: #5c5168;
   --asc-btn-bg: #4a3d58;
   --asc-btn-bg-hover: #5b4b6a;
-  background: linear-gradient(135deg, #faf7fc 0%, #f1ebf5 100%);
+  background: linear-gradient(135deg, #faf7fc 0%, #f2ebf4 100%);
 }
 
-.article-smart-card--earthsoul .article-smart-card__visual {
-  background:
-    radial-gradient(circle at 72% 22%, rgba(255, 200, 140, 0.28), transparent 42%),
-    linear-gradient(165deg, #faf4ef 0%, #ebe3f0 55%, #ddd0e8 100%);
+.article-smart-card--earthsoul .article-smart-card__watermark::before {
+  top: 18%;
+  right: -6%;
+  width: 88%;
+  height: 62%;
+  border: 1px solid rgba(91, 75, 106, 0.35);
+  border-radius: 50% 50% 0 0;
+  border-bottom: none;
+  transform: rotate(-6deg);
 }
 
-.article-smart-card--earthsoul .article-smart-card__visual img {
-  object-fit: cover;
-  object-position: center;
+.article-smart-card--earthsoul .article-smart-card__watermark::after {
+  top: 34%;
+  right: 4%;
+  width: 78%;
+  height: 48%;
+  border: 1px solid rgba(91, 75, 106, 0.22);
+  border-radius: 50% 50% 0 0;
+  border-bottom: none;
+  transform: rotate(4deg);
+  box-shadow: 0 -18px 0 -1px rgba(91, 75, 106, 0.12);
 }
 
 /* ── Variant: Relocation Readiness ── */
@@ -169,46 +184,56 @@
   background: linear-gradient(135deg, #f7faf8 0%, #eef3ef 100%);
 }
 
-.article-smart-card--relocation-readiness .article-smart-card__visual {
-  background:
-    radial-gradient(circle at 70% 35%, rgba(45, 106, 79, 0.1), transparent 40%),
-    linear-gradient(145deg, #f4f7f4 0%, #e4ece6 100%);
+.article-smart-card--relocation-readiness .article-smart-card__watermark::before {
+  top: 28%;
+  right: 10%;
+  left: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45, 74, 62, 0.5) 18%, rgba(45, 74, 62, 0.5) 82%, transparent);
+  box-shadow:
+    0 42px 0 0 rgba(45, 74, 62, 0.28),
+    0 42px 0 6px rgba(45, 74, 62, 0.18),
+    0 42px 0 12px rgba(45, 74, 62, 0.12),
+    0 42px 0 18px rgba(45, 74, 62, 0.08),
+    0 42px 0 24px rgba(45, 74, 62, 0.05);
 }
 
-.article-smart-card--relocation-readiness .article-smart-card__visual img {
-  object-fit: contain;
-  object-position: center right;
+.article-smart-card--relocation-readiness .article-smart-card__watermark::after {
+  top: 24%;
+  right: 12%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(45, 74, 62, 0.45);
+  box-shadow:
+    68px 0 0 0 rgba(45, 74, 62, 0.35),
+    136px 0 0 0 rgba(45, 74, 62, 0.28),
+    204px 0 0 0 rgba(45, 74, 62, 0.22),
+    0 42px 0 0 rgba(45, 74, 62, 0.35),
+    68px 42px 0 0 rgba(45, 74, 62, 0.28),
+    136px 42px 0 0 rgba(45, 74, 62, 0.22),
+    204px 42px 0 0 rgba(45, 74, 62, 0.18);
 }
 
 /* ── Responsive ── */
 @media (max-width: 720px) {
   .article-smart-card {
     margin: 40px 0;
-    border-radius: 22px;
+    border-radius: 24px;
   }
 
-  .article-smart-card__body {
-    grid-template-columns: 1fr;
-    min-height: 0;
+  .article-smart-card__inner {
+    padding: 28px 24px;
   }
 
-  .article-smart-card__content {
-    padding: 28px 24px 24px;
-    order: 1;
+  .article-smart-card__copy {
+    margin-bottom: 26px;
+    max-width: none;
   }
 
-  .article-smart-card__visual {
-    order: 2;
-    min-height: 205px;
-    height: 205px;
-    padding: 16px 18px 18px;
-    border-radius: 0 0 22px 22px;
-  }
-
-  .article-smart-card__visual img {
-    min-height: 0;
-    height: 100%;
-    border-radius: 12px;
+  .article-smart-card__watermark {
+    width: 52%;
+    opacity: 0.08;
   }
 
   .article-smart-card__btn {
@@ -225,6 +250,5 @@
 
   .article-smart-card__copy {
     font-size: 14px;
-    margin-bottom: 22px;
   }
 }
