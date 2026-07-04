@@ -1,0 +1,245 @@
+/**
+ * NativeArticleBanner — Premium Native Article Banner System v1
+ * Background image only; brand, copy, and CTA are real HTML/CSS.
+ * Reference: blog/native-article-banner-snippets.html
+ */
+
+.native-article-banner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "brand ."
+    ". ."
+    "copy button";
+  align-items: end;
+  gap: 0 24px;
+  min-height: 300px;
+  margin: 52px 0;
+  padding: 28px 32px 30px;
+  border-radius: 28px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 14px 48px rgba(15, 23, 42, 0.16);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  isolation: isolate;
+}
+
+.native-article-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 56px rgba(15, 23, 42, 0.22);
+}
+
+.native-article-banner:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+/* ── Background (full-bleed, square corners on image) ── */
+.native-article-banner__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  z-index: 0;
+  transition: transform 0.55s ease;
+}
+
+.native-article-banner:hover .native-article-banner__bg {
+  transform: scale(1.04);
+}
+
+.native-article-banner__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(8, 14, 28, 0.42) 0%, rgba(8, 14, 28, 0.08) 38%, rgba(8, 14, 28, 0.18) 100%),
+    linear-gradient(90deg, rgba(8, 14, 28, 0.62) 0%, rgba(8, 14, 28, 0.28) 48%, rgba(8, 14, 28, 0.46) 100%);
+  pointer-events: none;
+}
+
+/* ── Brand (text mode default) ── */
+.native-article-banner__brand {
+  grid-area: brand;
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.native-article-banner__brand-mark {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.native-article-banner__brand-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Future logo-image mode */
+.native-article-banner__brand--logo {
+  padding: 8px 12px;
+}
+
+.native-article-banner__brand--logo img {
+  display: block;
+  max-height: 28px;
+  max-width: 160px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── Copy block ── */
+.native-article-banner__copy {
+  grid-area: copy;
+  position: relative;
+  z-index: 2;
+  max-width: min(560px, 72%);
+}
+
+.native-article-banner__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+  color: #fff;
+  margin: 0 0 10px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+.native-article-banner__subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  max-width: 46ch;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.24);
+}
+
+/* ── CTA button (HTML inside clickable banner) ── */
+.native-article-banner__button {
+  grid-area: button;
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 168px;
+  height: 50px;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.native-article-banner:hover .native-article-banner__button {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.native-article-banner__arrow {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* ── Variant accents ── */
+.native-article-banner--planner .native-article-banner__bg {
+  object-position: center center;
+}
+
+.native-article-banner--earthsoul .native-article-banner__overlay {
+  background:
+    linear-gradient(180deg, rgba(24, 12, 36, 0.4) 0%, rgba(24, 12, 36, 0.06) 40%, rgba(24, 12, 36, 0.22) 100%),
+    linear-gradient(90deg, rgba(24, 12, 36, 0.58) 0%, rgba(24, 12, 36, 0.22) 50%, rgba(24, 12, 36, 0.42) 100%);
+}
+
+.native-article-banner--earthsoul .native-article-banner__bg {
+  object-position: center center;
+}
+
+.native-article-banner--readiness .native-article-banner__bg {
+  object-position: center center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .native-article-banner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "brand"
+      "."
+      "copy"
+      "button";
+    min-height: 360px;
+    margin: 40px 0;
+    padding: 22px 20px 22px;
+    border-radius: 22px;
+    gap: 0;
+  }
+
+  .native-article-banner__copy {
+    max-width: none;
+    margin-bottom: 18px;
+  }
+
+  .native-article-banner__title {
+    font-size: 24px;
+  }
+
+  .native-article-banner__subtitle {
+    font-size: 14px;
+  }
+
+  .native-article-banner__button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .native-article-banner {
+    min-height: 380px;
+  }
+
+  .native-article-banner__title {
+    font-size: 22px;
+  }
+}
