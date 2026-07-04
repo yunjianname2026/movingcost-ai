@@ -26,9 +26,9 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 |-------|------|
 | Styles | `blog/article-smart-card.css` |
 | Copy-paste reference | `blog/article-smart-card-snippets.html` |
-| Visual backup assets | `blog/images/article-smart-cards/` (design mockups only — **do not use in production HTML**) |
+| Visual-only assets | `blog/images/article-smart-cards/*-visual-only.webp` (+ `.png` fallback) |
 
-**ArticleSmartCard visual assets must be text-free decorative assets only.** Do not use full card mockup images as visual assets, because the component renders real HTML copy and buttons. Production visuals use **CSS/HTML decorative scenes** (`.asc-scene` inside `.article-smart-card__visual`) — never baked-in eyebrow, title, copy, or button graphics.
+**ArticleSmartCard uses real HTML text/buttons on the left and text-free visual-only assets on the right.** Do not use full mockup card images. Do not rely on rough CSS diagrams for final production visuals unless they are design-polished.
 
 ### ArticleSmartCard variants
 
@@ -41,9 +41,9 @@ For long-form premium SEO articles, the recommended structure adds **three in-ar
 **Implementation rules:**
 
 - Use real HTML text and real `<a class="article-smart-card__btn">` buttons — never bake CTA copy into images.
-- Reference PNGs in `blog/images/article-smart-cards/` are **legacy design mockups only** — never embed them in `.article-smart-card__visual`.
-- Production visual panels use structured HTML (`.asc-scene`, `.asc-tablet`, `.asc-skyline`, `.asc-path`, etc.) styled in `article-smart-card.css`. Optional future text-free PNGs must contain zero readable text and zero button graphics.
-- Desktop layout: ~46% content / ~54% visual, min-height ~320px, 28px radius, soft shadow.
+- Right-side visuals use text-free illustration assets inside `.article-smart-card__visual` (`ai-planner-visual-only`, `earthsoul-visual-only`, `relocation-readiness-visual-only`). Assets must contain zero readable text and zero button graphics.
+- Legacy full-card mockup PNGs in `blog/images/article-smart-cards/` must not be used in production HTML.
+- Desktop layout: ~44% content / ~56% visual, min-height ~320px, 28px radius, soft shadow.
 - Buttons: 52px height, min-width 220px, 14px radius — bottom-aligned in the left column; full-width on mobile.
 - Distribute smart cards evenly through the article. **Avoid placing a smart card immediately after an image/caption block** unless the brief explicitly requests it.
 - Default placement for Card 3 (`relocation-readiness`): **after a checklist/framework section**, not directly after an editorial image.
