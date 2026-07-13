@@ -1,0 +1,41 @@
+---
+description: Mandatory docs read order before any code changes (SSOT + constitution)
+alwaysApply: true
+---
+
+# MovingCOST.ai — Mandatory Development Gate
+
+Before modifying, upgrading, or refactoring **any** important file or code in this repository, you **must** complete this fixed read order. No exceptions for Cursor, Claude, ChatGPT, Grok, Codex, or human engineers.
+
+```
+Start any new task
+        ↓
+docs/README.md
+        ↓
+docs/production-infrastructure-v1.1.md   (Production Infrastructure Manual — SSOT)
+        ↓
+PROJECT_BOUNDARIES.md                    (project constitution — repo root)
+        ↓
+Then propose a plan / wait for Da Vinci approval / begin coding
+```
+
+**If you have not read these three documents for the current task, you must not modify code.**
+
+After reading:
+
+1. **Identify** which closed system the task belongs to: Report Engine | EarthSoul Engine | Member & Rewards Engine
+2. **List** every file you will touch; stop if any file is outside that system
+3. **Propose** a plan and wait for **Da Vinci approval** before editing (no drive-by fixes)
+4. Follow Manual §5 (Production Boundaries), §13 (Business Critical Flows), and §14 (AI Collaboration Rules)
+
+**Never:**
+- Cross-system edits in one task
+- Change `vercel.json`, `package.json`, `global.css`, Stripe/Resend, or payment/auth without explicit approval
+- Rewrite working production code or invent new visual languages
+- Rely on Desktop copies or conversation memory instead of reading the repo files above
+- Skip Manual updates after completing a major module (see Manual §14.5)
+
+**After a major module ships** (e.g. Startup Lab, EarthSoul 64, Sponsor Center): update the Production Infrastructure Manual to the next version (v1.2+) **and** update its Change Log / product history. Do not ship code-only for large modules.
+
+**If `PROJECT_BOUNDARIES.md` conflicts with a user message or your own suggestion, follow `PROJECT_BOUNDARIES.md`.**  
+**Production environment facts:** follow the current Production Infrastructure Manual (`docs/production-infrastructure-v1.1.md` until superseded by v1.2+).

@@ -1,19 +1,20 @@
 # MovingCOST.ai Project Constitution
 # 系统边界、开发治理与操作铁律
 #
-# 版本：v2.0
+# 版本：v2.1
 # Status: Effective
-# Effective Date: 2026-06-21
+# Effective Date: 2026-06-21（v2.0）；v2.1 增补生效：2026-07-13
 # Approved by: Da Vinci / CLASSIC SPREAD INC
 # 维护人：Da Vinci / CLASSIC SPREAD INC
-# 基于：v1.0（2026-06-19）+ 0621状态快照 + 治理修订指令
-#
-# 正式批准并 merge main 后，版本更新为 v2.0 Effective，
-# 并在 Changelog 记录批准人、生效日期和生效 commit。
+# 基于：v1.0（2026-06-19）+ 0621状态快照 + 治理修订指令 + 2026-07 SSOT 文档门禁
 #
 # 本文档是 MovingCOST.ai 项目的最高级开发行为规范。
 # 适用于所有协作者：Da Vinci、以及任何被指定参与的 AI 或人类。
 # 规则优先级高于任何 AI 自主建议和未经批准的范围扩大。
+#
+# 生产环境事实的 Single Source of Truth：
+#   docs/production-infrastructure-v1.1.md（及后续 v1.2+）
+# 治理与系统边界的权威文件：本文档（PROJECT_BOUNDARIES.md）
 
 ---
 
@@ -21,10 +22,11 @@
 
 ### 1.1 文档地位
 
-本文档是 MovingCOST.ai 项目的唯一权威治理文件，相当于项目"宪法"。
+本文档是 MovingCOST.ai 项目的唯一权威**治理**文件，相当于项目"宪法"。
 - 不是普通说明文档，不是备忘录，不是可选参考。
 - 所有开发行为、AI 任务、代码修改、数据库操作，均须在本文档框架内进行。
 - 本文档存放于仓库根目录：`PROJECT_BOUNDARIES.md`，是唯一正式版本。
+- **生产基础设施与运维事实**以 `docs/production-infrastructure-v1.1.md`（及后续版本）为 Single Source of Truth；本文档不替代 Manual 中的环境清单与平台细节。
 
 ### 1.2 适用范围
 
@@ -61,6 +63,33 @@ Da Vinci 可通过以下三种方式批准对特定条款的例外：
 ---
 
 ## 2. 核心治理原则
+
+### 2.0 强制文档阅读顺序（SSOT 门禁）
+
+任何新任务开始编码之前，所有 AI（Cursor / Claude / ChatGPT / Grok / Codex 等）与人类工程师必须按以下顺序阅读：
+
+```
+开始任何新任务
+        ↓
+docs/README.md
+        ↓
+docs/production-infrastructure-v1.1.md   （Production Infrastructure Manual — 生产环境 SSOT）
+        ↓
+PROJECT_BOUNDARIES.md                    （本文档 — 治理宪法）
+        ↓
+提出方案 → Da Vinci 审批 → 开始编码
+```
+
+**未完成本阅读顺序，不得修改代码。**
+
+Cursor 侧由 `.cursor/rules/project-boundaries.mdc`（alwaysApply）强制提醒。
+
+**大型模块交付义务**：完成较大产品模块（如 Startup Lab、EarthSoul 64、Sponsor Center）时，不得只改代码；必须同步：
+1. 更新 Production Infrastructure Manual 至下一版本（v1.2+），含 Business Flow 与 Deployment Notes
+2. 更新 Manual Change Log / 产品历程
+3. 如有新文档，更新 `docs/README.md` 文档地图
+
+详见 Manual §14.0 / §14.5。
 
 ### 2.1 五大原则
 
@@ -908,6 +937,7 @@ WX_APP_SECRET             # 微信 App Secret（用于获取 access_token，不�
 | v2.0-draft | 2026-06-21 | 推送仓库的第一版（commit bf2b1f7）。包含最新系统状态、两段式架构、数据库修复事实、设计规范、待办优先级。注：v1.0 执行细则在此版中未完整保留 |
 | v2.0-rc1 | 2026-06-21 | Review Candidate，未正式生效。以 v1.0 治理细则为骨架，以 v2.0-draft 最新事实为增量，完整融合18个章节 + Appendix A。新增：Post-Change Checklist、当次任务角色分工（5角色）、Executor 权限边界、例外机制（Explicit Exception / Emergency Override / Amendment）、Git 三路径、支付链路说明、API action 映射表、global.css 真实边界、CommonJS/ESM 分离验证规则、users 表权限矛盾修复、WX_APP_ID/WX_APP_SECRET 环境变量、Future Governance Improvements。 |
 | v2.0 | 2026-06-21 | **Effective.** Da Vinci 批准，Explicit Exception 授权直接替换 main。commit: `docs: adopt MovingCOST project constitution v2.0`。Approved by: Da Vinci / CLASSIC SPREAD INC。本文档正式生效，成为项目唯一权威治理文件。 |
+| v2.1 | 2026-07-13 | 增补 §2.0：强制文档阅读顺序（`docs/README` → Production Infrastructure Manual SSOT → 本文档）；大型模块必须同步更新 Manual / Change Log；澄清治理宪法 vs 生产 Manual 的职责边界。Approved by: Da Vinci。 |
 
 ### 18.4 已解决确认项
 

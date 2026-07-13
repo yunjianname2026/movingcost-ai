@@ -503,10 +503,25 @@ Email missing
 
 ## 12. Change Log
 
+### 12.1 Manual versions
+
 | Version | Date | Summary |
 |---------|------|---------|
 | v1.0 | 2026-07-11 | Initial infrastructure audit across Vercel, Supabase Pro, Resend, Stripe. |
-| v1.1 | 2026-07-13 | Converted audit into official Production Infrastructure Manual. Added architecture, deployment checklist, disaster recovery, monitoring, timeline, quick recovery, business-critical flows, AI collaboration rules, and future roadmap. Preserved all v1.0 verified facts. |
+| v1.1 | 2026-07-13 | Converted audit into official Production Infrastructure Manual. Added architecture, deployment checklist, disaster recovery, monitoring, timeline, quick recovery, business-critical flows, AI collaboration rules, and future roadmap. Preserved all v1.0 verified facts. Same-day amendment: mandatory SSOT read order + major-module documentation duty (§14.0 / §14.5); docs index + Cursor rule enforcement. |
+
+### 12.2 Product history (project milestones)
+
+| Period | Milestone |
+|--------|-----------|
+| 2026-07 | Report Engine 封板 |
+| 2026-07 | Member System 封板 |
+| 2026-07 | Sample Report 上线 |
+| 2026-07 | Welcome Email / Magic Login 邮件统一；Member 闭环打通 |
+| 2026-07 | `main` 与 `dev` 同步；Supabase 升级 Pro |
+| 2026-07 | Startup Lab Beta（apply flow live） |
+| 2026-07 | Production Infrastructure Manual v1.1 Effective (SSOT) |
+| Future | Continue in Manual v1.2+ when major modules ship |
 
 ---
 
@@ -547,8 +562,28 @@ Do not casually break these. Any change touching related files requires explicit
 
 **MovingCOST Engineering Constitution (for all AI engineers)**
 
-Applies to Cursor, Claude, ChatGPT, Grok, and any other AI or human collaborator.  
+Applies to Cursor, Claude, ChatGPT, Grok, Codex, and any other AI or human collaborator.  
 These rules reinforce `/PROJECT_BOUNDARIES.md`. If this section conflicts with the constitution, **follow `PROJECT_BOUNDARIES.md`**.
+
+### 14.0 Mandatory pre-task read order (SSOT gate)
+
+Before **any** new coding task:
+
+```
+Start any new task
+        ↓
+docs/README.md
+        ↓
+Production Infrastructure Manual (this document — SSOT)
+        ↓
+PROJECT_BOUNDARIES.md
+        ↓
+Propose plan → Da Vinci approval → begin coding
+```
+
+**If these three documents have not been read for the current task, do not modify code.**
+
+This workflow is also enforced by `.cursor/rules/project-boundaries.mdc` for Cursor agents.
 
 ### 14.1 Engineering Rules
 
@@ -560,7 +595,7 @@ All AI engineers must obey:
 - Avoid introducing new visual languages.
 - Prefer extending existing components over creating new ones.
 - Never invent infrastructure, secrets, URLs, or “helpful” drive-by refactors.
-- Read `/docs/README.md` → this Manual → `/PROJECT_BOUNDARIES.md` before important changes.
+- Complete §14.0 read order before important changes.
 - Propose a plan and wait for **Da Vinci approval** before editing critical surfaces.
 
 ### 14.2 Git Rules
@@ -593,6 +628,30 @@ Stop and escalate to Da Vinci if the task would:
 - Alter Magic Link / `magic_tokens` behavior
 - Add `redirects` to `vercel.json`
 - Cross Report Engine / EarthSoul / Member boundaries in one change set
+
+### 14.5 Major module documentation duty
+
+Completing a large product module is **not code-only**.
+
+Examples of major modules: Startup Lab, EarthSoul 64, Sponsor Center, Enterprise Dashboard, MovingCOST AI.
+
+When such a module ships, the Executor must also:
+
+1. **Update this Manual** to the next version file (v1.2, v1.3, …) including:
+   - Business Flow(s) for the module
+   - Deployment notes
+   - Related files / env vars / tables if production-facing
+2. **Update Change Log / product history** (§12) with month + milestone
+3. **Update** `docs/README.md` document map if new docs were added
+4. **Do not** delete or rewrite prior Manual versions
+
+Example (illustrative for a future release):
+
+```
+v1.2 — Startup Lab
+  - Business Flow
+  - Deployment Notes
+```
 
 ---
 
@@ -942,8 +1001,10 @@ planner.html
 - [x] Mermaid + plain-text architecture included
 - [x] Section 13 Business Critical User Flows included
 - [x] Section 14 AI Collaboration Rules included
+- [x] Section 14.0 mandatory SSOT read order + §14.5 major-module doc duty
 - [x] Section 15 Future Roadmap included
 - [x] Official single-source-of-truth header present
+- [x] `docs/README.md` + Cursor rule enforce three-doc gate
 
 ---
 
