@@ -143,7 +143,24 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   #nav-main-cta.is-member:hover {
     opacity: 0.8; transform: none !important;
   }
-  </style>
+  
+.nav-dropdown{position:relative}
+.dd-trigger{display:inline-flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--mid);background:none;border:none;padding:0;margin:0;cursor:pointer;transition:color var(--tr)}
+.dd-trigger:hover,.dd-trigger:focus-visible,.dd-trigger[aria-expanded="true"]{color:var(--blue)}
+.dd-trigger:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+.dd-trigger svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;transition:transform var(--tr)}
+.dd-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(4px);width:300px;background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:0 8px 32px rgba(14,165,233,0.10),0 2px 8px rgba(10,22,40,0.06);padding:10px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.22s,transform 0.22s,visibility 0.22s;z-index:210}
+.dd-panel.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.dd-item{display:block;padding:11px 12px;border-radius:10px;transition:background 0.22s}
+.dd-item:hover,.dd-item:focus-visible{background:var(--bg,#F0F6FF)}
+.dd-item-title{font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:600;color:var(--text,#0A1628);margin-bottom:2px}
+.dd-item-desc{font-size:12px;color:var(--muted,#7B92B2);line-height:1.5;font-weight:300}
+.nav-mobile-group{display:flex;flex-direction:column}
+.nav-mobile-group-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted,#7B92B2);padding:16px 0 4px}
+.nav-mobile-group a{padding-left:12px}
+
+</style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/global.css">
@@ -172,7 +189,17 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <a href="/earthsoul">EarthSoul</a>
         <a href="/blog">Blog</a>
         <a href="/about">About</a>
-        <a href="/startup-lab">Startup Lab</a>
+        <div class="nav-dropdown">
+          <button type="button" class="dd-trigger" id="pathwaysTrigger" aria-expanded="false" aria-controls="pathwaysMenu" aria-haspopup="true">Pathways
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="dd-panel" id="pathwaysMenu" role="menu" hidden>
+            <a href="/pathways" class="dd-item" role="menuitem"><div class="dd-item-title">Student Hub</div><div class="dd-item-desc">Costs, opportunities, experience, and career planning.</div></a>
+            <a href="/pathways/opportunity" class="dd-item" role="menuitem"><div class="dd-item-title">City Opportunity</div><div class="dd-item-desc">Find where your strengths may work best.</div></a>
+            <a href="/pathways/startup-lab" class="dd-item" role="menuitem"><div class="dd-item-title">Startup Lab</div><div class="dd-item-desc">Build experience through real AI projects.</div></a>
+            <a href="/pathways/career" class="dd-item" role="menuitem"><div class="dd-item-title">Career &amp; City Life</div><div class="dd-item-desc">Plan your transition from school to independent life.</div></a>
+          </div>
+        </div>
         <a href="/login" class="nav-cta" id="nav-main-cta">Sign In</a>
       </div>
       <button class="nav-hamburger" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -186,7 +213,13 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
   <a href="/earthsoul" onclick="closeMenu()">EarthSoul ✦</a>
   <a href="/blog" onclick="closeMenu()">Blog</a>
   <a href="/about" onclick="closeMenu()">About</a>
-  <a href="/startup-lab" onclick="closeMenu()">Startup Lab</a>
+  <div class="nav-mobile-group">
+  <div class="nav-mobile-group-label">PATHWAYS</div>
+  <a href="/pathways" onclick="closeMenu()">Student Hub</a>
+  <a href="/pathways/opportunity" onclick="closeMenu()">City Opportunity</a>
+  <a href="/pathways/startup-lab" onclick="closeMenu()">Startup Lab</a>
+  <a href="/pathways/career" onclick="closeMenu()">Career &amp; City Life</a>
+</div>
   <a href="/login" onclick="closeMenu()" id="mobile-signin-link">Sign In →</a>
   <a href="/member" id="mobile-member-cta" style="display:none;" onclick="closeMenu()">My Dashboard →</a>
 </div>
@@ -323,7 +356,7 @@ footer{background:#0A1628;color:rgba(255,255,255,0.65);padding:60px 0 32px}
         <h4>Company</h4>
         <ul>
           <li><a href="/about">About</a></li>
-          <li><a href="/startup-lab">Startup Lab</a></li>
+          <li><a href="/pathways">Pathways</a></li>
           <li><a href="/contact">Contact</a></li>
           <li><a href="/privacy">Privacy Policy</a></li>
           <li><a href="/terms">Terms of Use</a></li>
@@ -465,6 +498,22 @@ function sendContact(){
       // Silent fail — page works normally without WeChat sharing
     });
 })();
+</script>
+<script>
+  (function(){
+    var trigger=document.getElementById('pathwaysTrigger');
+    var panel=document.getElementById('pathwaysMenu');
+    if(!trigger||!panel)return;
+    function setOpen(open){
+      trigger.setAttribute('aria-expanded',open?'true':'false');
+      panel.classList.toggle('is-open',open);
+      if(open)panel.removeAttribute('hidden');
+      else panel.setAttribute('hidden','');
+    }
+    trigger.addEventListener('click',function(e){e.stopPropagation();setOpen(trigger.getAttribute('aria-expanded')!=='true');});
+    document.addEventListener('click',function(e){if(!trigger.contains(e.target)&&!panel.contains(e.target))setOpen(false);});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false);});
+  })();
 </script>
 </body>
 </html>
