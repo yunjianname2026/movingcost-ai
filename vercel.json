@@ -5,11 +5,6 @@
       "maxDuration": 800
     }
   },
-  "redirects": [
-    { "source": "/startup-lab", "destination": "/pathways/startup-lab", "permanent": true },
-    { "source": "/startup-lab-handbook", "destination": "/pathways/startup-lab/handbook", "permanent": true },
-    { "source": "/startup-lab-apply", "destination": "/pathways/startup-lab/apply", "permanent": true }
-  ],
   "rewrites": [
     { "source": "/blog/nyc-to-lisbon", "destination": "/blog/nyc-to-lisbon.html" },
     { "source": "/planner", "destination": "/planner.html" },
