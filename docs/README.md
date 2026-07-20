@@ -9,7 +9,7 @@ Start any new task
         ↓
 docs/README.md                          ← you are here
         ↓
-docs/production-infrastructure-v1.2.md  ← Production Infrastructure Manual (SSOT)
+docs/production-infrastructure-v1.1.md  ← Production Infrastructure Manual (SSOT)
         ↓
 /PROJECT_BOUNDARIES.md                  ← project constitution (repo root)
         ↓
@@ -26,12 +26,12 @@ This prevents repeated clarification, accidental cross-system edits, and product
 
 | Document | Role | Path |
 |----------|------|------|
-| **Production Infrastructure Manual** | Official production environment & operations (SSOT) | [`production-infrastructure-v1.2.md`](./production-infrastructure-v1.2.md) |
+| **Production Infrastructure Manual** | Official production environment & operations (SSOT) | [`production-infrastructure-v1.1.md`](./production-infrastructure-v1.1.md) |
 | **Project Boundaries** | System isolation, Git workflow, change governance | [`../PROJECT_BOUNDARIES.md`](../PROJECT_BOUNDARIES.md) |
 | Infrastructure Audit v1.0 | Immutable audit baseline (do not rewrite) | [`production-infrastructure-v1.0.md`](./production-infrastructure-v1.0.md) |
 
 The Manual is the **single source of truth for the MovingCOST.ai production environment**.  
-Versioning policy: never delete or silently rewrite — evolve as **v1.3 / v2.0**. Prior: v1.1, v1.0 (audit baseline).
+Versioning policy: never delete or silently rewrite — evolve as **v1.2 / v1.3 / v2.0**.
 
 ---
 
@@ -73,9 +73,8 @@ Example Change Log history:
 | Area | Document | Status |
 |------|----------|--------|
 | Docs home | `docs/README.md` | ✅ Current |
-| Production Manual | `docs/production-infrastructure-v1.2.md` | ✅ Effective |
-| Production Manual (prior) | `docs/production-infrastructure-v1.1.md` | Archived Effective baseline |
-| Production Audit | `docs/production-infrastructure-v1.0.md` | ✅ Archived audit baseline |
+| Production Manual | `docs/production-infrastructure-v1.1.md` | ✅ Effective |
+| Production Audit | `docs/production-infrastructure-v1.0.md` | ✅ Archived baseline |
 | Project Constitution | `/PROJECT_BOUNDARIES.md` | ✅ Effective (v2.1+) |
 | Article CTA system | `docs/article-cta-system-v1.md` | Reference |
 | API Guide | `docs/API_GUIDE.md` | Planned |
