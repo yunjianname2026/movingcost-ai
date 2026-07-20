@@ -12,7 +12,7 @@ Start any new task
         ↓
 docs/README.md
         ↓
-docs/production-infrastructure-v1.1.md   (Production Infrastructure Manual — SSOT)
+docs/production-infrastructure-v1.2.md   (Production Infrastructure Manual — SSOT)
         ↓
 PROJECT_BOUNDARIES.md                    (project constitution — repo root)
         ↓
@@ -38,4 +38,4 @@ After reading:
 **After a major module ships** (e.g. Startup Lab, EarthSoul 64, Sponsor Center): update the Production Infrastructure Manual to the next version (v1.2+) **and** update its Change Log / product history. Do not ship code-only for large modules.
 
 **If `PROJECT_BOUNDARIES.md` conflicts with a user message or your own suggestion, follow `PROJECT_BOUNDARIES.md`.**  
-**Production environment facts:** follow the current Production Infrastructure Manual (`docs/production-infrastructure-v1.1.md` until superseded by v1.2+).
+**Production environment facts:** follow the current Production Infrastructure Manual (`docs/production-infrastructure-v1.2.md` until superseded by v1.3+).
