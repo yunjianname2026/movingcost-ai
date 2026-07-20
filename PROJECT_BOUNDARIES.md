@@ -13,7 +13,7 @@
 # 规则优先级高于任何 AI 自主建议和未经批准的范围扩大。
 #
 # 生产环境事实的 Single Source of Truth：
-#   docs/production-infrastructure-v1.1.md（及后续 v1.2+）
+#   docs/production-infrastructure-v1.2.md（及后续 v1.3+）
 # 治理与系统边界的权威文件：本文档（PROJECT_BOUNDARIES.md）
 
 ---
@@ -26,7 +26,7 @@
 - 不是普通说明文档，不是备忘录，不是可选参考。
 - 所有开发行为、AI 任务、代码修改、数据库操作，均须在本文档框架内进行。
 - 本文档存放于仓库根目录：`PROJECT_BOUNDARIES.md`，是唯一正式版本。
-- **生产基础设施与运维事实**以 `docs/production-infrastructure-v1.1.md`（及后续版本）为 Single Source of Truth；本文档不替代 Manual 中的环境清单与平台细节。
+- **生产基础设施与运维事实**以 `docs/production-infrastructure-v1.2.md`（及后续版本）为 Single Source of Truth；本文档不替代 Manual 中的环境清单与平台细节。
 
 ### 1.2 适用范围
 
@@ -73,7 +73,7 @@ Da Vinci 可通过以下三种方式批准对特定条款的例外：
         ↓
 docs/README.md
         ↓
-docs/production-infrastructure-v1.1.md   （Production Infrastructure Manual — 生产环境 SSOT）
+docs/production-infrastructure-v1.2.md   （Production Infrastructure Manual — 生产环境 SSOT）
         ↓
 PROJECT_BOUNDARIES.md                    （本文档 — 治理宪法）
         ↓
