@@ -1151,6 +1151,27 @@
     }
   }
 
+  /** Internal Beta / local QA only when ?mock=1 — does not expose prompts. */
+  if (MOCK_MODE) {
+    window.__SMC_DEMO = {
+      showFreeFromAnswers: function (answers) {
+        var validation = window.SMC.validateClientAnswers(answers);
+        if (!validation.ok) return validation;
+        state.answers = validation.answers;
+        state.costs = window.SMC.calculateCosts(validation.answers);
+        state.freePreview = buildLocalFreePreview(validation.answers, state.costs);
+        state.apiError = null;
+        state.fixtureMode = false;
+        renderFreeResult();
+        showView('free-result');
+        return { ok: true };
+      },
+      showFullFixture: function () {
+        return loadFixtureReport(true);
+      },
+    };
+  }
+
   function init() {
     state.answers = defaultAnswers();
     loadDraft();
