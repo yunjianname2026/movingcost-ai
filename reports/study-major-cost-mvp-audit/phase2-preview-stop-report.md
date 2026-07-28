@@ -182,17 +182,15 @@ Function config: `module.exports.config = { maxDuration: 120 }` on the new endpo
 
 ## 22. git diff --stat
 
-Against baseline `01ab09a` (feature commit):
+Against baseline `01ab09a` (two feature commits on branch):
 
-```
-25 files changed, 5547 insertions(+)
-```
-
-(Plus follow-up commit for mock demo hook + this stop report if committed.)
+- `b1ed84b`: 25 files, +5547 (implementation)
+- `3a95f14`: stop report + screenshots + mock demo hook
 
 ## 23. Commit SHA
 
-Primary implementation: **`b1ed84b758aa4b5c1b3308a2f2855aa007b0577d`** (`b1ed84b`)
+- Implementation: **`b1ed84b`**
+- Stop report / screenshots: **`3a95f14`** (branch HEAD)
 
 ## 24. Removal / rollback procedure
 
