@@ -1,0 +1,49 @@
+{
+  "profile_id": "sample-profile-c",
+  "profile_label": "美本大二在读，Media/Communication专业，担心被AI取代",
+  "respondent_role_hint": "student_primary",
+  "answers": {
+    "current_stage": "college_current",
+    "target_degree": "bachelor",
+    "planned_intake": "undecided",
+    "offer_status": "not_applied",
+
+    "academic_range": "average",
+    "strong_subjects": ["language_writing", "art_design", "social_science"],
+    "english_level": "fluent",
+    "tech_acceptance": ["none"],
+    "rigor_acceptance": "partially",
+    "current_major": "Media & Communication",
+    "transfer_intent": "considering",
+    "tuition_position": "middle_band",
+    "program_year": 2,
+    "planning_period_type": "remaining_program",
+    "planning_start_year": 2,
+
+    "interest_strengths": ["writing_expression", "design_creative", "content_creation", "communication"],
+    "strength_one_liner": "同学觉得他文案和视觉审美都不错，就是一提到写代码就有点抵触。",
+
+    "career_values": ["creativity", "fast_growth", "professional_status"],
+    "domain_preference": "creative",
+    "risk_acceptance": "medium",
+
+    "target_country": "US",
+    "target_city_type": "metro",
+    "priority_top3": ["employment", "major", "cost"],
+    "school_type_pref": "no_preference",
+    "offer_or_considered_school_major": "",
+
+    "annual_budget_range": "45_60k",
+    "finance_structure": "family_plus_scholarship",
+    "housing_type": "shared_off_campus",
+    "car_need": "may_need_car",
+    "cost_worry": ["tuition", "housing"],
+
+    "post_grad_direction": "stay_study_country",
+    "relocation_pref": "yes_best_opportunity",
+    "upskill_willingness": "very_willing",
+    "independence_timeline": "right_after_grad",
+    "top_decision_question": "major_uncertain"
+  },
+  "context_notes": "美国大学二年级在读，当前专业Media/Communication，明确担心基础内容类工作被AI替代；写作、设计、内容能力较强，编程接受度低但对数据/AI工具本身不排斥（upskill_willingness=very_willing）；正在考虑是否转专业，转专业会带来时间和费用的额外成本。核心张力在于'继续深耕传媒'与'转向更具AI增强潜力的复合方向'之间的取舍，以及转专业的现实成本。"
+}
