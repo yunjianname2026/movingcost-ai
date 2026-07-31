@@ -289,12 +289,12 @@
     Q02: {
       field: 'target_degree', type: 'single',
       label: '你计划申请的层次是？',
-      sub: 'Target Degree（MVP 仅本科可选）',
+      sub: '当前仅开放本科',
       options: [
-        { v: 'bachelor', l: '本科 Bachelor' },
-        { v: 'master', l: '硕士 Master', disabled: true, tag: '即将支持' },
-        { v: 'phd', l: '博士 PhD', disabled: true, tag: '即将支持' },
-        { v: 'short_program', l: '短期项目', disabled: true, tag: '即将支持' },
+        { v: 'bachelor', l: '本科' },
+        { v: 'master', l: '硕士（即将支持）', disabled: true },
+        { v: 'phd', l: '博士（即将支持）', disabled: true },
+        { v: 'short_program', l: '短期项目（即将支持）', disabled: true },
       ],
     },
     Q03: {
@@ -458,8 +458,8 @@
       label: '你的目标国家是？（v1 原型仅支持美国）',
       sub: 'Target Country',
       options: [
-        { v: 'US', l: '美国 United States' },
-        { v: 'other_future', l: '其他国家（加拿大、英国等）', disabled: true, tag: 'Coming Soon' },
+        { v: 'US', l: '美国' },
+        { v: 'other_future', l: '其他国家（即将支持）', disabled: true },
       ],
     },
     Q16: {
@@ -821,7 +821,7 @@
     }
 
     html += '<div class="result-card">';
-    html += '<div class="result-tag">免费预览 · Free Preview</div>';
+    html += '<div class="result-tag">免费预览</div>';
     html += '<h2 class="result-title">' + escapeHtml(ds.best_major_direction || preview.best_major_direction || '分析完成') + '</h2>';
     if (ds.summary_text || preview.summary_text) {
       html += '<p class="result-lead">' + escapeHtml(ds.summary_text || preview.summary_text) + '</p>';
@@ -872,10 +872,10 @@
 
     var html = '';
     if (state.fixtureMode) {
-      html += '<div class="banner banner-fixture">Fixture 演示（非实时生成）</div>';
+      html += '<div class="banner banner-fixture">样例报告演示（非实时生成）</div>';
     }
-    html += '<div class="report-header"><span class="result-tag">Internal Beta · 完整报告</span>';
-    html += '<h2 class="result-title">Study, Major &amp; Cost Planner</h2></div>';
+    html += '<div class="report-header"><span class="result-tag">内部测试 · 完整报告</span>';
+    html += '<h2 class="result-title">留学专业与成本规划器</h2></div>';
 
     var ds = report.decision_summary || {};
     html += '<section class="report-section"><h3>一、决策摘要</h3>';
@@ -982,7 +982,7 @@
           state.apiError = null;
         } else {
           state.freePreview = buildLocalFreePreview(answers, state.costs);
-          state.apiError = 'API 暂不可用（Internal Beta）— 已展示本地确定性成本结果。';
+          state.apiError = '分析服务暂不可用 — 已展示本地确定性成本结果。';
           if (MOCK_MODE) loadFixtureReport(false);
         }
         renderFreeResult();
@@ -991,7 +991,7 @@
       .catch(function () {
         state.analyzing = false;
         state.freePreview = buildLocalFreePreview(answers, state.costs);
-        state.apiError = 'API 暂不可用（Internal Beta）— 已展示本地确定性成本结果。';
+        state.apiError = '分析服务暂不可用 — 已展示本地确定性成本结果。';
         renderFreeResult();
         showView('free-result');
       });
@@ -1009,7 +1009,7 @@
 
   function buildLocalFreePreview(answers, costs) {
     return {
-      summary_text: '已完成本地确定性成本分析。完整 AI 报告需 Internal Beta API；您可查看完整报告按钮获取 API 或 Fixture 演示内容。',
+      summary_text: '已完成本地确定性成本分析。完整 AI 报告需服务端支持；也可通过完整报告按钮查看样例演示。',
       best_major_direction: '分析预览（本地成本引擎）',
       budget_pressure_level: costs.budget_coverage.pressure_level,
     };
@@ -1057,12 +1057,17 @@
       });
   }
 
+  function startQuestionnaire() {
+    showView('questionnaire');
+    renderQuestionnaire();
+  }
+
   function bindGlobalEvents() {
-    var startBtn = $('#btn-start');
+    var startBtn = document.getElementById('btn-start');
     if (startBtn) {
-      startBtn.addEventListener('click', function () {
-        showView('questionnaire');
-        renderQuestionnaire();
+      startBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        startQuestionnaire();
       });
     }
 
