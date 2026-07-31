@@ -257,7 +257,56 @@
 
   function setText(field, value, maxLen) {
     state.answers[field] = String(value || '').slice(0, maxLen || 400);
+  }
+
+  var draftSaveTimer = null;
+  var composingFields = Object.create(null);
+
+  function scheduleDraftSave() {
+    if (draftSaveTimer) clearTimeout(draftSaveTimer);
+    draftSaveTimer = setTimeout(function () {
+      draftSaveTimer = null;
+      saveDraft();
+    }, 400);
+  }
+
+  function flushDraftSave() {
+    if (draftSaveTimer) {
+      clearTimeout(draftSaveTimer);
+      draftSaveTimer = null;
+    }
     saveDraft();
+  }
+
+  /** Update progress / Next / step dots without rebuilding question DOM. */
+  function refreshStepChrome() {
+    var ids = getVisibleQuestionIds(state.currentStep);
+    var progress = $('#step-progress');
+    if (progress) {
+      progress.textContent =
+        '步骤 ' + state.currentStep + '/7 · 本步 ' + answeredCountForStep(state.currentStep) + '/' + ids.length +
+        ' · 全卷约 ' + countTotalQuestions() + ' 题';
+    }
+    var prevBtn = $('#btn-prev');
+    var nextBtn = $('#btn-next');
+    if (prevBtn) prevBtn.disabled = state.currentStep <= 1;
+    if (nextBtn) {
+      nextBtn.textContent = state.currentStep >= 7 ? '提交分析' : '下一步';
+      nextBtn.disabled = !stepComplete(state.currentStep);
+    }
+    $$('.step-dot').forEach(function (dot) {
+      var n = Number(dot.getAttribute('data-step'));
+      dot.classList.toggle('active', n === state.currentStep);
+      dot.classList.toggle('done', n < state.currentStep || (n === state.currentStep && stepComplete(n)));
+    });
+  }
+
+  function applyTextFieldValue(el) {
+    var field = el.getAttribute('data-field');
+    if (!field) return;
+    var maxLen = Number(el.getAttribute('maxlength') || 400);
+    setText(field, el.value, maxLen);
+    refreshStepChrome();
   }
 
   function handlePriorityPick(value) {
@@ -722,34 +771,31 @@
       .replace(/"/g, '&quot;');
   }
 
-  function renderQuestionnaire() {
+  function scrollQuestionnaireIntoView() {
+    var shell =
+      document.querySelector('[data-view="questionnaire"] .panel') ||
+      document.querySelector('[data-view="questionnaire"]') ||
+      $('#questionnaire-body');
+    if (shell && typeof shell.scrollIntoView === 'function') {
+      shell.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }
+
+  function renderQuestionnaire(opts) {
     var container = $('#questionnaire-body');
     if (!container) return;
 
     var ids = getVisibleQuestionIds(state.currentStep);
     container.innerHTML = ids.map(renderQuestionBlock).join('');
 
-    $('#step-title').textContent = '第 ' + state.currentStep + ' 步 · ' + STEP_TITLES[state.currentStep - 1];
-    $('#step-progress').textContent =
-      '步骤 ' + state.currentStep + '/7 · 本步 ' + answeredCountForStep(state.currentStep) + '/' + ids.length +
-      ' · 全卷约 ' + countTotalQuestions() + ' 题';
-
-    var prevBtn = $('#btn-prev');
-    var nextBtn = $('#btn-next');
-    if (prevBtn) prevBtn.disabled = state.currentStep <= 1;
-    if (nextBtn) {
-      nextBtn.textContent = state.currentStep >= 7 ? '提交分析' : '下一步';
-      nextBtn.disabled = !stepComplete(state.currentStep);
-    }
-
-    $$('.step-dot').forEach(function (dot) {
-      var n = Number(dot.getAttribute('data-step'));
-      dot.classList.toggle('active', n === state.currentStep);
-      dot.classList.toggle('done', n < state.currentStep || (n === state.currentStep && stepComplete(n)));
-    });
+    var title = $('#step-title');
+    if (title) title.textContent = '第 ' + state.currentStep + ' 步 · ' + STEP_TITLES[state.currentStep - 1];
+    refreshStepChrome();
 
     bindQuestionEvents(container);
-    saveDraft();
+    flushDraftSave();
+
+    if (opts && opts.scrollToTop) scrollQuestionnaireIntoView();
   }
 
   function bindQuestionEvents(root) {
@@ -781,9 +827,28 @@
       });
     });
     $$('.q-text, .q-input', root).forEach(function (el) {
-      el.addEventListener('input', function () {
-        setText(el.getAttribute('data-field'), el.value, Number(el.getAttribute('maxlength') || 400));
-        renderQuestionnaire();
+      el.addEventListener('compositionstart', function () {
+        var field = el.getAttribute('data-field');
+        if (field) composingFields[field] = true;
+      });
+      el.addEventListener('compositionend', function () {
+        var field = el.getAttribute('data-field');
+        if (field) composingFields[field] = false;
+        applyTextFieldValue(el);
+        scheduleDraftSave();
+      });
+      el.addEventListener('input', function (e) {
+        var field = el.getAttribute('data-field');
+        var composing = (e && e.isComposing) || (field && composingFields[field]);
+        applyTextFieldValue(el);
+        // Never rebuild the questionnaire DOM while typing — preserves focus, caret, scroll, IME.
+        if (!composing) scheduleDraftSave();
+      });
+      el.addEventListener('blur', function () {
+        var field = el.getAttribute('data-field');
+        if (field && composingFields[field]) return;
+        applyTextFieldValue(el);
+        flushDraftSave();
       });
     });
   }
@@ -1082,8 +1147,9 @@
     if (prevBtn) {
       prevBtn.addEventListener('click', function () {
         if (state.currentStep > 1) {
+          flushDraftSave();
           state.currentStep--;
-          renderQuestionnaire();
+          renderQuestionnaire({ scrollToTop: true });
         }
       });
     }
@@ -1092,10 +1158,11 @@
     if (nextBtn) {
       nextBtn.addEventListener('click', function () {
         if (!stepComplete(state.currentStep)) return;
+        flushDraftSave();
         if (state.currentStep >= 7) runAnalysis();
         else {
           state.currentStep++;
-          renderQuestionnaire();
+          renderQuestionnaire({ scrollToTop: true });
         }
       });
     }
@@ -1123,8 +1190,9 @@
       dot.addEventListener('click', function () {
         var n = Number(dot.getAttribute('data-step'));
         if (n <= state.currentStep) {
+          flushDraftSave();
           state.currentStep = n;
-          renderQuestionnaire();
+          renderQuestionnaire({ scrollToTop: true });
         }
       });
     });
