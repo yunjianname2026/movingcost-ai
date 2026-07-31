@@ -1,0 +1,237 @@
+{
+  "report_meta": {
+    "report_id": "smc-fixture-profile-a-001",
+    "profile_id": "sample-profile-a",
+    "language": "zh-CN-primary",
+    "generated_stage": "full_prototype",
+    "schema_version": "v3",
+    "market_scope": {
+      "country": "US",
+      "currency": "USD"
+    }
+  },
+  "decision_summary": {
+    "best_major_direction": "商业分析 / 信息系统方向（Business Analytics / Information Systems）",
+    "recommended_school_city_type": "大型研究型大学 · 商业枢纽型大都市（建议比较次一线商业中心以缓解预算压力）",
+    "budget_pressure_level": "very_high",
+    "biggest_opportunity": "商业+数据素养的组合方向在本工具原型分类中被标记为「AI增强潜力较高」",
+    "biggest_risk": "若强行选择家长期待的 Computer Science，可能面临课程适应与转专业的双重成本",
+    "most_important_next_action": "用确定性预算压力结果，推动家长与学生讨论是否调整学费定位或城市选择",
+    "study_destination": "美国 · 大都市型商业枢纽（Tier A 原型分类）",
+    "preferred_career_destination": "用户表达希望毕业后留在美国工作",
+    "career_feasibility_confidence": "not_assessed",
+    "long_term_destination": "用户倾向长期在美国大都市圈发展（偏好陈述，非可行性预测）",
+    "summary_text": "最佳匹配方向不是家长期待的 Computer Science，而是商业分析 / 信息系统方向——保留学生擅长的沟通与创意能力，也能部分回应家长对稳定就业的诉求。家庭预算区间（$60,000–$80,000）低于 Year1 Standard 年度总额（$90,400），预算压力为 very_high。当前最重要的一步：用确定性预算压力结果，推动家长和学生讨论是否调整学费定位或城市选择。"
+  },
+  "student_profile": {
+    "core_strengths": [
+      "商业沟通与说服力",
+      "创意内容产出",
+      "组织协调",
+      "写作与表达"
+    ],
+    "learning_traits": [
+      "接受适度强度课程，但对纯技术/编程类课程接受度低",
+      "tech_acceptance 信号为 none，对数学与编程内容接受度有限"
+    ],
+    "career_motivation": "追求专业地位与成长速度，同时看重创造力的发挥空间",
+    "family_student_tension": "家长认为 CS 等于稳定和高薪，学生的兴趣与能力信号（tech_acceptance=none）都明确指向商业与创意方向，双方目前在「专业名称」上有分歧，但在「稳定+有发展空间」这个底层诉求上其实是一致的",
+    "development_risks": [
+      "如果被动接受 CS，可能出现学习动力不足、绩点承压",
+      "后续转专业可能产生时间与费用双重成本"
+    ]
+  },
+  "recommended_paths": [
+    {
+      "path_type": "best_match",
+      "major_name_zh": "商业分析",
+      "major_name_en": "Business Analytics",
+      "why_fits": "擅长商业与沟通，能接受适度数据分析；不完全依赖高强度编程，更贴合学生已表现出的能力信号",
+      "why_not_perfect": "仍需一定 Excel/基础统计能力，需要验证真实接受度",
+      "ai_augmentation_potential": "moderate",
+      "automation_risk_level": "low",
+      "entry_difficulty": "moderate",
+      "further_study_or_license_needed": "通常需要本科学位 + 实习经历，部分岗位偏好相关认证",
+      "recommended_second_skill": "基础数据可视化工具（如 Tableau）",
+      "fit_industries_cities": ["咨询与商业服务", "金融科技", "大都市商业枢纽"],
+      "market_claim_disclaimer": "行业需求、认可度与增长趋势为本工具原型分类，非已核实的市场数据。"
+    },
+    {
+      "path_type": "ai_augmented_combo",
+      "major_name_zh": "商业+传播科技",
+      "major_name_en": "Marketing Technology",
+      "why_fits": "把学生最强的沟通与创意能力和轻量数据工具结合，形成 AI 时代的复合能力组合",
+      "why_not_perfect": "这是一个相对新的复合方向，具体课程设置因学校而异，需要逐校核实",
+      "ai_augmentation_potential": "high",
+      "automation_risk_level": "low",
+      "entry_difficulty": "moderate",
+      "further_study_or_license_needed": "本科学位即可起步，作品集与实习经历较为重要",
+      "recommended_second_skill": "基础营销数据分析",
+      "fit_industries_cities": ["数字营销", "内容与品牌", "科技消费品"],
+      "market_claim_disclaimer": "行业需求、认可度与增长趋势为本工具原型分类，非已核实的市场数据。"
+    },
+    {
+      "path_type": "safe_alternative",
+      "major_name_zh": "信息系统管理",
+      "major_name_en": "Information Systems Management",
+      "why_fits": "比纯 CS 对编程要求更低，一定程度回应家长对「技术相关稳定方向」的诉求",
+      "why_not_perfect": "学生对该领域兴趣不算强烈，更多是折中方案",
+      "ai_augmentation_potential": "moderate",
+      "automation_risk_level": "moderate",
+      "entry_difficulty": "moderate",
+      "further_study_or_license_needed": "本科学位，部分岗位偏好项目管理或 IT 基础认证",
+      "recommended_second_skill": "项目管理基础认证",
+      "fit_industries_cities": ["企业 IT 管理", "信息系统咨询", "中型及以上城市"],
+      "market_claim_disclaimer": "行业需求、认可度与增长趋势为本工具原型分类，非已核实的市场数据。"
+    }
+  ],
+  "caution_areas": [
+    {
+      "direction_name": "Computer Science（家长首选）",
+      "mismatch_reason": "学生当前的编程接受度和兴趣信号几乎为零，而非能力上限一定不够",
+      "cost_or_curriculum_risk": "CS 核心课程对完全无编程基础且兴趣低的学生压力较大，可能影响绩点和留学体验",
+      "ai_impact": "本工具原型分类：AI 对 CS 岗位的影响因细分方向而异，本版本不做市场事实判断",
+      "conditions_if_pursued": "建议先通过一门入门编程网课验证真实接受度，而不是直接以四年学位下注"
+    }
+  ],
+  "school_city_strategy": {
+    "suitable_school_types": ["大型综合性研究型大学"],
+    "suitable_city_types": ["商业枢纽型大都市", "次一线商业中心（Tier B，可缓解预算压力）"],
+    "ranking_vs_cost_tradeoff": "不建议为了名校光环支付显著溢价——在本原型路径中，实习经历与作品集被视为重要的验证信号，但具体雇主对学校排名的实际重视程度因行业与公司而异",
+    "study_vs_employment_city_may_differ": "学生偏好学习城市与就业城市一致（均在美国大都市圈）；本报告仅呈现这一偏好情景",
+    "worth_paying_ranking_premium": "conditional",
+    "future_second_move_consideration": "本工具暂未接入具体行业的城市集中度数据，无法评估，建议入学后结合实际实习城市分布再判断"
+  },
+  "cost_outlook": {
+    "currency": "USD",
+    "planning_period_type": "full_program",
+    "planning_start_year": 1,
+    "scenarios": [
+      {
+        "scenario_name": "essential",
+        "annual_total_usd": 84500,
+        "line_items": [
+          { "item": "tuition_fees", "amount_usd": 46000 },
+          { "item": "housing", "amount_usd": 19800 },
+          { "item": "food", "amount_usd": 4800 },
+          { "item": "insurance", "amount_usd": 1800 },
+          { "item": "transport", "amount_usd": 900 },
+          { "item": "personal_spending", "amount_usd": 2400 },
+          { "item": "international_travel", "amount_usd": 800 },
+          { "item": "emergency_buffer", "amount_usd": 6200 },
+          { "item": "initial_visa_admin", "amount_usd": 500 },
+          { "item": "initial_setup_equipment", "amount_usd": 700 },
+          { "item": "arrival_relocation_setup", "amount_usd": 500 }
+        ]
+      },
+      {
+        "scenario_name": "standard",
+        "annual_total_usd": 90400,
+        "line_items": [
+          { "item": "tuition_fees", "amount_usd": 46000 },
+          { "item": "housing", "amount_usd": 19800 },
+          { "item": "food", "amount_usd": 6000 },
+          { "item": "insurance", "amount_usd": 2400 },
+          { "item": "transport", "amount_usd": 1200 },
+          { "item": "personal_spending", "amount_usd": 3300 },
+          { "item": "international_travel", "amount_usd": 1000 },
+          { "item": "emergency_buffer", "amount_usd": 7700 },
+          { "item": "initial_visa_admin", "amount_usd": 700 },
+          { "item": "initial_setup_equipment", "amount_usd": 1000 },
+          { "item": "arrival_relocation_setup", "amount_usd": 800 }
+        ]
+      },
+      {
+        "scenario_name": "comfortable",
+        "annual_total_usd": 101400,
+        "line_items": [
+          { "item": "tuition_fees", "amount_usd": 46000 },
+          { "item": "housing", "amount_usd": 19800 },
+          { "item": "food", "amount_usd": 7200 },
+          { "item": "insurance", "amount_usd": 3200 },
+          { "item": "transport", "amount_usd": 1600 },
+          { "item": "car_addon", "amount_usd": 3600 },
+          { "item": "personal_spending", "amount_usd": 4200 },
+          { "item": "international_travel", "amount_usd": 1300 },
+          { "item": "emergency_buffer", "amount_usd": 9500 },
+          { "item": "initial_visa_admin", "amount_usd": 1000 },
+          { "item": "initial_setup_equipment", "amount_usd": 1400 },
+          { "item": "arrival_relocation_setup", "amount_usd": 1200 }
+        ]
+      }
+    ],
+    "annual_total_by_scenario": {
+      "essential": 84500,
+      "standard": 90400,
+      "comfortable": 101400
+    },
+    "program_total_by_scenario": {
+      "essential": 333900,
+      "standard": 356200,
+      "comfortable": 397200,
+      "years_covered": 4
+    },
+    "family_budget_gap": "家庭预算区间 $60,000–$80,000（F_high=$80,000）低于 Year1 Standard 年度总额 $90,400 → very_high（按 rules_v3 第9节：F_high < S）",
+    "top_overspend_items": [
+      "学费（upper_band 定位）",
+      "住宿（Tier A 独立公寓）",
+      "汽车附加费用（Comfortable 情景）"
+    ],
+    "top_savings_items": [
+      "住宿（合租而非独立居住）",
+      "交通（如可放弃购车，可节省 $2,400–$3,600/年）",
+      "教材（二手/电子版）"
+    ],
+    "rules_version_used": "rules_v3_prototype_deterministic",
+    "calculation_trace_ref": "study-major-cost-calculation-trace-v3.md · Profile A"
+  },
+  "education_value": {
+    "overall_assessment": "选择商业分析/信息系统类方向而非纯 CS，个人适配度更高——更贴合学生已表现出的能力，降低了「读不下去」或中途转专业的完成风险。若维持 upper_band 学费定位和 Tier A 城市选择，预算可持续性压力较大；若调整为 middle_band 或 Tier B 城市，预算可持续性会明显改善。",
+    "financial_roi_assessed": false,
+    "key_tradeoffs": [
+      "个人适配 vs 家长对 CS 标签的期待",
+      "大都市体验 vs 预算可持续性",
+      "完成风险 vs 专业名称的「安全感」"
+    ]
+  },
+  "mobility_outlook": {
+    "study_destination_fit": "美国大都市型商业枢纽，适配度较高，前提是城市选择兼顾预算",
+    "preferred_post_graduation_direction": "用户表达希望毕业后留在美国工作",
+    "planning_scenario": "基于用户偏好构建的规划情景：在美国大都市圈完成学业后尝试本地就业；本报告仅呈现这一偏好，不对其可行性做评估",
+    "feasibility_confidence": "not_assessed",
+    "work_authorization_assumption": "本工具不评估工作许可、移民身份、雇主担保或未来政策变化，具体身份与合法工作资格问题需咨询移民律师或学校国际学生办公室（DSO）。",
+    "city_transition_risk": "moderate",
+    "relocation_cost_considerations": "如毕业后确实更换城市，可参考 rules_v3 中的毕业/搬迁准备金假设（Standard 情景下约 $2,500，计入最后规划学年）",
+    "long_term_location_flexibility": "路径本身不锁定单一城市或单一国家，为未来调整留有空间，但具体灵活性仍取决于最终身份与工作许可安排（不在本工具评估范围）"
+  },
+  "action_plan": {
+    "next_30_days": [
+      "完成一门入门数据分析或 Excel 网课，观察学生真实接受度",
+      "家长与学生各自列出「不能妥协的三项」进行比对",
+      "讨论是否将学费定位从 upper_band 调整为 middle_band 以降低预算压力"
+    ],
+    "next_90_days": [
+      "比较三所目标院校的商业分析/信息系统课程设置及其对应的城市层级",
+      "与一位在读相关专业的学长学姐进行访谈",
+      "评估 Tier B 城市是否可接受以缓解 very_high 预算压力"
+    ],
+    "next_6_to_12_months": [
+      "完成一次小型数据可视化练习作为作品集雏形",
+      "参加一次商业类夏校或线上实习项目，验证方向匹配度",
+      "如坚持 CS 方向，先通过入门编程验证真实兴趣后再做最终决定"
+    ]
+  },
+  "advisor_conclusion": {
+    "preferred_option": "首选商业分析（Business Analytics）方向，建议将学费定位或城市层级下调一档以缓解 very_high 的预算压力",
+    "alternative_option": "信息系统管理，作为兼顾家长诉求的折中选项",
+    "currently_not_recommended": "在没有验证真实编程接受度之前，直接锁定纯 Computer Science 学位；同时不建议在预算压力已达 very_high 的情况下继续维持 upper_band + Tier A 的组合而不做任何调整",
+    "reassess_if": "如果入门编程网课后学生表现出明显兴趣和适应力，或者学费定位/城市选择发生变化"
+  },
+  "assumptions": [
+    "学费按用户选择的 tuition_position=upper_band 计算，若最终选校学费定位不同，需重新计算",
+    "用户选择 car_need=may_need_car，按 rules_v3 规则，汽车附加仅在 Comfortable 情景计入",
+    "「商业枢纽型大都市」为城市类型的原型分类，非具体城市清单",
+    "四年学位周期未考虑转专业情形（该学生尚未入学，暂不涉及）"
+  ],
+  "disclaimer": "本报告为情景分析原型，仅覆盖美国（US）study场景，不构成录取、就业、签证、工作许可或收入承诺；不评估移民身份与雇主担保；具体学校数据、录取率、排名、薪资与市场趋势需以官方与第三方权威数据为准；财务回报（ROI）比较未经核实数据支持，本版本不作评估。"
+}

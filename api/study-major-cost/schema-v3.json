@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "study-major-cost-schema-v3",
+  "title": "MovingCOST Pathways — Study, Major & Cost Planner Report Schema (v3, prototype, hardened, recurring/one-time separated)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_meta", "decision_summary", "student_profile", "recommended_paths",
+    "caution_areas", "school_city_strategy", "cost_outlook", "education_value",
+    "mobility_outlook", "action_plan", "advisor_conclusion", "assumptions", "disclaimer"
+  ],
+  "$comment": "Cross-field checks not expressible in plain JSON Schema (e.g. every range.min <= range.max) must be enforced in application code before accepting a model output. v2 change log vs v1: additionalProperties:false added at top level and major nested objects; all money fields carry an explicit currency const; all numeric money/score fields are non-negative; decision_summary/mobility_outlook now separate stated preference from feasibility (feasibility_confidence is fixed to 'not_assessed' in v1 scope); education_value forbids financial ROI comparison and requires financial_roi_assessed=false; disclaimer is now a const string; MVP scope limited to US/USD only. v3 change log: cost_outlook line_items enum reorganized into recurring vs one-time/transition categories (housing no longer scenario-dependent, driven solely by housing_type; car_addon conditional on car_need per rules.md v3 section 2; visa/setup/arrival costs are one-time Year1 only; graduation_relocation_reserve is final-year-only); rules_version_used bumped to rules_v3_prototype_deterministic. Latest consistency pass (still schema_version v3): added planning_period_type/planning_start_year to cost_outlook to distinguish full_program (not-yet-enrolled) vs remaining_program (currently enrolled) cost bases; renamed full_program_total_by_scenario to program_total_by_scenario with years_covered (integer, max 4, bachelor-only MVP) so a 3-year remaining total is never mislabeled as a 4-year full total; $id and title bumped to v3.",
+
+  "properties": {
+
+    "report_meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_id", "profile_id", "language", "generated_stage", "schema_version", "market_scope"],
+      "properties": {
+        "report_id": { "type": "string" },
+        "profile_id": { "type": "string" },
+        "language": { "type": "string", "enum": ["zh-CN-primary"] },
+        "generated_stage": { "type": "string", "enum": ["free_preview", "full_prototype"] },
+        "schema_version": { "type": "string", "const": "v3" },
+        "market_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["country", "currency"],
+          "properties": {
+            "country": { "type": "string", "const": "US", "description": "v1原型仅支持美国" },
+            "currency": { "type": "string", "const": "USD" }
+          }
+        }
+      }
+    },
+
+    "decision_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "决策摘要，必须一屏可读完，约300-450中文字符。study/career/long-term destination必须区分陈述用户偏好与可行性置信度，不得混为一谈。",
+      "required": [
+        "best_major_direction", "recommended_school_city_type", "budget_pressure_level",
+        "biggest_opportunity", "biggest_risk", "most_important_next_action",
+        "study_destination", "preferred_career_destination", "career_feasibility_confidence",
+        "long_term_destination", "summary_text"
+      ],
+      "properties": {
+        "best_major_direction": { "type": "string" },
+        "recommended_school_city_type": { "type": "string" },
+        "budget_pressure_level": { "type": "string", "enum": ["low", "moderate", "high", "very_high"], "description": "必须严格按rules.md（当前生效版本rules_v3_prototype_deterministic）第9.2-9.3节的确定性判定规则计算得出，不得由Claude主观判断" },
+        "biggest_opportunity": { "type": "string" },
+        "biggest_risk": { "type": "string" },
+        "most_important_next_action": { "type": "string" },
+        "study_destination": { "type": "string", "description": "学习所在国家/城市类型，本版本固定为美国某类城市" },
+        "preferred_career_destination": { "type": "string", "description": "用户在问卷中表达的毕业后去向偏好，这是偏好陈述，不是可行性预测" },
+        "career_feasibility_confidence": { "type": "string", "const": "not_assessed", "description": "本版本不评估移民身份/工作许可，固定为not_assessed，不得填写其他值" },
+        "long_term_destination": { "type": "string", "description": "用户当前表达的5–10年长期生活地点偏好，不代表定居可行性或未来结果预测。" },
+        "summary_text": { "type": "string", "maxLength": 500 }
+      }
+    },
+
+    "student_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_strengths", "learning_traits", "career_motivation", "family_student_tension", "development_risks"],
+      "properties": {
+        "core_strengths": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 5 },
+        "learning_traits": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 5 },
+        "career_motivation": { "type": "string" },
+        "family_student_tension": { "type": "string", "minLength": 10, "description": "必须明确指出至少一个真实矛盾，不能留空或套模板" },
+        "development_risks": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 4 }
+      }
+    },
+
+    "recommended_paths": {
+      "type": "array",
+      "description": "恰好三条：最佳匹配 / AI增强组合 / 稳健备选",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path_type", "major_name_zh", "major_name_en", "why_fits", "why_not_perfect",
+          "ai_augmentation_potential", "automation_risk_level", "entry_difficulty",
+          "further_study_or_license_needed", "recommended_second_skill", "fit_industries_cities",
+          "market_claim_disclaimer"
+        ],
+        "properties": {
+          "path_type": { "type": "string", "enum": ["best_match", "ai_augmented_combo", "safe_alternative"] },
+          "major_name_zh": { "type": "string" },
+          "major_name_en": { "type": "string" },
+          "why_fits": { "type": "string" },
+          "why_not_perfect": { "type": "string", "minLength": 5 },
+          "ai_augmentation_potential": { "type": "string", "enum": ["low", "moderate", "high"], "description": "仅为rules.md第8节的原型分类标签，非市场事实" },
+          "automation_risk_level": { "type": "string", "enum": ["low", "moderate", "high"], "description": "仅为rules.md第8节的原型分类标签，非市场事实" },
+          "entry_difficulty": { "type": "string", "enum": ["low", "moderate", "high"] },
+          "further_study_or_license_needed": { "type": "string" },
+          "recommended_second_skill": { "type": "string" },
+          "fit_industries_cities": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 4 },
+          "market_claim_disclaimer": { "type": "string", "const": "行业需求、认可度与增长趋势为本工具原型分类，非已核实的市场数据。" }
+        }
+      }
+    },
+
+    "caution_areas": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["direction_name", "mismatch_reason", "cost_or_curriculum_risk", "ai_impact", "conditions_if_pursued"],
+        "properties": {
+          "direction_name": { "type": "string" },
+          "mismatch_reason": { "type": "string" },
+          "cost_or_curriculum_risk": { "type": "string" },
+          "ai_impact": { "type": "string" },
+          "conditions_if_pursued": { "type": "string" }
+        }
+      }
+    },
+
+    "school_city_strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "suitable_school_types", "suitable_city_types", "ranking_vs_cost_tradeoff",
+        "study_vs_employment_city_may_differ", "worth_paying_ranking_premium", "future_second_move_consideration"
+      ],
+      "properties": {
+        "suitable_school_types": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 3 },
+        "suitable_city_types": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 3 },
+        "ranking_vs_cost_tradeoff": { "type": "string" },
+        "study_vs_employment_city_may_differ": { "type": "string" },
+        "worth_paying_ranking_premium": { "type": "string", "enum": ["yes", "conditional", "no"] },
+        "future_second_move_consideration": { "type": "string" }
+      }
+    },
+
+    "cost_outlook": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "所有金额字段必须严格来自 study-major-cost-rules.md（当前生效版本 rules_v3_prototype_deterministic）的固定点值表 + 第11节公式计算，Claude不得自行生成或调整任何数字。",
+      "required": ["currency", "planning_period_type", "planning_start_year", "scenarios", "annual_total_by_scenario", "program_total_by_scenario", "family_budget_gap", "top_overspend_items", "top_savings_items", "rules_version_used", "calculation_trace_ref"],
+      "properties": {
+        "currency": { "type": "string", "const": "USD" },
+        "planning_period_type": { "type": "string", "enum": ["full_program", "remaining_program"], "description": "尚未入学用户为full_program（四年完整周期）；当前在读用户为remaining_program（剩余规划周期，不得标注为'完整周期'）" },
+        "planning_start_year": { "type": "integer", "minimum": 1, "description": "规划起始学年：尚未入学用户固定为1；在读用户为program_year（即当前学年，覆盖当前学年到最后一年）" },
+        "scenarios": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scenario_name", "annual_total_usd", "line_items"],
+            "properties": {
+              "scenario_name": { "type": "string", "enum": ["essential", "standard", "comfortable"] },
+              "annual_total_usd": { "type": "number", "minimum": 0, "description": "单一确定值，非区间，由rules.md（当前生效版本）第11节公式算出" },
+              "line_items": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["item", "amount_usd"],
+                  "properties": {
+                    "item": { "type": "string", "enum": [
+                      "tuition_fees", "housing", "food", "insurance", "transport", "car_addon",
+                      "personal_spending", "international_travel", "emergency_buffer",
+                      "initial_visa_admin", "initial_setup_equipment", "arrival_relocation_setup",
+                      "graduation_relocation_reserve"
+                    ]},
+                    "amount_usd": { "type": "number", "minimum": 0, "description": "固定点值，来自rules.md对应表格，非区间" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "annual_total_by_scenario": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["essential", "standard", "comfortable"],
+          "properties": {
+            "essential": { "type": "number", "minimum": 0 },
+            "standard": { "type": "number", "minimum": 0 },
+            "comfortable": { "type": "number", "minimum": 0 }
+          }
+        },
+        "program_total_by_scenario": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["essential", "standard", "comfortable", "years_covered"],
+          "description": "根据planning_period_type呈现：full_program时为四年完整周期总额；remaining_program时为剩余周期总额，years_covered必须准确反映实际覆盖的年数，不得将剩余3年总额标注为'四年完整周期总额'",
+          "properties": {
+            "essential": { "type": "number", "minimum": 0 },
+            "standard": { "type": "number", "minimum": 0 },
+            "comfortable": { "type": "number", "minimum": 0 },
+            "years_covered": { "type": "integer", "minimum": 1, "maximum": 4, "description": "本版本仅支持bachelor四年制整数年，不做小数折算" }
+          }
+        },
+        "family_budget_gap": { "type": "string", "description": "文字描述F_low/F_high与对比年份Standard年度总额的关系，引用rules.md第9节判定依据（尚未入学用户对比Year1，在读用户对比planning_start_year对应的年度），不得编造精确缺口金额" },
+        "top_overspend_items": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 3 },
+        "top_savings_items": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 3 },
+        "rules_version_used": { "type": "string", "const": "rules_v3_prototype_deterministic" },
+        "calculation_trace_ref": { "type": "string", "description": "指向 study-major-cost-calculation-trace.md 中对应profile的小节，便于人工复核" }
+      }
+    },
+
+    "education_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall_assessment", "financial_roi_assessed", "key_tradeoffs"],
+      "properties": {
+        "overall_assessment": {
+          "type": "string",
+          "description": "只能围绕个人适配、完成风险、预算可持续性、转换风险、长期灵活性展开，禁止任何专业间的财务回报比较性结论"
+        },
+        "financial_roi_assessed": { "type": "boolean", "const": false, "description": "本版本固定为false：未经核实薪资/就业数据支持前，不做财务回报评估或比较" },
+        "key_tradeoffs": { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 4 }
+      }
+    },
+
+    "mobility_outlook": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "MovingCOST核心差异化模块。必须区分用户偏好、规划情景与可行性置信度，不得因用户偏好而推导可行性结论。",
+      "required": [
+        "study_destination_fit", "preferred_post_graduation_direction", "planning_scenario",
+        "feasibility_confidence", "work_authorization_assumption",
+        "city_transition_risk", "relocation_cost_considerations", "long_term_location_flexibility"
+      ],
+      "properties": {
+        "study_destination_fit": { "type": "string" },
+        "preferred_post_graduation_direction": { "type": "string", "description": "用户在问卷中表达的偏好，措辞必须是'用户希望/倾向'而非'大概率会'" },
+        "planning_scenario": { "type": "string", "description": "基于用户偏好构建的一个规划情景描述，明确标注为情景而非预测" },
+        "feasibility_confidence": { "type": "string", "const": "not_assessed", "description": "本版本不评估移民身份/工作许可/雇主担保/未来政策，固定为not_assessed" },
+        "work_authorization_assumption": { "type": "string", "const": "本工具不评估工作许可、移民身份、雇主担保或未来政策变化，具体身份与合法工作资格问题需咨询移民律师或学校国际学生办公室（DSO）。" },
+        "city_transition_risk": { "type": "string", "enum": ["low", "moderate", "high"] },
+        "relocation_cost_considerations": { "type": "string" },
+        "long_term_location_flexibility": { "type": "string" }
+      }
+    },
+
+    "action_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["next_30_days", "next_90_days", "next_6_to_12_months"],
+      "properties": {
+        "next_30_days": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 4 },
+        "next_90_days": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 4 },
+        "next_6_to_12_months": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 4 }
+      }
+    },
+
+    "advisor_conclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preferred_option", "alternative_option", "currently_not_recommended", "reassess_if"],
+      "properties": {
+        "preferred_option": { "type": "string" },
+        "alternative_option": { "type": "string" },
+        "currently_not_recommended": { "type": "string" },
+        "reassess_if": { "type": "string" }
+      }
+    },
+
+    "assumptions": {
+      "type": "array",
+      "description": "所有原型阶段的假设必须在此列出，包括tuition_position缺失时的默认处理、Tier A车辆附加等特殊假设。",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+
+    "disclaimer": {
+      "type": "string",
+      "const": "本报告为情景分析原型，仅覆盖美国（US）study场景，不构成录取、就业、签证、工作许可或收入承诺；不评估移民身份与雇主担保；具体学校数据、录取率、排名、薪资与市场趋势需以官方与第三方权威数据为准；财务回报（ROI）比较未经核实数据支持，本版本不作评估。"
+    }
+  }
+}
